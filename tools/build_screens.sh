@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  ГУЛЯЙ-ПОЛЕ — сборка экранов загрузки, фона главного меню и логотипа
+#  ГУЛЯЙ-ПОЛЕ — сборка экрановъ загрузки, фона главнаго меню и логотипа
 #
-#  Спецификация (ТЗ, раздел 1):
-#     * загрузочные экраны : 1920x1080, .dds DXT1, без мип-мап
-#     * фон главного меню  : 1920x1080, .dds DXT1
-#     * цветокоррекция     : холодные серо-коричневые и угольные тона,
-#                            естественная плёночная зернистость
-#     * подпись авторства  : «Сработалъ О. А. Амброзіевъ» (правый нижний уголъ)
-#     * шрифтъ             : «царская» антиква Source Serif Pro (SIL OFL),
-#                            дореформенная орѳографія и обороты конца 1920-хъ
+#  Спецификація (ТЗ, разделъ 1):
+#     * загрузочные экраны : 1920x1080, .dds DXT1, безъ мип-мапъ, адаптивные
+#     * фонъ главнаго меню : 1920x1080, .dds DXT1, растягивается на весь экранъ
+#     * цветокоррекція     : холодные серо-коричневые и угольные тона + зерно
+#     * титры              : «царская» антиква Source Serif Pro (SIL OFL),
+#                            дореформенная орѳографія
+#     * на каждомъ экранѣ  : цитата анархистовъ (Махно, Кропоткинъ, Бакунинъ,
+#                            Прудонъ), помѣтка «альтернативная исторія»
+#                            и строка «Разработка мода — Амброзіевъ О. А.»
+#     * логотипъ           : покадровая анимація «выѣзда» сверху внизъ
+#                            (frameAnimatedSpriteType, 18 кадровъ)
 #
-#  Ванильные экраны загрузки перекрываются одноимёнными файлами load_1..load_16,
-#  поэтому въ игрѣ показываются ТОЛЬКО фоны мода.
-#
-#  Источники: gfx/loadingscreens/_src_*.jpg
+#  Ванильные экраны загрузки перекрываются файлами load_1..load_16.
 #  Требуется ImageMagick.
 # =============================================================================
 set -euo pipefail
@@ -29,20 +29,22 @@ trap 'rm -rf "$TMP"' EXIT
 FONT_TITLE="$F/SourceSerifPro-Black.ttf"
 FONT_SUB="$F/SourceSerifPro-Bold.ttf"
 FONT_TEXT="$F/SourceSerifPro-Regular.ttf"
+FONT_QUOTE="$F/SourceSerifPro-Regular.ttf"   # италикъ в наборе шрифта безъ кириллицы
 
 TITLE="ГУЛЯЙ-ПОЛЕ"
 SUBTITLE="ВОЛЬНАЯ ТЕРРИТОРІЯ"
-CREDIT="Сработалъ О. А. Амброзіевъ"
+ALTHIST="АЛЬТЕРНАТИВНАЯ ИСТОРІЯ · 1936"
+CREDIT="Разработка мода — Амброзіевъ О. А."
 
-# Девизы въ языкѣ конца 1920-хъ — по одному на каждый экранъ загрузки.
-declare -A MOTTO=(
-	[load_tachanka]="Тачанка — царица степи: гдѣ пулеметъ, тамъ и воля трудового народа"
-	[cavalry_charge]="Шашки вонъ! За землю, за волю, за вольные совѣты!"
-	[armored_train]="Стальной таранъ повстанья идетъ степною чугункою"
-	[camp_council]="Вольный сходъ рѣшаетъ самъ: ни господъ, ни комиссаровъ"
-	[village_storm]="Гуляй-Поле — стольный градъ вольной степи"
-	[machinegun_line]="Ни шагу съ вольной земли: степь врагу не отдадимъ"
-	[menu_bg]="Анархія — мать порядка"
+# Цитаты вольной мысли: текстъ | авторъ
+declare -A QUOTE=(
+	[load_tachanka]="Свобода или смерть!|Девизъ Революціонной Повстанческой Арміи Украины"
+	[cavalry_charge]="Страсть къ разрушенію есть вмѣстѣ съ тѣмъ и страсть творческая.|М. А. Бакунинъ"
+	[armored_train]="Взаимная помощь — такой же законъ природы, какъ и взаимная борьба.|П. А. Кропоткинъ"
+	[camp_council]="Земля — крестьянамъ, фабрики — рабочимъ!|Н. И. Махно"
+	[village_storm]="Свобода — не дочь, а мать порядка.|П.-Ж. Прудонъ"
+	[machinegun_line]="Свобода безъ соціализма — привилегія и несправедливость; соціализмъ безъ свободы — рабство.|М. А. Бакунинъ"
+	[menu_bg]="Анархія — мать порядка.|П.-Ж. Прудонъ"
 )
 
 # Кинематографическая цветокоррекція 1930-хъ + зерно плёнки.
@@ -60,26 +62,32 @@ grade() {  # $1 in, $2 out(png)
 		"$2"
 }
 
-# Наборная плашка внизу кадра: затемняющая полоса, двойная линейка,
-# названіе проекта, девизъ и подпись автора «царскимъ» шрифтомъ.
-plate() {  # $1 png (in place), $2 девизъ
-	local motto="$2"
+# Наборная плашка внизу кадра.
+plate() {  # $1 png (in place), $2 "цитата|авторъ"
+	local quote="${2%%|*}"
+	local author="${2##*|}"
 	convert "$1" \
-		\( -size 1920x210 gradient:none-'#000000cc' \) -gravity south -compose over -composite \
-		-stroke '#8e8471' -strokewidth 2 -draw "line 64,918 1856,918" \
-		-stroke '#8e847155' -strokewidth 1 -draw "line 64,925 1856,925" \
+		\( -size 1920x230 gradient:none-'#000000d0' \) -gravity south -compose over -composite \
+		-stroke '#8e8471' -strokewidth 2 -draw "line 64,912 1856,912" \
+		-stroke '#8e847155' -strokewidth 1 -draw "line 64,919 1856,919" \
 		-stroke none -gravity southwest \
 		-font "$FONT_TITLE" -pointsize 46 -kerning 14 \
-		-fill '#000000aa' -annotate +67+69 "$TITLE" \
-		-fill '#ece6d8' -annotate +64+70 "$TITLE" \
-		-font "$FONT_SUB" -pointsize 22 -kerning 9 \
-		-fill '#b8ac95' -annotate +68+40 "$SUBTITLE" \
-		-font "$FONT_TEXT" -pointsize 27 -kerning 0 -gravity southeast \
-		-fill '#000000aa' -annotate +65+99 "$motto" \
-		-fill '#d8d2c2' -annotate +64+100 "$motto" \
-		-font "$FONT_TEXT" -pointsize 20 \
-		-fill '#000000aa' -annotate +65+59 "$CREDIT" \
-		-fill '#a49d8c' -annotate +64+60 "$CREDIT" \
+		-fill '#000000aa' -annotate +67+95 "$TITLE" \
+		-fill '#ece6d8' -annotate +64+96 "$TITLE" \
+		-font "$FONT_SUB" -pointsize 21 -kerning 9 \
+		-fill '#b8ac95' -annotate +68+66 "$SUBTITLE" \
+		-font "$FONT_TEXT" -pointsize 17 -kerning 5 \
+		-fill '#8d8674' -annotate +68+38 "$ALTHIST" \
+		-gravity southeast \
+		-font "$FONT_QUOTE" -pointsize 30 -kerning 0 \
+		-fill '#000000aa' -annotate +65+109 "«$quote»" \
+		-fill '#e2dccb' -annotate +64+110 "«$quote»" \
+		-font "$FONT_TEXT" -pointsize 22 \
+		-fill '#000000aa' -annotate +65+73 "— $author" \
+		-fill '#b3ab98' -annotate +64+74 "— $author" \
+		-font "$FONT_TEXT" -pointsize 18 \
+		-fill '#000000aa' -annotate +65+37 "$CREDIT" \
+		-fill '#9a927f' -annotate +64+38 "$CREDIT" \
 		"$1"
 }
 
@@ -92,10 +100,10 @@ SCREENS=()
 for src in "$LS"/_src_*.jpg; do
 	[ -e "$src" ] || continue
 	slug="$(basename "$src" .jpg)"; slug="${slug#_src_}"
-	[ "$slug" = "menu_bg" ] && continue          # фонъ меню собирается отдѣльно
+	[ "$slug" = "menu_bg" ] && continue
 	png="$TMP/$slug.png"
 	grade "$src" "$png"
-	plate "$png" "${MOTTO[$slug]:-$SUBTITLE}"
+	plate "$png" "${QUOTE[$slug]:-$SUBTITLE|Гуляй-Поле}"
 	out="$LS/load_glp_${slug#load_}.dds"
 	to_dds "$png" "$out"
 	SCREENS+=("$out")
@@ -115,39 +123,74 @@ for n in $(seq 1 16); do
 done
 echo "   load_1.dds .. load_16.dds"
 
-echo ">> фонъ главнаго меню"
+echo ">> фонъ главнаго меню (адаптивный, растягивается на весь экранъ)"
 if [ -f "$LS/_src_menu_bg.jpg" ]; then
 	png="$TMP/menu.png"
 	grade "$LS/_src_menu_bg.jpg" "$png"
-	# въ меню — только скромный картушъ автора справа внизу: названіе несётъ логотипъ
+	q="${QUOTE[menu_bg]}"
 	convert "$png" \
-		-font "$FONT_TEXT" -pointsize 25 -gravity southeast \
-		-fill '#000000aa' -annotate +49+59 "${MOTTO[menu_bg]}" \
-		-fill '#cdc6b4' -annotate +48+60 "${MOTTO[menu_bg]}" \
-		-pointsize 20 \
-		-fill '#000000aa' -annotate +49+29 "$CREDIT" \
-		-fill '#a49d8c' -annotate +48+30 "$CREDIT" \
+		-gravity southeast \
+		-font "$FONT_QUOTE" -pointsize 26 \
+		-fill '#000000aa' -annotate +49+89 "«${q%%|*}»" \
+		-fill '#d5cfbd' -annotate +48+90 "«${q%%|*}»" \
+		-font "$FONT_TEXT" -pointsize 20 \
+		-fill '#000000aa' -annotate +49+59 "— ${q##*|}" \
+		-fill '#a9a18e' -annotate +48+60 "— ${q##*|}" \
+		-pointsize 18 \
+		-fill '#000000aa' -annotate +49+29 "$CREDIT · альтернативная исторія" \
+		-fill '#9a927f' -annotate +48+30 "$CREDIT · альтернативная исторія" \
 		"$png"
 	to_dds "$png" "gfx/interface/frontendmainviewbg.dds"
 	echo "   gfx/interface/frontendmainviewbg.dds"
 fi
 
-echo ">> логотипъ мода 800x200"
+echo ">> логотипъ мода: статическій кадръ + анимація выѣзда сверху внизъ"
 mkdir -p gfx/interface/logo
-convert -size 800x200 xc:none \
-	-font "$FONT_TITLE" -pointsize 82 -kerning 12 -gravity north \
-	-fill '#00000099' -annotate +3+27 "$TITLE" \
-	-fill '#ece6d8' -annotate +0+24 "$TITLE" \
-	-stroke '#8e8471' -strokewidth 2 -draw "line 120,116 680,116" \
-	-stroke '#8e847166' -strokewidth 1 -draw "line 120,122 680,122" \
-	-stroke none \
-	-font "$FONT_SUB" -pointsize 30 -kerning 10 \
-	-fill '#00000099' -annotate +3+133 "$SUBTITLE" \
-	-fill '#b4342f' -annotate +0+130 "$SUBTITLE" \
-	-font "$FONT_TEXT" -pointsize 19 -kerning 1 \
-	-fill '#9a958a' -annotate +0+172 "$CREDIT" \
-	-alpha set -define dds:compression=dxt5 -define dds:mipmaps=0 \
+
+# Одинъ кадръ логотипа: $1 — смѣщеніе по вертикали (px), $2 — прозрачность 0..1,
+# $3 — файлъ-приёмникъ.
+logo_frame() {
+	local dy="$1" alpha="$2" out="$3"
+	convert -size 800x200 xc:none \
+		-font "$FONT_TITLE" -pointsize 74 -kerning 12 -gravity north \
+		-fill '#00000099' -annotate +3+$(( 21 + dy )) "$TITLE" \
+		-fill '#ece6d8' -annotate +0+$(( 18 + dy )) "$TITLE" \
+		-stroke '#8e8471' -strokewidth 2 -draw "line 118,$(( 100 + dy )) 682,$(( 100 + dy ))" \
+		-stroke '#8e847166' -strokewidth 1 -draw "line 118,$(( 106 + dy )) 682,$(( 106 + dy ))" \
+		-stroke none \
+		-font "$FONT_SUB" -pointsize 27 -kerning 9 \
+		-fill '#00000099' -annotate +3+$(( 119 + dy )) "$SUBTITLE" \
+		-fill '#b4342f' -annotate +0+$(( 116 + dy )) "$SUBTITLE" \
+		-font "$FONT_TEXT" -pointsize 17 -kerning 4 \
+		-fill '#8d8674' -annotate +0+$(( 152 + dy )) "АЛЬТЕРНАТИВНАЯ ИСТОРІЯ" \
+		-font "$FONT_TEXT" -pointsize 17 -kerning 1 \
+		-fill '#9a958a' -annotate +0+$(( 176 + dy )) "$CREDIT" \
+		-channel A -evaluate multiply "$alpha" +channel \
+		-background none -extent 800x200 \
+		"$out"
+}
+
+FRAMES=18
+rm -f "$TMP"/logo_*.png
+for n in $(seq 0 $(( FRAMES - 1 ))); do
+	# ease-out: смѣщеніе съ -70 px до 0, прозрачность съ 0.35 до 1.0
+	t=$(python3 -c "print(f'{1-(1-$n/($FRAMES-1))**3:.4f}')")
+	dy=$(python3 -c "print(int(round(-70*(1-$t))))")
+	al=$(python3 -c "print(f'{0.35+0.65*$t:.3f}')")
+	logo_frame "$dy" "$al" "$(printf "$TMP/logo_%02d.png" "$n")"
+done
+
+# статическій кадръ (на случай, если анимація отключена)
+cp "$(printf "$TMP/logo_%02d.png" $(( FRAMES - 1 )))" "$TMP/logo_static.png"
+convert "$TMP/logo_static.png" -alpha set \
+	-define dds:compression=dxt5 -define dds:mipmaps=0 \
 	"DDS:gfx/interface/logo/game_logo.dds"
-echo "   gfx/interface/logo/game_logo.dds"
+
+# лента кадровъ для frameAnimatedSpriteType (кадры идутъ по горизонтали)
+convert "$TMP"/logo_[0-9][0-9].png +append -alpha set \
+	-define dds:compression=dxt5 -define dds:mipmaps=0 \
+	"DDS:gfx/interface/logo/game_logo_anim.dds"
+echo "   gfx/interface/logo/game_logo.dds (800x200)"
+echo "   gfx/interface/logo/game_logo_anim.dds ($(( 800 * FRAMES ))x200, $FRAMES кадровъ)"
 
 echo "готово."

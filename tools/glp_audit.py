@@ -303,6 +303,102 @@ def check_screens():
              + ', '.join(f'load_{n}.dds' for n in missing))
 
 
+def check_focus_tree(defs):
+    """Целостность дерева фокусов: ссылки, идеи, события, персонажи."""
+    focus_ids = set(defs['focus'])
+    idea_ids = set(defs['idea'])
+    event_ids = set(defs['event'])
+    char_ids = set(defs['character'])
+    token_ids = set(defs['idea_token'])
+
+    files = dict(all_script_text('common/national_focus'))
+    files.update(all_script_text('common/decisions'))
+    files.update(all_script_text('common/on_actions'))
+    files.update(all_script_text('history/countries'))
+    for p in walk('events', ('.txt',)):
+        files[p] = strip_comments(read(p))
+
+    positions = defaultdict(list)
+    for p, body in files.items():
+        # ссылки на другие фокусы
+        for kw in ('prerequisite', 'mutually_exclusive'):
+            for m in re.finditer(kw + r'\s*=\s*\{([^}]*)\}', body):
+                for f in re.findall(r'focus\s*=\s*([A-Za-z0-9_]+)', m.group(1)):
+                    if f not in focus_ids:
+                        err(f"{rel(p)}: {kw} ссылается на несуществующий фокус '{f}'")
+        for m in re.finditer(r'relative_position_id\s*=\s*([A-Za-z0-9_]+)', body):
+            if m.group(1) not in focus_ids:
+                err(f"{rel(p)}: relative_position_id -> нет фокуса '{m.group(1)}'")
+        # идеи
+        for kw in ('add_ideas', 'remove_ideas'):
+            for m in re.finditer(kw + r'\s*=\s*(?:\{([^{}]*)\}|([A-Za-z0-9_]+))', body):
+                names = (m.group(1) or m.group(2) or '').split()
+                for n in names:
+                    if n.startswith('GLP_') and n not in idea_ids and n not in token_ids:
+                        err(f"{rel(p)}: {kw} -> нет идеи '{n}'")
+        for m in re.finditer(r'swap_ideas\s*=\s*\{([^{}]*)\}', body):
+            for n in re.findall(r'(?:add|remove)_idea\s*=\s*([A-Za-z0-9_]+)', m.group(1)):
+                if n.startswith('GLP_') and n not in idea_ids and n not in token_ids:
+                    err(f"{rel(p)}: swap_ideas -> нет идеи '{n}'")
+        # события
+        for m in re.finditer(r'(?:country_event|news_event)\s*=\s*\{[^}]*?id\s*=\s*([A-Za-z0-9_.]+)', body):
+            e = m.group(1)
+            if e.startswith('glp') and e not in event_ids:
+                err(f"{rel(p)}: ссылка на несуществующее событие '{e}'")
+        # персонажи
+        for m in re.finditer(r'(?:recruit_character|promote_character|retire_character)\s*=\s*([A-Za-z0-9_]+)', body):
+            c = m.group(1)
+            if c.startswith('GLP_') and c not in char_ids:
+                err(f"{rel(p)}: нет персонажа '{c}'")
+
+    # коллизии координат внутри дерева
+    for p, body in all_script_text('common/national_focus').items():
+        for blk in re.finditer(r'focus\s*=\s*\{(.*?)\n\t\}', body, re.S):
+            b = blk.group(1)
+            fid = re.search(r'id\s*=\s*([A-Za-z0-9_]+)', b)
+            x = re.search(r'\bx\s*=\s*(-?\d+)', b)
+            y = re.search(r'\by\s*=\s*(-?\d+)', b)
+            rel_to = re.search(r'relative_position_id\s*=\s*([A-Za-z0-9_]+)', b)
+            if fid and x and y and not rel_to:
+                positions[(x.group(1), y.group(1))].append(fid.group(1))
+    for (x, y), names in sorted(positions.items()):
+        if len(names) > 1:
+            warn(f"фокусы в одной клетке x={x} y={y}: {', '.join(names)}")
+
+
+def check_units():
+    """Ни одной дивизии РПАУ за предѣлами Вольной территоріи."""
+    prov2state = {}
+    owners = {}
+    for p in walk('history/states', ('.txt',)):
+        body = strip_comments(read(p))
+        sid = re.search(r'id\s*=\s*(\d+)', body)
+        own = re.search(r'owner\s*=\s*([A-Z]{3})', body)
+        pr = re.search(r'provinces\s*=\s*\{([^}]*)\}', body)
+        if not (sid and pr):
+            continue
+        owners[sid.group(1)] = own.group(1) if own else '???'
+        for prov in pr.group(1).split():
+            prov2state[prov] = sid.group(1)
+    for p in walk('history/units', ('.txt',)):
+        body = strip_comments(read(p))
+        templates = set(re.findall(r'division_template\s*=\s*\{\s*\n?\s*name\s*=\s*"([^"]+)"', body))
+        for m in re.finditer(r'location\s*=\s*(\d+)', body):
+            prov = m.group(1)
+            state = prov2state.get(prov)
+            if state is None:
+                err(f"{rel(p)}: дивизия в провинции {prov} — она не входит "
+                    f"ни в один стейт Вольной территории (армия «в изгнании»)")
+            elif owners.get(state) != 'GLP':
+                err(f"{rel(p)}: дивизия в провинции {prov} (стейт {state}) — "
+                    f"владелец {owners.get(state)}, а не GLP")
+        # шаблоны, которых нет в этом же файле
+        used = set(re.findall(r'division_template\s*=\s*"([^"]+)"', body))
+        for t in sorted(used - templates):
+            err(f"{rel(p)}: используется шаблон дивизии \"{t}\", "
+                f"не определённый в этом OOB")
+
+
 def check_bookmarks(loc):
     """Ключи закладок (history = "KEY") обязаны иметь локализацию."""
     ru = loc.get('russian', {})
@@ -432,6 +528,8 @@ def main():
     check_music()
     check_fonts()
     check_bookmarks(loc)
+    check_focus_tree(defs)
+    check_units()
     check_characters(defs, loc)
 
     print("=" * 72)

@@ -202,16 +202,16 @@ bookmarks = {
 			ideology = communism
 			version = base_game
 			available = { NOT = { has_dlc = "No Step Back" } }
-			ideas = {
-				trotskyite_plot_nsb
-				SOV_second_five_year_plan_fake_1936_ns
-				SOV_politicized_military
-			}
-			focuses = {
-				SOV_behead_the_snake
-				SOV_father_of_nations
-				SOV_the_supreme_soviet
-			}	
+			# Без DLC "No Step Back" идеи и фокусы NSB не существуют,
+			# поэтому в базовом варианте они не перечисляются — иначе
+			# запись СССР молча выпадает из экрана выбора страны.
+		}
+
+		# Япония — вернулась в список великих держав (в прежней редакции
+		# файла закладки её не было вовсе).
+		"JAP"={
+			history = "JAP_GATHERING_STORM_DESC"
+			ideology = fascism
 		}
 
 		"---"={

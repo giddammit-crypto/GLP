@@ -13,7 +13,7 @@ music = {
 }
 
 music = {
-	song = "GLP_ehali_kazaki"
+	song = "GLP_batka_ataman"
 	chance = {
 		factor = 10
 		modifier = {
