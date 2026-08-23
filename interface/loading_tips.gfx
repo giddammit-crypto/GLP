@@ -1,0 +1,8 @@
+spriteTypes = {
+	# Force vanilla loading tip position (bottom center)
+	textSpriteType = {
+		name = "GFX_loading_tip_text"
+		texturefile = ""
+		effectFile = "gfx/FX/buttonstate_nodowneffect.lua"
+	}
+}
