@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  GLP portrait pipeline  --  HOI4 1.19.2 art spec compliance
+#  GLP portrait pipeline  --  HOI4 official dimensions
 #
-#  Спецификация (ТЗ, раздел 2):
-#     * большие портреты лидеров/генералов : 156 x 224, ARGB 8888, контраст +15%,
-#       виньетирование
-#     * малые портреты советников/министров: 156 x 210, DXT5, сепия/монохром
-#       с глубокими тенями
-#     * иконки советников в gfx/interface/ideas: 156 x 210, DXT5 (тот же кадр)
+#  Спецификація (по оффиціальной документаціи Paradox):
+#     * large (портретъ лидера/генерала) : 156 x 210, ARGB 8888
+#     * medium (портретъ въ спискѣ генераловъ) : 88 x 119, DXT5
+#     * small  (совѣтникъ/иконка идеи)  :  65 x  67, DXT5
 #
-#  Источники — «мастера» фотореалистичных портретов:
+#  Прежнія размѣры 156x224 (large) и 156x210 (small) были НЕВѢРНЫ:
+#  large-кадръ тянуло по высотѣ въ окнѣ выбора генераловъ, а иконки
+#  совѣтниковъ выглядѣли гигантскими и не вписывались въ ячейку 65x67.
+#
+#  Источники — «мастера» фотореалистичныхъ портретовъ:
 #     gfx/leaders/GLP/_src_<person>_large.jpg
 #
-#  Скрипт идемпотентен: .dds всегда пересобираются из мастеров, а не из .dds,
-#  поэтому повторные запуски не накапливают артефакты сжатия.
-#  Требуется ImageMagick.
+#  Идемпотентно: .dds всегда пересобираются изъ мастеровъ. Требуется ImageMagick.
 # =============================================================================
 set -euo pipefail
 
@@ -37,28 +37,43 @@ declare -A PEOPLE=(
 	[ataman_grigoriev]=Ataman_Grigoriev
 )
 
-# Большой портрет: 156x224, ARGB8888, контраст +15%, лёгкая виньетка.
-make_large() {
+# Общая обработка: лёгкое освѣтленіе (ТЗ: «чуть осветли», контрастъ сохранёнъ),
+# холодная сѣро-охристая гамма, умѣренная виньетка и зерно.
+colorgrade() {  # $1 in, $2 out, $W, $H, $gravity
+	local W="$3" H="$4" grav="$5"
 	convert "$1" -colorspace sRGB \
-		-resize "156x224^" -gravity north -extent 156x224 \
-		-sigmoidal-contrast 2.2x50% -modulate 100,88,100 \
-		-fill '#0d0d0f' -colorize 6 \
-		\( -size 156x224 radial-gradient:white-gray45 \) -compose multiply -composite \
-		-unsharp 0x0.7+0.6+0.01 \
-		-alpha set -define dds:compression=none -define dds:mipmaps=0 \
-		"DDS:$2"
+		-resize "${W}x${H}^" -gravity "$grav" -extent "${W}x${H}" \
+		-modulate 118,92,100 \
+		-sigmoidal-contrast 1.5x50% \
+		-fill '#2a2723' -colorize 2 \
+		\( -size "${W}x${H}" radial-gradient:white-gray82 \) -compose multiply -composite \
+		\( +clone -colorspace Gray -fill gray50 -colorize 100 -attenuate 0.22 +noise Gaussian \) \
+			-compose overlay -composite \
+		-unsharp 0x0.6+0.45+0.01 \
+		"$2"
 }
 
-# Малый портрет/иконка советника: 156x210, DXT5, сепия с глубокими тенями.
+# Большой портрет лидера/генерала: 156x210, ARGB8888 (безсжатый).
+make_large() {
+	colorgrade "$1" "$TMP/l.png" 156 210 north
+	convert "$TMP/l.png" -alpha set \
+		-define dds:compression=none -define dds:mipmaps=0 "DDS:$2"
+}
+
+# Средній портрет (списокъ генераловъ): 88x119, DXT5 — точная оффиціальная
+# геометрія, чтобы кадры не тянуло по высотѣ.
+make_medium() {
+	colorgrade "$1" "$TMP/m.png" 88 119 north
+	convert "$TMP/m.png" -alpha set \
+		-define dds:compression=dxt5 -define dds:mipmaps=0 "DDS:$2"
+}
+
+# Малый портрет/иконка совѣтника: 65x67, DXT5 — квадратная ячейка идеи.
+# Лицо центрируется и кропится подъ почти квадратный кадръ.
 make_small() {
-	convert "$1" -colorspace sRGB \
-		-resize "156x210^" -gravity north -extent 156x210 \
-		-colorspace Gray -sigmoidal-contrast 3x48% \
-		-fill '#6b563c' -tint 55 \
-		\( -size 156x210 radial-gradient:white-gray50 \) -compose multiply -composite \
-		-unsharp 0x0.6+0.55+0.01 \
-		-alpha set -define dds:compression=dxt5 -define dds:mipmaps=0 \
-		"DDS:$2"
+	colorgrade "$1" "$TMP/s.png" 65 67 center
+	convert "$TMP/s.png" -alpha set \
+		-define dds:compression=dxt5 -define dds:mipmaps=0 "DDS:$2"
 }
 
 for slug in "${!PEOPLE[@]}"; do
@@ -68,10 +83,10 @@ for slug in "${!PEOPLE[@]}"; do
 		echo "!! мастер отсутствует: $src" >&2
 		continue
 	fi
-	make_large "$src" "$TMP/l.dds" && mv "$TMP/l.dds" "$LEADERS/Portrait_GLP_${name}_large.dds"
-	make_small "$src" "$TMP/s.dds" && mv "$TMP/s.dds" "$LEADERS/Portrait_GLP_${name}.dds"
-	cp "$LEADERS/Portrait_GLP_${name}.dds" "$IDEAS/idea_GLP_${name}.dds"
-	echo "   $name: large 156x224 ARGB8888 + small 156x210 DXT5 + advisor icon"
+	make_large  "$src" "$TMP/l.dds" && mv "$TMP/l.dds" "$LEADERS/Portrait_GLP_${name}_large.dds"
+	make_medium "$src" "$TMP/m.dds" && mv "$TMP/m.dds" "$LEADERS/Portrait_GLP_${name}.dds"
+	make_small  "$src" "$TMP/s.dds" && mv "$TMP/s.dds" "$IDEAS/idea_GLP_${name}.dds"
+	echo "   $name: large 156x210 ARGB8888 + medium 88x119 DXT5 + advisor 65x67 DXT5"
 done
 
 echo "готово."

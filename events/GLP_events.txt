@@ -4,7 +4,7 @@ add_namespace = glp_news
 # ================================================================
 #  ВСТУПИТЕЛЬНЫЙ ЭКРАНЪ НОВОЙ ПАРТІИ
 #  Газетная полоса 1930-хъ: портретъ Батьки Махно слѣва вверху,
-#  черное знамя Гуляй-Поля справа внизу.
+#  черное знамя Гуляйполя справа внизу.
 #  Вызывается изъ common/on_actions/GLP_on_actions.txt (on_startup).
 # ================================================================
 news_event = {
@@ -184,6 +184,22 @@ country_event = {
 		name = glp_news.6.b
 		army_experience = 30
 		add_war_support = 0.10
+	}
+}
+
+# Бѣлые добровольцы изъ Европы прибываютъ подъ черное знамя (вѣтка «Вольному воля»).
+country_event = {
+	id = glp_news.7
+	title = glp_news.7.t
+	desc = glp_news.7.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = yes
+
+	option = {
+		name = glp_news.7.a
+		add_manpower = 25000
+		army_experience = 25
+		add_war_support = 0.05
 	}
 }
 

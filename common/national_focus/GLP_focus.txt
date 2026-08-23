@@ -9,6 +9,12 @@ focus_tree = {
 	}
 	default = no
 
+	# Блокъ непрерывныхъ фокусовъ вынесенъ въ НИЖНІЙ ЛѢВЫЙ уголъ экрана,
+	# чтобы онъ не закрывалъ собою дерево развитія (фокусы идутъ x=2..54,
+	# y=0..18). Координаты continuous_focus_position задаются не въ клѣткахъ,
+	# а въ пиксельной системѣ экраннаго окна фокусовъ.
+	continuous_focus_position = { x = -320 y = 1900 }
+
 	# =========================================================================
 	# 1. ВОЕННАЯ ДОКТРИНА И ПАРТИЗАНСКАЯ ВОЙНА (12 фокусов, x = 2..6)
 	# =========================================================================
@@ -505,7 +511,7 @@ focus_tree = {
 		id = GLP_alliance_with_soviet_union
 		icon = GFX_goal_generic_soviet_construction
 		prerequisite = { focus = GLP_international_diplomacy_crossroads }
-		mutually_exclusive = { focus = GLP_alliance_with_germany focus = GLP_alliance_with_britain }
+		mutually_exclusive = { focus = GLP_alliance_with_germany focus = GLP_alliance_with_britain focus = GLP_free_will }
 		x = 26
 		y = 1
 		cost = 10
@@ -523,7 +529,7 @@ focus_tree = {
 		id = GLP_alliance_with_germany
 		icon = GFX_goal_generic_intelligence_exchange
 		prerequisite = { focus = GLP_international_diplomacy_crossroads }
-		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_britain }
+		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_britain focus = GLP_free_will }
 		x = 30
 		y = 1
 		cost = 10
@@ -541,7 +547,7 @@ focus_tree = {
 		id = GLP_alliance_with_britain
 		icon = GFX_goal_generic_trade
 		prerequisite = { focus = GLP_international_diplomacy_crossroads }
-		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_germany }
+		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_germany focus = GLP_free_will }
 		x = 34
 		y = 1
 		cost = 10
@@ -681,6 +687,99 @@ focus_tree = {
 		ai_will_do = { factor = 7 }
 		completion_reward = {
 			add_ideas = GLP_anglo_free_bastion
+		}
+	}
+
+	# =========================================================================
+	# 4b. ВОЛЬНОМУ ВОЛЯ — независимая анархистская линия (x = 24)
+	#
+	# Четвёртый вариант развилки союзной дипломатии (взаимоисключается с
+	# союзами с СССР, Германией и Британией). Гуляйполе не встаёт ни под чьи
+	# знамёна: слава Махно гремит по всей Европе, и воюющие страны шлют
+	# добровольцев под чёрное знамя.
+	# =========================================================================
+	focus = {
+		id = GLP_free_will
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_international_diplomacy_crossroads }
+		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_germany focus = GLP_alliance_with_britain }
+		x = 24
+		y = 1
+		cost = 10
+		ai_will_do = { factor = 10 }
+		completion_reward = {
+			add_political_power = 120
+			add_stability = 0.05
+			add_war_support = 0.10
+			add_ideas = GLP_idea_free_will
+			country_event = { id = glp_news.6 days = 1 }
+		}
+	}
+
+	focus = {
+		id = GLP_old_enemies_unite
+		icon = GFX_goal_generic_military_deal
+		prerequisite = { focus = GLP_free_will }
+		x = 24
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 9 }
+		completion_reward = {
+			add_ideas = GLP_idea_white_volunteers
+			add_manpower = 25000
+			army_experience = 25
+			# Бѣлые добровольцы изъ Европы немедленно вліваются въ РПА.
+			country_event = { id = glp_news.7 days = 1 }
+		}
+	}
+
+	focus = {
+		id = GLP_international_brigades
+		icon = GFX_goal_generic_volunteer_expedition_bonus
+		prerequisite = { focus = GLP_old_enemies_unite }
+		x = 24
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 9 }
+		completion_reward = {
+			add_ideas = GLP_idea_international_brigades
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 3000 producer = GLP }
+			add_manpower = 15000
+		}
+	}
+
+	focus = {
+		id = GLP_black_cross_aid
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = GLP_international_brigades }
+		x = 24
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 8 }
+		completion_reward = {
+			add_ideas = GLP_idea_black_cross_aid
+			random_owned_controlled_state = {
+				limit = { is_core_of = GLP }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = arms_factory level = 2 instant_build = yes }
+			}
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GLP_makhno_myth
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = GLP_black_cross_aid }
+		x = 24
+		y = 5
+		cost = 10
+		ai_will_do = { factor = 8 }
+		completion_reward = {
+			add_ideas = GLP_idea_makhno_myth
+			add_war_support = 0.15
+			add_stability = 0.10
+			army_morale_factor = 0.10
 		}
 	}
 

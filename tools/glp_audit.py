@@ -246,12 +246,13 @@ def dds_info(path):
     return w, h, fourcc
 
 
-SPEC_LARGE = (156, 224)
-SPEC_SMALL = (156, 210)
+SPEC_LARGE = (156, 210)   # оффиціальный размѣръ портрета лидера/генерала
+SPEC_MEDIUM = (88, 119)   # списокъ генераловъ (оффиціальный размѣръ)
+SPEC_SMALL = (65, 67)     # ячейка совѣтника/идеи (квадратная)
 SPEC_SCREEN = (1920, 1080)
-OK_FMT_LARGE = ('ARGB8888', 'DXT5')      # ТЗ: ARGB 8888 для больших портретов
-OK_FMT_SMALL = ('DXT5', 'ARGB8888')      # ТЗ: DXT5 для малых портретов/иконок
-OK_FMT_SCREEN = ('DXT1', 'DXT5')         # ТЗ: DXT1/DXT5 без мип-мап
+OK_FMT_LARGE = ('ARGB8888', 'DXT5')
+OK_FMT_SMALL = ('DXT5', 'ARGB8888')
+OK_FMT_SCREEN = ('DXT1', 'DXT5')
 
 
 def check_portraits():
@@ -261,9 +262,11 @@ def check_portraits():
             err(f"{rel(p)}: not a valid DDS file")
             continue
         w, h, fmt = info
-        large = p.endswith('_large.dds')
-        want = SPEC_LARGE if large else SPEC_SMALL
-        ok = OK_FMT_LARGE if large else OK_FMT_SMALL
+        base = os.path.basename(p)
+        if base.endswith('_large.dds'):
+            want, ok = SPEC_LARGE, OK_FMT_LARGE
+        else:
+            want, ok = SPEC_MEDIUM, OK_FMT_SMALL   # Portrait_GLP_<Name>.dds = medium
         if (w, h) != want:
             err(f"{rel(p)}: {w}x{h}, spec requires {want[0]}x{want[1]}")
         if fmt not in ok:
@@ -274,18 +277,17 @@ def check_portraits():
             err(f"{rel(p)}: not a valid DDS file")
             continue
         w, h, _fmt = info
-        if 'Portrait' in p or re.search(r'idea_GLP_[A-Z]', os.path.basename(p)):
+        if re.search(r'idea_GLP_[A-Z]', os.path.basename(p)):
             if (w, h) != SPEC_SMALL:
-                err(f"{rel(p)}: advisor icon is {w}x{h}, spec requires 156x210")
+                err(f"{rel(p)}: advisor icon is {w}x{h}, spec requires 65x67")
 
 
 def check_screens():
-    """Загрузочные экраны и фон меню: 1920x1080, DXT1/DXT5, без мип-мап."""
-    targets = sorted(glob_dds('gfx/loadingscreens')) + [
-        os.path.join(ROOT, 'gfx/interface/frontendmainviewbg.dds')]
-    for p in targets:
-        if not os.path.exists(p):
-            continue
+    """Загрузочные экраны: 1920x1080. Фон меню: 1920x1440 (эталон UI 4:3)."""
+    # Фон меню — спрайт въ эталонномъ разрѣшеніи интерфейса HOI4 (1920x1440),
+    # чтобы не «тянулся» по вертикали. Загрузочные экраны — 1920x1080.
+    menu_bg = os.path.join(ROOT, 'gfx/interface/frontendmainviewbg.dds')
+    for p in sorted(glob_dds('gfx/loadingscreens')):
         info = dds_info(p)
         if not info:
             err(f"{rel(p)}: not a valid DDS file")
@@ -295,11 +297,29 @@ def check_screens():
             err(f"{rel(p)}: {w}x{h}, spec requires 1920x1080")
         if fmt not in OK_FMT_SCREEN:
             err(f"{rel(p)}: compression {fmt}, spec requires DXT1 or DXT5")
-    # ванильные экраны должны быть перекрыты
+    if os.path.exists(menu_bg):
+        info = dds_info(menu_bg)
+        if not info:
+            err(f"{rel(menu_bg)}: not a valid DDS file")
+        else:
+            w, h, fmt = info
+            if (w, h) != (1920, 1440):
+                err(f"{rel(menu_bg)}: {w}x{h}, фон меню должен быть 1920x1440 "
+                    f"(эталонное 4:3 разрѣшеніе UI, иначе тянется по высоте)")
+            if fmt not in OK_FMT_SCREEN:
+                err(f"{rel(menu_bg)}: compression {fmt}, spec requires DXT1 or DXT5")
+    # replace_path="gfx/loadingscreens" въ descriptor.mod полностью исключаетъ
+    # ваниль и DLC; наши 16 load_N.dds ссылаются на шесть экрановъ мода.
+    desc = os.path.join(ROOT, 'descriptor.mod')
+    if os.path.exists(desc):
+        body = read(desc)
+        if 'gfx/loadingscreens' not in body:
+            warn("descriptor.mod: нет replace_path=\"gfx/loadingscreens\" — "
+                 "ванильные/DLC экраны загрузки могут подмешиваться")
     missing = [n for n in range(1, 17)
                if not os.path.exists(os.path.join(ROOT, f'gfx/loadingscreens/load_{n}.dds'))]
     if missing:
-        warn("ванильные экраны загрузки не перекрыты: "
+        warn("экраны загрузки мода не выставлены: "
              + ', '.join(f'load_{n}.dds' for n in missing))
 
 
@@ -456,6 +476,29 @@ def check_fonts():
                 err(f"{f}: это не TrueType/OpenType шрифт")
 
 
+def check_loading_tips():
+    """Ванильные цитаты загрузки должны быть полностью перекрыты.
+
+    Базовая игра использует ключи LOADING_TIP_1..~90, DLC добавляют свои;
+    чтобы ванильная цитата никогда не появилась, мы перекрываем 1..256.
+    """
+    for lang in ('russian', 'english'):
+        p = os.path.join(ROOT, f'localisation/{lang}/loading_tips_l_{lang}.yml')
+        if not os.path.exists(p):
+            err(f"{rel(p)} отсутствует — ванильные цитаты загрузки не перекрыты")
+            continue
+        text = read(p)
+        nums = sorted(int(m.group(1))
+                      for m in re.finditer(r'^\s*LOADING_TIP_(\d+):', text, re.M))
+        if not nums:
+            err(f"{rel(p)}: не найдено ни одного ключа LOADING_TIP_<n>")
+            continue
+        gaps = [n for n in range(1, 257) if n not in nums]
+        if gaps:
+            err(f"{rel(p)}: не перекрыты ванильные цитаты "
+                f"(нет ключей для {len(gaps)} номеров, первый: LOADING_TIP_{gaps[0]})")
+
+
 def check_music():
     """Ванильный саундтрек должен быть перекрыт файлами мода."""
     for f in ('music/music.asset', 'music/songs.txt'):
@@ -471,6 +514,11 @@ def check_music():
         if 'name = "maintheme"' not in body:
             warn('music/music.asset: нет песни "maintheme" — '
                  'в главном меню зазвучит ванильная тема')
+        # плейлист должен содержать не один трек
+        tracks = re.findall(r'name\s*=\s*"([^"]+)"', body)
+        if len(tracks) < 10:
+            warn(f'music/music.asset: в плейлисте только {len(tracks)} '
+                 f'треков (ожидается 10–11 композиций Монгол Шуудан)')
 
 
 def glob_dds(subdir):
@@ -549,6 +597,7 @@ def main():
     check_sprites(defs)
     check_portraits()
     check_screens()
+    check_loading_tips()
     check_music()
     check_fonts()
     check_bookmarks(loc)

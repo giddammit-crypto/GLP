@@ -31,7 +31,7 @@ FONT_SUB="$F/SourceSerifPro-Bold.ttf"
 FONT_TEXT="$F/SourceSerifPro-Regular.ttf"
 FONT_QUOTE="$F/SourceSerifPro-Regular.ttf"   # италикъ в наборе шрифта безъ кириллицы
 
-TITLE="ГУЛЯЙ-ПОЛЕ"
+TITLE="ГУЛЯЙПОЛЕ"
 SUBTITLE="ВОЛЬНАЯ ТЕРРИТОРІЯ"
 ALTHIST="АЛЬТЕРНАТИВНАЯ ИСТОРІЯ · 1936"
 CREDIT="Разработка мода — Амброзіевъ О. А."
@@ -49,35 +49,44 @@ declare -A QUOTE=(
 
 # Кинематографическая цветокоррекція 1930-хъ + зерно плёнки.
 grade() {  # $1 in, $2 out(png)
+	# Чуть свѣтлѣе прежняго (ТЗ: «слишкомъ темно»), но контрастность сохранена:
+	# modulate Brightness 124 вмѣсто 116, виньетка слабѣе (gray78 вмѣсто gray72),
+	# цвѣтной лойкрутъ 8 % вмѣсто 10, сигмоидальный контраст 1.7x вмѣсто 2x.
 	convert "$1" -colorspace sRGB \
 		-resize "1920x1080^" -gravity center -extent 1920x1080 \
-		-modulate 116,74,98 \
-		-sigmoidal-contrast 2x52% \
-		-fill '#20242b' -colorize 5 \
-		-fill '#3a2f22' -tint 10 \
-		\( -size 1920x1080 radial-gradient:white-gray72 \) -compose multiply -composite \
-		\( +clone -colorspace Gray -fill gray50 -colorize 100 -attenuate 0.40 +noise Gaussian \) \
+		-modulate 124,80,100 \
+		-sigmoidal-contrast 1.7x50% \
+		-fill '#1c2026' -colorize 3 \
+		-fill '#3a2f22' -tint 8 \
+		\( -size 1920x1080 radial-gradient:white-gray78 \) -compose multiply -composite \
+		\( +clone -colorspace Gray -fill gray50 -colorize 100 -attenuate 0.34 +noise Gaussian \) \
 			-compose overlay -composite \
 		-unsharp 0x0.8+0.5+0.01 \
 		"$2"
 }
 
-# Наборная плашка внизу кадра.
+# Наборная плашка:
+#   * въ верхнемъ ЛѢВОМЪ углу — клеймо мода «ГУЛЯЙ-ПОЛЕ / ВОЛЬНАЯ ТЕРРИТОРІЯ /
+#     АЛЬТЕРНАТИВНАЯ ИСТОРІЯ · 1936» (по ТЗ);
+#   * въ нижнемъ правомъ — цитата съ атрибуціей и подписью автора.
+# Сверху и снизу подложены градіентныя плашки, чтобы титры читались на любомъ фонѣ.
 plate() {  # $1 png (in place), $2 "цитата|авторъ"
 	local quote="${2%%|*}"
 	local author="${2##*|}"
 	convert "$1" \
-		\( -size 1920x230 gradient:none-'#000000d0' \) -gravity south -compose over -composite \
-		-stroke '#8e8471' -strokewidth 2 -draw "line 64,912 1856,912" \
-		-stroke '#8e847155' -strokewidth 1 -draw "line 64,919 1856,919" \
-		-stroke none -gravity southwest \
+		\( -size 1920x360 gradient:'#000000d8'-none \) -gravity north    -compose over -composite \
+		\( -size 1920x240 gradient:none-'#000000d8' \) -gravity south    -compose over -composite \
+		-stroke '#8e8471' -strokewidth 2 -draw "line 64,152 1856,152" \
+		-stroke '#8e847155' -strokewidth 1 -draw "line 64,159 1856,159" \
+		-stroke none \
+		-gravity northwest \
 		-font "$FONT_TITLE" -pointsize 46 -kerning 14 \
-		-fill '#000000aa' -annotate +67+95 "$TITLE" \
-		-fill '#ece6d8' -annotate +64+96 "$TITLE" \
+		-fill '#000000aa' -annotate +67+62 "$TITLE" \
+		-fill '#ece6d8' -annotate +64+60 "$TITLE" \
 		-font "$FONT_SUB" -pointsize 21 -kerning 9 \
-		-fill '#b8ac95' -annotate +68+66 "$SUBTITLE" \
+		-fill '#b8ac95' -annotate +68+109 "$SUBTITLE" \
 		-font "$FONT_TEXT" -pointsize 17 -kerning 5 \
-		-fill '#8d8674' -annotate +68+38 "$ALTHIST" \
+		-fill '#d8cfba' -annotate +68+129 "$ALTHIST" \
 		-gravity southeast \
 		-font "$FONT_QUOTE" -pointsize 30 -kerning 0 \
 		-fill '#000000aa' -annotate +65+109 "«$quote»" \
@@ -103,7 +112,7 @@ for src in "$LS"/_src_*.jpg; do
 	[ "$slug" = "menu_bg" ] && continue
 	png="$TMP/$slug.png"
 	grade "$src" "$png"
-	plate "$png" "${QUOTE[$slug]:-$SUBTITLE|Гуляй-Поле}"
+	plate "$png" "${QUOTE[$slug]:-$SUBTITLE|Гуляйполе}"
 	out="$LS/load_glp_${slug#load_}.dds"
 	to_dds "$png" "$out"
 	SCREENS+=("$out")
@@ -123,25 +132,46 @@ for n in $(seq 1 16); do
 done
 echo "   load_1.dds .. load_16.dds"
 
-echo ">> фонъ главнаго меню (адаптивный, растягивается на весь экранъ)"
+echo ">> фонъ главнаго меню (1920x1440 — эталонное 4:3 разрѣшеніе UI HOI4)"
+# Эталонное разрѣшеніе интерфейса HOI4 — 1920x1440 (4:3). Прежній фонъ
+# 1920x1080 corneredTile-спрайтъ растягивалъ по вертикали на экранахъ
+# 16:10/4:3 и въ самой 4:3-сценѣ главнаго меню. Теперь фонъ собирается
+# подъ 4:3: кинематографичная 16:9-сцена центрируется, а верхняя и нижняя
+# полосы добираются сильно размытымъ продолженіемъ того же кадра —
+# изображеніе не искажается и заполняетъ весь экранъ.
 if [ -f "$LS/_src_menu_bg.jpg" ]; then
+	hero="$TMP/menu_hero.png"
+	blur="$TMP/menu_blur.png"
+	mask="$TMP/menu_mask.png"
 	png="$TMP/menu.png"
-	grade "$LS/_src_menu_bg.jpg" "$png"
+	grade "$LS/_src_menu_bg.jpg" "$hero"                      # 1920x1080, цвѣтокоррекція
+	# Размытое продолженіе кадра на всю 4:3 плоскость (1920x1440).
+	convert "$hero" -resize 1920x1440^ -gravity center -extent 1920x1440 \
+		-blur 0x55 -modulate 74,95,100 "$blur"
+	# Маска: герой непрозраченъ въ центрѣ и мягко растворяется по краямъ
+	# (80 px), чтобы не было жёсткаго шва между сценой и размытымъ фономъ.
+	convert -size 1920x1080 xc:black \
+		\( -size 1920x920 xc:white \) -gravity center -composite \
+		-blur 0x40 -level 0x40% "$mask"
+	convert "$blur" "$hero" -gravity center "$mask" \
+		-compose over -composite "$png"
 	q="${QUOTE[menu_bg]}"
 	convert "$png" \
+		\( -size 1920x260 gradient:none-'#000000c8' \) -gravity south -compose over -composite \
 		-gravity southeast \
-		-font "$FONT_QUOTE" -pointsize 26 \
-		-fill '#000000aa' -annotate +49+89 "«${q%%|*}»" \
-		-fill '#d5cfbd' -annotate +48+90 "«${q%%|*}»" \
-		-font "$FONT_TEXT" -pointsize 20 \
-		-fill '#000000aa' -annotate +49+59 "— ${q##*|}" \
-		-fill '#a9a18e' -annotate +48+60 "— ${q##*|}" \
-		-pointsize 18 \
-		-fill '#000000aa' -annotate +49+29 "$CREDIT · альтернативная исторія" \
-		-fill '#9a927f' -annotate +48+30 "$CREDIT · альтернативная исторія" \
+		-font "$FONT_QUOTE" -pointsize 30 \
+		-fill '#000000aa' -annotate +65+125 "«${q%%|*}»" \
+		-fill '#e2dccb' -annotate +64+126 "«${q%%|*}»" \
+		-font "$FONT_TEXT" -pointsize 22 \
+		-fill '#000000aa' -annotate +65+85 "— ${q##*|}" \
+		-fill '#b3ab98' -annotate +64+86 "— ${q##*|}" \
+		-pointsize 19 \
+		-fill '#000000aa' -annotate +65+44 "$CREDIT · альтернативная исторія" \
+		-fill '#9a927f' -annotate +64+45 "$CREDIT · альтернативная исторія" \
 		"$png"
-	to_dds "$png" "gfx/interface/frontendmainviewbg.dds"
-	echo "   gfx/interface/frontendmainviewbg.dds"
+	convert "$png" -alpha off -define dds:compression=dxt1 -define dds:mipmaps=0 \
+		"DDS:gfx/interface/frontendmainviewbg.dds"
+	echo "   gfx/interface/frontendmainviewbg.dds (1920x1440)"
 fi
 
 echo ">> логотипъ мода: статическій кадръ + анимація выѣзда сверху внизъ"
