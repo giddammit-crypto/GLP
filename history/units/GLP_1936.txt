@@ -1,5 +1,5 @@
 division_template = {
-	name = "Конно-повстанческая дивизия РПАУ"
+	name = "Конно-повстанческая дивизия РПА"
 	division_names_group = GLP_CAV_HISTORICAL
 
 	regiments = {
@@ -53,29 +53,29 @@ units = {
 	# Кавалерийские дивизии
 	division = {
 		name = "1-я Конно-повстанческая дивизия им. Батьки Махно"
-		location = 9729 # Гуляй-Поле
-		division_template = "Конно-повстанческая дивизия РПАУ"
+		location = 9729 # Гуляйполе
+		division_template = "Конно-повстанческая дивизия РПА"
 		start_experience_factor = 0.5
 		start_equipment_factor = 1.0
 	}
 	division = {
 		name = "2-я Кавалерийская дивизия Черной Гвардии им. Феодосия Щуся"
 		location = 6596 # Запорожье
-		division_template = "Конно-повстанческая дивизия РПАУ"
+		division_template = "Конно-повстанческая дивизия РПА"
 		start_experience_factor = 0.4
 		start_equipment_factor = 1.0
 	}
 	division = {
 		name = "3-я Степная кавалерийская дивизия им. Семена Каретника"
 		location = 9419 # Никополь
-		division_template = "Конно-повстанческая дивизия РПАУ"
+		division_template = "Конно-повстанческая дивизия РПА"
 		start_experience_factor = 0.4
 		start_equipment_factor = 1.0
 	}
 	division = {
 		name = "4-я Таврическая кавалерийская бригада"
 		location = 11700 # Мелитополь
-		division_template = "Конно-повстанческая дивизия РПАУ"
+		division_template = "Конно-повстанческая дивизия РПА"
 		start_experience_factor = 0.3
 		start_equipment_factor = 1.0
 	}
@@ -83,7 +83,7 @@ units = {
 	# Стрелковые бригады
 	division = {
 		name = "1-я Стрелковая бригада вольных коммун"
-		location = 9729 # Гуляй-Поле
+		location = 9729 # Гуляйполе
 		division_template = "Стрелковая бригада вольных коммун"
 		start_experience_factor = 0.3
 		start_equipment_factor = 1.0
@@ -117,7 +117,7 @@ units = {
 		start_equipment_factor = 1.0
 	}
 	division = {
-		name = "6-я Черкасская стрелковая бригада РПАУ"
+		name = "6-я Черкасская стрелковая бригада РПА"
 		location = 488 # Черкассы
 		division_template = "Стрелковая бригада вольных коммун"
 		start_experience_factor = 0.3
@@ -134,7 +134,7 @@ units = {
 	# Автобронетанковые части
 	division = {
 		name = "1-й Ударный автобронетанковый полк «Гроза Степей»"
-		location = 9729 # Гуляй-Поле
+		location = 9729 # Гуляйполе
 		division_template = "Автобронетанковый отряд Черной Гвардии"
 		start_experience_factor = 0.4
 		start_equipment_factor = 1.0

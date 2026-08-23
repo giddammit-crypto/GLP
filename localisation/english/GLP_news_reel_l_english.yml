@@ -5,7 +5,7 @@
 
  # 1. Armored Train "Freedom or Death"
  glp_press.1.t:0 "ARMORED TRAIN 'FREEDOM OR DEATH' ROLLS OFF THE RAILS"
- glp_press.1.d:0 "§YEKATERINOSLAV.§! The fearsome armored train 'Freedom or Death' has emerged from the railway workshops — a mobile fortress bristling with heavy guns and machine-gun turrets. The iron beast symbolizes the unstoppable military might of the RPAU and strikes terror into all who dare threaten the Free Territory. Batko Makhno personally inspected the war machine and ordered its immediate deployment to the southern front."
+ glp_press.1.d:0 "§YEKATERINOSLAV.§! The fearsome armored train 'Freedom or Death' has emerged from the railway workshops — a mobile fortress bristling with heavy guns and machine-gun turrets. The iron beast symbolizes the unstoppable military might of the RIA and strikes terror into all who dare threaten the Free Territory. Batko Makhno personally inspected the war machine and ordered its immediate deployment to the southern front."
  glp_press.1.a:0 "Freedom or Death! The armored train rolls to war!"
  glp_press.1.b:0 "This threatens our offensive plans..."
  glp_press.1.c:0 "An interesting engineering achievement."
@@ -26,7 +26,7 @@
 
  # 4. Anarchist Congress in Ekaterinoslav
  glp_press.4.t:0 "ALL-UKRAINIAN ANARCHIST CONGRESS IN EKATERINOSLAV"
- glp_press.4.d:0 "§YEKATERINOSLAV.§! Delegates from anarchist groups, syndicalist unions, and free communes across Ukraine have gathered for a historic congress. A resolution was adopted to establish the Federation of Free Soviets — a society without state, capital, or masters. Vsevolod Volin delivered a fiery speech calling on workers worldwide to follow Gulyay-Pole's example."
+ glp_press.4.d:0 "§YEKATERINOSLAV.§! Delegates from anarchist groups, syndicalist unions, and free communes across Ukraine have gathered for a historic congress. A resolution was adopted to establish the Federation of Free Soviets — a society without state, capital, or masters. Vsevolod Volin delivered a fiery speech calling on workers worldwide to follow Gulyaypole's example."
  glp_press.4.a:0 "Long live anarchy — the mother of order!"
  glp_press.4.b:0 "This is a direct threat to Soviet power..."
  glp_press.4.c:0 "A curious political phenomenon."
@@ -47,13 +47,13 @@
 
  # 7. Zadov's Counter-Intelligence Operation
  glp_press.7.t:0 "ZADOV'S COUNTER-INTELLIGENCE UNCOVERS PLOT"
- glp_press.7.d:0 "§YGULAY-POLE.§! RPAU intelligence agents under Lev Zadov's command have exposed a major conspiracy of White Guard agents and Cheka provocateurs planning sabotage of military depots and assassination of army command. Dozens arrested; cipher books, maps, and agent lists seized. RPAU counter-intelligence has once again proven its supreme effectiveness."
+ glp_press.7.d:0 "§YGULAY-POLE.§! RIA intelligence agents under Lev Zadov's command have exposed a major conspiracy of White Guard agents and Cheka provocateurs planning sabotage of military depots and assassination of army command. Dozens arrested; cipher books, maps, and agent lists seized. RIA counter-intelligence has once again proven its supreme effectiveness."
  glp_press.7.a:0 "Zadov is the shield of the revolution! Enemies shall be punished."
  glp_press.7.b:0 "Captured weapons will arm the militia."
 
  # 8. Peasant Communes Flourish
  glp_press.8.t:0 "GOLDEN AGE OF GULAY-POLE'S PEASANT COMMUNES"
- glp_press.8.d:0 "§YFREE TERRITORY.§! The free peasant communes of the Free Territory are harvesting record crops. Communal granaries are filled to capacity, new tractor brigades work the fields, and rural schools and hospitals open in every village. Without landlords or bureaucrats, peasant labor brings unprecedented abundance. Gulyay-Pole proves: the people can live without a state!"
+ glp_press.8.d:0 "§YFREE TERRITORY.§! The free peasant communes of the Free Territory are harvesting record crops. Communal granaries are filled to capacity, new tractor brigades work the fields, and rural schools and hospitals open in every village. Without landlords or bureaucrats, peasant labor brings unprecedented abundance. Gulyaypole proves: the people can live without a state!"
  glp_press.8.a:0 "Land to those who till it!"
  glp_press.8.b:0 "We invest the surplus into industry."
 
@@ -66,7 +66,7 @@
 
  # 10. Black International: Madrid
  glp_press.10.t:0 "BLACK INTERNATIONAL: BROTHERHOOD WITH CNT-FAI"
- glp_press.10.d:0 "§YMADRID — GULAY-POLE.§! An RPAU delegation has signed a historic mutual aid pact with the Spanish anarchists of CNT-FAI. Thousands of volunteers and trainloads of weapons have been dispatched to the Iberian Peninsula. The Black International becomes a real fighting force — from the Ukrainian steppes to the banks of the Ebro, anarchists unite against fascism and tyranny!"
+ glp_press.10.d:0 "§YMADRID — GULAY-POLE.§! An RIA delegation has signed a historic mutual aid pact with the Spanish anarchists of CNT-FAI. Thousands of volunteers and trainloads of weapons have been dispatched to the Iberian Peninsula. The Black International becomes a real fighting force — from the Ukrainian steppes to the banks of the Ebro, anarchists unite against fascism and tyranny!"
  glp_press.10.a:0 "Solidarity is our weapon! Viva CNT-FAI!"
  glp_press.10.b:0 "Brothers in struggle have come to our aid!"
  glp_press.10.c:0 "The international anarchist movement is gaining strength."

@@ -528,8 +528,6 @@ ideas = {
 				supply_consumption_factor = 0.05
 			}
 		}
-	}
-}
 
 		# =====================================================
 		# NEW IDEAS FOR EXPANDED FOCUS TREE
@@ -1255,3 +1253,71 @@ ideas = {
 				conscription_factor = 0.12
 			}
 		}
+
+		# =====================================================
+		# ВЕТКА «ВОЛЬНОМУ ВОЛЯ» — независимая анархистская линия
+		# =====================================================
+		GLP_idea_free_will = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_national_unity
+			modifier = {
+				drift_defence_factor = 0.25
+				political_power_gain = 0.15
+				stability_factor = 0.05
+				generate_wargoal_tension = -0.25
+			}
+		}
+
+		GLP_idea_white_volunteers = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_army_doctrines
+			modifier = {
+				army_org_factor = 0.08
+				experience_gain_army_factor = 0.12
+				send_volunteer_size = 2
+				send_volunteer_divisions_required = -0.50
+				send_volunteers_tension = -0.50
+			}
+		}
+
+		GLP_idea_international_brigades = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_volunteer_expedition_bonus
+			modifier = {
+				send_volunteer_size = 3
+				send_volunteer_divisions_required = -0.75
+				send_volunteers_tension = -0.75
+				foreign_subversive_activites = 0.25
+				war_support_factor = 0.05
+			}
+		}
+
+		GLP_idea_black_cross_aid = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_construction
+			modifier = {
+				industrial_capacity_factory = 0.10
+				production_factory_max_efficiency_factor = 0.08
+				production_speed_arms_factory_factor = 0.10
+				consumer_goods_factor = -0.02
+			}
+		}
+
+		GLP_idea_makhno_myth = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_propaganda
+			modifier = {
+				army_morale_factor = 0.12
+				war_support_factor = 0.15
+				stability_factor = 0.10
+				political_power_gain = 0.10
+				conscription_factor = 0.08
+			}
+		}
+	}
+}

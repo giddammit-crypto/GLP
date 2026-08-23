@@ -40,7 +40,7 @@ characters = {
 	}
 
 	# ------------------------------------------------------------------
-	#  Виктор Фёдорович Белаш — начальник штаба РПАУ
+	#  Виктор Фёдорович Белаш — начальник штаба РПА
 	# ------------------------------------------------------------------
 	GLP_viktor_belash = {
 		name = GLP_viktor_belash
@@ -240,6 +240,65 @@ characters = {
 			cost = 100
 			removal_cost = 10
 			traits = { army_cavalry_speed_2 army_morale_2 }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  СОЮЗНЫЕ ВОЕННЫЕ МИССИИ — становятся доступны ТОЛЬКО после выбора
+	#  соответствующего фокуса союза (СССР / Германия / Британия).
+	#  Пока фокус не взят, персонажей нет в списке советников (visible = no).
+	#  Это исключает ванильных и чужих советников: нанять можно только
+	#  своих (7 своих советников выше) либо союзную миссию выбранной державы.
+	# ------------------------------------------------------------------
+
+	# Советская военная миссия (доступна после фокуса GLP_alliance_with_soviet_union)
+	GLP_soviet_military_mission = {
+		name = GLP_soviet_military_mission
+		portraits = {
+			civilian = { large = "GFX_portrait_GLP_viktor_belash" small = "GFX_portrait_GLP_viktor_belash_small" }
+		}
+		advisor = {
+			slot = theorist
+			idea_token = GLP_soviet_mission_advisor
+			ledger = army
+			cost = 150
+			removal_cost = 10
+			visible = { has_completed_focus = GLP_alliance_with_soviet_union }
+			traits = { GLP_soviet_mission_doctrine }
+		}
+	}
+
+	# Германская военная миссия (доступна после фокуса GLP_alliance_with_germany)
+	GLP_german_military_mission = {
+		name = GLP_german_military_mission
+		portraits = {
+			civilian = { large = "GFX_portrait_GLP_lev_zadov" small = "GFX_portrait_GLP_lev_zadov_small" }
+		}
+		advisor = {
+			slot = army_chief
+			idea_token = GLP_german_mission_advisor
+			ledger = army
+			cost = 150
+			removal_cost = 10
+			visible = { has_completed_focus = GLP_alliance_with_germany }
+			traits = { GLP_german_mission_drill }
+		}
+	}
+
+	# Британская морская миссия (доступна после фокуса GLP_alliance_with_britain)
+	GLP_british_naval_drill = {
+		name = GLP_british_naval_mission
+		portraits = {
+			civilian = { large = "GFX_portrait_GLP_semen_karetnik" small = "GFX_portrait_GLP_semen_karetnik_small" }
+		}
+		advisor = {
+			slot = navy_chief
+			idea_token = GLP_british_naval_advisor
+			ledger = navy
+			cost = 150
+			removal_cost = 10
+			visible = { has_completed_focus = GLP_alliance_with_britain }
+			traits = { GLP_british_naval_drill }
 		}
 	}
 }

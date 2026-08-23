@@ -2,11 +2,14 @@ spriteTypes = {
 	# =========================================================================
 	#  Гуляйпольская Республика — портреты персонажей
 	#
-	#  large  : gfx/leaders/GLP/Portrait_GLP_*_large.dds   156x224  DXT5
-	#  small  : gfx/interface/ideas/idea_GLP_*.dds         156x210  DXT5
+	#  large  : gfx/leaders/GLP/Portrait_GLP_*_large.dds   156x210  ARGB8888
+	#  medium : gfx/leaders/GLP/Portrait_GLP_*.dds          88x119   DXT5
+	#           (списокъ генераловъ/полковдцевъ — оффиц. размѣры, безъ растяженія)
+	#  small  : gfx/interface/ideas/idea_GLP_*.dds          65x67    DXT5
+	#           (ячейка совѣтника/идеи — квадратная, не гигантская)
 	#
 	#  Файлы собираются скриптом tools/build_portraits.sh (ImageMagick).
-	#  Проверка соответствия спецификации: tools/glp_audit.py
+	#  Проверка соответствія спецификаціи: tools/glp_audit.py
 	# =========================================================================
 
 	# ------------------------------ Нестор Махно -----------------------------

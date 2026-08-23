@@ -1,3 +1,4 @@
+decisions = {
 GLP_revolutionary_military_ops = {
 	# 1. Мобилизация резервов Черной Гвардии
 	GLP_mobilize_black_guard_reserves = {
@@ -218,4 +219,5 @@ GLP_kontrrazvedka_and_order = {
 		}
 		ai_will_do = { factor = 1 }
 	}
+}
 }
