@@ -48,7 +48,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_partisan_warfare_doctrine
-		icon = GFX_goal_generic_special_forces
+		icon = GFX_focus_generic_forest_brothers
 		prerequisite = { focus = GLP_insurgent_army_reorganization }
 		x = 4
 		y = 1
@@ -78,7 +78,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_black_banner_vanguard
-		icon = GFX_goal_generic_army_artillery
+		icon = GFX_focus_generic_red_flags
 		prerequisite = { focus = GLP_underground_armories }
 		x = 2
 		y = 2
@@ -106,7 +106,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_anti_tank_cavalry
-		icon = GFX_goal_generic_army_artillery2
+		icon = GFX_focus_generic_anti_tank_guns
 		prerequisite = { focus = GLP_legendary_tachankas }
 		x = 6
 		y = 2
@@ -120,7 +120,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_armored_train_production
-		icon = GFX_goal_generic_army_artillery2
+		icon = GFX_focus_generic_railway_gun
 		prerequisite = { focus = GLP_black_banner_vanguard }
 		x = 2
 		y = 3
@@ -134,7 +134,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_rapid_rail_deployment
-		icon = GFX_goal_generic_construct_infrastructure
+		icon = GFX_focus_generic_supply_line
 		prerequisite = { focus = GLP_steppe_lightning }
 		x = 4
 		y = 3
@@ -163,7 +163,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_steel_ram_tactics
-		icon = GFX_goal_generic_army_tanks
+		icon = GFX_focus_generic_tank_assault
 		prerequisite = { focus = GLP_armored_train_production focus = GLP_rapid_rail_deployment }
 		x = 3
 		y = 4
@@ -195,7 +195,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_syndicate_industrial_planning
-		icon = GFX_focus_generic_industry_1
+		icon = GFX_focus_generic_workers
 		x = 12
 		y = 0
 		cost = 10
@@ -209,7 +209,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_empower_the_communes
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_generic_workers_and_farmers_rise
 		prerequisite = { focus = GLP_syndicate_industrial_planning }
 		x = 10
 		y = 1
@@ -227,7 +227,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_donbass_coal_and_steel_collective
-		icon = GFX_focus_generic_steel
+		icon = GFX_focus_generic_coal_mining
 		prerequisite = { focus = GLP_syndicate_industrial_planning }
 		x = 14
 		y = 1
@@ -244,7 +244,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_dnieper_hydroelectric_freedom
-		icon = GFX_goal_generic_construction
+		icon = GFX_focus_generic_hydroelectric_energy
 		prerequisite = { focus = GLP_empower_the_communes }
 		x = 10
 		y = 2
@@ -261,7 +261,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_revvoensovet_industry_coordination
-		icon = GFX_goal_generic_production
+		icon = GFX_focus_generic_military_industry
 		prerequisite = { focus = GLP_syndicate_industrial_planning }
 		x = 12
 		y = 2
@@ -279,7 +279,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_decentralized_workshop_network
-		icon = GFX_focus_generic_industry_3
+		icon = GFX_focus_generic_mass_production
 		prerequisite = { focus = GLP_donbass_coal_and_steel_collective }
 		x = 14
 		y = 2
@@ -292,7 +292,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_libertarian_railway_network
-		icon = GFX_goal_generic_construct_infrastructure
+		icon = GFX_focus_generic_railroad
 		prerequisite = { focus = GLP_dnieper_hydroelectric_freedom }
 		x = 10
 		y = 3
@@ -322,7 +322,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_black_sea_shipyards_refit
-		icon = GFX_goal_generic_construct_naval_dockyard
+		icon = GFX_focus_generic_refit_civilian_ships
 		prerequisite = { focus = GLP_decentralized_workshop_network }
 		x = 14
 		y = 3
@@ -397,7 +397,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_vigilance_against_cheka_infiltrators
-		icon = GFX_focus_generic_home_defense
+		icon = GFX_focus_generic_infiltration
 		prerequisite = { focus = GLP_kontrrazvedka_reorganization }
 		x = 22
 		y = 1
@@ -410,7 +410,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_libertarian_civil_courts
-		icon = GFX_focus_generic_diplomatic_treaty
+		icon = GFX_focus_generic_court
 		prerequisite = { focus = GLP_purging_white_remnants focus = GLP_vigilance_against_cheka_infiltrators }
 		mutually_exclusive = { focus = GLP_decree_on_black_terror }
 		x = 18
@@ -425,7 +425,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_decree_on_black_terror
-		icon = GFX_focus_generic_strike_at_democracy1
+		icon = GFX_focus_generic_conspiracy
 		prerequisite = { focus = GLP_purging_white_remnants focus = GLP_vigilance_against_cheka_infiltrators }
 		mutually_exclusive = { focus = GLP_libertarian_civil_courts }
 		x = 22
@@ -440,7 +440,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_zadov_intelligence_network
-		icon = GFX_focus_generic_cryptologic_bomb
+		icon = GFX_focus_generic_secret_service_agency
 		prerequisite = { focus = GLP_libertarian_civil_courts }
 		x = 18
 		y = 3
@@ -480,7 +480,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_unshakeable_revolutionary_order
-		icon = GFX_goal_generic_national_unity
+		icon = GFX_focus_generic_national_security
 		prerequisite = { focus = GLP_expansion_of_iron_fist focus = GLP_peoples_militia_patrols }
 		x = 21
 		y = 4
@@ -636,7 +636,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_sevastopol_naval_refit_with_royal_navy
-		icon = GFX_goal_generic_construct_naval_dockyard
+		icon = GFX_focus_generic_naval_discipline
 		prerequisite = { focus = GLP_vickers_armaments_lend_lease }
 		x = 34
 		y = 3
@@ -653,7 +653,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_eurasian_red_black_vanguard
-		icon = GFX_goal_generic_military_sphere
+		icon = GFX_focus_generic_red_flags
 		prerequisite = { focus = GLP_joint_red_black_military_academy }
 		x = 26
 		y = 4
@@ -750,7 +750,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_black_cross_aid
-		icon = GFX_goal_generic_positive_trade_relations
+		icon = GFX_focus_generic_welfare
 		prerequisite = { focus = GLP_international_brigades }
 		x = 24
 		y = 4
@@ -769,7 +769,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_makhno_myth
-		icon = GFX_goal_generic_propaganda
+		icon = GFX_focus_generic_printing_press
 		prerequisite = { focus = GLP_black_cross_aid }
 		x = 24
 		y = 5
@@ -788,7 +788,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_peasant_grain_supplies
-		icon = GFX_goal_generic_consumer_goods
+		icon = GFX_focus_generic_farmland
 		x = 40
 		y = 0
 		cost = 10
@@ -802,7 +802,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_bread_for_cities_and_front
-		icon = GFX_goal_generic_consumer_goods
+		icon = GFX_focus_generic_welfare
 		prerequisite = { focus = GLP_peasant_grain_supplies }
 		x = 38
 		y = 1
@@ -815,7 +815,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_communal_granaries
-		icon = GFX_goal_generic_production2
+		icon = GFX_focus_generic_agricultural_subsidies
 		prerequisite = { focus = GLP_peasant_grain_supplies }
 		x = 42
 		y = 1
@@ -834,7 +834,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_tractor_stations_for_communes
-		icon = GFX_goal_generic_production2
+		icon = GFX_focus_generic_mechanized
 		prerequisite = { focus = GLP_bread_for_cities_and_front }
 		x = 38
 		y = 2
@@ -852,7 +852,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_land_to_the_tillers_decree
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_generic_land_reclamation
 		prerequisite = { focus = GLP_communal_granaries }
 		x = 42
 		y = 2
@@ -866,7 +866,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_free_libertarian_schools
-		icon = GFX_goal_generic_consumer_goods
+		icon = GFX_focus_generic_university_3
 		prerequisite = { focus = GLP_tractor_stations_for_communes }
 		x = 38
 		y = 3
@@ -880,7 +880,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_rural_healthcare_network
-		icon = GFX_focus_generic_home_defense
+		icon = GFX_focus_generic_field_hostpital
 		prerequisite = { focus = GLP_land_to_the_tillers_decree }
 		x = 42
 		y = 3
@@ -893,7 +893,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_steppes_breadbasket
-		icon = GFX_goal_generic_trade
+		icon = GFX_focus_generic_farmland
 		prerequisite = { focus = GLP_free_libertarian_schools }
 		x = 39
 		y = 4
@@ -920,7 +920,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_flourishing_free_countryside
-		icon = GFX_goal_generic_construct_civ_factory
+		icon = GFX_focus_generic_public_works
 		prerequisite = { focus = GLP_steppes_breadbasket focus = GLP_peasant_intellectual_harmony }
 		x = 40
 		y = 5
@@ -937,7 +937,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_fourth_congress_of_peasants
-		icon = GFX_goal_generic_political_pressure
+		icon = GFX_focus_generic_workers_and_farmers_rise
 		x = 49
 		y = 0
 		cost = 10
@@ -967,7 +967,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_black_military_dictatorship
-		icon = GFX_focus_generic_soviet_politics
+		icon = GFX_focus_generic_military_dictatorship
 		prerequisite = { focus = GLP_fourth_congress_of_peasants }
 		mutually_exclusive = { focus = GLP_federation_of_free_soviets }
 		x = 51
@@ -1001,7 +1001,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_total_militarization_of_communes
-		icon = GFX_goal_generic_position_armies
+		icon = GFX_focus_generic_full_social_mobilization
 		prerequisite = { focus = GLP_black_military_dictatorship }
 		x = 51
 		y = 2
@@ -1019,7 +1019,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_aid_to_spanish_anarchists
-		icon = GFX_focus_generic_anti_fascist_diplomacy
+		icon = GFX_focus_generic_invite_republican_spanish_exiles
 		prerequisite = { focus = GLP_black_international }
 		x = 46
 		y = 3
@@ -1034,7 +1034,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_black_crescent_of_the_steppes
-		icon = GFX_goal_generic_improve_relations
+		icon = GFX_focus_generic_welfare
 		prerequisite = { focus = GLP_black_international }
 		x = 48
 		y = 3
@@ -1145,7 +1145,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_naval_infantry_marines
-		icon = GFX_goal_generic_amphibious_assault
+		icon = GFX_focus_generic_naval_invasion
 		prerequisite = { focus = GLP_revolutionary_destroyers }
 		x = 2
 		y = 8
@@ -1179,7 +1179,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_black_sea_dominance
-		icon = GFX_goal_generic_navy_doctrines_tactics
+		icon = GFX_focus_generic_black_sea_focus
 		prerequisite = { focus = GLP_naval_infantry_marines }
 		prerequisite = { focus = GLP_coastal_defense_batteries }
 		x = 3
@@ -1195,7 +1195,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_merchant_raider_fleet
-		icon = GFX_goal_generic_trade
+		icon = GFX_focus_generic_merchant_fleet
 		prerequisite = { focus = GLP_black_sea_dominance }
 		x = 2
 		y = 10
@@ -1409,7 +1409,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_radio_technology
-		icon = GFX_goal_generic_radar
+		icon = GFX_focus_generic_radio_communication
 		prerequisite = { focus = GLP_captured_equipment_study }
 		x = 18
 		y = 7
@@ -1470,7 +1470,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_rocket_science
-		icon = GFX_goal_generic_secret_weapon
+		icon = GFX_focus_rocketry
 		prerequisite = { focus = GLP_armor_research }
 		prerequisite = { focus = GLP_advanced_metallurgy }
 		x = 20
@@ -1501,7 +1501,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_jet_engines
-		icon = GFX_goal_generic_secret_weapon
+		icon = GFX_focus_generic_jet_planes
 		prerequisite = { focus = GLP_rocket_science }
 		x = 22
 		y = 10
@@ -1535,7 +1535,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_free_universities
-		icon = GFX_goal_generic_scientific_exchange
+		icon = GFX_focus_generic_university_1
 		prerequisite = { focus = GLP_triumph_of_free_humanity focus = GLP_unshakeable_revolutionary_order }
 		x = 28
 		y = 6
@@ -1550,7 +1550,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_worker_faculties
-		icon = GFX_focus_generic_socialist_science
+		icon = GFX_focus_generic_university_2
 		prerequisite = { focus = GLP_free_universities }
 		x = 26
 		y = 7
@@ -1579,7 +1579,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_cinema_propaganda
-		icon = GFX_goal_generic_propaganda
+		icon = GFX_focus_generic_printing_press
 		prerequisite = { focus = GLP_revolutionary_theater }
 		x = 30
 		y = 8
@@ -1593,7 +1593,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_literacy_campaign
-		icon = GFX_focus_generic_socialist_science
+		icon = GFX_focus_generic_printing_press
 		prerequisite = { focus = GLP_worker_faculties }
 		x = 26
 		y = 8
@@ -1639,7 +1639,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_cultural_enlightenment
-		icon = GFX_goal_generic_consumer_goods
+		icon = GFX_focus_generic_welfare
 		prerequisite = { focus = GLP_sports_militarization }
 		x = 30
 		y = 10
@@ -1674,7 +1674,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_underground_railway
-		icon = GFX_goal_generic_construct_infrastructure
+		icon = GFX_focus_generic_railroad
 		prerequisite = { focus = GLP_peoples_militia_patrols focus = GLP_unshakeable_revolutionary_order }
 		x = 36
 		y = 6
@@ -1688,7 +1688,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_safe_houses_network
-		icon = GFX_focus_generic_home_defense
+		icon = GFX_focus_generic_conspiracy
 		prerequisite = { focus = GLP_underground_railway }
 		x = 34
 		y = 7
@@ -1703,7 +1703,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_coded_communications
-		icon = GFX_goal_generic_radar
+		icon = GFX_focus_generic_radio_communication
 		prerequisite = { focus = GLP_underground_railway }
 		x = 38
 		y = 7
@@ -1732,7 +1732,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_partisan_cells
-		icon = GFX_goal_generic_special_forces
+		icon = GFX_focus_generic_forest_brothers
 		prerequisite = { focus = GLP_coded_communications }
 		x = 38
 		y = 8
@@ -1763,7 +1763,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_double_agents
-		icon = GFX_goal_generic_intelligence_exchange
+		icon = GFX_focus_generic_whispers
 		prerequisite = { focus = GLP_weapon_caches }
 		x = 34
 		y = 10
@@ -1813,7 +1813,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_self_sufficient_economy
-		icon = GFX_goal_generic_consumer_goods
+		icon = GFX_focus_generic_resource_extraction
 		prerequisite = { focus = GLP_flourishing_free_countryside focus = GLP_autonomous_industrial_bastion }
 		x = 44
 		y = 6
@@ -1827,7 +1827,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_local_mining_operations
-		icon = GFX_focus_generic_tungsten
+		icon = GFX_focus_generic_mining_industry
 		prerequisite = { focus = GLP_self_sufficient_economy }
 		x = 42
 		y = 7
@@ -1844,7 +1844,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_textile_syndicates
-		icon = GFX_goal_generic_consumer_goods
+		icon = GFX_focus_generic_mass_production
 		prerequisite = { focus = GLP_self_sufficient_economy }
 		x = 46
 		y = 7
@@ -1858,7 +1858,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_food_processing
-		icon = GFX_goal_generic_trade
+		icon = GFX_focus_generic_farmland
 		prerequisite = { focus = GLP_local_mining_operations }
 		x = 42
 		y = 8
@@ -1909,7 +1909,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_fuel_synthesis
-		icon = GFX_goal_generic_oil_refinery
+		icon = GFX_focus_generic_stockpile_fuel
 		prerequisite = { focus = GLP_steel_production }
 		x = 42
 		y = 10
@@ -1941,7 +1941,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_autarkic_paradise
-		icon = GFX_goal_generic_production2
+		icon = GFX_focus_generic_modernize_industry
 		prerequisite = { focus = GLP_fuel_synthesis }
 		prerequisite = { focus = GLP_economic_independence }
 		x = 44
@@ -2002,7 +2002,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_agent_networks
-		icon = GFX_goal_generic_intelligence_exchange
+		icon = GFX_focus_generic_secret_service_agency
 		prerequisite = { focus = GLP_cryptanalysis_unit }
 		x = 50
 		y = 8
@@ -2048,7 +2048,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_commando_raids
-		icon = GFX_goal_generic_army_artillery
+		icon = GFX_focus_generic_self_propelled_gun
 		prerequisite = { focus = GLP_special_operations }
 		x = 50
 		y = 10
@@ -2098,7 +2098,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_field_hospitals
-		icon = GFX_focus_generic_home_defense
+		icon = GFX_focus_generic_field_hostpital
 		prerequisite = { focus = GLP_glory_of_the_sea focus = GLP_mastery_of_the_skies }
 		x = 3
 		y = 12
@@ -2126,7 +2126,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_sanitary_battalions
-		icon = GFX_goal_generic_defence
+		icon = GFX_focus_generic_field_hostpital
 		prerequisite = { focus = GLP_field_hospitals }
 		x = 4
 		y = 13
@@ -2140,7 +2140,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_hospital_trains
-		icon = GFX_goal_generic_army_motorized
+		icon = GFX_focus_generic_supply_line
 		prerequisite = { focus = GLP_medical_training }
 		prerequisite = { focus = GLP_sanitary_battalions }
 		x = 3
@@ -2155,7 +2155,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_population_growth
-		icon = GFX_goal_generic_consumer_goods
+		icon = GFX_focus_generic_population_growth
 		prerequisite = { focus = GLP_hospital_trains }
 		x = 3
 		y = 15
@@ -2173,7 +2173,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_railway_expansion
-		icon = GFX_goal_generic_construct_infrastructure
+		icon = GFX_focus_generic_railroad
 		prerequisite = { focus = GLP_technological_supremacy }
 		x = 12
 		y = 12
@@ -2192,7 +2192,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_motor_transport
-		icon = GFX_goal_generic_army_motorized
+		icon = GFX_focus_generic_truck
 		prerequisite = { focus = GLP_railway_expansion }
 		x = 10
 		y = 13
@@ -2206,7 +2206,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_supply_depot_system
-		icon = GFX_goal_generic_construction
+		icon = GFX_focus_generic_reinforcing_the_supply_network
 		prerequisite = { focus = GLP_railway_expansion }
 		x = 14
 		y = 13
@@ -2222,7 +2222,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_logistics_mastery
-		icon = GFX_goal_generic_army_motorized
+		icon = GFX_focus_generic_supply_line
 		prerequisite = { focus = GLP_motor_transport }
 		prerequisite = { focus = GLP_supply_depot_system }
 		x = 12
@@ -2257,7 +2257,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_anti_tank_defenses
-		icon = GFX_goal_generic_army_artillery2
+		icon = GFX_focus_generic_anti_tank_guns
 		prerequisite = { focus = GLP_border_fortifications }
 		x = 18
 		y = 13
@@ -2287,7 +2287,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_defense_in_depth
-		icon = GFX_goal_generic_defence
+		icon = GFX_focus_generic_defensive_reorganization
 		prerequisite = { focus = GLP_anti_tank_defenses }
 		prerequisite = { focus = GLP_bunker_network }
 		x = 20
@@ -2305,7 +2305,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_crimean_development
-		icon = GFX_goal_generic_construction
+		icon = GFX_focus_generic_public_works
 		prerequisite = { focus = GLP_new_soviet_culture }
 		x = 28
 		y = 12
@@ -2323,7 +2323,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_crimean_oil_fields
-		icon = GFX_goal_generic_oil_refinery
+		icon = GFX_focus_generic_offshore_oil_rig
 		prerequisite = { focus = GLP_crimean_development }
 		x = 26
 		y = 13
@@ -2356,7 +2356,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_strategic_reserves
-		icon = GFX_goal_generic_production
+		icon = GFX_focus_generic_mass_production
 		prerequisite = { focus = GLP_crimean_oil_fields }
 		prerequisite = { focus = GLP_shipbuilding_yards }
 		x = 28
@@ -2374,7 +2374,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_factory_committees
-		icon = GFX_goal_generic_construct_civ_factory
+		icon = GFX_focus_generic_workers
 		prerequisite = { focus = GLP_underground_state }
 		x = 36
 		y = 12
@@ -2403,7 +2403,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_productivity_bonuses
-		icon = GFX_goal_generic_production
+		icon = GFX_focus_generic_mass_production
 		prerequisite = { focus = GLP_factory_committees }
 		x = 38
 		y = 13
@@ -2436,7 +2436,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_womens_emancipation
-		icon = GFX_goal_generic_national_unity
+		icon = GFX_focus_generic_universal_suffrage
 		prerequisite = { focus = GLP_autarkic_paradise }
 		x = 44
 		y = 12
@@ -2451,7 +2451,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_female_combat_units
-		icon = GFX_goal_generic_small_arms
+		icon = GFX_focus_generic_women_in_military
 		prerequisite = { focus = GLP_womens_emancipation }
 		x = 42
 		y = 13
@@ -2466,7 +2466,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_womens_leadership
-		icon = GFX_focus_generic_soviet_politics
+		icon = GFX_focus_generic_universal_suffrage
 		prerequisite = { focus = GLP_womens_emancipation }
 		x = 46
 		y = 13
@@ -2481,7 +2481,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_gender_equality
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_generic_universal_suffrage
 		prerequisite = { focus = GLP_female_combat_units }
 		prerequisite = { focus = GLP_womens_leadership }
 		x = 44
@@ -2515,7 +2515,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_horse_breeding
-		icon = GFX_goal_generic_cavalry
+		icon = GFX_focus_generic_horse_studs
 		prerequisite = { focus = GLP_cossack_heritage }
 		x = 50
 		y = 13
@@ -2565,7 +2565,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_deep_battle_doctrine
-		icon = GFX_goal_generic_position_armies
+		icon = GFX_focus_generic_army_doctrines_2
 		prerequisite = { focus = GLP_population_growth }
 		x = 3
 		y = 16
@@ -2580,7 +2580,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_mass_assault_tactics
-		icon = GFX_goal_generic_army_artillery
+		icon = GFX_focus_generic_total_war
 		prerequisite = { focus = GLP_deep_battle_doctrine }
 		x = 2
 		y = 17
@@ -2629,7 +2629,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_heavy_industry_push
-		icon = GFX_focus_generic_industry_1
+		icon = GFX_focus_generic_military_industry
 		prerequisite = { focus = GLP_logistics_mastery }
 		x = 12
 		y = 16
@@ -2664,7 +2664,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_military_production_surge
-		icon = GFX_goal_generic_construct_mil_factory
+		icon = GFX_focus_generic_mass_production
 		prerequisite = { focus = GLP_heavy_industry_push }
 		x = 14
 		y = 17
@@ -2699,7 +2699,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_balkan_anarchist_federation
-		icon = GFX_focus_generic_little_entente
+		icon = GFX_focus_generic_balkan_diplomacy
 		prerequisite = { focus = GLP_defense_in_depth }
 		x = 20
 		y = 16
@@ -2763,7 +2763,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_mechanized_agriculture
-		icon = GFX_goal_generic_production2
+		icon = GFX_focus_generic_mechanized
 		prerequisite = { focus = GLP_strategic_reserves }
 		x = 28
 		y = 16
@@ -2778,7 +2778,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_collective_farming
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_generic_agricultural_subsidies
 		prerequisite = { focus = GLP_mechanized_agriculture }
 		x = 26
 		y = 17
@@ -2808,7 +2808,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_breadbasket_of_europe
-		icon = GFX_goal_generic_trade
+		icon = GFX_focus_generic_farmland
 		prerequisite = { focus = GLP_collective_farming }
 		prerequisite = { focus = GLP_agricultural_research }
 		x = 28
@@ -2828,7 +2828,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_counter_espionage_network
-		icon = GFX_goal_generic_intelligence_exchange
+		icon = GFX_focus_generic_secret_service_agency
 		prerequisite = { focus = GLP_syndicalist_paradise }
 		x = 36
 		y = 16
@@ -2843,7 +2843,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_border_security
-		icon = GFX_focus_generic_home_defense
+		icon = GFX_focus_generic_national_security
 		prerequisite = { focus = GLP_counter_espionage_network }
 		x = 34
 		y = 17
@@ -2892,7 +2892,7 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_full_employment
-		icon = GFX_goal_generic_construct_civ_factory
+		icon = GFX_focus_generic_full_employment
 		prerequisite = { focus = GLP_gender_equality }
 		x = 44
 		y = 16
@@ -2907,7 +2907,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_technological_education
-		icon = GFX_focus_generic_socialist_science
+		icon = GFX_focus_generic_university_1
 		prerequisite = { focus = GLP_full_employment }
 		x = 42
 		y = 17
@@ -2922,7 +2922,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_infrastructure_modernization
-		icon = GFX_goal_generic_construct_infrastructure
+		icon = GFX_focus_generic_improve_roads
 		prerequisite = { focus = GLP_full_employment }
 		x = 46
 		y = 17
@@ -2941,7 +2941,7 @@ focus_tree = {
 
 	focus = {
 		id = GLP_economic_miracle
-		icon = GFX_focus_generic_industry_3
+		icon = GFX_focus_generic_economic_recovery
 		prerequisite = { focus = GLP_technological_education }
 		prerequisite = { focus = GLP_infrastructure_modernization }
 		x = 44

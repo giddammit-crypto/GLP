@@ -55,9 +55,133 @@ on_actions = {
 				if = { limit = { has_character = GLP_generic_military_theorist }			retire_character = GLP_generic_military_theorist }
 				if = { limit = { has_character = GLP_generic_naval_theorist }			retire_character = GLP_generic_naval_theorist }
 				if = { limit = { has_character = GLP_generic_air_warfare_theorist }		retire_character = GLP_generic_air_warfare_theorist }
+				# ----------------------------------------------------------
+				#  «Трофейный отряд РПА» — шаблон с РЕМОНТНОЙ РОТОЙ, из
+				#  которого позже формируются новые дивизии из трофеев.
+				#  Создаётся один раз (гард has_template при каждой
+				#  загрузке сохранения не дублирует шаблон).
+				# ----------------------------------------------------------
+				if = {
+					limit = { NOT = { has_template = "Трофейный отряд РПА" } }
+					division_template = {
+						name = "Трофейный отряд РПА"
+						division_names_group = GLP_CAV_HISTORICAL
+						is_locked = yes
+						priority = 0
+						regiments = {
+							infantry = { x = 0 y = 0 }
+							infantry = { x = 0 y = 1 }
+							cavalry = { x = 0 y = 2 }
+							cavalry = { x = 1 y = 0 }
+						}
+						support = {
+							maintenance_company = { x = 0 y = 0 }
+						}
+					}
+				}
 				# вступительная газета новой партіи — сразу послѣ загрузки
 				news_event = { id = glp_news.100 hours = 2 }
 				country_event = { id = glp_news.1 days = 2 }
+			}
+		}
+	}
+
+	# ==============================================================
+	#  ТРОФЕЙНЫЕ КОМАНДЫ РПА.
+	#  При каждой победе войск Махно (любого командира GLP) в бою:
+	#    * 65%  — трофейное стрелковое вооружение и снаряжение;
+	#    * 45%  — трофейная мототехника;
+	#    * 15%  — трофейные танки и артиллерия;
+	#    * при наличии людских резервов и достатка вооружения в
+	#      запасах — формируется новая дивизия «Трофейный отряд РПА»
+	#      на текущей территории Гуляйполя (культурамм 30 дней).
+	#  Условие «у захватившей дивизии есть ремонтная рота» в рамках
+	#  документированных триггеров реализовано как: изучена технология
+	#  ремонтной роты (tech_maintenance_company) И в армии страны есть
+	#  шаблон с maintenance_company (has_template_containing_unit --
+	#  точный пословный синтаксис из ванильного armor.txt). Попроверить
+	#  состав КОНКРЕТНОЙ дивизии-победительницы движок не позволяет:
+	#  триггеров на под-юниты дивизии не существует (см. triggers.info).
+	#  Сам шаблон трофейного отряда ремонтную роту содержит.
+	# ==============================================================
+	on_army_leader_won_combat = {
+		effect = {
+			if = {
+				limit = {
+					FROM = {
+						tag = GLP
+						has_war = yes
+						has_tech = tech_maintenance_company
+						has_template_containing_unit = maintenance_company
+					}
+				}
+				FROM = {
+					# --- 65%: стрелковое вооружение и снаряжение ---
+					if = {
+						limit = { check_variable = { random < 0.65 } }
+						add_equipment_to_stockpile = {
+							type = infantry_weapons
+							amount = 120
+							producer = GLP
+						}
+						add_equipment_to_stockpile = {
+							type = support_equipment
+							amount = 25
+							producer = GLP
+						}
+					}
+					# --- 45%: мототехника ---
+					if = {
+						limit = { check_variable = { random < 0.45 } }
+						add_equipment_to_stockpile = {
+							type = motorized_equipment
+							amount = 20
+							producer = GLP
+						}
+					}
+					# --- 15%: танки и артиллерия ---
+					if = {
+						limit = { check_variable = { random < 0.15 } }
+						add_equipment_to_stockpile = {
+							type = artillery_equipment
+							amount = 10
+							producer = GLP
+						}
+						if = {
+							limit = { has_dlc = "No Step Back" }
+							add_equipment_to_stockpile = {
+								type = light_tank_chassis
+								amount = 2
+								producer = GLP
+							}
+						}
+						else = {
+							add_equipment_to_stockpile = {
+								type = light_tank_equipment_1
+								amount = 2
+								producer = GLP
+							}
+						}
+					}
+					# --- формирование новой дивизии из трофеев ---
+					if = {
+						limit = {
+							has_manpower > 8000
+							has_equipment = { type = infantry_weapons amount > 400 }
+							has_equipment = { type = support_equipment amount > 60 }
+							NOT = { has_country_flag = glp_trophy_division_cooldown }
+						}
+						random_owned_state = {
+							limit = { is_controlled_by = GLP }
+							create_unit = {
+								division = "division_template = \"Трофейный отряд РПА\" start_manpower_factor = 1.0 start_experience_factor = 0.3"
+								owner = GLP
+							}
+						}
+						set_country_flag = { flag = glp_trophy_division_cooldown days = 30 }
+						country_event = { id = glp_trophy.1 hours = 6 }
+					}
+				}
 			}
 		}
 	}
