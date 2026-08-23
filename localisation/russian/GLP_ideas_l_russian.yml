@@ -204,3 +204,8 @@
  GLP_idea_revvoensovet_coordination_desc:0 "Единое руководство военными мастерскими под эгидой РевВоенСовета."
  GLP_idea_steppes_breadbasket:0 "Житница свободной степи"
  GLP_idea_steppes_breadbasket_desc:0 "Превращение южных просторов в изобильный оазис свободного крестьянского труда."
+ # Идеи РевВоенСовета (добавлено аудитом)
+ GLP_idea_revvoensovet_partisan_command:0 "Партизанское управление РевВоенСовета"
+ GLP_idea_revvoensovet_partisan_command_desc:0 "Штаб координирует разрозненные отряды по телеграфу и конной эстафете: планы рождаются быстро, но глубина проработки страдает."
+ GLP_idea_revvoensovet_total_preparedness:0 "Всеобщая боеготовность"
+ GLP_idea_revvoensovet_total_preparedness_desc:0 "Каждое село держит наготове тачанку, коня и винтовку — армия разворачивается за считанные дни ценой покоя в тылу."

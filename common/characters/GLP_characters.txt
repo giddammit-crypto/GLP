@@ -1,4 +1,17 @@
+### =========================================================================
+###  Гуляйпольская Республика — персонажи (HOI4 1.19.2 character system)
+###
+###  Профили черт соответствуют разделу 1 технического задания.
+###  Никаких жёстко заданных `id = <число>`: движок 1.19.2 раздаёт
+###  идентификаторы сам, а ручные ID — классическая причина конфликта
+###  советников и вылета при загрузке сценария 1936/1939.
+###  Каждый idea_token уникален (проверяется tools/glp_audit.py).
+### =========================================================================
 characters = {
+
+	# ------------------------------------------------------------------
+	#  Нестор Иванович Махно — «Батько», глава государства и главком
+	# ------------------------------------------------------------------
 	GLP_nestor_makhno = {
 		name = GLP_nestor_makhno
 		portraits = {
@@ -7,17 +20,17 @@ characters = {
 				small = "GFX_portrait_GLP_nestor_makhno_small"
 			}
 			army = {
-				large = "GFX_portrait_GLP_nestor_makhno"
+				large = "GFX_portrait_GLP_nestor_makhno_army"
 				small = "GFX_portrait_GLP_nestor_makhno_small"
 			}
 		}
 		country_leader = {
 			ideology = anarchism
-			traits = { batko_makhno guerilla_fighter }
+			traits = { batko_makhno GLP_inspirational_leader GLP_panic }
 			expire = "1965.1.1"
 		}
 		field_marshal = {
-			traits = { brilliant_strategist offensive_doctrine trickster cavalry_officer guerilla_fighter }
+			traits = { guerilla_fighter trickster cavalry_officer offensive_doctrine GLP_tachanka_commander }
 			skill = 4
 			attack_skill = 5
 			defense_skill = 3
@@ -26,10 +39,14 @@ characters = {
 		}
 	}
 
+	# ------------------------------------------------------------------
+	#  Виктор Фёдорович Белаш — начальник штаба РПАУ
+	# ------------------------------------------------------------------
 	GLP_viktor_belash = {
 		name = GLP_viktor_belash
 		portraits = {
 			civilian = {
+				large = "GFX_portrait_GLP_viktor_belash"
 				small = "GFX_portrait_GLP_viktor_belash_small"
 			}
 			army = {
@@ -38,7 +55,7 @@ characters = {
 			}
 		}
 		corps_commander = {
-			traits = { organizer trickster cavalry_expert }
+			traits = { organizer trickster cavalry_expert GLP_guerilla_master }
 			skill = 4
 			attack_skill = 4
 			defense_skill = 3
@@ -51,20 +68,27 @@ characters = {
 			ledger = army
 			cost = 100
 			removal_cost = 10
-			traits = { army_chief_organizational_2 }
+			traits = { GLP_operational_planner }
 		}
 	}
 
+	# ------------------------------------------------------------------
+	#  Семён Никитович Каретник — командующий корпусом
+	# ------------------------------------------------------------------
 	GLP_semen_karetnik = {
 		name = GLP_semen_karetnik
 		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_semen_karetnik"
+				small = "GFX_portrait_GLP_semen_karetnik_small"
+			}
 			army = {
 				large = "GFX_portrait_GLP_semen_karetnik"
 				small = "GFX_portrait_GLP_semen_karetnik_small"
 			}
 		}
 		corps_commander = {
-			traits = { cavalry_officer aggressive_assaulter commando }
+			traits = { cavalry_expert aggressive_assaulter commando }
 			skill = 3
 			attack_skill = 4
 			defense_skill = 2
@@ -81,16 +105,23 @@ characters = {
 		}
 	}
 
+	# ------------------------------------------------------------------
+	#  Феодосий Юстинович Щусь — командующий кавалерией
+	# ------------------------------------------------------------------
 	GLP_feodosiy_shchus = {
 		name = GLP_feodosiy_shchus
 		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_feodosiy_shchus"
+				small = "GFX_portrait_GLP_feodosiy_shchus_small"
+			}
 			army = {
 				large = "GFX_portrait_GLP_feodosiy_shchus"
 				small = "GFX_portrait_GLP_feodosiy_shchus_small"
 			}
 		}
 		corps_commander = {
-			traits = { cavalry_officer fast_planner trait_reckless }
+			traits = { cavalry_leader fast_planner trait_reckless GLP_steppe_raider }
 			skill = 3
 			attack_skill = 4
 			defense_skill = 3
@@ -107,6 +138,9 @@ characters = {
 		}
 	}
 
+	# ------------------------------------------------------------------
+	#  Лев (Александр) Николаевич Задов-Зиньковский — начальник РЗР
+	# ------------------------------------------------------------------
 	GLP_lev_zadov = {
 		name = GLP_lev_zadov
 		portraits = {
@@ -120,7 +154,7 @@ characters = {
 			}
 		}
 		corps_commander = {
-			traits = { trickster commando }
+			traits = { trickster commando GLP_guerilla_master }
 			skill = 2
 			attack_skill = 3
 			defense_skill = 2
@@ -132,10 +166,13 @@ characters = {
 			idea_token = GLP_lev_zadov_advisor
 			cost = 100
 			removal_cost = 10
-			traits = { silent_workhorse counter_intelligence_expert }
+			traits = { silent_workhorse counter_intelligence_expert GLP_head_of_intelligence }
 		}
 	}
 
+	# ------------------------------------------------------------------
+	#  Галина Андреевна Кузьменко — комиссар просвещения
+	# ------------------------------------------------------------------
 	GLP_halyna_kuzmenko = {
 		name = GLP_halyna_kuzmenko
 		portraits = {
@@ -153,6 +190,9 @@ characters = {
 		}
 	}
 
+	# ------------------------------------------------------------------
+	#  Всеволод Михайлович Волин (Эйхенбаум) — министр пропаганды
+	# ------------------------------------------------------------------
 	GLP_vsevolod_volin = {
 		name = GLP_vsevolod_volin
 		portraits = {
@@ -170,6 +210,9 @@ characters = {
 		}
 	}
 
+	# ------------------------------------------------------------------
+	#  Атаман Никифор Григорьев — союзник поневоле
+	# ------------------------------------------------------------------
 	GLP_ataman_grigoriev = {
 		name = GLP_ataman_grigoriev
 		portraits = {
