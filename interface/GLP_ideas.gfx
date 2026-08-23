@@ -1,0 +1,22 @@
+spriteTypes = {
+	spriteType = {
+		name = "GFX_idea_GLP_black_guard_legacy"
+		texturefile = "gfx/interface/ideas/idea_GLP_black_guard_legacy.dds"
+	}
+	spriteType = {
+		name = "GFX_idea_GLP_free_syndicates_and_soviets"
+		texturefile = "gfx/interface/ideas/idea_GLP_free_syndicates_and_soviets.dds"
+	}
+	spriteType = {
+		name = "GFX_idea_GLP_hostile_encirclement"
+		texturefile = "gfx/interface/ideas/idea_GLP_hostile_encirclement.dds"
+	}
+	spriteType = {
+		name = "GFX_idea_GLP_insurgent_army"
+		texturefile = "gfx/interface/ideas/idea_GLP_insurgent_army.dds"
+	}
+	spriteType = {
+		name = "GFX_idea_GLP_kontrrazvedka_surveillance"
+		texturefile = "gfx/interface/ideas/idea_GLP_kontrrazvedka_surveillance.dds"
+	}
+}

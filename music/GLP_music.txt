@@ -1,0 +1,12 @@
+music_station = "base_music"
+
+music = {
+	song = "mongol_shuudan_yablochko"
+	chance = {
+		factor = 1.5
+		modifier = {
+			factor = 3.0
+			tag = GLP
+		}
+	}
+}

@@ -1,0 +1,9 @@
+on_actions = {
+	on_startup = {
+		effect = {
+			GLP = {
+				country_event = { id = glp_news.1 days = 2 }
+			}
+		}
+	}
+}

@@ -1,0 +1,14 @@
+opinion_modifiers = {
+	GLP_soviet_military_pact = {
+		value = 80
+	}
+	GLP_german_military_pact = {
+		value = 80
+	}
+	GLP_british_military_pact = {
+		value = 80
+	}
+	GLP_kharkov_pact_signed = {
+		value = 50
+	}
+}

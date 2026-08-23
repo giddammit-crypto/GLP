@@ -1,0 +1,15 @@
+spriteTypes = {
+	corneredTileSpriteType = {
+		name = "GFX_frontend_bg"
+		texturefile = "gfx/interface/frontendmainviewbg.dds"
+		borderSize = { x=0 y=0 }
+		size = { x=1920 y=1080 }
+		tilingCenter = no
+		effectFile = "gfx/FX/buttonstate_nodowneffect.lua"
+	}
+
+	spriteType = {
+		name = "GFX_frontend_game_logo"
+		texturefile = "gfx/interface/logo/game_logo.dds"
+	}
+}

@@ -1,0 +1,5 @@
+music = {
+	name = "mongol_shuudan_yablochko"
+	file = "mongol_shuudan_yablochko.ogg"
+	volume = 0.70
+}

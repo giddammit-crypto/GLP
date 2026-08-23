@@ -1,0 +1,32 @@
+state = {
+	id = 200
+	name = "STATE_200"
+	manpower = 1294082
+	state_category = town
+
+	history = {
+		owner = GLP
+		add_core_of = GLP
+		add_core_of = SOV
+		add_core_of = UKR
+
+		victory_points = {
+			11405 15 # Zaporozhe
+		}
+
+		buildings = {
+			infrastructure = 3
+			industrial_complex = 2
+			air_base = 3
+
+			# Dnieprostroi Hydroelectric Station
+			11405 = { dam = 1 }
+		}
+	}
+
+	provinces = {
+		429 588 3399 3767 6596 9571 9729 11405 11700 
+	}
+
+	local_supplies = 10.0 
+}

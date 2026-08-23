@@ -1,0 +1,47 @@
+leader_traits = {
+	batko_makhno = {
+		random = no
+		sprite = 1
+		weekly_manpower = 250
+		war_support_factor = 0.15
+		conscription_factor = 0.10
+		dig_in_speed_factor = 0.20
+		army_org_factor = 0.05
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	tachanka_commander = {
+		random = no
+		sprite = 2
+		cavalry_attack_factor = 0.15
+		cavalry_defence_factor = 0.10
+		breakthrough_factor = 0.10
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	anarchist_organizer = {
+		random = no
+		sprite = 3
+		stability_factor = 0.10
+		production_factory_max_efficiency_factor = 0.05
+		consumer_goods_factor = -0.03
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	guerilla_master = {
+		random = no
+		sprite = 4
+		recon_factor = 0.15
+		army_org_factor = 0.10
+		out_of_supply_factor = -0.25
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

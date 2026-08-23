@@ -1,0 +1,530 @@
+ideas = {
+	country = {
+		GLP_black_guard_legacy = {
+			allowed = { always = yes }
+			allowed_civil_war = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_black_guard_legacy
+			modifier = {
+				cavalry_attack_factor = 3.00
+				cavalry_defence_factor = 3.00
+				cavalry_speed_factor = 0.25
+				army_infantry_attack_factor = 1.00
+				army_infantry_defence_factor = 1.00
+				army_armor_attack_factor = 0.15
+				army_armor_defence_factor = 0.15
+				army_armor_speed_factor = 0.15
+				army_speed_factor = 0.15
+				army_org_factor = 0.10
+				out_of_supply_factor = -0.35
+				conscription_factor = 0.15
+			}
+		}
+
+		GLP_free_syndicates_and_soviets = {
+			allowed = { always = yes }
+			allowed_civil_war = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_free_syndicates_and_soviets
+			modifier = {
+				stability_factor = 0.15
+				industrial_capacity_factory = 0.10
+				consumer_goods_factor = -0.08
+				research_speed_factor = 0.10
+				production_factory_efficiency_gain_factor = 0.15
+			}
+		}
+
+		GLP_hostile_encirclement = {
+			allowed = { always = yes }
+			allowed_civil_war = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_hostile_encirclement
+			modifier = {
+				resistance_damage_to_garrison = -0.30
+				army_core_defence_factor = 0.20
+				army_core_attack_factor = 0.15
+				drift_defence_factor = 0.50
+				enemy_partisan_effect = -0.50
+			}
+		}
+
+		# New Focus Ideas
+		GLP_idea_dnieper_hydroelectric = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_SOV_soviet_railways
+			modifier = {
+				industrial_capacity_factory = 0.15
+				production_speed_industrial_complex_factor = 0.15
+				production_speed_arms_factory_factor = 0.15
+			}
+		}
+
+		GLP_idea_decentralized_workshops = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_production_bonus
+			modifier = {
+				industry_repair_factor = 0.35
+				production_factory_efficiency_gain_factor = 0.10
+			}
+		}
+
+		GLP_idea_autonomous_industrial_bastion = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_CAN_canadian_pacific_railway
+			modifier = {
+				consumer_goods_factor = -0.05
+				industrial_capacity_factory = 0.10
+				production_factory_max_efficiency_factor = 0.10
+			}
+		}
+
+		GLP_idea_kontrrazvedka_surveillance = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_SWE_committee_against_the_finnish_white_terror
+			modifier = {
+				resistance_damage_to_garrison = -0.25
+				subversive_activites_upkeep = -0.30
+				foreign_subversive_activites = -0.30
+			}
+		}
+
+		GLP_idea_anti_cheka_vigilance = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_spy_intel
+			modifier = {
+				drift_defence_factor = 0.35
+				enemy_partisan_effect = -0.30
+			}
+		}
+
+		GLP_idea_libertarian_courts = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_SPR_anarchist_society
+			modifier = {
+				stability_factor = 0.12
+				political_power_gain = 0.15
+			}
+		}
+
+		GLP_idea_zadov_network = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_spy_coup
+			modifier = {
+				intel_network_gain_factor = 0.25
+				decryption_factor = 0.15
+			}
+		}
+
+		GLP_idea_militia_patrols = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_infantry_bonus
+			modifier = {
+				compliance_growth = 0.15
+				resistance_target = -0.15
+			}
+		}
+
+		GLP_idea_land_to_tillers = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_gre_agricultural_communes
+			modifier = {
+				stability_factor = 0.10
+				monthly_population = 0.15
+				consumer_goods_factor = -0.04
+			}
+		}
+
+		GLP_idea_rural_healthcare = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_gre_agricultural_communes2
+			modifier = {
+				monthly_population = 0.20
+				attrition = -0.10
+			}
+		}
+
+		GLP_idea_black_crescent = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_CHL_popular_freedom_alliance_in_power
+			modifier = {
+				army_core_attack_factor = 0.15
+				army_core_defence_factor = 0.15
+				war_support_factor = 0.15
+			}
+		}
+
+		GLP_idea_continental_crusade = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_ARG_rapid_militarization
+			modifier = {
+				justify_war_goal_time = -0.40
+				generate_wargoal_tension = -0.50
+				conscription_factor = 0.15
+			}
+		}
+
+		GLP_idea_triumph_of_liberty = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_SPR_anarchist_society
+			modifier = {
+				stability_factor = 0.20
+				political_power_gain = 0.30
+				research_speed_factor = 0.15
+				production_factory_max_efficiency_factor = 0.15
+			}
+		}
+
+		# Existing RevVoenSovet / Peasant Ideas
+		GLP_idea_revvoensovet_coordination = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_production_bonus
+			modifier = {
+				industrial_capacity_factory = 0.12
+				production_factory_max_efficiency_factor = 0.10
+				production_speed_arms_factory_factor = 0.15
+				consumer_goods_factor = 0.03
+			}
+		}
+
+		GLP_idea_revvoensovet_partisan_command = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_fortification_engineer_african_2d
+			modifier = {
+				planning_speed = 0.25
+				recon_factor = 0.20
+				army_speed_factor = 0.10
+				max_planning = -0.10
+			}
+		}
+
+		GLP_idea_revvoensovet_total_preparedness = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_ARG_rapid_militarization
+			modifier = {
+				conscription_factor = 0.15
+				war_support_factor = 0.15
+				mobilization_speed = 0.35
+				stability_factor = -0.05
+			}
+		}
+
+		GLP_idea_bread_for_front = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_gre_agricultural_communes
+			modifier = {
+				supply_consumption_factor = -0.20
+				out_of_supply_factor = -0.25
+				army_morale_factor = 0.10
+				production_speed_industrial_complex_factor = -0.05
+			}
+		}
+
+		GLP_idea_steppes_breadbasket = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_gre_agricultural_communes2
+			modifier = {
+				consumer_goods_factor = -0.06
+				monthly_population = 0.18
+				industrial_capacity_factory = 0.10
+				stability_factor = 0.10
+				trade_laws_cost_factor = 0.10
+			}
+		}
+
+		GLP_idea_federation_of_free_soviets = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_SPR_anarchist_society
+			modifier = {
+				consumer_goods_factor = -0.06
+				research_speed_factor = 0.08
+				political_power_gain = 0.25
+				drift_defence_factor = -0.10
+			}
+		}
+
+		GLP_idea_communes_empowerment = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_gre_agricultural_communes
+			modifier = {
+				industry_repair_factor = 0.30
+				monthly_population = 0.12
+				production_factory_efficiency_gain_factor = 0.12
+				production_factory_max_efficiency_factor = -0.05
+			}
+		}
+
+		GLP_idea_black_international = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_CHL_popular_freedom_alliance_in_power
+			modifier = {
+				send_volunteer_divisions_required = -1.0
+				send_volunteer_size = 4
+				generate_wargoal_tension = -0.50
+				foreign_subversive_activites = 0.20
+			}
+		}
+
+		GLP_idea_world_anarchy = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_volunteer_expedition_bonus
+			modifier = {
+				subversive_activites_upkeep = -0.50
+				justify_war_goal_time = -0.30
+				war_support_factor = 0.20
+				stability_factor = -0.08
+			}
+		}
+
+		GLP_soviet_industrial_aid = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_SOV_soviet_railways
+			modifier = {
+				industrial_capacity_factory = 0.12
+				production_factory_max_efficiency_factor = 0.10
+				license_purchase_cost = -0.50
+				political_power_cost = 0.05
+			}
+		}
+
+		GLP_eurasian_red_black_vanguard = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_SOV_soviet_hegemony
+			modifier = {
+				army_core_attack_factor = 0.15
+				army_org_factor = 0.10
+				political_power_gain = 0.20
+				drift_defence_factor = -0.15
+			}
+		}
+
+		GLP_prussian_drill_discipline = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GER_fan_prussian_militarism
+			modifier = {
+				breakthrough_factor = 0.12
+				planning_speed = 0.15
+				army_org_factor = 0.08
+				stability_factor = -0.05
+			}
+		}
+
+		GLP_german_axis_synergy = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_german_advisors
+			modifier = {
+				army_speed_factor = 0.12
+				army_core_attack_factor = 0.15
+				production_speed_arms_factory_factor = 0.20
+				consumer_goods_factor = 0.04
+			}
+		}
+
+		GLP_british_sterling_credits = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_ARG_argentine_beef_trade
+			modifier = {
+				consumer_goods_factor = -0.06
+				research_speed_factor = 0.12
+				trade_laws_cost_factor = -0.50
+				stability_factor = -0.04
+			}
+		}
+
+		GLP_anglo_free_bastion = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_AST_royal_australian_navy
+			modifier = {
+				army_core_defence_factor = 0.15
+				experience_gain_navy_factor = 0.15
+				industrial_capacity_dockyard = 0.20
+				justify_war_goal_time = 0.15
+			}
+		}
+
+		GLP_idea_military_junta = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_ARG_military_government
+			modifier = {
+				war_support_factor = 0.25
+				conscription_factor = 0.20
+				stability_factor = -0.10
+			}
+		}
+
+		GLP_idea_total_militarization = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_ARG_rapid_militarization
+			modifier = {
+				industrial_capacity_dockyard = 0.12
+				industrial_capacity_factory = 0.12
+				mobilization_speed = 0.30
+				consumer_goods_factor = 0.05
+			}
+		}
+
+		GLP_idea_black_terror = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_SWE_committee_against_the_finnish_white_terror
+			modifier = {
+				resistance_damage_to_garrison = -0.35
+				compliance_growth = 0.20
+				political_power_gain = 0.20
+				drift_defence_factor = -0.20
+			}
+		}
+
+		GLP_idea_insurgent_army = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_infantry_bonus
+			modifier = {
+				army_org_factor = 0.08
+				experience_gain_army_factor = 0.12
+				supply_consumption_factor = -0.05
+			}
+		}
+
+		GLP_idea_underground_armories = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_production_bonus
+			modifier = {
+				production_factory_max_efficiency_factor = 0.12
+				equipment_capture_factor = 0.08
+				production_factory_efficiency_gain_factor = -0.05
+			}
+		}
+
+		GLP_idea_partisan_doctrine = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_fortification_engineer_african_2d
+			modifier = {
+				out_of_supply_factor = -0.35
+				dig_in_speed_factor = 0.20
+				max_dig_in = 5
+				army_armor_attack_factor = -0.05
+			}
+		}
+
+		GLP_idea_invincible_insurgency = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_war_preparation
+			modifier = {
+				army_core_defence_factor = 0.25
+				army_core_attack_factor = 0.15
+				org_loss_when_moving = -0.20
+			}
+		}
+
+		GLP_idea_armored_train_production = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_CAN_canadian_pacific_railway
+			modifier = {
+				production_speed_rail_way_factor = 0.50
+				production_speed_supply_node_factor = 0.50
+				consumer_goods_factor = 0.02
+			}
+		}
+
+		GLP_idea_rapid_rail_deployment = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_AST_south_australian_railways
+			modifier = {
+				army_speed_factor = 0.15
+				supply_factor = 0.15
+			}
+		}
+
+		GLP_idea_steel_ram = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_acquire_tanks
+			modifier = {
+				supply_consumption_factor = -0.15
+				railway_gun_bombardment_factor = 0.30
+			}
+		}
+
+		GLP_idea_legendary_tachankas = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_HABSBURG_cavalry
+			modifier = {
+				cavalry_attack_factor = 0.25
+				breakthrough_factor = 0.20
+				army_speed_factor = 0.10
+			}
+		}
+
+		GLP_idea_steppe_lightning = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_HABSBURG_cavalry
+			modifier = {
+				army_speed_factor = 0.15
+				recon_factor = 0.25
+				max_dig_in = -2
+			}
+		}
+
+		GLP_idea_anti_tank_cavalry = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_infantry_bonus
+			modifier = {
+				cavalry_attack_factor = 0.20
+				cavalry_defence_factor = 0.15
+				breakthrough_factor = 0.12
+			}
+		}
+
+		GLP_idea_black_avalanche = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_generic_morale_bonus
+			modifier = {
+				cavalry_attack_factor = 0.20
+				cavalry_defence_factor = 0.20
+				breakthrough_factor = 0.30
+				army_org_factor = 0.12
+				supply_consumption_factor = 0.05
+			}
+		}
+	}
+}

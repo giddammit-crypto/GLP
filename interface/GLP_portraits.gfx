@@ -1,0 +1,58 @@
+spriteTypes = {
+	spriteType = {
+		name = "GFX_portrait_GLP_nestor_makhno"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Nestor_Makhno.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_nestor_makhno_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Nestor_Makhno.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_ataman_grigoriev"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Ataman_Grigoriev.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_ataman_grigoriev_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Ataman_Grigoriev.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_semen_karetnik"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Semen_Karetnik.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_semen_karetnik_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Semen_Karetnik.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_feodosiy_shchus"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Feodosiy_Shchus.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_feodosiy_shchus_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Feodosiy_Shchus.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_viktor_belash"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Viktor_Belash.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_viktor_belash_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Viktor_Belash.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_lev_zadov"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Lev_Zadov.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_lev_zadov_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Lev_Zadov.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_halyna_kuzmenko"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Halyna_Kuzmenko.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_halyna_kuzmenko_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Halyna_Kuzmenko.dds"
+	}
+}

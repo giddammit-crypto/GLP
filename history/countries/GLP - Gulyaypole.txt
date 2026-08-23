@@ -1,0 +1,57 @@
+capital = 227
+
+# Starting Technologies
+set_technology = {
+	infantry_weapons = 1
+	infantry_weapons1 = 1
+	tech_support = 1
+	tech_recon = 1
+	tech_engineers = 1
+	early_fighter = 1
+	early_bomber = 1
+	mass_assault = 1
+}
+
+# Starting Politics
+set_politics = {
+	ruling_party = neutrality
+	last_election = "1936.1.1"
+	election_frequency = 48
+	elections_allowed = no
+}
+
+set_popularities = {
+	neutrality = 60
+	communism = 25
+	fascism = 10
+	democratic = 5
+}
+
+# Recruit Modern Characters
+recruit_character = GLP_nestor_makhno
+recruit_character = GLP_ataman_grigoriev
+recruit_character = GLP_semen_karetnik
+recruit_character = GLP_feodosiy_shchus
+recruit_character = GLP_viktor_belash
+recruit_character = GLP_lev_zadov
+recruit_character = GLP_halyna_kuzmenko
+
+# National Spirits / Ideas
+add_ideas = {
+	GLP_black_guard_legacy
+	GLP_free_syndicates_and_soviets
+	GLP_hostile_encirclement
+	volunteer_only
+	low_economic_mobilisation
+	export_focus
+}
+
+# Starting OOB
+set_oob = "GLP_1936"
+
+# Stability & War Support
+set_stability = 0.70
+set_war_support = 0.80
+
+# Focus Tree Definition
+set_national_focus_tree = GLP_focus_tree

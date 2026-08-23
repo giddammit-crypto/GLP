@@ -1,0 +1,36 @@
+state = {
+	id = 226
+	name = "STATE_226"
+	manpower = 2391047
+	
+	state_category = large_city
+	
+	resources = {
+		oil = 4
+	}
+
+	history = {
+		owner = GLP
+		victory_points = {
+			11437 20 # Ekaterinoslav (Gulyaypole)
+		}
+		victory_points = {
+			11561 10 # Nikopol
+		}
+		buildings = {
+			infrastructure = 4
+			industrial_complex = 3
+			arms_factory = 2
+			air_base = 2
+		}
+		add_core_of = GLP
+		add_core_of = SOV
+		add_core_of = UKR
+	}
+
+	provinces = {
+		453 472 486 6423 9419 9433 9463 9479 11422 11437 11452 11561 
+	}
+
+	local_supplies = 10.0 
+}

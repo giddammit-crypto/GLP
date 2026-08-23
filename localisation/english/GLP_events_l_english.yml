@@ -1,0 +1,51 @@
+﻿l_english:
+ # News Events
+ glp_news.1.t:0 "REBIRTH OF FREE GULYAY-POLE"
+ glp_news.1.d:0 "§YGULYAY-POLE.§! Across the Black Sea steppes and the industrial giants of Donbass, the Free Territory has resumed activity under Batko Makhno and the Revolutionary Insurgent Army (RPAU). Free peasant communes and factory committees have taken control, proclaiming a stateless society ready to defend freedom by force of arms."
+ glp_news.1.a:0 "Liberty or Death! Anarchy is the Mother of Order!"
+
+ glp_news.2.t:0 "FOURTH CONGRESS OF PEASANTS & WORKERS"
+ glp_news.2.d:0 "§YGULYAY-POLE.§! Delegates from hundreds of communes, mines, and Black Guard regiments have proclaimed the Federation of Free Soviets."
+ glp_news.2.a:0 "Long live the free order!"
+
+ glp_news.3.t:0 "LEGENDARY TACHANKAS RIDE THE STEPPE"
+ glp_news.3.d:0 "§YGULYAY-POLE.§! Mass production of legendary machine-gun carriages is underway across southern workshops."
+ glp_news.3.a:0 "The steppe belongs to the free!"
+
+ glp_news.4.t:0 "FORMATION OF THE BLACK INTERNATIONAL"
+ glp_news.4.d:0 "§YGULYAY-POLE.§! Syndicalist and anarchist delegations from across the globe have gathered to establish the Black International."
+ glp_news.4.a:0 "The flame of revolution will never die!"
+
+ glp_news.5.t:0 "NEW FOREIGN ALLIANCE RATIFIED"
+ glp_news.5.d:0 "§YGULYAY-POLE.§! The Revolutionary Military Council has ratified an international treaty of mutual military cooperation."
+ glp_news.5.a:0 "The enemy shall be defeated!"
+
+ glp_news.6.t:0 "TRIUMPH OF THE FREE PEOPLE"
+ glp_news.6.d:0 "§YGULYAY-POLE.§! The Free Territory has proven the invincible strength of stateless fraternity."
+ glp_news.6.a:0 "Glory to Batko Makhno and the free people!"
+
+ # Decisions (16 Unique Decisions)
+ GLP_revolutionary_military_ops:0 "RPAU Military Operations & Militia"
+ GLP_syndicate_industrial_initiatives:0 "Free Syndicate Industrial Initiatives"
+ GLP_peasant_agrarian_communes:0 "Peasant Communes & Food Supply"
+ GLP_kontrrazvedka_and_order:0 "Kontrrazvedka & Internal Security"
+
+ GLP_mobilize_black_guard_reserves:0 "Mobilize Black Guard Reserves"
+ GLP_conduct_cavalry_partisan_raid:0 "Conduct Cavalry Partisan Raid"
+ GLP_commission_armored_train:0 "Commission Armored Train 'Liberty or Death'"
+ GLP_send_brigade_to_cnt_fai:0 "Send Volunteer Corps to CNT-FAI"
+ GLP_establish_dnieper_partisan_camps:0 "Establish Dnieper Partisan Bases"
+ GLP_form_flying_tachanka_detachments:0 "Form Flying Tachanka Detachments"
+
+ GLP_donbass_miners_initiative:0 "Donbass Miners' Stakhanovite Drive"
+ GLP_dnieper_rural_electrification:0 "Dnieper Dam Rural Electrification"
+ GLP_expand_ekaterinoslav_armories:0 "Expand Ekaterinoslav Armories"
+ GLP_build_armored_rail_scouts:0 "Malyshev Plant Armored Rail Scouts"
+
+ GLP_emergency_grain_relief:0 "Emergency Grain Relief to Cities"
+ GLP_organize_communal_tractor_brigades:0 "Organize Communal Tractor Brigades"
+ GLP_establish_strategic_grain_reserve:0 "Establish Strategic Grain Reserve"
+
+ GLP_crackdown_on_crimean_white_cells:0 "Crackdown on Crimean White-Guard Cells"
+ GLP_purge_cheka_provocateurs:0 "Purge Cheka Infiltrators"
+ GLP_assemble_popular_tribunals:0 "Assemble Popular Courts of Honor"

@@ -1,0 +1,185 @@
+characters = {
+	GLP_nestor_makhno = {
+		name = GLP_nestor_makhno
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_nestor_makhno"
+				small = "GFX_portrait_GLP_nestor_makhno_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_nestor_makhno"
+				small = "GFX_portrait_GLP_nestor_makhno_small"
+			}
+		}
+		country_leader = {
+			ideology = anarchism
+			traits = { batko_makhno }
+			expire = "1965.1.1.1"
+			id = -1
+		}
+		field_marshal = {
+			traits = { brilliant_strategist offensive_doctrine trickster cavalry_officer }
+			skill = 4
+			attack_skill = 5
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 4
+		}
+	}
+
+	GLP_ataman_grigoriev = {
+		name = GLP_ataman_grigoriev
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_ataman_grigoriev"
+				small = "GFX_portrait_GLP_ataman_grigoriev_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_ataman_grigoriev"
+				small = "GFX_portrait_GLP_ataman_grigoriev_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_officer infantry_officer guerilla_fighter harsh_leader trait_reckless }
+			skill = 4
+			attack_skill = 5
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 2
+		}
+		advisor = {
+			slot = high_command
+			idea_token = GLP_ataman_grigoriev_advisor
+			ledger = army
+			cost = 100
+			removal_cost = 10
+			traits = { army_cavalry_speed_2 army_morale_2 }
+		}
+	}
+
+	GLP_semen_karetnik = {
+		name = GLP_semen_karetnik
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_semen_karetnik"
+				small = "GFX_portrait_GLP_semen_karetnik_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_officer harsh_leader fast_planner }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 3
+		}
+		advisor = {
+			slot = army_chief
+			idea_token = GLP_semen_karetnik_advisor
+			ledger = army
+			cost = 100
+			removal_cost = 10
+			traits = { army_chief_maneuver_2 }
+		}
+	}
+
+	GLP_feodosiy_shchus = {
+		name = GLP_feodosiy_shchus
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_feodosiy_shchus"
+				small = "GFX_portrait_GLP_feodosiy_shchus_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_officer commando guerilla_fighter }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 3
+			planning_skill = 2
+			logistics_skill = 2
+		}
+		advisor = {
+			slot = high_command
+			idea_token = GLP_feodosiy_shchus_advisor
+			ledger = army
+			cost = 100
+			removal_cost = 10
+			traits = { army_cavalry_2 }
+		}
+	}
+
+	GLP_viktor_belash = {
+		name = GLP_viktor_belash
+		portraits = {
+			civilian = {
+				small = "GFX_portrait_GLP_viktor_belash_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_viktor_belash"
+				small = "GFX_portrait_GLP_viktor_belash_small"
+			}
+		}
+		corps_commander = {
+			traits = { trickster organizer trait_cautious }
+			skill = 3
+			attack_skill = 2
+			defense_skill = 4
+			planning_skill = 4
+			logistics_skill = 4
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = GLP_viktor_belash_advisor
+			cost = 100
+			removal_cost = 10
+			traits = { anarchist_organizer }
+		}
+	}
+
+	GLP_lev_zadov = {
+		name = GLP_lev_zadov
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_lev_zadov"
+				small = "GFX_portrait_GLP_lev_zadov_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_lev_zadov"
+				small = "GFX_portrait_GLP_lev_zadov_small"
+			}
+		}
+		corps_commander = {
+			traits = { trickster harsh_leader }
+			skill = 2
+			attack_skill = 3
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 2
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = GLP_lev_zadov_advisor
+			cost = 100
+			removal_cost = 10
+			traits = { prince_of_terror }
+		}
+	}
+
+	GLP_halyna_kuzmenko = {
+		name = GLP_halyna_kuzmenko
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_halyna_kuzmenko"
+				small = "GFX_portrait_GLP_halyna_kuzmenko_small"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = GLP_halyna_kuzmenko_advisor
+			cost = 100
+			removal_cost = 10
+			traits = { ideological_crusader }
+		}
+	}
+}
