@@ -24,6 +24,8 @@ on_actions = {
 						to_state_array = owned_controlled_states
 					}
 				}
+				# вступительная газета новой партіи — сразу послѣ загрузки
+				news_event = { id = glp_news.100 hours = 2 }
 				country_event = { id = glp_news.1 days = 2 }
 			}
 		}

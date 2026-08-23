@@ -1,6 +1,42 @@
 add_namespace = glp
 add_namespace = glp_news
 
+# ================================================================
+#  ВСТУПИТЕЛЬНЫЙ ЭКРАНЪ НОВОЙ ПАРТІИ
+#  Газетная полоса 1930-хъ: портретъ Батьки Махно слѣва вверху,
+#  черное знамя Гуляй-Поля справа внизу.
+#  Вызывается изъ common/on_actions/GLP_on_actions.txt (on_startup).
+# ================================================================
+news_event = {
+	id = glp_news.100
+	title = glp_news.100.t
+	desc = glp_news.100.d
+	picture = GFX_news_event_GLP_intro
+	major = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = glp_news.100.a          # «Да грянетъ Громъ!»
+		trigger = { tag = GLP }
+		add_political_power = 50
+		add_war_support = 0.05
+		add_stability = 0.05
+	}
+	option = {
+		name = glp_news.100.b          # взглядъ изъ Москвы
+		trigger = { tag = SOV }
+	}
+	option = {
+		name = glp_news.100.c          # прочій міръ
+		trigger = {
+			NOT = { tag = GLP }
+			NOT = { tag = SOV }
+		}
+	}
+}
+
+
 # =========================================================
 # 6 MAJOR STATE & WORLD NEWS EVENTS
 # =========================================================

@@ -366,6 +366,30 @@ def check_focus_tree(defs):
             warn(f"фокусы в одной клетке x={x} y={y}: {', '.join(names)}")
 
 
+def check_events(loc):
+    """У каждого события должны быть title/desc и подписи всех опций."""
+    ru = loc.get('russian', {})
+    en = loc.get('english', {})
+    for p in walk('events', ('.txt',)):
+        body = strip_comments(read(p))
+        for blk in re.finditer(r'(?:country_event|news_event|state_event|unit_leader_event)\s*=\s*\{(.*?)\n\}', body, re.S):
+            b = blk.group(1)
+            eid = re.search(r'\bid\s*=\s*([A-Za-z0-9_.]+)', b)
+            if not eid:
+                continue
+            keys = []
+            for kw in ('title', 'desc'):
+                for m in re.finditer(kw + r'\s*=\s*([A-Za-z0-9_.]+)', b):
+                    keys.append(m.group(1))
+            for m in re.finditer(r'\bname\s*=\s*([A-Za-z0-9_.]+)', b):
+                keys.append(m.group(1))
+            for k in keys:
+                if k not in ru:
+                    err(f"{rel(p)}: событие {eid.group(1)} — нет русской локализации '{k}'")
+                elif k not in en:
+                    warn(f"{rel(p)}: событие {eid.group(1)} — нет английской локализации '{k}'")
+
+
 def check_units():
     """Ни одной дивизии РПАУ за предѣлами Вольной территоріи."""
     prov2state = {}
@@ -530,6 +554,7 @@ def main():
     check_bookmarks(loc)
     check_focus_tree(defs)
     check_units()
+    check_events(loc)
     check_characters(defs, loc)
 
     print("=" * 72)
