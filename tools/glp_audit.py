@@ -303,6 +303,39 @@ def check_screens():
              + ', '.join(f'load_{n}.dds' for n in missing))
 
 
+def check_bookmarks(loc):
+    """Ключи закладок (history = "KEY") обязаны иметь локализацию."""
+    ru = loc.get('russian', {})
+    en = loc.get('english', {})
+    for p in walk('common/bookmarks', ('.txt',)):
+        body = strip_comments(read(p))
+        for m in re.finditer(r'history\s*=\s*"([A-Za-z0-9_]+)"', body):
+            key = m.group(1)
+            if not key.startswith('GLP'):
+                continue          # ванильные ключи берутся из базовой игры
+            if key not in ru:
+                err(f"{rel(p)}: нет русской локализации закладки '{key}'")
+            if key not in en:
+                warn(f"{rel(p)}: нет английской локализации закладки '{key}'")
+
+
+def check_fonts():
+    """Шрифты для запекания титров должны лежать в репозитории вместе с OFL."""
+    need = ['tools/fonts/SourceSerifPro-Black.ttf',
+            'tools/fonts/SourceSerifPro-Bold.ttf',
+            'tools/fonts/SourceSerifPro-Regular.ttf',
+            'tools/fonts/OFL-SourceSerifPro.txt']
+    for f in need:
+        path = os.path.join(ROOT, f)
+        if not os.path.exists(path):
+            err(f"{f} отсутствует — tools/build_screens.sh не соберёт титры")
+        elif f.endswith('.ttf'):
+            with open(path, 'rb') as fh:
+                magic = fh.read(4)
+            if magic not in (b'\x00\x01\x00\x00', b'true', b'OTTO', b'ttcf'):
+                err(f"{f}: это не TrueType/OpenType шрифт")
+
+
 def check_music():
     """Ванильный саундтрек должен быть перекрыт файлами мода."""
     for f in ('music/music.asset', 'music/songs.txt'):
@@ -397,6 +430,8 @@ def main():
     check_portraits()
     check_screens()
     check_music()
+    check_fonts()
+    check_bookmarks(loc)
     check_characters(defs, loc)
 
     print("=" * 72)

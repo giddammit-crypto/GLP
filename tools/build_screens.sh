@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  GLP: сборка загрузочных экранов, фона главного меню и логотипа
+#  ГУЛЯЙ-ПОЛЕ — сборка экранов загрузки, фона главного меню и логотипа
 #
 #  Спецификация (ТЗ, раздел 1):
 #     * загрузочные экраны : 1920x1080, .dds DXT1, без мип-мап
 #     * фон главного меню  : 1920x1080, .dds DXT1
 #     * цветокоррекция     : холодные серо-коричневые и угольные тона,
 #                            естественная плёночная зернистость
-#     * подпись авторства  : «Разработчик — Амброзиев О.А.» (правый нижний угол)
-#     * название проекта   : «ГУЛЯЙ-ПОЛЕ: ВОЛЬНАЯ ТЕРРИТОРИЯ»
+#     * подпись авторства  : «Сработалъ О. А. Амброзіевъ» (правый нижний уголъ)
+#     * шрифтъ             : «царская» антиква Source Serif Pro (SIL OFL),
+#                            дореформенная орѳографія и обороты конца 1920-хъ
 #
 #  Ванильные экраны загрузки перекрываются одноимёнными файлами load_1..load_16,
-#  поэтому в игре показываются ТОЛЬКО фоны мода.
+#  поэтому въ игрѣ показываются ТОЛЬКО фоны мода.
 #
-#  Источники: gfx/loadingscreens/_src_*.jpg (или .png)
+#  Источники: gfx/loadingscreens/_src_*.jpg
 #  Требуется ImageMagick.
 # =============================================================================
 set -euo pipefail
@@ -21,14 +22,30 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 LS="gfx/loadingscreens"
+F="tools/fonts"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
-FONT="DejaVu-Sans-Bold"
-TITLE="ГУЛЯЙ-ПОЛЕ: ВОЛЬНАЯ ТЕРРИТОРИЯ"
-CREDIT="Разработчик — Амброзиев О.А."
+FONT_TITLE="$F/SourceSerifPro-Black.ttf"
+FONT_SUB="$F/SourceSerifPro-Bold.ttf"
+FONT_TEXT="$F/SourceSerifPro-Regular.ttf"
 
-# Кинематографическая цветокоррекция 1930-х + зерно плёнки.
+TITLE="ГУЛЯЙ-ПОЛЕ"
+SUBTITLE="ВОЛЬНАЯ ТЕРРИТОРІЯ"
+CREDIT="Сработалъ О. А. Амброзіевъ"
+
+# Девизы въ языкѣ конца 1920-хъ — по одному на каждый экранъ загрузки.
+declare -A MOTTO=(
+	[load_tachanka]="Тачанка — царица степи: гдѣ пулеметъ, тамъ и воля трудового народа"
+	[cavalry_charge]="Шашки вонъ! За землю, за волю, за вольные совѣты!"
+	[armored_train]="Стальной таранъ повстанья идетъ степною чугункою"
+	[camp_council]="Вольный сходъ рѣшаетъ самъ: ни господъ, ни комиссаровъ"
+	[village_storm]="Гуляй-Поле — стольный градъ вольной степи"
+	[machinegun_line]="Ни шагу съ вольной земли: степь врагу не отдадимъ"
+	[menu_bg]="Анархія — мать порядка"
+)
+
+# Кинематографическая цветокоррекція 1930-хъ + зерно плёнки.
 grade() {  # $1 in, $2 out(png)
 	convert "$1" -colorspace sRGB \
 		-resize "1920x1080^" -gravity center -extent 1920x1080 \
@@ -43,15 +60,26 @@ grade() {  # $1 in, $2 out(png)
 		"$2"
 }
 
-stamp_title() {  # $1 in/out png
+# Наборная плашка внизу кадра: затемняющая полоса, двойная линейка,
+# названіе проекта, девизъ и подпись автора «царскимъ» шрифтомъ.
+plate() {  # $1 png (in place), $2 девизъ
+	local motto="$2"
 	convert "$1" \
-		-font "$FONT" -kerning 6 -pointsize 34 \
-		-fill '#0000009a' -annotate +63+1005 "$TITLE" \
-		-fill '#e6e2d8' -annotate +61+1003 "$TITLE" \
-		-kerning 1 -pointsize 20 \
-		-gravity southeast \
-		-fill '#000000a0' -annotate +47+37 "$CREDIT" \
-		-fill '#c8c3b6' -annotate +48+38 "$CREDIT" \
+		\( -size 1920x210 gradient:none-'#000000cc' \) -gravity south -compose over -composite \
+		-stroke '#8e8471' -strokewidth 2 -draw "line 64,918 1856,918" \
+		-stroke '#8e847155' -strokewidth 1 -draw "line 64,925 1856,925" \
+		-stroke none -gravity southwest \
+		-font "$FONT_TITLE" -pointsize 46 -kerning 14 \
+		-fill '#000000aa' -annotate +67+69 "$TITLE" \
+		-fill '#ece6d8' -annotate +64+70 "$TITLE" \
+		-font "$FONT_SUB" -pointsize 22 -kerning 9 \
+		-fill '#b8ac95' -annotate +68+40 "$SUBTITLE" \
+		-font "$FONT_TEXT" -pointsize 27 -kerning 0 -gravity southeast \
+		-fill '#000000aa' -annotate +65+99 "$motto" \
+		-fill '#d8d2c2' -annotate +64+100 "$motto" \
+		-font "$FONT_TEXT" -pointsize 20 \
+		-fill '#000000aa' -annotate +65+59 "$CREDIT" \
+		-fill '#a49d8c' -annotate +64+60 "$CREDIT" \
 		"$1"
 }
 
@@ -61,13 +89,13 @@ to_dds() {  # $1 png, $2 dds
 
 echo ">> загрузочные экраны 1920x1080 DXT1"
 SCREENS=()
-for src in "$LS"/_src_*.jpg "$LS"/_src_*.png; do
+for src in "$LS"/_src_*.jpg; do
 	[ -e "$src" ] || continue
-	slug="$(basename "$src")"; slug="${slug%.*}"; slug="${slug#_src_}"
-	case "$slug" in menu_bg) continue ;; esac      # фон меню собирается отдельно
+	slug="$(basename "$src" .jpg)"; slug="${slug#_src_}"
+	[ "$slug" = "menu_bg" ] && continue          # фонъ меню собирается отдѣльно
 	png="$TMP/$slug.png"
 	grade "$src" "$png"
-	stamp_title "$png"
+	plate "$png" "${MOTTO[$slug]:-$SUBTITLE}"
 	out="$LS/load_glp_${slug#load_}.dds"
 	to_dds "$png" "$out"
 	SCREENS+=("$out")
@@ -75,11 +103,11 @@ for src in "$LS"/_src_*.jpg "$LS"/_src_*.png; do
 done
 
 if [ "${#SCREENS[@]}" -eq 0 ]; then
-	echo "!! мастера загрузочных экранов не найдены" >&2
+	echo "!! мастера загрузочныхъ экрановъ не найдены" >&2
 	exit 1
 fi
 
-echo ">> перекрытие ванильных экранов (load_1..load_16)"
+echo ">> перекрытіе ванильныхъ экрановъ (load_1..load_16)"
 i=0
 for n in $(seq 1 16); do
 	cp "${SCREENS[$(( i % ${#SCREENS[@]} ))]}" "$LS/load_$n.dds"
@@ -87,30 +115,37 @@ for n in $(seq 1 16); do
 done
 echo "   load_1.dds .. load_16.dds"
 
-echo ">> фон главного меню"
+echo ">> фонъ главнаго меню"
 if [ -f "$LS/_src_menu_bg.jpg" ]; then
 	png="$TMP/menu.png"
 	grade "$LS/_src_menu_bg.jpg" "$png"
-	# только подпись автора, без названия — название выводит логотип
-	convert "$png" -font "$FONT" -kerning 1 -pointsize 21 -gravity southeast \
-		-fill '#000000b0' -annotate +33+25 "$CREDIT" \
-		-fill '#d5d0c2' -annotate +34+26 "$CREDIT" \
+	# въ меню — только скромный картушъ автора справа внизу: названіе несётъ логотипъ
+	convert "$png" \
+		-font "$FONT_TEXT" -pointsize 25 -gravity southeast \
+		-fill '#000000aa' -annotate +49+59 "${MOTTO[menu_bg]}" \
+		-fill '#cdc6b4' -annotate +48+60 "${MOTTO[menu_bg]}" \
+		-pointsize 20 \
+		-fill '#000000aa' -annotate +49+29 "$CREDIT" \
+		-fill '#a49d8c' -annotate +48+30 "$CREDIT" \
 		"$png"
 	to_dds "$png" "gfx/interface/frontendmainviewbg.dds"
 	echo "   gfx/interface/frontendmainviewbg.dds"
 fi
 
-echo ">> логотип мода 800x200"
+echo ">> логотипъ мода 800x200"
 mkdir -p gfx/interface/logo
 convert -size 800x200 xc:none \
-	-font "$FONT" -kerning 10 -pointsize 76 -gravity north \
-	-fill '#00000090' -annotate +3+31 "ГУЛЯЙ-ПОЛЕ" \
-	-fill '#e8e4d9' -annotate +0+28 "ГУЛЯЙ-ПОЛЕ" \
-	-kerning 12 -pointsize 30 \
-	-fill '#00000090' -annotate +3+121 "ВОЛЬНАЯ ТЕРРИТОРИЯ" \
-	-fill '#b4342f' -annotate +0+118 "ВОЛЬНАЯ ТЕРРИТОРИЯ" \
-	-kerning 2 -pointsize 18 \
-	-fill '#9a958a' -annotate +0+165 "Разработчик — Амброзиев О.А." \
+	-font "$FONT_TITLE" -pointsize 82 -kerning 12 -gravity north \
+	-fill '#00000099' -annotate +3+27 "$TITLE" \
+	-fill '#ece6d8' -annotate +0+24 "$TITLE" \
+	-stroke '#8e8471' -strokewidth 2 -draw "line 120,116 680,116" \
+	-stroke '#8e847166' -strokewidth 1 -draw "line 120,122 680,122" \
+	-stroke none \
+	-font "$FONT_SUB" -pointsize 30 -kerning 10 \
+	-fill '#00000099' -annotate +3+133 "$SUBTITLE" \
+	-fill '#b4342f' -annotate +0+130 "$SUBTITLE" \
+	-font "$FONT_TEXT" -pointsize 19 -kerning 1 \
+	-fill '#9a958a' -annotate +0+172 "$CREDIT" \
 	-alpha set -define dds:compression=dxt5 -define dds:mipmaps=0 \
 	"DDS:gfx/interface/logo/game_logo.dds"
 echo "   gfx/interface/logo/game_logo.dds"
