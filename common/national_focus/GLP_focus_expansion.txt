@@ -1,0 +1,1469 @@
+
+	# =========================================================================
+	# 7. ЧЕРНОМОРСКИЙ ФЛОТ И МОРСКАЯ МОЩЬ (10 фокусов, x = 2..6, y = 6..10)
+	# =========================================================================
+	focus = {
+		id = GLP_sevastopol_naval_base
+		icon = GFX_goal_generic_build_navy
+		prerequisite = { focus = GLP_invincible_insurgency }
+		x = 2
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 7 }
+		completion_reward = {
+			137 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = dockyard level = 2 instant_build = yes }
+			}
+			navy_experience = 25
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_revolutionary_destroyers
+		icon = GFX_goal_generic_navy_cruiser
+		prerequisite = { focus = GLP_sevastopol_naval_base }
+		x = 2
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_naval_bonus bonus = 1.0 uses = 2 category = dd_tech }
+			navy_experience = 20
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_submarine_flotilla
+		icon = GFX_goal_generic_navy_submarine
+		prerequisite = { focus = GLP_sevastopol_naval_base }
+		x = 4
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_sub_bonus bonus = 1.0 uses = 2 category = ss_tech }
+			137 = {
+				add_building_construction = { type = dockyard level = 1 instant_build = yes }
+			}
+			add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = GLP_naval_infantry_marines
+		icon = GFX_goal_generic_amphibious_assault
+		prerequisite = { focus = GLP_revolutionary_destroyers }
+		x = 2
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_marines_bonus bonus = 1.0 uses = 1 category = marine_tech }
+			army_experience = 15
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_coastal_defense_batteries
+		icon = GFX_goal_generic_fortification
+		prerequisite = { focus = GLP_submarine_flotilla }
+		x = 4
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			137 = {
+				add_building_construction = { type = coastal_bunker level = 3 instant_build = yes province = 3686 }
+			}
+			196 = {
+				add_building_construction = { type = coastal_bunker level = 2 instant_build = yes province = 9467 }
+			}
+			add_political_power = -25
+		}
+	}
+
+	focus = {
+		id = GLP_black_sea_dominance
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = GLP_naval_infantry_marines }
+		prerequisite = { focus = GLP_coastal_defense_batteries }
+		x = 3
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 7 }
+		completion_reward = {
+			add_ideas = GLP_idea_black_sea_dominance
+			navy_experience = 30
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_merchant_raider_fleet
+		icon = GFX_goal_generic_wolf_pack
+		prerequisite = { focus = GLP_black_sea_dominance }
+		x = 2
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_merchant_raiders
+			137 = {
+				add_building_construction = { type = dockyard level = 2 instant_build = yes }
+			}
+			add_stability = -0.03
+		}
+	}
+
+	focus = {
+		id = GLP_naval_aviation
+		icon = GFX_goal_generic_air_naval_bomber
+		prerequisite = { focus = GLP_black_sea_dominance }
+		x = 4
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_naval_air bonus = 1.0 uses = 1 category = naval_bomber }
+			137 = {
+				add_building_construction = { type = air_base level = 2 instant_build = yes }
+			}
+			air_experience = 20
+		}
+	}
+
+	focus = {
+		id = GLP_glory_of_the_sea
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		prerequisite = { focus = GLP_merchant_raider_fleet }
+		prerequisite = { focus = GLP_naval_aviation }
+		x = 3
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_glory_of_the_sea
+			navy_experience = 50
+			add_war_support = 0.08
+			add_political_power = -40
+		}
+	}
+
+	# =========================================================================
+	# 8. ВОЗДУШНЫЕ СИЛЫ СТЕПИ (10 фокусов, x = 10..14, y = 6..10)
+	# =========================================================================
+	focus = {
+		id = GLP_steppe_air_corps
+		icon = GFX_goal_generic_build_airforce
+		prerequisite = { focus = GLP_invincible_insurgency focus = GLP_autonomous_industrial_bastion }
+		x = 12
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 7 }
+		completion_reward = {
+			air_experience = 25
+			add_tech_bonus = { name = glp_air_bonus bonus = 1.0 uses = 1 category = air_equipment }
+			227 = {
+				add_building_construction = { type = air_base level = 2 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_fighter_squadrons
+		icon = GFX_goal_generic_air_fighter
+		prerequisite = { focus = GLP_steppe_air_corps }
+		x = 10
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 7 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_fighter bonus = 1.0 uses = 2 category = light_fighter }
+			air_experience = 20
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_bomber_wings
+		icon = GFX_goal_generic_air_bomber
+		prerequisite = { focus = GLP_steppe_air_corps }
+		x = 14
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_bomber bonus = 1.0 uses = 2 category = tactical_bomber }
+			air_experience = 15
+			add_political_power = -20
+		}
+	}
+
+	focus = {
+		id = GLP_air_reconnaissance
+		icon = GFX_goal_generic_air_fighter2
+		prerequisite = { focus = GLP_fighter_squadrons }
+		x = 10
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_air_recon
+			army_experience = 15
+		}
+	}
+
+	focus = {
+		id = GLP_anti_air_defense
+		icon = GFX_goal_generic_air_fighter2
+		prerequisite = { focus = GLP_bomber_wings }
+		x = 14
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_aa bonus = 1.0 uses = 1 category = cat_anti_air }
+			227 = {
+				add_building_construction = { type = anti_air_building level = 3 instant_build = yes }
+			}
+			200 = {
+				add_building_construction = { type = anti_air_building level = 2 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_air_superiority_doctrine
+		icon = GFX_goal_generic_air_doctrine
+		prerequisite = { focus = GLP_air_reconnaissance }
+		prerequisite = { focus = GLP_anti_air_defense }
+		x = 12
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 7 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_air_doctrine bonus = 1.0 uses = 2 category = air_doctrine }
+			air_experience = 30
+		}
+	}
+
+	focus = {
+		id = GLP_ground_attack_planes
+		icon = GFX_goal_generic_CAS
+		prerequisite = { focus = GLP_air_superiority_doctrine }
+		x = 10
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_cas bonus = 1.0 uses = 2 category = cas_bomber }
+			air_experience = 20
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_strategic_bombing
+		icon = GFX_goal_generic_air_bomber
+		prerequisite = { focus = GLP_air_superiority_doctrine }
+		x = 14
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_strat_bomber bonus = 1.0 uses = 1 category = cat_strategic_bomber }
+			air_experience = 25
+			add_stability = -0.03
+		}
+	}
+
+	focus = {
+		id = GLP_mastery_of_the_skies
+		icon = GFX_goal_generic_air_doctrine
+		prerequisite = { focus = GLP_ground_attack_planes }
+		prerequisite = { focus = GLP_strategic_bombing }
+		x = 12
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_air_mastery
+			air_experience = 50
+			add_war_support = 0.08
+			add_political_power = -40
+		}
+	}
+
+	# =========================================================================
+	# 9. ТЕХНОЛОГИЧЕСКИЙ ПРОГРЕСС (10 фокусов, x = 18..22, y = 6..10)
+	# =========================================================================
+	focus = {
+		id = GLP_captured_equipment_study
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = GLP_unshakeable_revolutionary_order }
+		x = 20
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 7 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_captured bonus = 0.75 uses = 2 category = infantry_weapons }
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 500 producer = GLP }
+			army_experience = 10
+		}
+	}
+
+	focus = {
+		id = GLP_radio_technology
+		icon = GFX_goal_generic_radar
+		prerequisite = { focus = GLP_captured_equipment_study }
+		x = 18
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_radio bonus = 1.0 uses = 2 category = electronics }
+			add_stability = 0.03
+			add_political_power = -20
+		}
+	}
+
+	focus = {
+		id = GLP_improved_weapons
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = GLP_captured_equipment_study }
+		x = 22
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 7 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_weapons bonus = 1.0 uses = 2 category = infantry_weapons }
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_armor_research
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = GLP_radio_technology }
+		x = 18
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_armor bonus = 1.0 uses = 2 category = armor }
+			army_experience = 15
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_advanced_metallurgy
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = GLP_improved_weapons }
+		x = 22
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_metal bonus = 1.0 uses = 1 category = industry }
+			227 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = { type = industrial_complex level = 1 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_rocket_science
+		icon = GFX_goal_generic_secret_weapon
+		prerequisite = { focus = GLP_armor_research }
+		prerequisite = { focus = GLP_advanced_metallurgy }
+		x = 20
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_rockets bonus = 1.0 uses = 2 category = rocketry }
+			add_political_power = -50
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_computing_machines
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = GLP_rocket_science }
+		x = 18
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_computing bonus = 1.0 uses = 2 category = computing_tech }
+			add_research_slot = 1
+			add_political_power = -60
+		}
+	}
+
+	focus = {
+		id = GLP_jet_engines
+		icon = GFX_goal_generic_air_fighter2
+		prerequisite = { focus = GLP_rocket_science }
+		x = 22
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 4 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_jets bonus = 1.0 uses = 1 category = jet_technology }
+			air_experience = 25
+			add_political_power = -40
+		}
+	}
+
+	focus = {
+		id = GLP_technological_supremacy
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = GLP_computing_machines }
+		prerequisite = { focus = GLP_jet_engines }
+		x = 20
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_tech_supremacy
+			add_research_slot = 1
+			add_political_power = -80
+		}
+	}
+
+	# =========================================================================
+	# 10. КУЛЬТУРНАЯ РЕВОЛЮЦИЯ (10 фокусов, x = 26..30, y = 6..10)
+	# =========================================================================
+	focus = {
+		id = GLP_free_universities
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = GLP_triumph_of_free_humanity focus = GLP_unshakeable_revolutionary_order }
+		x = 28
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 7 }
+		completion_reward = {
+			add_research_slot = 1
+			add_stability = 0.05
+			add_political_power = -50
+		}
+	}
+
+	focus = {
+		id = GLP_worker_faculties
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = GLP_free_universities }
+		x = 26
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_worker_faculties
+			add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_revolutionary_theater
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = GLP_free_universities }
+		x = 30
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.05
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_cinema_propaganda
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = GLP_revolutionary_theater }
+		x = 30
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_cinema_propaganda
+			add_political_power = 40
+		}
+	}
+
+	focus = {
+		id = GLP_literacy_campaign
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = GLP_worker_faculties }
+		x = 26
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_stability = 0.08
+			add_political_power = 30
+			add_manpower = 10000
+		}
+	}
+
+	focus = {
+		id = GLP_sports_militarization
+		icon = GFX_goal_generic_military_sphere
+		prerequisite = { focus = GLP_literacy_campaign }
+		prerequisite = { focus = GLP_cinema_propaganda }
+		x = 28
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_sports_militarization
+			add_war_support = 0.05
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_philosophy_of_freedom
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_sports_militarization }
+		x = 26
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_stability = 0.10
+			add_political_power = 80
+			add_popularity = { ideology = neutrality popularity = 0.10 }
+		}
+	}
+
+	focus = {
+		id = GLP_cultural_enlightenment
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_sports_militarization }
+		x = 30
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_cultural_enlightenment
+			add_stability = 0.05
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GLP_new_soviet_culture
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_philosophy_of_freedom }
+		prerequisite = { focus = GLP_cultural_enlightenment }
+		x = 28
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_new_culture
+			add_stability = 0.15
+			add_political_power = 100
+			add_research_slot = 1
+		}
+	}
+
+	# =========================================================================
+	# 11. ПОДПОЛЬНАЯ СЕТЬ (10 фокусов, x = 34..38, y = 6..10)
+	# =========================================================================
+	focus = {
+		id = GLP_underground_railway
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = GLP_peoples_militia_patrols focus = GLP_unshakeable_revolutionary_order }
+		x = 36
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_underground_railway
+			add_political_power = 30
+		}
+	}
+
+	focus = {
+		id = GLP_safe_houses_network
+		icon = GFX_goal_generic_secret_police
+		prerequisite = { focus = GLP_underground_railway }
+		x = 34
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 40
+			add_manpower = 3000
+		}
+	}
+
+	focus = {
+		id = GLP_coded_communications
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = GLP_underground_railway }
+		x = 38
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_coded_comms
+			add_political_power = 20
+		}
+	}
+
+	focus = {
+		id = GLP_sabotage_training
+		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = GLP_safe_houses_network }
+		x = 34
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			army_experience = 20
+			add_command_power = 30
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_partisan_cells
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = GLP_coded_communications }
+		x = 38
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_partisan_cells
+			add_manpower = 8000
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_weapon_caches
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = GLP_sabotage_training }
+		prerequisite = { focus = GLP_partisan_cells }
+		x = 36
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 2000 producer = GLP }
+			add_equipment_to_stockpile = { type = support_equipment amount = 500 producer = GLP }
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_double_agents
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = GLP_weapon_caches }
+		x = 34
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_double_agents
+			add_political_power = 50
+			add_stability = -0.03
+		}
+	}
+
+	focus = {
+		id = GLP_resistance_coordination
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = GLP_weapon_caches }
+		x = 38
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_resistance_coordination
+			army_experience = 25
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_underground_state
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_double_agents }
+		prerequisite = { focus = GLP_resistance_coordination }
+		x = 36
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_underground_state
+			add_stability = 0.10
+			add_political_power = 80
+			add_manpower = 15000
+		}
+	}
+
+	# =========================================================================
+	# 12. ЭКОНОМИЧЕСКАЯ АВТАРКИЯ (10 фокусов, x = 42..46, y = 6..10)
+	# =========================================================================
+	focus = {
+		id = GLP_self_sufficient_economy
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = GLP_flourishing_free_countryside focus = GLP_autonomous_industrial_bastion }
+		x = 44
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 7 }
+		completion_reward = {
+			add_ideas = GLP_idea_autarky
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_local_mining_operations
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = GLP_self_sufficient_economy }
+		x = 42
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			226 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+			}
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_textile_syndicates
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = GLP_self_sufficient_economy }
+		x = 46
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_textile_syndicates
+			add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_food_processing
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = GLP_local_mining_operations }
+		x = 42
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_food_processing
+			add_stability = 0.05
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_chemical_industry
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = GLP_textile_syndicates }
+		x = 46
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_chem bonus = 1.0 uses = 1 category = industry }
+			227 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = { type = industrial_complex level = 1 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_steel_production
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = GLP_food_processing }
+		prerequisite = { focus = GLP_chemical_industry }
+		x = 44
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			227 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+			}
+			add_stability = 0.03
+			add_political_power = -25
+		}
+	}
+
+	focus = {
+		id = GLP_fuel_synthesis
+		icon = GFX_goal_generic_oil
+		prerequisite = { focus = GLP_steel_production }
+		x = 42
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_fuel bonus = 1.0 uses = 1 category = synth_resources }
+			227 = {
+				add_building_construction = { type = synthetic_refinery level = 1 instant_build = yes }
+			}
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_economic_independence
+		icon = GFX_goal_generic_positive_trade_relations
+		prerequisite = { focus = GLP_steel_production }
+		x = 46
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_economic_independence
+			add_stability = 0.08
+			consumer_goods_factor = -0.05
+		}
+	}
+
+	focus = {
+		id = GLP_autarkic_paradise
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = GLP_fuel_synthesis }
+		prerequisite = { focus = GLP_economic_independence }
+		x = 44
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_autarkic_paradise
+			add_stability = 0.10
+			add_political_power = 80
+		}
+	}
+
+	# =========================================================================
+	# 13. ВОЕННАЯ РАЗВЕДКА И ДИВЕРСИИ (10 фокусов, x = 50..54, y = 6..10)
+	# =========================================================================
+	focus = {
+		id = GLP_signal_intelligence
+		icon = GFX_goal_generic_radar
+		prerequisite = { focus = GLP_peoples_militia_patrols focus = GLP_unshakeable_revolutionary_order }
+		x = 52
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_radar bonus = 1.0 uses = 2 category = electronics }
+			add_political_power = 20
+		}
+	}
+
+	focus = {
+		id = GLP_cryptanalysis_unit
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = GLP_signal_intelligence }
+		x = 50
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_cryptanalysis
+			add_political_power = 40
+		}
+	}
+
+	focus = {
+		id = GLP_frontline_recon
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = GLP_signal_intelligence }
+		x = 54
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_frontline_recon
+			army_experience = 20
+		}
+	}
+
+	focus = {
+		id = GLP_agent_networks
+		icon = GFX_goal_generic_secret_police
+		prerequisite = { focus = GLP_cryptanalysis_unit }
+		x = 50
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_agent_networks
+			add_political_power = 30
+			add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = GLP_disinformation_campaigns
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = GLP_frontline_recon }
+		x = 54
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_disinformation
+			add_war_support = 0.05
+			add_political_power = 20
+		}
+	}
+
+	focus = {
+		id = GLP_special_operations
+		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = GLP_agent_networks }
+		prerequisite = { focus = GLP_disinformation_campaigns }
+		x = 52
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_special_ops
+			army_experience = 30
+			add_command_power = 40
+		}
+	}
+
+	focus = {
+		id = GLP_commando_raids
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = GLP_special_operations }
+		x = 50
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_commando_raids
+			army_experience = 20
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_behind_enemy_lines
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = GLP_special_operations }
+		x = 54
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_behind_lines
+			add_manpower = 5000
+			add_command_power = 30
+		}
+	}
+
+	focus = {
+		id = GLP_shadow_war
+		icon = GFX_goal_generic_secret_police
+		prerequisite = { focus = GLP_commando_raids }
+		prerequisite = { focus = GLP_behind_enemy_lines }
+		x = 52
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_shadow_war
+			army_experience = 40
+			add_political_power = 60
+			add_war_support = 0.08
+		}
+	}
+
+	# =========================================================================
+	# 14. ЗДОРОВЬЕ НАРОДА (8 фокусов, x = 2..6, y = 12..15)
+	# =========================================================================
+	focus = {
+		id = GLP_field_hospitals
+		icon = GFX_goal_generic_positive_trade_relations
+		prerequisite = { focus = GLP_glory_of_the_sea focus = GLP_mastery_of_the_skies }
+		x = 3
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_field_hospitals
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_medical_training
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = GLP_field_hospitals }
+		x = 2
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_medical bonus = 1.0 uses = 1 category = support_tech }
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_sanitary_battalions
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = GLP_field_hospitals }
+		x = 4
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_sanitary_battalions
+			add_manpower = 3000
+		}
+	}
+
+	focus = {
+		id = GLP_hospital_trains
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = GLP_medical_training }
+		prerequisite = { focus = GLP_sanitary_battalions }
+		x = 3
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_hospital_trains
+			add_equipment_to_stockpile = { type = train_equipment amount = 5 producer = GLP }
+		}
+	}
+
+	focus = {
+		id = GLP_population_growth
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = GLP_hospital_trains }
+		x = 3
+		y = 15
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_population_growth
+			add_manpower = 20000
+			add_stability = 0.05
+		}
+	}
+
+	# =========================================================================
+	# 15. ТРАНСПОРТНАЯ РЕВОЛЮЦИЯ (8 фокусов, x = 10..14, y = 12..15)
+	# =========================================================================
+	focus = {
+		id = GLP_railway_expansion
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = GLP_technological_supremacy }
+		x = 12
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = { type = infrastructure level = 2 instant_build = yes }
+			}
+			random_owned_controlled_state = {
+				add_building_construction = { type = infrastructure level = 2 instant_build = yes }
+			}
+			add_political_power = -25
+		}
+	}
+
+	focus = {
+		id = GLP_motor_transport
+		icon = GFX_goal_generic_army_motorized
+		prerequisite = { focus = GLP_railway_expansion }
+		x = 10
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_motor bonus = 1.0 uses = 1 category = motorized_equipment }
+			add_ideas = GLP_idea_motor_transport
+		}
+	}
+
+	focus = {
+		id = GLP_supply_depot_system
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = GLP_railway_expansion }
+		x = 14
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_supply_depots
+			random_owned_controlled_state = {
+				add_building_construction = { type = supply_node level = 1 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_logistics_mastery
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = GLP_motor_transport }
+		prerequisite = { focus = GLP_supply_depot_system }
+		x = 12
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_logistics_mastery
+			army_experience = 20
+		}
+	}
+
+	# =========================================================================
+	# 16. ОБОРОНИТЕЛЬНЫЕ УКРЕПЛЕНИЯ (8 фокусов, x = 18..22, y = 12..15)
+	# =========================================================================
+	focus = {
+		id = GLP_border_fortifications
+		icon = GFX_goal_generic_fortification
+		prerequisite = { focus = GLP_technological_supremacy }
+		x = 20
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = { type = bunker level = 3 instant_build = yes province = 9729 }
+			}
+			add_political_power = -20
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_anti_tank_defenses
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = GLP_border_fortifications }
+		x = 18
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_tech_bonus = { name = glp_at bonus = 1.0 uses = 1 category = cat_anti_tank }
+			add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 300 producer = GLP }
+		}
+	}
+
+	focus = {
+		id = GLP_bunker_network
+		icon = GFX_goal_generic_fortification
+		prerequisite = { focus = GLP_border_fortifications }
+		x = 22
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			every_owned_state = {
+				add_building_construction = { type = bunker level = 2 instant_build = yes province = 9729 }
+			}
+			add_political_power = -40
+		}
+	}
+
+	focus = {
+		id = GLP_defense_in_depth
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = GLP_anti_tank_defenses }
+		prerequisite = { focus = GLP_bunker_network }
+		x = 20
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_defense_in_depth
+			add_war_support = 0.05
+		}
+	}
+
+	# =========================================================================
+	# 17. РЕСУРСЫ КРЫМА (8 фокусов, x = 26..30, y = 12..15)
+	# =========================================================================
+	focus = {
+		id = GLP_crimean_development
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = GLP_new_soviet_culture }
+		x = 28
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			137 = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+			}
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_crimean_oil_fields
+		icon = GFX_goal_generic_oil
+		prerequisite = { focus = GLP_crimean_development }
+		x = 26
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			137 = {
+				add_resource = { type = oil amount = 8 }
+			}
+			add_political_power = -20
+		}
+	}
+
+	focus = {
+		id = GLP_shipbuilding_yards
+		icon = GFX_goal_generic_build_navy
+		prerequisite = { focus = GLP_crimean_development }
+		x = 30
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			137 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = dockyard level = 2 instant_build = yes }
+			}
+			navy_experience = 15
+		}
+	}
+
+	focus = {
+		id = GLP_strategic_reserves
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = GLP_crimean_oil_fields }
+		prerequisite = { focus = GLP_shipbuilding_yards }
+		x = 28
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_strategic_reserves
+			add_stability = 0.05
+		}
+	}
+
+	# =========================================================================
+	# 18. РАБОЧЕЕ САМОУПРАВЛЕНИЕ (8 фокусов, x = 34..38, y = 12..15)
+	# =========================================================================
+	focus = {
+		id = GLP_factory_committees
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = GLP_underground_state }
+		x = 36
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_factory_committees
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_workplace_democracy
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_factory_committees }
+		x = 34
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_workplace_democracy
+			add_stability = 0.08
+			add_political_power = 40
+		}
+	}
+
+	focus = {
+		id = GLP_productivity_bonuses
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = GLP_factory_committees }
+		x = 38
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_productivity_bonuses
+			add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = GLP_syndicalist_paradise
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_workplace_democracy }
+		prerequisite = { focus = GLP_productivity_bonuses }
+		x = 36
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_syndicalist_paradise
+			add_stability = 0.12
+			add_political_power = 80
+		}
+	}
+
+	# =========================================================================
+	# 19. ЖЕНЩИНЫ РЕВОЛЮЦИИ (8 фокусов, x = 42..46, y = 12..15)
+	# =========================================================================
+	focus = {
+		id = GLP_womens_emancipation
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = GLP_autarkic_paradise }
+		x = 44
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_womens_emancipation
+			add_stability = 0.05
+			add_manpower = 15000
+		}
+	}
+
+	focus = {
+		id = GLP_female_combat_units
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = GLP_womens_emancipation }
+		x = 42
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_female_combat
+			add_manpower = 10000
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_womens_leadership
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_womens_emancipation }
+		x = 46
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.05
+			add_popularity = { ideology = neutrality popularity = 0.05 }
+		}
+	}
+
+	focus = {
+		id = GLP_gender_equality
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_female_combat_units }
+		prerequisite = { focus = GLP_womens_leadership }
+		x = 44
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_gender_equality
+			add_stability = 0.10
+			add_manpower = 20000
+			add_political_power = 50
+		}
+	}
+
+	# =========================================================================
+	# 20. КАЗАЧЬЯ ТРАДИЦИЯ (8 фокусов, x = 50..54, y = 12..15)
+	# =========================================================================
+	focus = {
+		id = GLP_cossack_heritage
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = GLP_shadow_war }
+		x = 52
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		completion_reward = {
+			add_ideas = GLP_idea_cossack_heritage
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_horse_breeding
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = GLP_cossack_heritage }
+		x = 50
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_horse_breeding
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_steppe_warfare_school
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = GLP_cossack_heritage }
+		x = 54
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_steppe_warfare
+			army_experience = 30
+			add_tech_bonus = { name = glp_cav_doctrine bonus = 1.0 uses = 1 category = land_doctrine }
+		}
+	}
+
+	focus = {
+		id = GLP_cossack_glory
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = GLP_horse_breeding }
+		prerequisite = { focus = GLP_steppe_warfare_school }
+		x = 52
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		completion_reward = {
+			add_ideas = GLP_idea_cossack_glory
+			add_war_support = 0.10
+			add_manpower = 15000
+			army_experience = 25
+		}
+	}

@@ -177,21 +177,8 @@ bookmarks = {
 			}
 			focuses = {
 				GLP_fourth_congress_of_peasants
-				GLP_revvoensovet_establishment
+				GLP_insurgent_army_reorganization
 				GLP_peasant_grain_supplies
-			}
-		}
-			focuses = {
-				JAP_sea_purge_the_kodoha_faction
-				JAP_the_unthinkable_option
-				JAP_support_the_kodoha_faction
-			}
-		}
-
-			focuses = {
-				JAP_sea_purge_the_kodoha_faction
-				JAP_revere_the_emperor_destroy_the_traitors
-				JAP_okadas_military_purge_speech
 			}
 		}
 		"SOV"={
@@ -1457,3 +1444,5 @@ bookmarks = {
 			randomize_weather = 22345 # <- Obligatory in every bookmark !
 			#123 = { rain_light = yes }
 		}
+	}
+}
