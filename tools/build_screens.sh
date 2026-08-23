@@ -75,7 +75,6 @@ plate() {  # $1 png (in place), $2 "цитата|авторъ"
 	local author="${2##*|}"
 	convert "$1" \
 		\( -size 1920x360 gradient:'#000000d8'-none \) -gravity north    -compose over -composite \
-		\( -size 1920x240 gradient:none-'#000000d8' \) -gravity south    -compose over -composite \
 		-stroke '#8e8471' -strokewidth 2 -draw "line 64,152 1856,152" \
 		-stroke '#8e847155' -strokewidth 1 -draw "line 64,159 1856,159" \
 		-stroke none \
@@ -87,16 +86,13 @@ plate() {  # $1 png (in place), $2 "цитата|авторъ"
 		-fill '#b8ac95' -annotate +68+109 "$SUBTITLE" \
 		-font "$FONT_TEXT" -pointsize 17 -kerning 5 \
 		-fill '#d8cfba' -annotate +68+129 "$ALTHIST" \
-		-gravity southeast \
+		-gravity center \
 		-font "$FONT_QUOTE" -pointsize 30 -kerning 0 \
-		-fill '#000000aa' -annotate +65+109 "«$quote»" \
-		-fill '#e2dccb' -annotate +64+110 "«$quote»" \
+		-fill '#000000aa' -annotate +2+18 "«$quote»" \
+		-fill '#e2dccb' -annotate +0+16 "«$quote»" \
 		-font "$FONT_TEXT" -pointsize 22 \
-		-fill '#000000aa' -annotate +65+73 "— $author" \
-		-fill '#b3ab98' -annotate +64+74 "— $author" \
-		-font "$FONT_TEXT" -pointsize 18 \
-		-fill '#000000aa' -annotate +65+37 "$CREDIT" \
-		-fill '#9a927f' -annotate +64+38 "$CREDIT" \
+		-fill '#000000aa' -annotate +2+58 "— $author" \
+		-fill '#b3ab98' -annotate +0+56 "— $author" \
 		"$1"
 }
 
@@ -145,29 +141,19 @@ if [ -f "$LS/_src_menu_bg.jpg" ]; then
 	mask="$TMP/menu_mask.png"
 	png="$TMP/menu.png"
 	grade "$LS/_src_menu_bg.jpg" "$hero"                      # 1920x1080, цвѣтокоррекція
-	# Размытое продолженіе кадра на всю 4:3 плоскость (1920x1440).
+	# Спокойное заполнение 4:3: размытая копия кадра с резким оригиналом по центру.
 	convert "$hero" -resize 1920x1440^ -gravity center -extent 1920x1440 \
 		-blur 0x55 -modulate 74,95,100 "$blur"
-	# Маска: герой непрозраченъ въ центрѣ и мягко растворяется по краямъ
-	# (80 px), чтобы не было жёсткаго шва между сценой и размытымъ фономъ.
-	convert -size 1920x1080 xc:black \
-		\( -size 1920x920 xc:white \) -gravity center -composite \
-		-blur 0x40 -level 0x40% "$mask"
-	convert "$blur" "$hero" -gravity center "$mask" \
-		-compose over -composite "$png"
+	convert "$blur" "$hero" -gravity center -compose over -composite "$png"
 	q="${QUOTE[menu_bg]}"
 	convert "$png" \
-		\( -size 1920x260 gradient:none-'#000000c8' \) -gravity south -compose over -composite \
-		-gravity southeast \
+		-gravity center \
 		-font "$FONT_QUOTE" -pointsize 30 \
-		-fill '#000000aa' -annotate +65+125 "«${q%%|*}»" \
-		-fill '#e2dccb' -annotate +64+126 "«${q%%|*}»" \
+		-fill '#000000aa' -annotate +2+18 "«${q%%|*}»" \
+		-fill '#e2dccb' -annotate +0+16 "«${q%%|*}»" \
 		-font "$FONT_TEXT" -pointsize 22 \
-		-fill '#000000aa' -annotate +65+85 "— ${q##*|}" \
-		-fill '#b3ab98' -annotate +64+86 "— ${q##*|}" \
-		-pointsize 19 \
-		-fill '#000000aa' -annotate +65+44 "$CREDIT · альтернативная исторія" \
-		-fill '#9a927f' -annotate +64+45 "$CREDIT · альтернативная исторія" \
+		-fill '#000000aa' -annotate +2+58 "— ${q##*|}" \
+		-fill '#b3ab98' -annotate +0+56 "— ${q##*|}" \
 		"$png"
 	convert "$png" -alpha off -define dds:compression=dxt1 -define dds:mipmaps=0 \
 		"DDS:gfx/interface/frontendmainviewbg.dds"

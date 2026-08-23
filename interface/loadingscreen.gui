@@ -1,0 +1,6 @@
+# GLP loading screen override.
+# The vanilla loading-screen tip panel (metal frame and its background) is
+# intentionally omitted. Quotes are rendered directly into our loadscreen DDS
+# artwork by tools/build_screens.sh.
+guiTypes = {
+}
