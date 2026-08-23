@@ -1,8 +1,29 @@
 spriteTypes = {
 
 	# =========================================================================
-	#  NATIONAL SPIRITS — AAA Quality 60x60 Anarchist Style
-	#  All icons use metallic black frame + red accent + high contrast
+	#  NEWS WINDOW — Revolutionary Newspaper Style (AAA quality)
+	# =========================================================================
+
+	spriteType = {
+		name = "GFX_news_window_frame"
+		texturefile = "gfx/interface/news/news_frame_anarchist.dds"
+		noOfFrames = 1
+	}
+
+	spriteType = {
+		name = "GFX_news_background_paper"
+		texturefile = "gfx/interface/news/news_paper_bg.dds"
+		noOfFrames = 1
+	}
+
+	spriteType = {
+		name = "GFX_news_header_black_banner"
+		texturefile = "gfx/interface/news/news_header_black_banner.dds"
+		noOfFrames = 1
+	}
+
+	# =========================================================================
+	#  NATIONAL SPIRITS — 60x60 with metallic anarchist frame
 	# =========================================================================
 
 	spriteType = {
@@ -47,22 +68,14 @@ spriteTypes = {
 		noOfFrames = 1
 	}
 
-	spriteType = {
-		name = "GFX_idea_GLP_idea_militia_patrols"
-		texturefile = "gfx/interface/ideas/idea_militia_patrols.dds"
-		noOfFrames = 1
-	}
+	# =========================================================================
+	#  LOADING TIPS — Force vanilla center-bottom positioning
+	# =========================================================================
 
-	spriteType = {
-		name = "GFX_idea_GLP_idea_autonomous_industrial_bastion"
-		texturefile = "gfx/interface/ideas/idea_autonomous_industrial_bastion.dds"
-		noOfFrames = 1
-	}
-
-	spriteType = {
-		name = "GFX_idea_GLP_idea_continental_crusade"
-		texturefile = "gfx/interface/ideas/idea_continental_crusade.dds"
-		noOfFrames = 1
+	textSpriteType = {
+		name = "GFX_loading_tip_text"
+		texturefile = ""
+		effectFile = "gfx/FX/buttonstate_nodowneffect.lua"
 	}
 
 }
