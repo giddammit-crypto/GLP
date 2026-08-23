@@ -248,7 +248,10 @@ def dds_info(path):
 
 SPEC_LARGE = (156, 224)
 SPEC_SMALL = (156, 210)
-OK_FMT = ('DXT5', 'ARGB8888')
+SPEC_SCREEN = (1920, 1080)
+OK_FMT_LARGE = ('ARGB8888', 'DXT5')      # ТЗ: ARGB 8888 для больших портретов
+OK_FMT_SMALL = ('DXT5', 'ARGB8888')      # ТЗ: DXT5 для малых портретов/иконок
+OK_FMT_SCREEN = ('DXT1', 'DXT5')         # ТЗ: DXT1/DXT5 без мип-мап
 
 
 def check_portraits():
@@ -258,11 +261,13 @@ def check_portraits():
             err(f"{rel(p)}: not a valid DDS file")
             continue
         w, h, fmt = info
-        want = SPEC_LARGE if p.endswith('_large.dds') else SPEC_SMALL
+        large = p.endswith('_large.dds')
+        want = SPEC_LARGE if large else SPEC_SMALL
+        ok = OK_FMT_LARGE if large else OK_FMT_SMALL
         if (w, h) != want:
             err(f"{rel(p)}: {w}x{h}, spec requires {want[0]}x{want[1]}")
-        if fmt not in OK_FMT:
-            err(f"{rel(p)}: compression {fmt}, spec requires DXT5 or ARGB8888")
+        if fmt not in ok:
+            err(f"{rel(p)}: compression {fmt}, spec requires {' or '.join(ok)}")
     for p in walk('gfx/interface/ideas', ('.dds',)):
         info = dds_info(p)
         if not info:
@@ -272,6 +277,55 @@ def check_portraits():
         if 'Portrait' in p or re.search(r'idea_GLP_[A-Z]', os.path.basename(p)):
             if (w, h) != SPEC_SMALL:
                 err(f"{rel(p)}: advisor icon is {w}x{h}, spec requires 156x210")
+
+
+def check_screens():
+    """Загрузочные экраны и фон меню: 1920x1080, DXT1/DXT5, без мип-мап."""
+    targets = sorted(glob_dds('gfx/loadingscreens')) + [
+        os.path.join(ROOT, 'gfx/interface/frontendmainviewbg.dds')]
+    for p in targets:
+        if not os.path.exists(p):
+            continue
+        info = dds_info(p)
+        if not info:
+            err(f"{rel(p)}: not a valid DDS file")
+            continue
+        w, h, fmt = info
+        if (w, h) != SPEC_SCREEN:
+            err(f"{rel(p)}: {w}x{h}, spec requires 1920x1080")
+        if fmt not in OK_FMT_SCREEN:
+            err(f"{rel(p)}: compression {fmt}, spec requires DXT1 or DXT5")
+    # ванильные экраны должны быть перекрыты
+    missing = [n for n in range(1, 17)
+               if not os.path.exists(os.path.join(ROOT, f'gfx/loadingscreens/load_{n}.dds'))]
+    if missing:
+        warn("ванильные экраны загрузки не перекрыты: "
+             + ', '.join(f'load_{n}.dds' for n in missing))
+
+
+def check_music():
+    """Ванильный саундтрек должен быть перекрыт файлами мода."""
+    for f in ('music/music.asset', 'music/songs.txt'):
+        if not os.path.exists(os.path.join(ROOT, f)):
+            err(f"{f} отсутствует — ванильный саундтрек не будет перекрыт")
+            continue
+        body = read(os.path.join(ROOT, f))
+        for m in re.finditer(r'file\s*=\s*"([^"]+)"', body):
+            if not os.path.exists(os.path.join(ROOT, 'music', m.group(1))):
+                err(f"{f}: аудиофайл не найден -> music/{m.group(1)}")
+    if os.path.exists(os.path.join(ROOT, 'music/music.asset')):
+        body = read(os.path.join(ROOT, 'music/music.asset'))
+        if 'name = "maintheme"' not in body:
+            warn('music/music.asset: нет песни "maintheme" — '
+                 'в главном меню зазвучит ванильная тема')
+
+
+def glob_dds(subdir):
+    base = os.path.join(ROOT, subdir)
+    for dirpath, _d, files in os.walk(base):
+        for f in files:
+            if f.lower().endswith('.dds'):
+                yield os.path.join(dirpath, f)
 
 
 # ------------------------------------------------- 7. traits & loc coverage
@@ -341,6 +395,8 @@ def main():
     check_duplicates(defs)
     check_sprites(defs)
     check_portraits()
+    check_screens()
+    check_music()
     check_characters(defs, loc)
 
     print("=" * 72)

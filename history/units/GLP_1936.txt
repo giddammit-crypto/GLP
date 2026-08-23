@@ -97,7 +97,7 @@ units = {
 	}
 	division = {
 		name = "3-я Харьковская повстанческая стрелковая дивизия"
-		location = 9520 # Харьков
+		location = 418 # Харьков
 		division_template = "Стрелковая бригада вольных коммун"
 		start_experience_factor = 0.3
 		start_equipment_factor = 1.0
@@ -111,21 +111,21 @@ units = {
 	}
 	division = {
 		name = "5-я Николаевская бригада вольных портовиков"
-		location = 9467 # Николаев
+		location = 11683 # Николаев
 		division_template = "Стрелковая бригада вольных коммун"
 		start_experience_factor = 0.3
 		start_equipment_factor = 1.0
 	}
 	division = {
 		name = "6-я Черкасская стрелковая бригада РПАУ"
-		location = 6549 # Черкассы
+		location = 488 # Черкассы
 		division_template = "Стрелковая бригада вольных коммун"
 		start_experience_factor = 0.3
 		start_equipment_factor = 1.0
 	}
 	division = {
 		name = "7-я Крымская бригада матросов и повстанцев"
-		location = 9743 # Севастополь
+		location = 3686 # Севастополь
 		division_template = "Стрелковая бригада вольных коммун"
 		start_experience_factor = 0.4
 		start_equipment_factor = 1.0

@@ -2,17 +2,19 @@
 # =============================================================================
 #  GLP portrait pipeline  --  HOI4 1.19.2 art spec compliance
 #
-#  Spec (dev brief, section 2B):
-#     * large character portraits : 156 x 224, DXT5 (or ARGB8888)
-#     * small / advisor icons     : 156 x 210, DXT5 (or ARGB8888)
+#  Спецификация (ТЗ, раздел 2):
+#     * большие портреты лидеров/генералов : 156 x 224, ARGB 8888, контраст +15%,
+#       виньетирование
+#     * малые портреты советников/министров: 156 x 210, DXT5, сепия/монохром
+#       с глубокими тенями
+#     * иконки советников в gfx/interface/ideas: 156 x 210, DXT5 (тот же кадр)
 #
-#  Sources:
-#     gfx/leaders/GLP/_src_*.png|.jpg       -- painterly masters (if present)
-#     gfx/leaders/GLP/Portrait_*_large.dds  -- existing painterly portraits
-#     gfx/leaders/GLP/Portrait_*.dds        -- archival small portraits
-#     gfx/interface/ideas/idea_GLP_*.dds    -- advisor / minister icons
+#  Источники — «мастера» фотореалистичных портретов:
+#     gfx/leaders/GLP/_src_<person>_large.jpg
 #
-#  Re-running is idempotent.  Requires ImageMagick (convert).
+#  Скрипт идемпотентен: .dds всегда пересобираются из мастеров, а не из .dds,
+#  поэтому повторные запуски не накапливают артефакты сжатия.
+#  Требуется ImageMagick.
 # =============================================================================
 set -euo pipefail
 
@@ -23,76 +25,53 @@ IDEAS="gfx/interface/ideas"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
-large() {  # $1 = source image, $2 = destination dds
+# _src_<slug>_large.jpg  ->  Portrait_GLP_<Name>
+declare -A PEOPLE=(
+	[nestor_makhno]=Nestor_Makhno
+	[viktor_belash]=Viktor_Belash
+	[semen_karetnik]=Semen_Karetnik
+	[feodosiy_shchus]=Feodosiy_Shchus
+	[lev_zadov]=Lev_Zadov
+	[halyna_kuzmenko]=Halyna_Kuzmenko
+	[vsevolod_volin]=Vsevolod_Volin
+	[ataman_grigoriev]=Ataman_Grigoriev
+)
+
+# Большой портрет: 156x224, ARGB8888, контраст +15%, лёгкая виньетка.
+make_large() {
 	convert "$1" -colorspace sRGB \
 		-resize "156x224^" -gravity north -extent 156x224 \
-		-unsharp 0x0.75+0.55+0.008 \
-		-define dds:compression=dxt5 -define dds:mipmaps=0 \
-		-alpha set "DDS:$2"
+		-sigmoidal-contrast 2.2x50% -modulate 100,88,100 \
+		-fill '#0d0d0f' -colorize 6 \
+		\( -size 156x224 radial-gradient:white-gray45 \) -compose multiply -composite \
+		-unsharp 0x0.7+0.6+0.01 \
+		-alpha set -define dds:compression=none -define dds:mipmaps=0 \
+		"DDS:$2"
 }
 
-small() {  # $1 = source image, $2 = destination dds
+# Малый портрет/иконка советника: 156x210, DXT5, сепия с глубокими тенями.
+make_small() {
 	convert "$1" -colorspace sRGB \
 		-resize "156x210^" -gravity north -extent 156x210 \
-		-define dds:compression=dxt5 -define dds:mipmaps=0 \
-		-alpha set "DDS:$2"
+		-colorspace Gray -sigmoidal-contrast 3x48% \
+		-fill '#6b563c' -tint 55 \
+		\( -size 156x210 radial-gradient:white-gray50 \) -compose multiply -composite \
+		-unsharp 0x0.6+0.55+0.01 \
+		-alpha set -define dds:compression=dxt5 -define dds:mipmaps=0 \
+		"DDS:$2"
 }
 
-echo ">> large portraits (156x224, DXT5)"
-for dds in "$LEADERS"/Portrait_GLP_*_large.dds; do
-	base="$(basename "$dds" .dds)"
-	name="${base%_large}"
-	stem="$(echo "${name#Portrait_GLP_}" | tr '[:upper:]' '[:lower:]')"
-	src_master=""
-	for ext in png jpg jpeg; do
-		[ -f "$LEADERS/_src_${stem}_large.$ext" ] && src_master="$LEADERS/_src_${stem}_large.$ext"
-	done
-	if [ -n "$src_master" ]; then
-		src="$src_master"
-	else
-		src="$TMP/$base.png"
-		convert "$dds" "$src"
+for slug in "${!PEOPLE[@]}"; do
+	name="${PEOPLE[$slug]}"
+	src="$LEADERS/_src_${slug}_large.jpg"
+	if [ ! -f "$src" ]; then
+		echo "!! мастер отсутствует: $src" >&2
+		continue
 	fi
-	large "$src" "$TMP/$base.out.dds"
-	mv "$TMP/$base.out.dds" "$dds"
-	echo "   $dds  <-  $(basename "$src")"
+	make_large "$src" "$TMP/l.dds" && mv "$TMP/l.dds" "$LEADERS/Portrait_GLP_${name}_large.dds"
+	make_small "$src" "$TMP/s.dds" && mv "$TMP/s.dds" "$LEADERS/Portrait_GLP_${name}.dds"
+	cp "$LEADERS/Portrait_GLP_${name}.dds" "$IDEAS/idea_GLP_${name}.dds"
+	echo "   $name: large 156x224 ARGB8888 + small 156x210 DXT5 + advisor icon"
 done
 
-# portraits that only exist as a painterly master (no _large.dds yet)
-for src_png in "$LEADERS"/_src_*.png "$LEADERS"/_src_*.jpg; do
-	[ -e "$src_png" ] || continue
-	stem="$(basename "$src_png")"; stem="${stem%.*}"   # _src_vsevolod_volin_large
-	stem="${stem#_src_}"                      # volin_large
-	case "$stem" in *_large) ;; *) continue ;; esac
-	person="${stem%_large}"
-	# map short name -> existing archival portrait file
-	match="$(ls "$LEADERS"/Portrait_GLP_*.dds 2>/dev/null \
-		| grep -iv '_large' | grep -i "_${person}\.dds" || true)"
-	[ -n "$match" ] || continue
-	dest="${match%.dds}_large.dds"
-	[ -f "$dest" ] && continue
-	large "$src_png" "$dest"
-	echo "   $dest  <-  $(basename "$src_png")"
-done
-
-echo ">> small portraits (156x210, DXT5)"
-for dds in "$LEADERS"/Portrait_GLP_*.dds; do
-	case "$dds" in *_large.dds) continue ;; esac
-	base="$(basename "$dds" .dds)"
-	convert "$dds" "$TMP/$base.png"
-	small "$TMP/$base.png" "$TMP/$base.out.dds"
-	mv "$TMP/$base.out.dds" "$dds"
-	echo "   $dds"
-done
-
-echo ">> advisor icons (156x210, DXT5)"
-for dds in "$IDEAS"/idea_GLP_[A-Z]*.dds; do
-	[ -e "$dds" ] || continue
-	base="$(basename "$dds" .dds)"
-	convert "$dds" "$TMP/$base.png"
-	small "$TMP/$base.png" "$TMP/$base.out.dds"
-	mv "$TMP/$base.out.dds" "$dds"
-	echo "   $dds"
-done
-
-echo "done."
+echo "готово."
