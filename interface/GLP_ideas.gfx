@@ -20,3 +20,19 @@ spriteTypes = {
 		texturefile = "gfx/interface/ideas/idea_GLP_kontrrazvedka_surveillance.dds"
 	}
 }
+
+
+
+# Категорийные иконки для всех национальных духов GLP.
+spriteTypes = {
+	spriteType = { name = "GFX_idea_GLP_military" texturefile = "gfx/interface/ideas/idea_GLP_military.dds" }
+	spriteType = { name = "GFX_idea_GLP_industry" texturefile = "gfx/interface/ideas/idea_GLP_industry.dds" }
+	spriteType = { name = "GFX_idea_GLP_cavalry" texturefile = "gfx/interface/ideas/idea_GLP_cavalry.dds" }
+	spriteType = { name = "GFX_idea_GLP_tachanka" texturefile = "gfx/interface/ideas/idea_GLP_tachanka.dds" }
+	spriteType = { name = "GFX_idea_GLP_intelligence" texturefile = "gfx/interface/ideas/idea_GLP_intelligence.dds" }
+	spriteType = { name = "GFX_idea_GLP_logistics" texturefile = "gfx/interface/ideas/idea_GLP_logistics.dds" }
+	spriteType = { name = "GFX_idea_GLP_health" texturefile = "gfx/interface/ideas/idea_GLP_health.dds" }
+	spriteType = { name = "GFX_idea_GLP_agriculture" texturefile = "gfx/interface/ideas/idea_GLP_agriculture.dds" }
+	spriteType = { name = "GFX_idea_GLP_navy" texturefile = "gfx/interface/ideas/idea_GLP_navy.dds" }
+	spriteType = { name = "GFX_idea_GLP_society" texturefile = "gfx/interface/ideas/idea_GLP_society.dds" }
+}
