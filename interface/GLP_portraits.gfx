@@ -55,4 +55,12 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_halyna_kuzmenko_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Halyna_Kuzmenko.dds"
 	}
+	spriteType = {
+		name = "GFX_portrait_GLP_vsevolod_volin"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Vsevolod_Volin.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_vsevolod_volin_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Vsevolod_Volin.dds"
+	}
 }

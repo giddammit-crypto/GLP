@@ -1,4 +1,7 @@
 leader_traits = {
+	# =============================================================
+	# COUNTRY LEADER TRAITS
+	# =============================================================
 	batko_makhno = {
 		random = no
 		sprite = 1
@@ -12,6 +15,9 @@ leader_traits = {
 		}
 	}
 
+	# =============================================================
+	# GENERAL / FIELD MARSHAL TRAITS (Custom)
+	# =============================================================
 	tachanka_commander = {
 		random = no
 		sprite = 2
@@ -23,12 +29,23 @@ leader_traits = {
 		}
 	}
 
-	anarchist_organizer = {
+	cavalry_expert = {
+		random = no
+		sprite = 2
+		cavalry_attack_factor = 0.12
+		cavalry_defence_factor = 0.12
+		army_speed_factor = 0.05
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	aggressive_assaulter = {
 		random = no
 		sprite = 3
-		stability_factor = 0.10
-		production_factory_max_efficiency_factor = 0.05
-		consumer_goods_factor = -0.03
+		attack_skill_factor = 0.10
+		breakthrough_factor = 0.10
+		org_loss_when_moving = -0.10
 		ai_will_do = {
 			factor = 1
 		}
@@ -40,6 +57,42 @@ leader_traits = {
 		recon_factor = 0.15
 		army_org_factor = 0.10
 		out_of_supply_factor = -0.25
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# =============================================================
+	# POLITICAL ADVISOR TRAITS (Custom)
+	# =============================================================
+	anarchist_organizer = {
+		random = no
+		sprite = 10
+		stability_factor = 0.10
+		production_factory_max_efficiency_factor = 0.05
+		consumer_goods_factor = -0.03
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	counter_intelligence_expert = {
+		random = no
+		sprite = 11
+		foreign_subversive_activities = -0.30
+		drift_defence_factor = 0.20
+		enemy_intel_network_gain_factor = -0.15
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	free_soviets_minister = {
+		random = no
+		sprite = 12
+		stability_factor = 0.08
+		compliance_growth = 0.10
+		political_power_gain = 0.10
 		ai_will_do = {
 			factor = 1
 		}

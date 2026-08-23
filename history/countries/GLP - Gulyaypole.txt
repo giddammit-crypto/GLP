@@ -35,6 +35,7 @@ recruit_character = GLP_feodosiy_shchus
 recruit_character = GLP_viktor_belash
 recruit_character = GLP_lev_zadov
 recruit_character = GLP_halyna_kuzmenko
+recruit_character = GLP_vsevolod_volin
 
 # National Spirits / Ideas
 add_ideas = {
