@@ -301,4 +301,82 @@ characters = {
 			traits = { GLP_british_naval_drill }
 		}
 	}
+
+	# ------------------------------------------------------------------
+	#  СТАРЫЕ СОПЕРНИКИ БАТЬКИ ПО ГУЛЯЙ-ПОЛЮ — фиксированные командиры.
+	#  Раньше имена «Дыбец» и «Кожин» игра генерировала случайно из
+	#  common/names/GLP_names.txt (безымянные generic-командиры с ванильными
+	#  портретами). Теперь это постоянные персонажи мода со своими
+	#  фотореалистичными портретами эпохи 1930-х — они всегда в стартовом
+	#  составе (recruit_character в history/countries/GLP - Gulyaypole.txt).
+	# ------------------------------------------------------------------
+
+	# Богдан Дыбец — старый гуляй-польский командир, оппонент Батьки
+	GLP_bogdan_dybets = {
+		name = GLP_bogdan_dybets
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_bogdan_dybets"
+				small = "GFX_portrait_GLP_bogdan_dybets_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_bogdan_dybets"
+				small = "GFX_portrait_GLP_bogdan_dybets_small"
+			}
+		}
+		corps_commander = {
+			traits = { organizer infantry_officer trait_reckless }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
+
+	# Алексей Дыбец — молодой кавалерийский командир
+	GLP_aleksey_dybets = {
+		name = GLP_aleksey_dybets
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_aleksey_dybets"
+				small = "GFX_portrait_GLP_aleksey_dybets_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_aleksey_dybets"
+				small = "GFX_portrait_GLP_aleksey_dybets_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_leader fast_planner }
+			skill = 2
+			attack_skill = 3
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
+
+	# Феодосий Кожин — степной командир старой закалки
+	GLP_feodosiy_kozhin = {
+		name = GLP_feodosiy_kozhin
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_feodosiy_kozhin"
+				small = "GFX_portrait_GLP_feodosiy_kozhin_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_feodosiy_kozhin"
+				small = "GFX_portrait_GLP_feodosiy_kozhin_small"
+			}
+		}
+		corps_commander = {
+			traits = { guerilla_fighter cavalry_expert harsh_leader }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 3
+		}
+	}
 }

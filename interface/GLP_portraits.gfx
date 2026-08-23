@@ -95,4 +95,34 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_vsevolod_volin_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Vsevolod_Volin.dds"
 	}
+
+	# --------------------------- Богдан Дыбец --------------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_bogdan_dybets"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Bogdan_Dybets_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_bogdan_dybets_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Bogdan_Dybets.dds"
+	}
+
+	# --------------------------- Алексей Дыбец -------------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_aleksey_dybets"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Aleksey_Dybets_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_aleksey_dybets_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Aleksey_Dybets.dds"
+	}
+
+	# --------------------------- Феодосий Кожин ------------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_feodosiy_kozhin"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Feodosiy_Kozhin_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_feodosiy_kozhin_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Feodosiy_Kozhin.dds"
+	}
 }

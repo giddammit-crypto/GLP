@@ -188,7 +188,6 @@
  GLP_send_brigade_to_cnt_fai:0 "Отправить бригаду добровольцев CNT-FAI"
  GLP_emergency_grain_relief:0 "Срочная продовольственная помощь городам"
 
-﻿l_russian:
  GLP_advanced_metallurgy:0 "Продвинутая металлургия"
  GLP_advanced_metallurgy_desc:0 "Развитие передовых методов металлургии для производства качественной стали."
  GLP_agent_networks:0 "Агентурные сети"

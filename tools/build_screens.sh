@@ -36,14 +36,17 @@ SUBTITLE="ВОЛЬНАЯ ТЕРРИТОРІЯ"
 ALTHIST="АЛЬТЕРНАТИВНАЯ ИСТОРІЯ · 1936"
 CREDIT="Разработка мода — Амброзіевъ О. А."
 
-# Цитаты вольной мысли: текстъ | авторъ
+# Цитаты БОЛЬШЕ не запекаются в арт загрузочных экранов: их выводит
+# текстбокс "tip" нашего override interface/load_screen.gui (15 px от
+# нижней кромки экрана, ключи LOADING_TIP_* из localisation).
+# «Свобода или смерть!» исключена из набора цитат по требованию.
 declare -A QUOTE=(
-	[load_tachanka]="Свобода или смерть!|Девизъ Революціонной Повстанческой Арміи Украины"
-	[cavalry_charge]="Страсть къ разрушенію есть вмѣстѣ съ тѣмъ и страсть творческая.|М. А. Бакунинъ"
-	[armored_train]="Взаимная помощь — такой же законъ природы, какъ и взаимная борьба.|П. А. Кропоткинъ"
-	[camp_council]="Земля — крестьянамъ, фабрики — рабочимъ!|Н. И. Махно"
-	[village_storm]="Свобода — не дочь, а мать порядка.|П.-Ж. Прудонъ"
-	[machinegun_line]="Свобода безъ соціализма — привилегія и несправедливость; соціализмъ безъ свободы — рабство.|М. А. Бакунинъ"
+	[cavalry_charge]=""
+	[armored_train]=""
+	[camp_council]=""
+	[village_storm]=""
+	[machinegun_line]=""
+	[load_tachanka]=""
 	[menu_bg]="Анархія — мать порядка.|П.-Ж. Прудонъ"
 )
 
@@ -74,7 +77,7 @@ plate() {  # $1 png (in place), $2 "цитата|авторъ"
 	local quote="${2%%|*}"
 	local author="${2##*|}"
 	convert "$1" \
-		\( -size 1920x360 gradient:'#000000d8'-none \) -gravity north    -compose over -composite \
+		\( -size 1920x220 gradient:'#000000d8'-none \) -gravity north    -compose over -composite \
 		-stroke '#8e8471' -strokewidth 2 -draw "line 64,152 1856,152" \
 		-stroke '#8e847155' -strokewidth 1 -draw "line 64,159 1856,159" \
 		-stroke none \
@@ -86,13 +89,6 @@ plate() {  # $1 png (in place), $2 "цитата|авторъ"
 		-fill '#b8ac95' -annotate +68+109 "$SUBTITLE" \
 		-font "$FONT_TEXT" -pointsize 17 -kerning 5 \
 		-fill '#d8cfba' -annotate +68+129 "$ALTHIST" \
-		-gravity center \
-		-font "$FONT_QUOTE" -pointsize 30 -kerning 0 \
-		-fill '#000000aa' -annotate +2+18 "«$quote»" \
-		-fill '#e2dccb' -annotate +0+16 "«$quote»" \
-		-font "$FONT_TEXT" -pointsize 22 \
-		-fill '#000000aa' -annotate +2+58 "— $author" \
-		-fill '#b3ab98' -annotate +0+56 "— $author" \
 		"$1"
 }
 
