@@ -1,7 +1,7 @@
 leader_traits = {
-	# =============================================================
-	# COUNTRY LEADER TRAITS
-	# =============================================================
+	# =============================================================================
+	#  ЧЕРТЫ ГЛАВЫ ГОСУДАРСТВА (country leader traits)
+	# =============================================================================
 	batko_makhno = {
 		random = no
 		sprite = 1
@@ -15,56 +15,35 @@ leader_traits = {
 		}
 	}
 
-	# =============================================================
-	# GENERAL / FIELD MARSHAL TRAITS (Custom)
-	# =============================================================
-	tachanka_commander = {
+	# «Вдохновляющий вождь» — Inspirational Leader (тех. задание, п.1)
+	GLP_inspirational_leader = {
 		random = no
-		sprite = 2
-		cavalry_attack_factor = 0.15
-		cavalry_defence_factor = 0.10
-		breakthrough_factor = 0.10
+		sprite = 1
+		war_support_factor = 0.10
+		army_morale_factor = 0.05
+		political_power_gain = 0.15
+		mobilization_speed = 0.15
 		ai_will_do = {
 			factor = 1
 		}
 	}
 
-	cavalry_expert = {
+	# «Паника» — Panic (штраф к стабильности, бонус к маневрированию дивизиями)
+	GLP_panic = {
 		random = no
-		sprite = 2
-		cavalry_attack_factor = 0.12
-		cavalry_defence_factor = 0.12
-		army_speed_factor = 0.05
+		sprite = 1
+		stability_factor = -0.10
+		army_speed_factor = 0.10
+		org_loss_when_moving = -0.15
+		planning_speed = 0.20
 		ai_will_do = {
 			factor = 1
 		}
 	}
 
-	aggressive_assaulter = {
-		random = no
-		sprite = 3
-		attack_skill_factor = 0.10
-		breakthrough_factor = 0.10
-		org_loss_when_moving = -0.10
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	guerilla_master = {
-		random = no
-		sprite = 4
-		recon_factor = 0.15
-		army_org_factor = 0.10
-		out_of_supply_factor = -0.25
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	# =============================================================
-	# POLITICAL ADVISOR TRAITS (Custom)
-	# =============================================================
+	# =============================================================================
+	#  ЧЕРТЫ СОВЕТНИКОВ И МИНИСТРОВ (advisor traits)
+	# =============================================================================
 	anarchist_organizer = {
 		random = no
 		sprite = 10
@@ -76,10 +55,34 @@ leader_traits = {
 		}
 	}
 
+	# Chief of Staff: Operational Planner — Виктор Белаш
+	GLP_operational_planner = {
+		random = no
+		sprite = 10
+		planning_speed = 0.15
+		max_planning = 0.05
+		army_org_factor = 0.03
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Head of Intelligence: Silent Workhorse — Лев Задов (РЗР)
+	GLP_head_of_intelligence = {
+		random = no
+		sprite = 11
+		political_power_gain = 0.10
+		intel_network_gain_factor = 0.15
+		operative_slot = 1
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
 	counter_intelligence_expert = {
 		random = no
 		sprite = 11
-		foreign_subversive_activities = -0.30
+		foreign_subversive_activites = -0.30
 		drift_defence_factor = 0.20
 		enemy_intel_network_gain_factor = -0.15
 		ai_will_do = {
@@ -87,6 +90,7 @@ leader_traits = {
 		}
 	}
 
+	# Minister of Education: Free Soviets — Всеволод Волин
 	free_soviets_minister = {
 		random = no
 		sprite = 12

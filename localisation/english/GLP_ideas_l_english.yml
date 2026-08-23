@@ -204,3 +204,8 @@
  GLP_idea_revvoensovet_coordination_desc:0 "Unified management of military workshops under the Revolutionary Military Council."
  GLP_idea_steppes_breadbasket:0 "Breadbasket of the Free Steppe"
  GLP_idea_steppes_breadbasket_desc:0 "Transforming the southern expanses into an abundant oasis of free peasant labor."
+ # RevVoenSovet ideas (added by audit)
+ GLP_idea_revvoensovet_partisan_command:0 "RevVoenSovet Partisan Command"
+ GLP_idea_revvoensovet_partisan_command_desc:0 "Headquarters coordinates scattered detachments by telegraph and mounted courier: plans appear fast, but lack depth."
+ GLP_idea_revvoensovet_total_preparedness:0 "Total Preparedness"
+ GLP_idea_revvoensovet_total_preparedness_desc:0 "Every village keeps a tachanka, a horse and a rifle ready — the army mobilizes in days, at the cost of calm in the rear."

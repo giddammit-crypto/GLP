@@ -1,63 +1,92 @@
 spriteTypes = {
+	# =========================================================================
+	#  Гуляйпольская Республика — портреты персонажей
+	#
+	#  large  : gfx/leaders/GLP/Portrait_GLP_*_large.dds   156x224  DXT5
+	#  small  : gfx/interface/ideas/idea_GLP_*.dds         156x210  DXT5
+	#
+	#  Файлы собираются скриптом tools/build_portraits.sh (ImageMagick).
+	#  Проверка соответствия спецификации: tools/glp_audit.py
+	# =========================================================================
+
+	# ------------------------------ Нестор Махно -----------------------------
 	spriteType = {
 		name = "GFX_portrait_GLP_nestor_makhno"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Nestor_Makhno.dds"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Nestor_Makhno_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_nestor_makhno_army"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Nestor_Makhno_large.dds"
 	}
 	spriteType = {
 		name = "GFX_portrait_GLP_nestor_makhno_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Nestor_Makhno.dds"
 	}
+
+	# ---------------------------- Атаман Григорьев ---------------------------
 	spriteType = {
 		name = "GFX_portrait_GLP_ataman_grigoriev"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Ataman_Grigoriev.dds"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Ataman_Grigoriev_large.dds"
 	}
 	spriteType = {
 		name = "GFX_portrait_GLP_ataman_grigoriev_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Ataman_Grigoriev.dds"
 	}
+
+	# ----------------------------- Семён Каретник ----------------------------
 	spriteType = {
 		name = "GFX_portrait_GLP_semen_karetnik"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Semen_Karetnik.dds"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Semen_Karetnik_large.dds"
 	}
 	spriteType = {
 		name = "GFX_portrait_GLP_semen_karetnik_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Semen_Karetnik.dds"
 	}
+
+	# ---------------------------- Феодосий Щусь ------------------------------
 	spriteType = {
 		name = "GFX_portrait_GLP_feodosiy_shchus"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Feodosiy_Shchus.dds"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Feodosiy_Shchus_large.dds"
 	}
 	spriteType = {
 		name = "GFX_portrait_GLP_feodosiy_shchus_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Feodosiy_Shchus.dds"
 	}
+
+	# ----------------------------- Виктор Белаш ------------------------------
 	spriteType = {
 		name = "GFX_portrait_GLP_viktor_belash"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Viktor_Belash.dds"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Viktor_Belash_large.dds"
 	}
 	spriteType = {
 		name = "GFX_portrait_GLP_viktor_belash_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Viktor_Belash.dds"
 	}
+
+	# ------------------------------- Лев Задов -------------------------------
 	spriteType = {
 		name = "GFX_portrait_GLP_lev_zadov"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Lev_Zadov.dds"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Lev_Zadov_large.dds"
 	}
 	spriteType = {
 		name = "GFX_portrait_GLP_lev_zadov_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Lev_Zadov.dds"
 	}
+
+	# --------------------------- Галина Кузьменко ----------------------------
 	spriteType = {
 		name = "GFX_portrait_GLP_halyna_kuzmenko"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Halyna_Kuzmenko.dds"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Halyna_Kuzmenko_large.dds"
 	}
 	spriteType = {
 		name = "GFX_portrait_GLP_halyna_kuzmenko_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Halyna_Kuzmenko.dds"
 	}
+
+	# ---------------------------- Всеволод Волин -----------------------------
 	spriteType = {
 		name = "GFX_portrait_GLP_vsevolod_volin"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Vsevolod_Volin.dds"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Vsevolod_Volin_large.dds"
 	}
 	spriteType = {
 		name = "GFX_portrait_GLP_vsevolod_volin_small"

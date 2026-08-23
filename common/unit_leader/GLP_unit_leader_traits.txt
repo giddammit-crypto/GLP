@@ -1,0 +1,79 @@
+### =========================================================================
+###  Гуляйпольская Республика — уникальные черты командиров (unit leader traits)
+###
+###  ВАЖНО (HOI4 1.19.2): черты генералов/фельдмаршалов обязаны лежать
+###  в /common/unit_leader/, а НЕ в /common/country_leader/ — иначе игра
+###  молча игнорирует их и командир получает пустой набор бонусов.
+###  Ванильные черты (cavalry_expert, aggressive_assaulter, commando,
+###  trickster, organizer, fast_planner, trait_reckless и т.д.) здесь
+###  намеренно не переопределяются, чтобы не ломать другие страны.
+### =========================================================================
+leader_traits = {
+
+	# Командир тачанок — фирменная черта махновской армии
+	GLP_tachanka_commander = {
+		type = { land }
+		trait_type = personality_trait
+		gui_row = 3
+		gui_column = 0
+
+		modifier = {
+			cavalry_attack_factor = 0.15
+			cavalry_defence_factor = 0.10
+			breakthrough_factor = 0.10
+			army_speed_factor = 0.05
+		}
+
+		trait_xp_factor = {
+			cavalry_officer = 0.25
+			cavalry_leader = 0.25
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Мастер партизанской войны — иррегулярные действия в тылу
+	GLP_guerilla_master = {
+		type = { land }
+		trait_type = personality_trait
+		gui_row = 3
+		gui_column = 1
+
+		modifier = {
+			recon_factor = 0.15
+			army_org_factor = 0.10
+			out_of_supply_factor = -0.25
+			supply_consumption_factor = -0.10
+		}
+
+		trait_xp_factor = {
+			guerilla_fighter = 0.25
+			trickster = 0.25
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Степной рейдер — глубокие кавалерийские рейды по открытой местности
+	GLP_steppe_raider = {
+		type = { land }
+		trait_type = personality_trait
+		gui_row = 3
+		gui_column = 2
+
+		modifier = {
+			army_speed_factor = 0.10
+			max_dig_in = -1
+			org_loss_when_moving = -0.20
+			recon_factor = 0.10
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

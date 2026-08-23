@@ -19,20 +19,28 @@
  batko_makhno:0 "Batko Makhno"
  batko_makhno_desc:0 "The undisputed leader of the insurgent movement who forged peasants, workers, and cavalrymen into an invincible army of liberty. A genius of guerrilla warfare who inspires terror in enemies and boundless devotion in comrades."
 
- # General / Field Marshal Traits
- tachanka_commander:0 "Tachanka Commander"
- tachanka_commander_desc:0 "Master of machine-gun cart tactics, turning the open steppe into a lethal killing ground for the enemy."
- cavalry_expert:0 "Cavalry Expert"
- cavalry_expert_desc:0 "An unrivaled horseman who extracts maximum speed and striking power from cavalry formations."
- aggressive_assaulter:0 "Aggressive Assaulter"
- aggressive_assaulter_desc:0 "A commander who leads troops into attack with irresistible momentum, shattering any defense through sheer ferocity."
- guerilla_master:0 "Guerrilla Master"
- guerilla_master_desc:0 "A legend of irregular warfare who transforms every village and ravine into an impregnable fortress."
+ # General / Field Marshal Traits (unit leader traits, /common/unit_leader/)
+ GLP_tachanka_commander:0 "Tachanka Commander"
+ GLP_tachanka_commander_desc:0 "Master of machine-gun cart tactics, turning the open steppe into a lethal killing ground for the enemy."
+ GLP_guerilla_master:0 "Guerrilla Master"
+ GLP_guerilla_master_desc:0 "A legend of irregular warfare who transforms every village and ravine into an impregnable fortress."
+ GLP_steppe_raider:0 "Steppe Raider"
+ GLP_steppe_raider_desc:0 "A commander of deep mounted raids whose columns advance where staff maps show nothing at all."
+
+ # Country Leader Traits (continued)
+ GLP_inspirational_leader:0 "Inspirational Leader"
+ GLP_inspirational_leader_desc:0 "Batko speaks the peasant's own language, and whole villages harness their carts to follow the black banner."
+ GLP_panic:0 "Panic"
+ GLP_panic_desc:0 "Makhno's lightning decisions terrify the enemy, but the army's feverish dashes erode order in the rear."
 
  # Political Advisor Traits
  anarchist_organizer:0 "Free Communes Organizer"
  anarchist_organizer_desc:0 "A gifted administrator who organizes economic life without state coercion through voluntary cooperation."
+ GLP_operational_planner:0 "Chief of Staff: Operational Planner"
+ GLP_operational_planner_desc:0 "The movement's chief tactician and cartographer, whose staff work turns peasant detachments into a manageable army."
+ GLP_head_of_intelligence:0 "Head of Intelligence: Silent Workhorse"
+ GLP_head_of_intelligence_desc:0 "The Counter-Intelligence Department works without noise or publicity, yet knows more about the enemy than his own staff does."
  counter_intelligence_expert:0 "Counter-Intelligence Expert"
  counter_intelligence_expert_desc:0 "A legendary spymaster and head of army intelligence whose agent network penetrates deep behind enemy lines."
- free_soviets_minister:0 "Ideologue of Free Soviets"
+ free_soviets_minister:0 "Minister of Education: Free Soviets"
  free_soviets_minister_desc:0 "An inspiring anarcho-communist propagandist whose fiery speeches strengthen the people's spirit and accelerate the building of a free society."

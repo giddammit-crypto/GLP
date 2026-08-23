@@ -1,18 +1,36 @@
 spriteTypes = {
-	# Adaptive background - corneredTileSpriteType scales to any resolution
-	# borderSize defines the non-stretchable edge area (safe zone)
-	# The center stretches to fill the screen without distorting edges
+	# =========================================================================
+	#  Главное меню — адаптивный фонъ и анимированный логотипъ
+	# =========================================================================
+
+	# Фонъ растягивается на весь экранъ при любомъ разрешеніи и соотношеніи
+	# сторонъ: borderSize = 0 отключаетъ «неподвижныя» кромки, поэтому
+	# изображеніе масштабируется цѣликомъ, безъ обрѣзки угловъ.
 	corneredTileSpriteType = {
 		name = "GFX_frontend_bg"
 		texturefile = "gfx/interface/frontendmainviewbg.dds"
-		borderSize = { x=480 y=270 }
+		borderSize = { x=0 y=0 }
 		size = { x=1920 y=1080 }
 		tilingCenter = no
 		effectFile = "gfx/FX/buttonstate_nodowneffect.lua"
 	}
 
-	spriteType = {
+	# Логотипъ «выѣзжаетъ» сверху внизъ и замираетъ на послѣднемъ кадрѣ:
+	# 18 кадровъ по 800x200 (лента 14400x200), проигрывается однократно
+	# при появленіи главнаго меню.
+	frameAnimatedSpriteType = {
 		name = "GFX_frontend_game_logo"
+		texturefile = "gfx/interface/logo/game_logo_anim.dds"
+		noOfFrames = 18
+		animation_rate_fps = 24
+		looping = no
+		play_on_show = yes
+		pause_on_loop = 0.0
+	}
+
+	# Статическій вариантъ той же плашки — для мѣстъ, гдѣ анимація не нужна.
+	spriteType = {
+		name = "GFX_frontend_game_logo_static"
 		texturefile = "gfx/interface/logo/game_logo.dds"
 	}
 }

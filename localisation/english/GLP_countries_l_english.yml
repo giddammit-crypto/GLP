@@ -44,3 +44,11 @@
  STATE_228:0 "Lugansk"
  STATE_196:0 "Taurida"
  STATE_137:0 "Crimea"
+
+ # ---------------------------------------------------------------------------
+ #  Bookmark text and 1920s-flavoured slogans
+ # ---------------------------------------------------------------------------
+ GLP_GATHERING_STORM_DESC:0 "§YGulyaypole, winter of 1936.§!\n\nSeventeen years have passed since the free steppe threw off both the White epaulette and the Red commissar. Between the Dnieper and the Don stands something no diplomatic almanac lists: land without a landlord, a works without an owner, a district without authorities.\n\nHere power is called the village assembly, the army is the Revolutionary Insurgent Army, and Batko Makhno is styled neither president nor leader, but merely §Ythe counsellor of a free people§!.\n\nThe neighbours are making arrangements. Moscow eyes our grain and coal, Warsaw the river crossings, Berlin counts our versts on its own maps. The Black Guard saddles up: §Yland to the peasants, factories to the workers, and liberty to no one at all§!."
+ GLP_MOTTO_1:0 "Anarchy is the mother of order"
+ GLP_MOTTO_2:0 "Liberty or death!"
+ GLP_MOTTO_3:0 "Land to the peasants, factories to the workers"
