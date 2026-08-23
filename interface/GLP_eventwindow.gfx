@@ -1,0 +1,10 @@
+spriteTypes = {
+	# Широкий фон газетного окна новостей (EventWindow_News, 1056x595).
+	# Собран 9-slice'ом из ванильной gfx/interface/event_news_bg.dds
+	# (528x595): левая/правая кромки 160 px сохранены, середина растянута.
+	# Формат как у ванили: несжатый RGBA DDS без мипмапов.
+	spriteType = {
+		name = "GFX_event_news_bg_wide"
+		texturefile = "gfx/interface/event_news_bg_wide.dds"
+	}
+}

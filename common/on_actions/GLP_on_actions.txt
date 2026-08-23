@@ -24,6 +24,37 @@ on_actions = {
 						to_state_array = owned_controlled_states
 					}
 				}
+				# ----------------------------------------------------------
+				#  Убрать ванильных generic-советников. Ванильный
+				#  history/general/generic_advisors.txt генерирует для всех
+				#  стран вне списка исключений случайных советников с именами
+				#  из common/names (отсюда «Дмитрий Щусь», «Михаил Шевченко»)
+				#  и ванильными портретами. Токен сгенерированного персонажа
+				#  детерминирован: <TAG>_<token_base>. Каждый retire обёрнут
+				#  в has_character (документированный триггер 1.11+), поэтому
+				#  отсутствие персонажа (нет DLC/другая версия) не даёт ошибок.
+				#  У Гуляйполя остаются только собственные 11 персонажей.
+				# ----------------------------------------------------------
+				if = { limit = { has_character = GLP_generic_communist_revolutionary }	retire_character = GLP_generic_communist_revolutionary }
+				if = { limit = { has_character = GLP_generic_democratic_reformer }		retire_character = GLP_generic_democratic_reformer }
+				if = { limit = { has_character = GLP_generic_fascist_demagogue }			retire_character = GLP_generic_fascist_demagogue }
+				if = { limit = { has_character = GLP_generic_head_of_intelligence }		retire_character = GLP_generic_head_of_intelligence }
+				if = { limit = { has_character = GLP_generic_captain_of_industry }		retire_character = GLP_generic_captain_of_industry }
+				if = { limit = { has_character = GLP_generic_fortification_engineer }	retire_character = GLP_generic_fortification_engineer }
+				if = { limit = { has_character = GLP_generic_war_industrialist }			retire_character = GLP_generic_war_industrialist }
+				if = { limit = { has_character = GLP_generic_army_chief_off }			retire_character = GLP_generic_army_chief_off }
+				if = { limit = { has_character = GLP_generic_army_chief_def }			retire_character = GLP_generic_army_chief_def }
+				if = { limit = { has_character = GLP_generic_navy_chief_decisive_bat }	retire_character = GLP_generic_navy_chief_decisive_bat }
+				if = { limit = { has_character = GLP_generic_navy_anti_submarine }		retire_character = GLP_generic_navy_anti_submarine }
+				if = { limit = { has_character = GLP_generic_air_close_air_sup }			retire_character = GLP_generic_air_close_air_sup }
+				if = { limit = { has_character = GLP_generic_air_chief_all_weather }		retire_character = GLP_generic_air_chief_all_weather }
+				if = { limit = { has_character = GLP_generic_army_art }					retire_character = GLP_generic_army_art }
+				if = { limit = { has_character = GLP_generic_army_log }					retire_character = GLP_generic_army_log }
+				if = { limit = { has_character = GLP_generic_navy_fleet_log }			retire_character = GLP_generic_navy_fleet_log }
+				if = { limit = { has_character = GLP_generic_air_air_combat_trainer }	retire_character = GLP_generic_air_air_combat_trainer }
+				if = { limit = { has_character = GLP_generic_military_theorist }			retire_character = GLP_generic_military_theorist }
+				if = { limit = { has_character = GLP_generic_naval_theorist }			retire_character = GLP_generic_naval_theorist }
+				if = { limit = { has_character = GLP_generic_air_warfare_theorist }		retire_character = GLP_generic_air_warfare_theorist }
 				# вступительная газета новой партіи — сразу послѣ загрузки
 				news_event = { id = glp_news.100 hours = 2 }
 				country_event = { id = glp_news.1 days = 2 }

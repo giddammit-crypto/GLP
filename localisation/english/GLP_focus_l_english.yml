@@ -188,7 +188,6 @@
  GLP_send_brigade_to_cnt_fai:0 "Send Volunteer Brigade to CNT-FAI"
  GLP_emergency_grain_relief:0 "Emergency Grain Relief to Cities"
 
-﻿l_english:
  GLP_advanced_metallurgy:0 "Advanced Metallurgy"
  GLP_advanced_metallurgy_desc:0 "Developing advanced metallurgy methods for quality steel production."
  GLP_agent_networks:0 "Agent Networks"

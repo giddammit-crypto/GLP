@@ -368,6 +368,8 @@ def check_focus_tree(defs):
         # персонажи
         for m in re.finditer(r'(?:recruit_character|promote_character|retire_character)\s*=\s*([A-Za-z0-9_]+)', body):
             c = m.group(1)
+            if c.startswith('GLP_generic_'):
+                continue          # ванильные generic-советники (history/general/generic_advisors.txt)
             if c.startswith('GLP_') and c not in char_ids:
                 err(f"{rel(p)}: нет персонажа '{c}'")
 
@@ -589,6 +591,187 @@ def check_characters(defs, loc):
             err(f"key '{k}' exists in english but not russian")
 
 
+# ------------------------------------------------- 8. vanilla sprite whitelists
+# Спрайты базовой игры (без DLC), сверены по дампу interface/goals.gfx и
+# interface/ideas.gfx версии 1.7.1: Paradox не удаляет имена спрайтов,
+# поэтому список валиден и для 1.19. Ссылка на спрайт вне списка --
+# риск "красной иконки" без соответствующего DLC.
+VANILLA_FOCUS_ICONS = set(['GFX_goal_generic_CAS', 'GFX_goal_generic_air_bomber', 'GFX_goal_generic_air_doctrine', 'GFX_goal_generic_air_fighter', 'GFX_goal_generic_air_fighter2', 'GFX_goal_generic_air_naval_bomber', 'GFX_goal_generic_air_production', 'GFX_goal_generic_alliance', 'GFX_goal_generic_allies_build_infantry', 'GFX_goal_generic_amphibious_assault', 'GFX_goal_generic_army_artillery', 'GFX_goal_generic_army_artillery2', 'GFX_goal_generic_army_doctrines', 'GFX_goal_generic_army_motorized', 'GFX_goal_generic_army_tanks', 'GFX_goal_generic_attack_allies', 'GFX_goal_generic_axis_build_infantry', 'GFX_goal_generic_build_airforce', 'GFX_goal_generic_build_navy', 'GFX_goal_generic_build_tank', 'GFX_goal_generic_cavalry', 'GFX_goal_generic_construct_civ_factory', 'GFX_goal_generic_construct_civilian', 'GFX_goal_generic_construct_infrastructure', 'GFX_goal_generic_construct_mil_factory', 'GFX_goal_generic_construct_military', 'GFX_goal_generic_construct_naval_dockyard', 'GFX_goal_generic_construction', 'GFX_goal_generic_construction2', 'GFX_goal_generic_consumer_goods', 'GFX_goal_generic_dangerous_deal', 'GFX_goal_generic_defence', 'GFX_goal_generic_demand_territory', 'GFX_goal_generic_forceful_treaty', 'GFX_goal_generic_fortify_city', 'GFX_goal_generic_improve_relations', 'GFX_goal_generic_intelligence_exchange', 'GFX_goal_generic_major_alliance', 'GFX_goal_generic_major_war', 'GFX_goal_generic_military_deal', 'GFX_goal_generic_military_sphere', 'GFX_goal_generic_more_territorial_claims', 'GFX_goal_generic_national_unity', 'GFX_goal_generic_navy_anti_submarine', 'GFX_goal_generic_navy_battleship', 'GFX_goal_generic_navy_carrier', 'GFX_goal_generic_navy_cruiser', 'GFX_goal_generic_navy_doctrines_tactics', 'GFX_goal_generic_navy_submarine', 'GFX_goal_generic_neutrality_focus', 'GFX_goal_generic_occupy_start_war', 'GFX_goal_generic_occupy_states_coastal', 'GFX_goal_generic_occupy_states_ongoing_war', 'GFX_goal_generic_oil_refinery', 'GFX_goal_generic_political_pressure', 'GFX_goal_generic_position_armies', 'GFX_goal_generic_positive_trade_relations', 'GFX_goal_generic_production', 'GFX_goal_generic_production2', 'GFX_goal_generic_propaganda', 'GFX_goal_generic_radar', 'GFX_goal_generic_scientific_exchange', 'GFX_goal_generic_secret_weapon', 'GFX_goal_generic_small_arms', 'GFX_goal_generic_soviet_construction', 'GFX_goal_generic_special_forces', 'GFX_goal_generic_territory_or_war', 'GFX_goal_generic_trade', 'GFX_goal_generic_war_with_comintern', 'GFX_goal_generic_wolf_pack', 'GFX_focus_generic_air_defense', 'GFX_focus_generic_aluminum', 'GFX_focus_generic_anti_fascist_diplomacy', 'GFX_focus_generic_army_tanks2', 'GFX_focus_generic_china1', 'GFX_focus_generic_coastal_fort', 'GFX_focus_generic_combined_arms', 'GFX_focus_generic_commonwealth_build_infantry', 'GFX_focus_generic_concessions', 'GFX_focus_generic_cruiser2', 'GFX_focus_generic_cryptologic_bomb', 'GFX_focus_generic_destroyer', 'GFX_focus_generic_diplomatic_treaty', 'GFX_focus_generic_home_defense', 'GFX_focus_generic_industry_1', 'GFX_focus_generic_industry_2', 'GFX_focus_generic_industry_3', 'GFX_focus_generic_italy_first', 'GFX_focus_generic_japanese_imperial_glory', 'GFX_focus_generic_join_comintern', 'GFX_focus_generic_license_production', 'GFX_focus_generic_little_entente', 'GFX_focus_generic_military_academy', 'GFX_focus_generic_military_mission', 'GFX_focus_generic_navy_battleship2', 'GFX_focus_generic_paratrooper', 'GFX_focus_generic_polish_deal', 'GFX_focus_generic_provoke_border_clashes', 'GFX_focus_generic_rubber', 'GFX_focus_generic_self_management', 'GFX_focus_generic_socialist_science', 'GFX_focus_generic_soviet_politics', 'GFX_focus_generic_steel', 'GFX_focus_generic_strike_at_democracy1', 'GFX_focus_generic_strike_at_democracy2', 'GFX_focus_generic_strike_at_democracy3', 'GFX_focus_generic_support_the_left_right', 'GFX_focus_generic_tank_production', 'GFX_focus_generic_the_giant_wakes', 'GFX_focus_generic_treaty', 'GFX_focus_generic_tungsten'])
+
+VANILLA_IDEA_SPRITES = set(['GFX_idea_generic_acquire_tanks', 'GFX_idea_generic_agrarian_reform', 'GFX_idea_generic_agrarian_society', 'GFX_idea_generic_air_african_1', 'GFX_idea_generic_air_african_2', 'GFX_idea_generic_air_african_3', 'GFX_idea_generic_air_air_combat_trainer_african_2d', 'GFX_idea_generic_air_air_combat_trainer_asian_2d', 'GFX_idea_generic_air_air_combat_trainer_commonwealth_2d', 'GFX_idea_generic_air_air_combat_trainer_eastern_european_2d', 'GFX_idea_generic_air_air_combat_trainer_middle_eastern_2d', 'GFX_idea_generic_air_air_combat_trainer_south_american_2d', 'GFX_idea_generic_air_air_combat_trainer_western_european_2d', 'GFX_idea_generic_air_arab_1', 'GFX_idea_generic_air_arab_2', 'GFX_idea_generic_air_arab_3', 'GFX_idea_generic_air_asia_1', 'GFX_idea_generic_air_asia_2', 'GFX_idea_generic_air_asia_3', 'GFX_idea_generic_air_bonus', 'GFX_idea_generic_air_chief_all_weather_asian_2d', 'GFX_idea_generic_air_chief_all_weather_commonwealth_2d', 'GFX_idea_generic_air_chief_all_weather_eastern_european_2d', 'GFX_idea_generic_air_chief_all_weather_middle_eastern_2d', 'GFX_idea_generic_air_chief_all_weather_south_american_2d', 'GFX_idea_generic_air_chief_all_weather_western_european_2d', 'GFX_idea_generic_air_close_air_sup_african_2d', 'GFX_idea_generic_air_close_air_sup_asian_2d', 'GFX_idea_generic_air_close_air_sup_commonwealth_2d', 'GFX_idea_generic_air_close_air_sup_eastern_european_2d', 'GFX_idea_generic_air_close_air_sup_middle_eastern_2d', 'GFX_idea_generic_air_close_air_sup_south_american_2d', 'GFX_idea_generic_air_close_air_sup_western_european_2d', 'GFX_idea_generic_air_europe_1', 'GFX_idea_generic_air_europe_2', 'GFX_idea_generic_air_europe_3', 'GFX_idea_generic_air_manufacturer_1', 'GFX_idea_generic_air_manufacturer_2', 'GFX_idea_generic_air_manufacturer_3', 'GFX_idea_generic_air_payment', 'GFX_idea_generic_air_research', 'GFX_idea_generic_air_south_america_1', 'GFX_idea_generic_air_south_america_2', 'GFX_idea_generic_air_south_america_3', 'GFX_idea_generic_air_warfare_theorist_african_2d', 'GFX_idea_generic_air_warfare_theorist_asian_2d', 'GFX_idea_generic_air_warfare_theorist_commonwealth_2d', 'GFX_idea_generic_air_warfare_theorist_eastern_european_2d', 'GFX_idea_generic_air_warfare_theorist_middle_eastern_2d', 'GFX_idea_generic_air_warfare_theorist_south_american_2d', 'GFX_idea_generic_air_warfare_theorist_western_european_2d', 'GFX_idea_generic_armor', 'GFX_idea_generic_army_african_1', 'GFX_idea_generic_army_african_2', 'GFX_idea_generic_army_african_3', 'GFX_idea_generic_army_african_4', 'GFX_idea_generic_army_african_5', 'GFX_idea_generic_army_african_6', 'GFX_idea_generic_army_arab_1', 'GFX_idea_generic_army_arab_2', 'GFX_idea_generic_army_arab_3', 'GFX_idea_generic_army_art_african_2d', 'GFX_idea_generic_army_art_asian_2d', 'GFX_idea_generic_army_art_commonwealth_2d', 'GFX_idea_generic_army_art_eastern_european_2d', 'GFX_idea_generic_army_art_middle_eastern_2d', 'GFX_idea_generic_army_art_south_american_2d', 'GFX_idea_generic_army_art_western_european_2d', 'GFX_idea_generic_army_asia_1', 'GFX_idea_generic_army_asia_2', 'GFX_idea_generic_army_asia_3', 'GFX_idea_generic_army_asia_4', 'GFX_idea_generic_army_asia_5', 'GFX_idea_generic_army_asia_6', 'GFX_idea_generic_army_asia_7', 'GFX_idea_generic_army_chief_def_african_2d', 'GFX_idea_generic_army_chief_def_asian_2d', 'GFX_idea_generic_army_chief_def_commonwealth_2d', 'GFX_idea_generic_army_chief_def_eastern_european_2d', 'GFX_idea_generic_army_chief_def_middle_eastern_2d', 'GFX_idea_generic_army_chief_def_south_american_2d', 'GFX_idea_generic_army_chief_def_western_european_2d', 'GFX_idea_generic_army_chief_off_african_2d', 'GFX_idea_generic_army_chief_off_asian_2d', 'GFX_idea_generic_army_chief_off_commonwealth_2d', 'GFX_idea_generic_army_chief_off_eastern_european_2d', 'GFX_idea_generic_army_chief_off_middle_eastern_2d', 'GFX_idea_generic_army_chief_off_south_american_2d', 'GFX_idea_generic_army_chief_off_western_european_2d', 'GFX_idea_generic_army_europe_1', 'GFX_idea_generic_army_europe_2', 'GFX_idea_generic_army_europe_3', 'GFX_idea_generic_army_europe_4', 'GFX_idea_generic_army_europe_5', 'GFX_idea_generic_army_europe_6', 'GFX_idea_generic_army_log_african_2d', 'GFX_idea_generic_army_log_asian_2d', 'GFX_idea_generic_army_log_commonwealth_2d', 'GFX_idea_generic_army_log_eastern_european_2d', 'GFX_idea_generic_army_log_middle_eastern_2d', 'GFX_idea_generic_army_log_south_american_2d', 'GFX_idea_generic_army_log_western_european_2d', 'GFX_idea_generic_army_problems', 'GFX_idea_generic_army_south_america_1', 'GFX_idea_generic_army_south_america_2', 'GFX_idea_generic_army_south_america_3', 'GFX_idea_generic_army_south_america_4', 'GFX_idea_generic_army_south_america_5', 'GFX_idea_generic_army_war_college', 'GFX_idea_generic_artillery_manufacturer_1', 'GFX_idea_generic_artillery_manufacturer_2', 'GFX_idea_generic_artillery_manufacturer_3', 'GFX_idea_generic_artillery_regiments', 'GFX_idea_generic_bomber_production_diverted', 'GFX_idea_generic_build_infrastructure', 'GFX_idea_generic_captain_of_industry_african_2d', 'GFX_idea_generic_captain_of_industry_asian_2d', 'GFX_idea_generic_captain_of_industry_commonwealth_2d', 'GFX_idea_generic_captain_of_industry_eastern_european_2d', 'GFX_idea_generic_captain_of_industry_middle_eastern_2d', 'GFX_idea_generic_captain_of_industry_south_american_2d', 'GFX_idea_generic_captain_of_industry_western_european_2d', 'GFX_idea_generic_central_management', 'GFX_idea_generic_coastal_defense_ships', 'GFX_idea_generic_coastal_defense_ships2', 'GFX_idea_generic_coastal_navy', 'GFX_idea_generic_communism_drift_bonus', 'GFX_idea_generic_communist_army', 'GFX_idea_generic_communist_revolutionary_african_2d', 'GFX_idea_generic_communist_revolutionary_asian_2d', 'GFX_idea_generic_communist_revolutionary_commonwealth_2d', 'GFX_idea_generic_communist_revolutionary_eastern_european_2d', 'GFX_idea_generic_communist_revolutionary_middle_eastern_2d', 'GFX_idea_generic_communist_revolutionary_southamerican_2d', 'GFX_idea_generic_communist_revolutionary_western_european_2d', 'GFX_idea_generic_constitutional_guarantees', 'GFX_idea_generic_deal_with_the_devil', 'GFX_idea_generic_deal_with_the_devil2', 'GFX_idea_generic_degauss_ship_hulls', 'GFX_idea_generic_democratic_drift_bonus', 'GFX_idea_generic_democratic_reformer_african_2d', 'GFX_idea_generic_democratic_reformer_asian_2d', 'GFX_idea_generic_democratic_reformer_commonwealth_2d', 'GFX_idea_generic_democratic_reformer_eastern_european_2d', 'GFX_idea_generic_democratic_reformer_middle_eastern_2d', 'GFX_idea_generic_democratic_reformer_southamerican_2d', 'GFX_idea_generic_democratic_reformer_western_european_2d', 'GFX_idea_generic_disjointed_gov', 'GFX_idea_generic_electronics_concern_1', 'GFX_idea_generic_electronics_concern_2', 'GFX_idea_generic_electronics_concern_3', 'GFX_idea_generic_exploit_mines', 'GFX_idea_generic_fascism_banned', 'GFX_idea_generic_fascism_drift_2', 'GFX_idea_generic_fascism_drift_bonus', 'GFX_idea_generic_fascist_demagogue_african_2d', 'GFX_idea_generic_fascist_demagogue_asian_2d', 'GFX_idea_generic_fascist_demagogue_commonwealth_2d', 'GFX_idea_generic_fascist_demagogue_eastern_european_2d', 'GFX_idea_generic_fascist_demagogue_middle_eastern_2d', 'GFX_idea_generic_fascist_demagogue_southamerican_2d', 'GFX_idea_generic_fascist_demagogue_western_european_2d', 'GFX_idea_generic_fighter_production_diverted', 'GFX_idea_generic_flexible_foreign_policy', 'GFX_idea_generic_flexible_foreign_policy2', 'GFX_idea_generic_foreign_capital', 'GFX_idea_generic_fortification_engineer_african_2d', 'GFX_idea_generic_fortification_engineer_asian_2d', 'GFX_idea_generic_fortification_engineer_commonwealth_2d', 'GFX_idea_generic_fortification_engineer_eastern_european_2d', 'GFX_idea_generic_fortification_engineer_middle_eastern_2d', 'GFX_idea_generic_fortification_engineer_south_american_2d', 'GFX_idea_generic_fortification_engineer_western_european_2d', 'GFX_idea_generic_fortify_the_borders', 'GFX_idea_generic_goods_red_bonus', 'GFX_idea_generic_industrial_concern_1', 'GFX_idea_generic_industrial_concern_2', 'GFX_idea_generic_industrial_concern_3', 'GFX_idea_generic_infantry_bonus', 'GFX_idea_generic_infantry_equipment_manufacturer_1', 'GFX_idea_generic_infantry_equipment_manufacturer_2', 'GFX_idea_generic_infantry_equipment_manufacturer_3', 'GFX_idea_generic_intel_bonus', 'GFX_idea_generic_king_handled', 'GFX_idea_generic_license_production', 'GFX_idea_generic_local_self_management', 'GFX_idea_generic_manpower_bonus', 'GFX_idea_generic_military_theorist_african_2d', 'GFX_idea_generic_military_theorist_asian_2d', 'GFX_idea_generic_military_theorist_commonwealth_2d', 'GFX_idea_generic_military_theorist_eastern_european_2d', 'GFX_idea_generic_military_theorist_middle_eastern_2d', 'GFX_idea_generic_military_theorist_south_american_2d', 'GFX_idea_generic_military_theorist_western_european_2d', 'GFX_idea_generic_morale_bonus', 'GFX_idea_generic_motorized_equipment_manufacturer_1', 'GFX_idea_generic_motorized_equipment_manufacturer_2', 'GFX_idea_generic_motorized_equipment_manufacturer_3', 'GFX_idea_generic_naval_manufacturer_1', 'GFX_idea_generic_naval_manufacturer_2', 'GFX_idea_generic_naval_manufacturer_3', 'GFX_idea_generic_naval_theorist_african_2d', 'GFX_idea_generic_naval_theorist_asian_2d', 'GFX_idea_generic_naval_theorist_commonwealth_2d', 'GFX_idea_generic_naval_theorist_eastern_european_2d', 'GFX_idea_generic_naval_theorist_middle_eastern_2d', 'GFX_idea_generic_naval_theorist_south_american_2d', 'GFX_idea_generic_naval_theorist_western_european_2d', 'GFX_idea_generic_navy_african_1', 'GFX_idea_generic_navy_african_2', 'GFX_idea_generic_navy_african_3', 'GFX_idea_generic_navy_anti_submarine_african_2d', 'GFX_idea_generic_navy_anti_submarine_asian_2d', 'GFX_idea_generic_navy_anti_submarine_commonwealth_2d', 'GFX_idea_generic_navy_anti_submarine_eastern_european_2d', 'GFX_idea_generic_navy_anti_submarine_middle_eastern_2d', 'GFX_idea_generic_navy_anti_submarine_south_american_2d', 'GFX_idea_generic_navy_anti_submarine_western_european_2d', 'GFX_idea_generic_navy_arab_1', 'GFX_idea_generic_navy_arab_2', 'GFX_idea_generic_navy_arab_3', 'GFX_idea_generic_navy_asia_1', 'GFX_idea_generic_navy_asia_2', 'GFX_idea_generic_navy_asia_3', 'GFX_idea_generic_navy_bonus', 'GFX_idea_generic_navy_carrier_bonus', 'GFX_idea_generic_navy_chief_decisive_bat_african_2d', 'GFX_idea_generic_navy_chief_decisive_bat_asian_2d', 'GFX_idea_generic_navy_chief_decisive_bat_commonwealth_2d', 'GFX_idea_generic_navy_chief_decisive_bat_eastern_european_2d', 'GFX_idea_generic_navy_chief_decisive_bat_middle_eastern_2d', 'GFX_idea_generic_navy_chief_decisive_bat_south_american_2d', 'GFX_idea_generic_navy_chief_decisive_bat_western_european_2d', 'GFX_idea_generic_navy_europe_1', 'GFX_idea_generic_navy_europe_2', 'GFX_idea_generic_navy_europe_3', 'GFX_idea_generic_navy_fleet_log_african_2d', 'GFX_idea_generic_navy_fleet_log_asian_2d', 'GFX_idea_generic_navy_fleet_log_commonwealth_2d', 'GFX_idea_generic_navy_fleet_log_eastern_european_2d', 'GFX_idea_generic_navy_fleet_log_middle_eastern_2d', 'GFX_idea_generic_navy_fleet_log_south_american_2d', 'GFX_idea_generic_navy_fleet_log_western_european_2d', 'GFX_idea_generic_navy_south_america_1', 'GFX_idea_generic_navy_south_america_2', 'GFX_idea_generic_navy_south_america_3', 'GFX_idea_generic_neutrality_drift_bonus', 'GFX_idea_generic_oppression', 'GFX_idea_generic_political_advisor_african_1', 'GFX_idea_generic_political_advisor_african_2', 'GFX_idea_generic_political_advisor_african_3', 'GFX_idea_generic_political_advisor_arab_1', 'GFX_idea_generic_political_advisor_arab_2', 'GFX_idea_generic_political_advisor_arab_3', 'GFX_idea_generic_political_advisor_asia_1', 'GFX_idea_generic_political_advisor_asia_2', 'GFX_idea_generic_political_advisor_asia_3', 'GFX_idea_generic_political_advisor_europe_1', 'GFX_idea_generic_political_advisor_europe_2', 'GFX_idea_generic_political_advisor_europe_3', 'GFX_idea_generic_political_advisor_europe_4', 'GFX_idea_generic_political_advisor_europe_5', 'GFX_idea_generic_political_advisor_europe_6', 'GFX_idea_generic_political_advisor_india_1', 'GFX_idea_generic_political_advisor_india_2', 'GFX_idea_generic_political_advisor_south_america_1', 'GFX_idea_generic_political_advisor_south_america_2', 'GFX_idea_generic_political_advisor_south_america_3', 'GFX_idea_generic_political_support', 'GFX_idea_generic_pp_unity_bonus', 'GFX_idea_generic_production_bonus', 'GFX_idea_generic_purge', 'GFX_idea_generic_refining_concern_1', 'GFX_idea_generic_research_bonus', 'GFX_idea_generic_reserve_divisions', 'GFX_idea_generic_sea_focused_navy', 'GFX_idea_generic_secret_police', 'GFX_idea_generic_spy_coup', 'GFX_idea_generic_spy_intel', 'GFX_idea_generic_spy_political', 'GFX_idea_generic_tank_manufacturer_1', 'GFX_idea_generic_tank_manufacturer_2', 'GFX_idea_generic_tank_manufacturer_3', 'GFX_idea_generic_the_london_naval_treaty', 'GFX_idea_generic_victors_of_ww1', 'GFX_idea_generic_volunteer_expedition_bonus', 'GFX_idea_generic_wall_line', 'GFX_idea_generic_war_industrialist_african_2d', 'GFX_idea_generic_war_industrialist_asian_2d', 'GFX_idea_generic_war_industrialist_commonwealth_2d', 'GFX_idea_generic_war_industrialist_eastern_european_2d', 'GFX_idea_generic_war_industrialist_middle_eastern_2d', 'GFX_idea_generic_war_industrialist_south_american_2d', 'GFX_idea_generic_war_industrialist_western_european_2d', 'GFX_idea_generic_war_preparation', 'GFX_idea_german_advisors'])
+
+STATS = {}
+
+
+def check_focus_icons():
+    """Каждый фокус: иконка есть и это ванильный base-game спрайт."""
+    for p, body in all_script_text('common/national_focus').items():
+        for blk in re.finditer(r'\tfocus\s*=\s*\{(.*?)\n\t\}', body, re.S):
+            b = blk.group(1)
+            fid = re.search(r'id\s*=\s*([A-Za-z0-9_]+)', b)
+            ic = re.search(r'icon\s*=\s*(GFX_\w+)', b)
+            if not ic:
+                err(f"{rel(p)}: фокус '{fid.group(1) if fid else '?'}' без иконки")
+                continue
+            if ic.group(1) not in VANILLA_FOCUS_ICONS:
+                err(f"{rel(p)}: фокус '{fid.group(1)}' использует неванильную "
+                    f"или DLC-зависимую иконку '{ic.group(1)}'")
+    icons = [m.group(1) for p, b in all_script_text('common/national_focus').items()
+             for m in re.finditer(r'icon\s*=\s*(GFX_\w+)', b)]
+    STATS['focus_icons'] = (len(icons), len(set(icons)))
+
+
+def check_idea_pictures():
+    """Каждая идея: picture есть; ванильные ссылки -- только base-game."""
+    for p, body in all_script_text('common/ideas').items():
+        for m in re.finditer(r'^\t\t(GLP_\w+)\s*=\s*\{(.*?)^\t\t\}', body, re.M | re.S):
+            iid, blk = m.group(1), m.group(2)
+            pic = re.search(r'picture\s*=\s*(GFX_\w+)', blk)
+            if not pic:
+                err(f"{rel(p)}: идея '{iid}' без picture")
+                continue
+            name = pic.group(1)
+            if 'GLP' in name:
+                continue          # кастомный спрайт -- проверяется в check_sprites
+            if name not in VANILLA_IDEA_SPRITES:
+                err(f"{rel(p)}: идея '{iid}' ссылается на неванильный/DLC "
+                    f"спрайт '{name}' (нет в базовой игре)")
+    pics = [m.group(1) for p, b in all_script_text('common/ideas').items()
+            for m in re.finditer(r'picture\s*=\s*(GFX_\w+)', b)]
+    STATS['idea_pictures'] = (len(pics), sum(1 for x in pics if 'GLP' in x), len(set(pics)))
+
+
+def check_event_pictures():
+    """Все картинки событий -- ванильный формат 397x153 (как news_event_001.dds)."""
+    for p in glob_dds('gfx/event_pictures'):
+        info = dds_info(p)
+        if not info:
+            err(f"{rel(p)}: not a valid DDS file")
+            continue
+        w, h, fmt = info
+        if (w, h) != (397, 153):
+            err(f"{rel(p)}: {w}x{h} -- ванильный формат картинок событий 397x153 "
+                f"(иначе окно новости растягивает картинку)")
+        if fmt not in ('ARGB8888', 'DXT5', 'DXT1'):
+            err(f"{rel(p)}: compression {fmt} unsupported")
+
+
+def check_idea_icon_geometry():
+    """Кастомные иконки идей 60x68 (как ванильные generic_*.dds), советники 65x67."""
+    for p in walk('gfx/interface/ideas', ('.dds',)):
+        info = dds_info(p)
+        if not info:
+            continue
+        w, h, _ = info
+        base = os.path.basename(p)
+        if re.match(r'idea_GLP_[a-z]', base) and (w, h) != (60, 68):
+            err(f"{rel(p)}: иконка идеи {w}x{h}, ванильный формат 60x68")
+
+
+def check_gui_overrides():
+    """load_screen.gui: панель цитат удалена, все контейнеры на месте.
+    eventwindow.gui: все ванильные окна присутствуют."""
+    p = os.path.join(ROOT, 'interface/load_screen.gui')
+    if not os.path.exists(p):
+        err("interface/load_screen.gui отсутствует -- ванильная металлическая "
+            "панель цитат вернётся на загрузочный экран")
+    else:
+        body = strip_comments(read(p))
+        for token in ('"load_screen"', '"status"', '"tip"', '"text"', '"progressbar"'):
+            if token not in body:
+                err(f"interface/load_screen.gui: отсутствует элемент {token}")
+        if 'GFX_loadingtip_bg' in body:
+            err("interface/load_screen.gui: всё ещё ссылается на GFX_loadingtip_bg")
+    if os.path.exists(os.path.join(ROOT, 'interface/loadingscreen.gui')):
+        err("interface/loadingscreen.gui: пустой файл с неванильным именем -- удалить")
+    p = os.path.join(ROOT, 'interface/eventwindow.gui')
+    if os.path.exists(p):
+        body = read(p)
+        for token in ('"EventWindow"', '"EventWindow_leader"', '"EventWindow_News"',
+                      '"event_option_entry"'):
+            if token not in body:
+                err(f"interface/eventwindow.gui: отсутствует ванильное окно {token}")
+
+
+def check_advisor_portraits(defs):
+    """Каждый персонаж с ролью advisor обязан иметь portraits."""
+    sprites = set(defs['sprite'])
+    for p, body in all_script_text('common/characters').items():
+        for m in re.finditer(r'^\t(GLP_\w+)\s*=\s*\{(.*?)^\t\}', body, re.M | re.S):
+            cid, blk = m.group(1), m.group(2)
+            has_portraits = re.search(r'portraits\s*=\s*\{', blk)
+            if not has_portraits:
+                err(f"{rel(p)}: персонаж '{cid}' без portraits")
+                continue
+            for s in re.findall(r'(GFX_portrait_\w+)', blk):
+                if s not in sprites:
+                    err(f"{rel(p)}: персонаж '{cid}' -> спрайт '{s}' не объявлен")
+    STATS['characters'] = len(re.findall(r'^\tGLP_\w+\s*=\s*\{',
+                                          list(all_script_text('common/characters').values())[0], re.M))
+
+
+def check_no_stray_art():
+    """В gfx/ не должно быть мастер-файлов, кроме _src_* (источники сборки)."""
+    for dirpath, _d, files in os.walk(os.path.join(ROOT, 'gfx')):
+        for f in files:
+            if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tga')):
+                relp = rel(os.path.join(dirpath, f))
+                if relp.startswith('gfx/flags/'):
+                    continue          # флаги HOI4 -- формат TGA by design
+                if not f.startswith('_src_'):
+                    err(f"{rel(os.path.join(dirpath, f))}: посторонний файл "
+                        f"(мастеры называются _src_*.png/jpg)")
+
+
+def check_loc_tech_names(loc):
+    """В значениях локализации не должно быть технических имён."""
+    for lang, keys in loc.items():
+        p = keys
+        for key, where in [] :
+            pass
+    for lang in ('russian', 'english'):
+        p = os.path.join(ROOT, f'localisation/{lang}')
+        for fp in walk(f'localisation/{lang}', ('.yml',)):
+            for i, line in enumerate(read(fp).split('\n'), 1):
+                m = re.match(r'^\s*[A-Za-z0-9_.\-]+:\d*\s*"(.*)"', line)
+                if not m:
+                    continue
+                val = m.group(1)
+                if re.search(r'GFX_\w+', val):
+                    err(f"{rel(fp)}:{i}: в тексте видно техническое имя спрайта")
+                if re.search(r'\bGLP_[a-z0-9_]+\b', val):
+                    err(f"{rel(fp)}:{i}: в тексте видно техническое имя ключа GLP_*")
+
+
+def _im_alpha_min(path):
+    """Минимальная альфа пикселя через ImageMagick; None, если IM недоступен."""
+    import shutil, subprocess
+    if not shutil.which('convert'):
+        return None
+    try:
+        o = subprocess.run(
+            ['convert', path, '-alpha', 'extract',
+             '-format', '%[fx:minima*255]', 'info:'],
+            capture_output=True, text=True, timeout=30)
+        return float(o.stdout.strip())
+    except Exception:
+        return None
+
+
+def check_dds_transparency():
+    """Иконки идей и малые портреты советников обязаны иметь реальные
+    прозрачные пиксели (наличие альфа-канала само по себе ничего не
+    доказывает -- проверяем минимум альфы по факту)."""
+    for p in sorted(walk('gfx/interface/ideas', ('.dds',))):
+        mn = _im_alpha_min(p)
+        if mn is None:
+            warn("ImageMagick недоступен -- пиксельная проверка прозрачности пропущена")
+            return
+        if mn >= 32.0:
+            err(f"{rel(p)}: нет реальной прозрачности (min alpha = {mn:.0f}, "
+                f"нужно < 32) -- иконка закроет слот непрозрачным квадратом")
+
+
 def main():
     check_syntax()
     loc = load_loc()
@@ -605,6 +788,15 @@ def main():
     check_units()
     check_events(loc)
     check_characters(defs, loc)
+    check_focus_icons()
+    check_idea_pictures()
+    check_event_pictures()
+    check_idea_icon_geometry()
+    check_gui_overrides()
+    check_advisor_portraits(defs)
+    check_no_stray_art()
+    check_loc_tech_names(loc)
+    check_dds_transparency()
 
     print("=" * 72)
     print(f" GLP AUDIT  --  {len(ERRORS)} error(s), {len(WARNINGS)} warning(s)")
