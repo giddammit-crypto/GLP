@@ -1,68 +1,34 @@
 spriteTypes = {
-
-	# =========================================================================
-	#  NATIONAL SPIRITS — AAA Quality 60x60 Anarchist Style
-	#  All icons use metallic black frame + red accent + high contrast
-	# =========================================================================
-
 	spriteType = {
-		name = "GFX_idea_GLP_idea_kontrrazvedka_surveillance"
-		texturefile = "gfx/interface/ideas/idea_kontrrazvedka.dds"
-		noOfFrames = 1
+		name = "GFX_idea_GLP_black_guard_legacy"
+		texturefile = "gfx/interface/ideas/idea_GLP_black_guard_legacy.dds"
+	}
+	spriteType = {
+		name = "GFX_idea_GLP_free_syndicates_and_soviets"
+		texturefile = "gfx/interface/ideas/idea_GLP_free_syndicates_and_soviets.dds"
+	}
+	spriteType = {
+		name = "GFX_idea_GLP_hostile_encirclement"
+		texturefile = "gfx/interface/ideas/idea_GLP_hostile_encirclement.dds"
+	}
+	spriteType = {
+		name = "GFX_idea_GLP_insurgent_army"
+		texturefile = "gfx/interface/ideas/idea_GLP_insurgent_army.dds"
+	}
+	spriteType = {
+		name = "GFX_idea_GLP_kontrrazvedka_surveillance"
+		texturefile = "gfx/interface/ideas/idea_GLP_kontrrazvedka_surveillance.dds"
 	}
 
-	spriteType = {
-		name = "GFX_idea_GLP_idea_land_to_tillers"
-		texturefile = "gfx/interface/ideas/idea_land_to_tillers.dds"
-		noOfFrames = 1
-	}
-
-	spriteType = {
-		name = "GFX_idea_GLP_idea_dnieper_hydroelectric"
-		texturefile = "gfx/interface/ideas/idea_dnieper_hydroelectric.dds"
-		noOfFrames = 1
-	}
-
-	spriteType = {
-		name = "GFX_idea_GLP_idea_decentralized_workshops"
-		texturefile = "gfx/interface/ideas/idea_decentralized_workshops.dds"
-		noOfFrames = 1
-	}
-
-	spriteType = {
-		name = "GFX_idea_GLP_idea_zadov_network"
-		texturefile = "gfx/interface/ideas/idea_zadov_network.dds"
-		noOfFrames = 1
-	}
-
-	spriteType = {
-		name = "GFX_idea_GLP_idea_black_crescent"
-		texturefile = "gfx/interface/ideas/idea_black_crescent.dds"
-		noOfFrames = 1
-	}
-
-	spriteType = {
-		name = "GFX_idea_GLP_idea_triumph_of_liberty"
-		texturefile = "gfx/interface/ideas/idea_triumph_of_liberty.dds"
-		noOfFrames = 1
-	}
-
-	spriteType = {
-		name = "GFX_idea_GLP_idea_militia_patrols"
-		texturefile = "gfx/interface/ideas/idea_militia_patrols.dds"
-		noOfFrames = 1
-	}
-
-	spriteType = {
-		name = "GFX_idea_GLP_idea_autonomous_industrial_bastion"
-		texturefile = "gfx/interface/ideas/idea_autonomous_industrial_bastion.dds"
-		noOfFrames = 1
-	}
-
-	spriteType = {
-		name = "GFX_idea_GLP_idea_continental_crusade"
-		texturefile = "gfx/interface/ideas/idea_continental_crusade.dds"
-		noOfFrames = 1
-	}
-
+	# Category icons for GLP national spirits
+	spriteType = { name = "GFX_idea_GLP_military" texturefile = "gfx/interface/ideas/idea_GLP_military.dds" }
+	spriteType = { name = "GFX_idea_GLP_industry" texturefile = "gfx/interface/ideas/idea_GLP_industry.dds" }
+	spriteType = { name = "GFX_idea_GLP_cavalry" texturefile = "gfx/interface/ideas/idea_GLP_cavalry.dds" }
+	spriteType = { name = "GFX_idea_GLP_tachanka" texturefile = "gfx/interface/ideas/idea_GLP_tachanka.dds" }
+	spriteType = { name = "GFX_idea_GLP_intelligence" texturefile = "gfx/interface/ideas/idea_GLP_intelligence.dds" }
+	spriteType = { name = "GFX_idea_GLP_logistics" texturefile = "gfx/interface/ideas/idea_GLP_logistics.dds" }
+	spriteType = { name = "GFX_idea_GLP_health" texturefile = "gfx/interface/ideas/idea_GLP_health.dds" }
+	spriteType = { name = "GFX_idea_GLP_agriculture" texturefile = "gfx/interface/ideas/idea_GLP_agriculture.dds" }
+	spriteType = { name = "GFX_idea_GLP_navy" texturefile = "gfx/interface/ideas/idea_GLP_navy.dds" }
+	spriteType = { name = "GFX_idea_GLP_society" texturefile = "gfx/interface/ideas/idea_GLP_society.dds" }
 }

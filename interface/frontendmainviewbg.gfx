@@ -36,3 +36,11 @@ spriteTypes = {
 		texturefile = "gfx/interface/logo/game_logo.dds"
 	}
 }
+
+# Пустой спрайт перекрывает ванильный логотип Paradox в frontend.gui.
+spriteTypes = {
+	spriteType = {
+		name = "GFX_frontend_paradox_logo"
+		texturefile = "gfx/interface/logo/blank.dds"
+	}
+}

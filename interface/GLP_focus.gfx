@@ -748,3 +748,17 @@ spriteTypes = {
 		legacy_lazy_load = no
 	}
 }
+
+# Categorised custom focus icons, all transparent 64x64 DXT5.
+spriteTypes = {
+ spriteType = { name = "GFX_focus_GLP_political" texturefile = "gfx/interface/goals/focus_GLP_political.dds" }
+ spriteType = { name = "GFX_focus_GLP_economy" texturefile = "gfx/interface/goals/focus_GLP_economy.dds" }
+ spriteType = { name = "GFX_focus_GLP_army" texturefile = "gfx/interface/goals/focus_GLP_army.dds" }
+ spriteType = { name = "GFX_focus_GLP_cavalry" texturefile = "gfx/interface/goals/focus_GLP_cavalry.dds" }
+ spriteType = { name = "GFX_focus_GLP_railway" texturefile = "gfx/interface/goals/focus_GLP_railway.dds" }
+ spriteType = { name = "GFX_focus_GLP_agriculture" texturefile = "gfx/interface/goals/focus_GLP_agriculture.dds" }
+ spriteType = { name = "GFX_focus_GLP_intelligence" texturefile = "gfx/interface/goals/focus_GLP_intelligence.dds" }
+ spriteType = { name = "GFX_focus_GLP_international" texturefile = "gfx/interface/goals/focus_GLP_international.dds" }
+ spriteType = { name = "GFX_focus_GLP_revolution" texturefile = "gfx/interface/goals/focus_GLP_revolution.dds" }
+ spriteType = { name = "GFX_focus_GLP_technology" texturefile = "gfx/interface/goals/focus_GLP_technology.dds" }
+}
