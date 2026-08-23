@@ -10,9 +10,9 @@ spriteTypes = {
 	# borderSize = 0 отключаетъ неподвижныя кромки, фонъ масштабируется цѣликомъ.
 	corneredTileSpriteType = {
 		name = "GFX_frontend_bg"
-		texturefile = "gfx/interface/frontendmainviewbg.jpg"
+		texturefile = "gfx/interface/frontendmainviewbg.dds"
 		borderSize = { x=0 y=0 }
-		size = { x=1920 y=1080 }
+		size = { x=1920 y=1440 }
 		tilingCenter = no
 		effectFile = "gfx/FX/buttonstate_nodowneffect.lua"
 	}
