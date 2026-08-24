@@ -17,8 +17,8 @@ Checks performed:
   6. Portrait/event/idea/loading-panel DDS geometry, compression and alpha.
   7. Every national spirit uses a thematic GFX_idea_GLP_* icon and exactly
      matches tools/idea_pictures.tsv.
-  8. Loading quote geometry/font (CENTER_DOWN, -195 px / loadscreen_tip) and continuous-focus
-     palette centring/safe gap below the focus tree.
+  8. Loading quote geometry/font (vanilla tip window 1024x200, CENTER_DOWN,
+     loadscreen_tip) and continuous-focus palette centring/safe gap below the focus tree.
   9. Custom cavalry/cossack models from Rise of Russia must be present
      (GLP_units.*, NTC_cavalry in black papakha, sabre, sabre anims) and wired as
      tag-specific GLP_cavalry_entity / GLP_cavalry_2_entity without
@@ -802,29 +802,39 @@ def check_gui_overrides():
         if 'GFX_loadingtip_bg' not in body or 'bg_load_screen' not in body:
             err("interface/load_screen.gui: нет ванильной плашки bg_load_screen / GFX_loadingtip_bg")
 
-        # Окно 180 px позиционировано внизу экрана (CENTER_DOWN, y=-195);
-        # текстовая область имеет y=20, h=140. Шрифт -- loadscreen_tip.
+        # Окно "tip" повторяет ванильный layout: 1024x200 (CENTER_DOWN),
+        # плашка на x=-700/y=-147, текст loadscreen_tip на x=-450/y=-157.
+        # Кастомная подложка-карточка не используется.
         required = (
-            'position = { x = -512 y = -195 }',
-            'size = { x = 1024 y = 180 }',
+            'position = { x = 0 y = 0 }',
+            'size = { x = 1024 y = 200 }',
             'Orientation = "CENTER_DOWN"',
-            'spriteType = "GFX_GLP_loading_tip_journal_bg"',
-            'position = { x = 40 y = 20 }',
+            'position = { x = -700 y = -147 }',
+            'position = { x = -450 y = -157 }',
             'font = "loadscreen_tip"',
-            'maxWidth = 944',
-            'maxHeight = 140',
+            'maxWidth = 900',
+            'maxHeight = 200',
         )
         for token in required:
             if token not in body:
-                err(f"interface/load_screen.gui: нарушена спецификация цитаты -> {token}")
+                err(f"interface/load_screen.gui: нарушена ванильная спецификация цитаты -> {token}")
 
-    panel = os.path.join(ROOT, 'gfx/interface/loading_tip_journal_bg.dds')
-    info = dds_info(panel) if os.path.exists(panel) else None
-    if info is None:
-        err("gfx/interface/loading_tip_journal_bg.dds: отсутствует/не является DDS")
-    elif info[:2] != (1024, 180):
-        err(f"gfx/interface/loading_tip_journal_bg.dds: {info[0]}x{info[1]}, "
-            "ожидается 1024x180")
+        if 'GFX_GLP_loading_tip_journal_bg' in body:
+            err("interface/load_screen.gui: кастомная подложка GFX_GLP_loading_tip_journal_bg "
+                "не должна использоваться — блок цитаты должен выглядеть как в ваниле")
+
+    gfx = os.path.join(ROOT, 'interface/load_screen.gfx')
+    if os.path.exists(gfx):
+        gbody = strip_comments(read(gfx))
+        if 'GFX_GLP_loading_tip_journal_bg' in gbody:
+            err("interface/load_screen.gfx: кастомная подложка GFX_GLP_loading_tip_journal_bg "
+                "не должна определяться")
+        m = re.search(r'name\s*=\s*"GFX_loadingtip_bg"[^{}]*?texturefile\s*=\s*"([^"]+)"', gbody)
+        if not m:
+            err("interface/load_screen.gfx: GFX_loadingtip_bg не определён")
+        elif m.group(1) != 'gfx/interface/Loadingscreen_loadingtip.dds':
+            err("interface/load_screen.gfx: GFX_loadingtip_bg -> " + m.group(1) +
+                ", ожидается ванильная gfx/interface/Loadingscreen_loadingtip.dds")
 
     if os.path.exists(os.path.join(ROOT, 'interface/loadingscreen.gui')):
         err("interface/loadingscreen.gui: пустой файл с неванильным именем -- удалить")
