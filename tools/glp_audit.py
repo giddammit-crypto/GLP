@@ -17,10 +17,10 @@ Checks performed:
   6. Portrait/event/idea/loading-panel DDS geometry, compression and alpha.
   7. Every national spirit uses a thematic GFX_idea_GLP_* icon and exactly
      matches tools/idea_pictures.tsv.
-  8. Loading quote geometry/font (+200 px from centre) and continuous-focus
+  8. Loading quote geometry/font (CENTER_DOWN, -195 px / loadscreen_tip) and continuous-focus
      palette centring/safe gap below the focus tree.
   9. Custom cavalry/cossack models from Rise of Russia must be present
-     (GLP_units.*, DON_cavalry, sabre, sabre anims) and wired as
+     (GLP_units.*, NTC_cavalry in black papakha, sabre, sabre anims) and wired as
      tag-specific GLP_cavalry_entity / GLP_cavalry_2_entity without
      cloning vanilla cavalry entities.
  10. Character traits that are neither vanilla nor defined by the mod.
@@ -507,8 +507,8 @@ def check_fonts():
 def check_loading_tips():
     """Ванильные цитаты загрузки должны быть полностью перекрыты.
 
-    Базовая игра использует ключи LOADING_TIP_1..~90, DLC добавляют свои;
-    чтобы ванильная цитата никогда не появилась, мы перекрываем 1..256.
+    Базовая игра использует ключи LOADING_TIP_0..~90, DLC добавляют свои;
+    чтобы ванильная цитата никогда не появилась, мы перекрываем 0..256.
     """
     for lang in ('russian', 'english'):
         p = os.path.join(ROOT, f'localisation/{lang}/loading_tips_l_{lang}.yml')
@@ -521,7 +521,7 @@ def check_loading_tips():
         if not nums:
             err(f"{rel(p)}: не найдено ни одного ключа LOADING_TIP_<n>")
             continue
-        gaps = [n for n in range(1, 257) if n not in nums]
+        gaps = [n for n in range(0, 257) if n not in nums]
         if gaps:
             err(f"{rel(p)}: не перекрыты ванильные цитаты "
                 f"(нет ключей для {len(gaps)} номеров, первый: LOADING_TIP_{gaps[0]})")
@@ -529,11 +529,13 @@ def check_loading_tips():
 
 def check_music():
     """Ванильный саундтрек должен быть перекрыт файлами мода."""
-    for f in ('music/music.asset', 'music/songs.txt'):
+    for f in ('music/music.asset', 'music/songs.txt', 'music/_songs.txt'):
         if not os.path.exists(os.path.join(ROOT, f)):
             err(f"{f} отсутствует — ванильный саундтрек не будет перекрыт")
             continue
         body = read(os.path.join(ROOT, f))
+        if f.endswith('.txt') and 'music_station' not in body:
+            err(f"{f}: отсутствует директива music_station — станция не зарегистрируется в радиоприёмнике")
         for m in re.finditer(r'file\s*=\s*"([^"]+)"', body):
             if not os.path.exists(os.path.join(ROOT, 'music', m.group(1))):
                 err(f"{f}: аудиофайл не найден -> music/{m.group(1)}")
@@ -547,6 +549,16 @@ def check_music():
         if len(tracks) < 10:
             warn(f'music/music.asset: в плейлисте только {len(tracks)} '
                  f'треков (ожидается 10–11 композиций Монгол Шуудан)')
+
+
+def check_opinions(loc):
+    """Все модификаторы мнений должны быть локализованы."""
+    for p, body in all_script_text('common/opinion_modifiers').items():
+        for m in re.finditer(r'^\t([A-Za-z0-9_]+)\s*=\s*\{', body, re.M):
+            op = m.group(1)
+            for lang in ('russian', 'english'):
+                if op not in loc.get(lang, {}):
+                    err(f"{rel(p)}: модификатор мнения '{op}' не локализован ({lang})")
 
 
 def glob_dds(subdir):
@@ -790,15 +802,15 @@ def check_gui_overrides():
         if 'GFX_loadingtip_bg' not in body or 'bg_load_screen' not in body:
             err("interface/load_screen.gui: нет ванильной плашки bg_load_screen / GFX_loadingtip_bg")
 
-        # Окно 180 px начинается на +110 от центра; текстовая область имеет
-        # y=20, h=140. Следовательно, центр текста: 110+20+70 = +200 px.
+        # Окно 180 px позиционировано внизу экрана (CENTER_DOWN, y=-195);
+        # текстовая область имеет y=20, h=140. Шрифт -- loadscreen_tip.
         required = (
-            'position = { x = -512 y = 110 }',
+            'position = { x = -512 y = -195 }',
             'size = { x = 1024 y = 180 }',
-            'Orientation = CENTER',
+            'Orientation = "CENTER_DOWN"',
             'spriteType = "GFX_GLP_loading_tip_journal_bg"',
             'position = { x = 40 y = 20 }',
-            'font = "hoi4_typewriter22"',
+            'font = "loadscreen_tip"',
             'maxWidth = 944',
             'maxHeight = 140',
         )
@@ -855,10 +867,10 @@ EXPECTED_UNIT_MODEL_FILES = (
     'gfx/entities/GLP_units.asset',
     'gfx/entities/GLP_units.gfx',
     'gfx/models/units/GLP_cavalry_animations.asset',
-    'gfx/models/units/DON_cavalry.mesh',
-    'gfx/models/units/DON_cavalry_diffuse.dds',
-    'gfx/models/units/DON_cavalry_normal.dds',
-    'gfx/models/units/DON_cavalry_specular.dds',
+    'gfx/models/units/NTC_cavalry.mesh',
+    'gfx/models/units/NTC_cavalry_diffuse_.dds',
+    'gfx/models/units/NTC_cavalry_normal.dds',
+    'gfx/models/units/NTC_cavalry_spec.dds',
     'gfx/models/units/russian_sword_sabre.mesh',
     'gfx/models/units/russian_sword_sabre_holder.mesh',
     'gfx/models/units/russian_sword_sabre_diffuse.dds',
@@ -1125,10 +1137,6 @@ def check_no_stray_art():
 
 def check_loc_tech_names(loc):
     """В значениях локализации не должно быть технических имён."""
-    for lang, keys in loc.items():
-        p = keys
-        for key, where in [] :
-            pass
     for lang in ('russian', 'english'):
         p = os.path.join(ROOT, f'localisation/{lang}')
         for fp in walk(f'localisation/{lang}', ('.yml',)):
@@ -1139,8 +1147,8 @@ def check_loc_tech_names(loc):
                 val = m.group(1)
                 if re.search(r'GFX_\w+', val):
                     err(f"{rel(fp)}:{i}: в тексте видно техническое имя спрайта")
-                if re.search(r'\bGLP_[a-z0-9_]+\b', val):
-                    err(f"{rel(fp)}:{i}: в тексте видно техническое имя ключа GLP_*")
+                if re.search(r'\b(GLP|GPL)_[a-z0-9_]+\b', val, re.IGNORECASE):
+                    err(f"{rel(fp)}:{i}: в тексте видно техническое имя ключа GLP_*/GPL_*")
 
 
 def _im_alpha_min(path):
@@ -1184,6 +1192,7 @@ def main():
     check_music()
     check_fonts()
     check_bookmarks(loc)
+    check_opinions(loc)
     check_focus_tree(defs)
     check_continuous_focus_layout()
     check_units()

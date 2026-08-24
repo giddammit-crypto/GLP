@@ -30,3 +30,7 @@
  glp_strat_bomber:0 "Strategic bombers"
  glp_sub_bonus:0 "Black Sea submarines"
  glp_weapons:0 "Workers' gunsmith shops"
+ GLP_soviet_military_pact:0 "Soviet-Makhnovist Military Pact"
+ GLP_german_military_pact:0 "German-Makhnovist Non-Aggression Pact"
+ GLP_british_military_pact:0 "British-Makhnovist Military Agreement"
+ GLP_kharkov_pact_signed:0 "Kharkov Military-Political Agreement"

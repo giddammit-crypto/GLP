@@ -30,3 +30,7 @@
  glp_strat_bomber:0 "Дальние бомбардировщики"
  glp_sub_bonus:0 "Подводные лодки Чёрного моря"
  glp_weapons:0 "Оружейные артели"
+ GLP_soviet_military_pact:0 "Советско-махновский военный пакт"
+ GLP_german_military_pact:0 "Германо-махновский пакт о ненападении"
+ GLP_british_military_pact:0 "Британско-махновское военное соглашение"
+ GLP_kharkov_pact_signed:0 "Харьковское военно-политическое соглашение"

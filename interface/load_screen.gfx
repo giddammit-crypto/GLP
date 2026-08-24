@@ -17,7 +17,7 @@ spriteTypes = {
 	
 	spriteType = {
 		name = "GFX_loadingtip_bg"
-		texturefile = "gfx/interface/Loadingscreen_loadingtip.dds"
+		texturefile = "gfx/interface/loading_tip_journal_bg.dds"
 	}
 	
 	spriteType = {
