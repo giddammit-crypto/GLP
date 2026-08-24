@@ -30,7 +30,7 @@ characters = {
 			expire = "1965.1.1"
 		}
 		field_marshal = {
-			traits = { guerilla_fighter trickster cavalry_officer offensive_doctrine GLP_tachanka_commander }
+			traits = { guerilla_fighter trickster offensive_doctrine GLP_tachanka_commander }
 			skill = 4
 			attack_skill = 5
 			defense_skill = 3
@@ -226,7 +226,7 @@ characters = {
 			}
 		}
 		corps_commander = {
-			traits = { cavalry_officer infantry_officer guerilla_fighter harsh_leader trait_reckless }
+			traits = { guerilla_fighter harsh_leader trait_reckless }
 			skill = 4
 			attack_skill = 5
 			defense_skill = 2
@@ -325,7 +325,7 @@ characters = {
 			}
 		}
 		corps_commander = {
-			traits = { organizer infantry_officer trait_reckless }
+			traits = { organizer trait_reckless }
 			skill = 3
 			attack_skill = 3
 			defense_skill = 3
@@ -396,7 +396,7 @@ characters = {
 			}
 		}
 		corps_commander = {
-			traits = { cavalry_officer trait_reckless GLP_white_emigre }
+			traits = { trait_reckless GLP_white_emigre }
 			skill = 3
 			attack_skill = 4
 			defense_skill = 2
@@ -418,7 +418,7 @@ characters = {
 			}
 		}
 		corps_commander = {
-			traits = { infantry_officer trait_reckless GLP_white_emigre }
+			traits = { trait_reckless GLP_white_emigre }
 			skill = 4
 			attack_skill = 5
 			defense_skill = 3

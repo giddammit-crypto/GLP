@@ -28,6 +28,7 @@ Checks performed:
 
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
+import hashlib
 import os
 import re
 import struct
@@ -508,8 +509,17 @@ def check_loading_tips():
     """Ванильные цитаты загрузки должны быть полностью перекрыты.
 
     Базовая игра использует ключи LOADING_TIP_0..~90, DLC добавляют свои;
-    чтобы ванильная цитата никогда не появилась, мы перекрываем 0..256.
+    чтобы ванильная цитата никогда не появилась, мы перекрываем 0..500.
+    При этом в файле не должно остаться ни одной ванильной цитаты: только
+    авторские цитаты мода (Прудон, Бакунин, Кропоткин, Махно, Волин и т.д.).
     """
+    ALLOWED_SIGNS = ('М. А. Бакунинъ', 'П. А. Кропоткинъ', 'П.-Ж. Прудонъ',
+                     'Э. Гольдманъ', 'Н. И. Махно', 'В. М. Волинъ',
+                     'П. А. Аршиновъ', 'Декларація РПА', 'Девизъ тачанки',
+                     'Девизъ анархистовъ', 'Mikhail Bakunin', 'Peter Kropotkin',
+                     'Pierre-Joseph Proudhon', 'Emma Goldman', 'Nestor Makhno',
+                     'V. M. Voline', 'Peter Arshinov', 'RIAU Declaration',
+                     'Tachanka motto', 'Anarchist motto')
     for lang in ('russian', 'english'):
         p = os.path.join(ROOT, f'localisation/{lang}/loading_tips_l_{lang}.yml')
         if not os.path.exists(p):
@@ -521,10 +531,15 @@ def check_loading_tips():
         if not nums:
             err(f"{rel(p)}: не найдено ни одного ключа LOADING_TIP_<n>")
             continue
-        gaps = [n for n in range(0, 257) if n not in nums]
+        gaps = [n for n in range(0, 501) if n not in nums]
         if gaps:
             err(f"{rel(p)}: не перекрыты ванильные цитаты "
                 f"(нет ключей для {len(gaps)} номеров, первый: LOADING_TIP_{gaps[0]})")
+        # Никаких ванильных цитат: каждый текст обязан ссылаться на автора мода.
+        for m in re.finditer(r'^LOADING_TIP_\d+:0 .*$', text, re.M):
+            line = m.group(0)
+            if not any(sign in line for sign in ALLOWED_SIGNS):
+                err(f"{rel(p)}: ванильная цитата не перекрыта -> {line[:80]}...")
 
 
 def check_music():
@@ -549,6 +564,21 @@ def check_music():
         if len(tracks) < 10:
             warn(f'music/music.asset: в плейлисте только {len(tracks)} '
                  f'треков (ожидается 10–11 композиций Монгол Шуудан)')
+        # Предупреждаем о заглушке: если все .ogg байт-в-байт одинаковые,
+        # в игре все "дорожки" звучат как один трек (сейчас это так и есть).
+        oggs = sorted(p for p in walk('music', ('.ogg',)))
+        hashes = defaultdict(set)
+        for p in oggs:
+            with open(p, 'rb') as fh:
+                hashes[hashlib.md5(fh.read()).hexdigest()].add(rel(p))
+        dup = {h: sorted(v) for h, v in hashes.items() if len(v) > 1}
+        if dup and len(hashes) == 1:
+            warn(f'music: все {len(oggs)} .ogg файлов идентичны (md5 '
+                 f'{list(hashes)[0]}) — это плейсхолдеры. Замените их реальными '
+                 f'дорожками Монгол Шуудан (OGG Vorbis) с теми же именами.')
+        elif dup:
+            for h, v in dup.items():
+                warn(f'music: одинаковые .ogg ({len(v)} шт.): {", ".join(v)}')
 
 
 def check_opinions(loc):
