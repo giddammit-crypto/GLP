@@ -21,6 +21,9 @@ Checks performed:
      palette centring/safe gap below the focus tree.
   9. Imported 3D unit mesh/texture/animation integrity and dependencies.
  10. Character traits that are neither vanilla nor defined by the mod.
+ 11. Entity graph: clone/pdxmesh resolution against mod+vanilla whitelists,
+     state animations declared on the pdxmesh, attach nodes present in the
+     binary mesh, and the `check_variable = { random }` anti-pattern.
 
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
@@ -945,6 +948,220 @@ def check_unit_models():
     STATS['unit_model_files'] = len(EXPECTED_UNIT_MODEL_FILES)
 
 
+# ---------------------------------------------------------------- 11. entity graph
+# Ванильные имена, разрешённые в сущностях мода (проверено по дампу базовой
+# игры units_cavalry.asset/units_infantry.asset и RSR, 2026-08).
+VANILLA_ENTITIES = set("""
+    infantry_rifle_entity infantry_2_entity infantry_3_entity
+    infantry_rider_entity generic_infantry_mg_rider_entity
+    cavalry_entity cavalry_2_entity
+    infantry_cavalry_horse_entity
+    generic_cavalry_rifle_combined_entity generic_cavalry_mg_combined_entity
+    camelry_entity
+    GER_infantry_weapon_rifle_right_entity GER_infantry_weapon_rifle_left_entity
+    GER_infantry_weapon_rifle_long_idle_entity
+    GER_infantry_weapon_mg_right_entity GER_infantry_weapon_mg_left_entity
+    GER_infantry_weapon_mg_long_idle_entity
+""".split())
+
+# Ванильные pdxmesh, используемые в attach/состояниях: известные id-анимации
+# и ноды (по дампу infantry.gfx базовой игры).
+VANILLA_MESH_ANIMS = {
+    'infantry_cavalry_horse_mesh': {'cavalry_idle', 'cavalry_move',
+                                    'cavalry_attack', 'cavalry_attack_2'},
+    'infantry_cavalry_horse_frame_mesh': {'idle', 'move', 'attack'},
+    'infantry_cavalry_camel_mesh': {'cavalry_idle', 'cavalry_move',
+                                    'cavalry_attack', 'cavalry_attack_2'},
+}
+VANILLA_MESH_NODES = {
+    'infantry_cavalry_horse_mesh': {'Saddle_Node'},
+    'infantry_cavalry_horse_frame_mesh': set(),
+    'infantry_cavalry_camel_mesh': {'Saddle_Node'},
+}
+# Минимальный набор id-анимаций для GLP-mesh пехоты: ванильный родительский
+# entity (infantry_rifle_entity и др.) ссылається на эти стейты.
+REQUIRED_INFANTRY_MESH_ANIMS = {
+    'idle', 'attack', 'support_attack', 'move', 'march_move', 'retreat',
+    'death', 'training', 'long_idle01',
+}
+_MESH_SECTION_KEYWORDS = {'pCubeShape4', 'mesh', 'aabb', 'material', 'skin',
+                          'skeleton'}
+
+
+def _mesh_bones(path):
+    """Кости PDX-меша: строки вида [[Name внутри бинарника."""
+    with open(path, 'rb') as fh:
+        raw = fh.read()
+    bones = set(re.findall(rb'\[\[([A-Za-z0-9_]+)', raw))
+    return {b.decode() for b in bones} - _MESH_SECTION_KEYWORDS
+
+
+def _parse_entity_blocks(body):
+    """entity = { ... } -> {name: block} (вложенных entity не бывает)."""
+    ents = {}
+    for m in re.finditer(r'\bentity\s*=\s*\{', body):
+        start = m.end()
+        depth = 1
+        i = start
+        while i < len(body) and depth:
+            if body[i] == '{':
+                depth += 1
+            elif body[i] == '}':
+                depth -= 1
+            i += 1
+        blk = body[start:i - 1]
+        nm = re.search(r'\bname\s*=\s*"([A-Za-z0-9_]+)"', blk)
+        if nm:
+            ents[nm.group(1)] = blk
+    return ents
+
+
+def check_entity_graph():
+    """Глубокая проверка графа 3D-сущностей GLP (причина крашей рендера).
+
+    Аудит ранее не проверял:
+      * резолвится ли clone (GLP-entity или ванильный белый список);
+      * резолвится ли pdxmesh (GLP-mesh или ванильный белый список);
+      * каждая animation = "X" в state существует среди объявленных id
+        данного pdxmesh (у ванильного меша -- по известному набору);
+      * каждая attach-нода реально есть в бинарном .mesh (у ванильного
+        меша -- по белому списку);
+      * тип анимации в GLP_units.gfx -- GLP_* (собственный .asset) или
+        GER_infantry_* (базовая игра).
+    Плюс анти-паттерн `check_variable = { random ... }` во всех скриптах.
+    """
+    gfx_path = os.path.join(ROOT, 'gfx/entities/GLP_units.gfx')
+    asset_path = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
+    if not (os.path.exists(gfx_path) and os.path.exists(asset_path)):
+        return
+    model_dir = os.path.join(ROOT, 'gfx/models/units')
+    gfx_body = strip_comments(read(gfx_path))
+    asset_body = strip_comments(read(asset_path))
+
+    # mesh name -> {anims: set, file: path}
+    meshes = {}
+    for m in re.finditer(
+            r'\bpdxmesh\s*=\s*\{[^{}]*?name\s*=\s*"(GLP_[A-Za-z0-9_]+)"(.*?)\n\t\}',
+            gfx_body, re.S):
+        name, blk = m.group(1), m.group(2)
+        meshes[name] = {
+            'anims': set(re.findall(r'animation\s*=\s*\{\s*id\s*=\s*"([A-Za-z0-9_]+)"', blk)),
+            'file': (re.search(r'file\s*=\s*"([^"]+)"', blk) or [None, None])[1]
+            if re.search(r'file\s*=\s*"([^"]+)"', blk) else None,
+        }
+    if not meshes:
+        err(f"{rel(gfx_path)}: не найдено ни одной GLP pdxmesh")
+        return
+
+    # тип анимации в gfx: GLP_* (объявлен в GLP_cavalry_animations.asset)
+    # или GER_infantry_* (базовая игра, проверено дампом generic mesh)
+    anim_types = set(re.findall(r'type\s*=\s*"(GLP_[A-Za-z0-9_]+|GER_infantry_[A-Za-z0-9_]+)"', gfx_body))
+    anim_decls = set(re.findall(
+        r'animation\s*=\s*\{\s*name\s*=\s*"(GLP_[A-Za-z0-9_]+)"',
+        strip_comments(read(os.path.join(model_dir, 'GLP_cavalry_animations.asset'))))) \
+        if os.path.exists(os.path.join(model_dir, 'GLP_cavalry_animations.asset')) else set()
+    for t in sorted(anim_types):
+        if t.startswith('GLP_') and t not in anim_decls:
+            err(f"{rel(gfx_path)}: animation type '{t}' не объявлен в GLP_cavalry_animations.asset")
+
+    # бинарные ноды GLP-мешей
+    mesh_nodes = {}
+    for name, info in meshes.items():
+        if info['file'] and os.path.exists(os.path.join(ROOT, info['file'])):
+            mesh_nodes[name] = _mesh_bones(os.path.join(ROOT, info['file']))
+
+    ents = _parse_entity_blocks(asset_body)
+    glp_ents = set(ents)
+
+    # Цепочка clone: кто наследует стейты ванильной пехоты
+    # (infantry_rifle_entity / infantry_2_entity / infantry_3_entity) —
+    # именно их меш обязан объявлять REQUIRED_INFANTRY_MESH_ANIMS.
+    # (Кавалерийские "rider"-сущности не клонируют ванильную пехоту.)
+    clone_map = {}
+    for ename, blk in ents.items():
+        cm = re.search(r'\bclone\s*=\s*"([A-Za-z0-9_]+)"', blk)
+        clone_map[ename] = cm.group(1) if cm else None
+    needs_infantry_anims = set()
+
+    def _reaches_infantry_parent(name, depth=0):
+        if depth > 8 or name in needs_infantry_anims:
+            return name in needs_infantry_anims
+        if name in ('infantry_rifle_entity', 'infantry_2_entity',
+                    'infantry_3_entity'):
+            needs_infantry_anims.add(name)
+            return True
+        parent = clone_map.get(name)
+        return bool(parent and _reaches_infantry_parent(parent, depth + 1))
+    for ename in list(ents):
+        _reaches_infantry_parent(ename)
+
+    for ename, blk in sorted(ents.items()):
+        # 1) clone
+        cm = re.search(r'\bclone\s*=\s*"([A-Za-z0-9_]+)"', blk)
+        if cm:
+            tgt = cm.group(1)
+            if tgt not in glp_ents and tgt not in VANILLA_ENTITIES:
+                err(f"{rel(asset_path)}: entity '{ename}': clone '{tgt}' — "
+                    "нет ни среди сущностей мода, ни в ванильном белом списке "
+                    "(кросс-файловые clone к cavalry-сущностям — источник краша)")
+        # 2) pdxmesh
+        pm = re.search(r'\bpdxmesh\s*=\s*"([A-Za-z0-9_]+)"', blk)
+        mesh = pm.group(1) if pm else None
+        if mesh and mesh not in meshes and mesh not in VANILLA_MESH_ANIMS:
+            err(f"{rel(asset_path)}: entity '{ename}': pdxmesh '{mesh}' — "
+                "не объявлен в GLP_units.gfx и не ванильный")
+        # 3) анимации в явных state должны существовать у pdxmesh
+        if mesh:
+            allowed = (meshes.get(mesh, {}).get('anims')
+                       if mesh in meshes else
+                       VANILLA_MESH_ANIMS.get(mesh, set()))
+            for am in re.finditer(r'\bstate\s*=\s*\{[^}]*?animation\s*=\s*"([A-Za-z0-9_]+)"', blk):
+                if am.group(1) not in allowed:
+                    err(f"{rel(asset_path)}: entity '{ename}': state "
+                        f"animation '{am.group(1)}' не объявлен у меша '{mesh}'")
+        # 4) attach: ноды в бинарном меше + цель attach
+        for att in re.finditer(r'\battach\s*=\s*\{\s*name\s*=\s*"[A-Za-z0-9_]+"\s+'
+                               r'([A-Za-z0-9_]+|infantry|cavalry|horse)\s*=\s*"(?P<t>[A-Za-z0-9_]+)"', blk):
+            node, target = att.group(1), att.group('t')
+            if node in ('infantry', 'cavalry', 'horse'):
+                if target not in glp_ents and target not in VANILLA_ENTITIES:
+                    err(f"{rel(asset_path)}: entity '{ename}': attach {node} "
+                        f"-> '{target}' не определена")
+                continue
+            if mesh in mesh_nodes:
+                if node not in mesh_nodes[mesh]:
+                    err(f"{rel(asset_path)}: entity '{ename}': attach-нода "
+                        f"'{node}' отсутствует в бинарном меше '{mesh}'")
+            elif mesh in VANILLA_MESH_NODES:
+                if node not in VANILLA_MESH_NODES[mesh]:
+                    err(f"{rel(asset_path)}: entity '{ename}': attach-нода "
+                        f"'{node}' не найдена у ванильного меша '{mesh}'")
+            if target not in glp_ents and target not in VANILLA_ENTITIES:
+                err(f"{rel(asset_path)}: entity '{ename}': attach -> "
+                    f"'{target}' не определена")
+        # 5) сущность, наследующая стейты ванильной пехоты (цепочка clone
+        # до infantry_rifle_entity/infantry_2_entity), обязана стоять на
+        # GLP-меше, объявляющем эти id-анимации
+        if mesh in meshes and ename in needs_infantry_anims:
+            missing = REQUIRED_INFANTRY_MESH_ANIMS - meshes[mesh]['anims']
+            if missing:
+                err(f"{rel(asset_path)}: entity '{ename}': меш '{mesh}' не "
+                    f"объявляет {sorted(missing)} — унаследованные ванильные "
+                    "стейты infantry_*_entity будут ссылаться на пустоту")
+
+    STATS['entity_graph'] = (len(ents), len(meshes))
+
+    # анти-паттерн: random не является переменной для check_variable
+    for d in ('common', 'events', 'history'):
+        for p in walk(d, ('.txt',)):
+            body = strip_comments(read(p))
+            for i, line in enumerate(body.split('\n'), 1):
+                if re.search(r'check_variable\s*=\s*\{[^}]*\brandom\b', line):
+                    err(f"{rel(p)}:{i}: check_variable сравнивает только "
+                        f"set_variable-переменные; для шанса используйте "
+                        f"'random = <процент>' как отдельный триггер")
+
+
 def check_no_stray_art():
     """В gfx/ не должно быть мастер-файлов, кроме _src_* (источники сборки)."""
     for dirpath, _d, files in os.walk(os.path.join(ROOT, 'gfx')):
@@ -1031,6 +1248,7 @@ def main():
     check_gui_overrides()
     check_advisor_portraits(defs)
     check_unit_models()
+    check_entity_graph()
     check_no_stray_art()
     check_loc_tech_names(loc)
     check_dds_transparency()
