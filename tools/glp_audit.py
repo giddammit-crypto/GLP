@@ -907,6 +907,10 @@ EXPECTED_UNIT_MODEL_FILES = (
     'gfx/entities/GLP_units.asset',
     'gfx/entities/GLP_units.gfx',
     'gfx/models/units/GLP_cavalry_animations.asset',
+    'gfx/models/units/RSR_marine.mesh',
+    'gfx/models/units/RSR_marine_diffuse.dds',
+    'gfx/models/units/RSR_marine_normal.dds',
+    'gfx/models/units/RSR_marine_spec.dds',
     'gfx/models/units/NTC_cavalry.mesh',
     'gfx/models/units/NTC_cavalry_diffuse_.dds',
     'gfx/models/units/NTC_cavalry_normal.dds',
@@ -928,7 +932,7 @@ EXPECTED_UNIT_MODEL_FILES = (
 
 
 def check_unit_models():
-    """Казачья конница Rise of Russia должна быть на месте."""
+    """Пехота-матрос RSR_marine и казачья конница Rise of Russia должны быть на месте."""
     for fname in EXPECTED_UNIT_MODEL_FILES:
         p = os.path.join(ROOT, fname)
         if not os.path.exists(p):
@@ -937,11 +941,11 @@ def check_unit_models():
     asset = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
     if os.path.exists(asset):
         body = strip_comments(read(asset))
-        for name in ('GLP_cavalry_entity', 'GLP_cavalry_2_entity'):
+        for name in ('GLP_infantry_entity', 'GLP_cavalry_entity', 'GLP_cavalry_2_entity'):
             if f'name = "{name}"' not in body:
                 err(f"gfx/entities/GLP_units.asset: нет сущности '{name}'")
-        if re.search(r'clone\s*=\s*"(cavalry_entity|cavalry_2_entity|generic_infantry_mg_rider_entity)"', body):
-            err("gfx/entities/GLP_units.asset: запрещён clone ванильной cavalry-сущности")
+        if re.search(r'clone\s*=\s*"(cavalry_entity|cavalry_2_entity|generic_infantry_mg_rider_entity|infantry_rifle_entity)"', body):
+            err("gfx/entities/GLP_units.asset: запрещён clone ванильной cavalry/infantry-сущности")
 
 
 # ---------------------------------------------------------------- 11. entity graph
