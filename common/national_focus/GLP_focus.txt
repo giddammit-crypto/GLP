@@ -73,7 +73,7 @@ focus_tree = {
 			add_ideas = GLP_idea_legendary_tachankas
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1000 producer = GLP }
 			add_political_power = -25 # Debuff: Реквизиция мастерских
-			country_event = { id = glp_news.3 days = 1 }
+			news_event = { id = glp_news.3 days = 1 }
 		}
 	}
 
@@ -723,7 +723,7 @@ focus_tree = {
 			add_stability = 0.05
 			add_war_support = 0.10
 			add_ideas = GLP_idea_free_will
-			country_event = { id = glp_news.6 days = 1 }
+			news_event = { id = glp_news.6 days = 1 }
 		}
 	}
 
@@ -756,13 +756,11 @@ focus_tree = {
 			recruit_character = GLP_nikolai_skoblin
 			recruit_character = GLP_anton_turkul
 			recruit_character = GLP_grigory_semyonov
-			recruit_character = GLP_lavr_kornilov
-			recruit_character = GLP_mikhail_drozdovsky
 			load_oob = "GLP_old_enemies"
 			add_manpower = 8000
 			army_experience = 15
-			country_event = { id = glp_news.7 days = 1 }
-			country_event = { id = glp_white.1 days = 45 random_days = 15 }
+			news_event = { id = glp_news.7 days = 1 }
+			news_event = { id = glp_white.1 days = 45 random_days = 15 }
 		}
 	}
 
@@ -978,7 +976,7 @@ focus_tree = {
 			add_stability = 0.10
 			add_political_power = 100
 			add_war_support = -0.05
-			country_event = { id = glp_news.2 days = 1 }
+			news_event = { id = glp_news.2 days = 1 }
 		}
 	}
 

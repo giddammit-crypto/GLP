@@ -4,11 +4,8 @@
 #  Полная копия ванильного interface/eventwindow.gui (сверено с копиями
 #  игры 1.7.1 и актуальных версий), в которой изменено ТОЛЬКО окно
 #  EventWindow_News: ширина удвоена (528 -> 1056), картинка, заголовок,
-#  текст и кнопки отцентрированы. Фон — собственный стильный спрайт
-#  GFX_GLP_event_news_bg (тёмная газетная бумага, золотая рамка;
-#  ванильная газета НЕ используется), снимок обрамлён рамкой
-#  GFX_GLP_news_pic_frame вместо ванильного overlay. Шрифты: заголовок —
-#  display-шрифт hoi_24header, текст — читаемый hoi_18mbs (оба с кириллицей).
+#  текст и кнопки отцентрированы; фон — наш широкий спрайт
+#  GFX_event_news_bg_wide (9-slice из ванильной газеты, interface/GLP_eventwindow.gfx).
 #  Остальные окна (обычные события, лидеры, агенты) не тронуты.
 # ============================================================================
 guiTypes = {
@@ -425,7 +422,7 @@ guiTypes = {
 
 		background = {
 			name = "Background"
-			spriteType ="GFX_GLP_event_news_bg"
+			spriteType ="GFX_event_news_bg_wide"
 		}
 
 		containerWindowType = {
@@ -444,8 +441,8 @@ guiTypes = {
 
 			iconType = {
 				name ="event_picture_overlay"
-				spriteType = "GFX_GLP_news_pic_frame"
-				position = { x = 326 y = 87 }
+				spriteType = "GFX_event_news_pic_overlay"
+				position = { x = 330 y = 91 }
 				Orientation = "UPPER_LEFT"
 				alwaystransparent = yes
 			}
@@ -453,7 +450,7 @@ guiTypes = {
 			instantTextBoxType = {
 				name = "Title"
 				position = { x = 58 y = 253 }
-				font = "hoi_24header"
+				font = "hoi4_typewriter22"
 				borderSize = {x = 0 y = 0}
 				text = "Title text here!"
 				maxWidth = 940
@@ -488,7 +485,7 @@ guiTypes = {
 			instantTextBoxType = {
 				name = "Description"
 				position = { x = 58 y = 175 }
-				font = "hoi_18mbs"
+				font = "hoi4_typewriter16"
 				borderSize = { x = 0 y = 0 }
 				text = "Long text here!"
 				maxWidth = 940

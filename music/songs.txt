@@ -7,87 +7,125 @@
 ###  игры; для Гуляйполя шансъ выше.
 ### =========================================================================
 
+music_station = "base_music"
+
 music = {
 	song = "maintheme"
-	chance = { factor = 1 }
+	chance = {
+		factor = 1
+		modifier = {
+			factor = 0
+			has_war = yes
+		}
+	}
 }
 
 music = {
 	song = "GLP_ms_yablochko"
 	chance = {
-		factor = 10
-		modifier = { factor = 2 tag = GLP }
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }
 
 music = {
 	song = "GLP_ms_strelyai"
 	chance = {
-		factor = 10
-		modifier = { factor = 2 tag = GLP }
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }
 
 music = {
 	song = "GLP_ms_svoboda"
 	chance = {
-		factor = 9
-		modifier = { factor = 2 tag = GLP }
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }
 
 music = {
 	song = "GLP_ms_moskva"
 	chance = {
-		factor = 7
-		modifier = { factor = 2 tag = GLP }
+		factor = 1.5
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }
 
 music = {
 	song = "GLP_ms_finka"
 	chance = {
-		factor = 9
-		modifier = { factor = 2 tag = GLP }
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }
 
 music = {
 	song = "GLP_ms_privet_batke"
 	chance = {
-		factor = 9
-		modifier = { factor = 2 tag = GLP }
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }
 
 music = {
 	song = "GLP_ms_dalnyaya"
 	chance = {
-		factor = 7
-		modifier = { factor = 2 tag = GLP }
+		factor = 1.5
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }
 
 music = {
 	song = "GLP_ms_poltsarstva"
 	chance = {
-		factor = 9
-		modifier = { factor = 2 tag = GLP }
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }
 
 music = {
 	song = "GLP_ms_granata"
 	chance = {
-		factor = 10
-		modifier = { factor = 2 tag = GLP }
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }
 
 music = {
 	song = "GLP_ms_sedmoi_patron"
 	chance = {
-		factor = 9
-		modifier = { factor = 2 tag = GLP }
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
 	}
 }

@@ -150,24 +150,4 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_grigory_semyonov_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Grigory_Semyonov.dds"
 	}
-
-	# ---------------------- Лавр Корнилов (белые добровольцы) ----------------------
-	spriteType = {
-		name = "GFX_portrait_GLP_lavr_kornilov"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Lavr_Kornilov_large.dds"
-	}
-	spriteType = {
-		name = "GFX_portrait_GLP_lavr_kornilov_small"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Lavr_Kornilov.dds"
-	}
-
-	# --------------------- Михаил Дроздовский (белые добровольцы) ---------------------
-	spriteType = {
-		name = "GFX_portrait_GLP_mikhail_drozdovsky"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Mikhail_Drozdovsky_large.dds"
-	}
-	spriteType = {
-		name = "GFX_portrait_GLP_mikhail_drozdovsky_small"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Mikhail_Drozdovsky.dds"
-	}
 }

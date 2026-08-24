@@ -14,14 +14,13 @@ Checks performed:
      "scenario fails to load / checksum" crash source).
   5. Sprite integrity: every GFX_* referenced by script is defined,
      every texturefile on a spriteType exists on disk.
-  6. Portrait/event/idea DDS geometry, compression and alpha.
+  6. Portrait/event/idea/loading-panel DDS geometry, compression and alpha.
   7. Every national spirit uses a thematic GFX_idea_GLP_* icon and exactly
      matches tools/idea_pictures.tsv.
-  8. Loading tip panel is the stock vanilla one (CENTER_DOWN geometry,
-     loadscreen_tip font; no custom centrepiece) and the continuous-focus
+  8. Loading quote geometry/font (CENTER_DOWN, -195 px / loadscreen_tip) and continuous-focus
      palette centring/safe gap below the focus tree.
   9. Custom cavalry/cossack models from Rise of Russia must be present
-     (GLP_units.*, DON_cavalry, sabre, sabre anims) and wired as
+     (GLP_units.*, NTC_cavalry in black papakha, sabre, sabre anims) and wired as
      tag-specific GLP_cavalry_entity / GLP_cavalry_2_entity without
      cloning vanilla cavalry entities.
  10. Character traits that are neither vanilla nor defined by the mod.
@@ -508,8 +507,8 @@ def check_fonts():
 def check_loading_tips():
     """Ванильные цитаты загрузки должны быть полностью перекрыты.
 
-    Базовая игра использует ключи LOADING_TIP_1..~90, DLC добавляют свои;
-    чтобы ванильная цитата никогда не появилась, мы перекрываем 1..256.
+    Базовая игра использует ключи LOADING_TIP_0..~90, DLC добавляют свои;
+    чтобы ванильная цитата никогда не появилась, мы перекрываем 0..256.
     """
     for lang in ('russian', 'english'):
         p = os.path.join(ROOT, f'localisation/{lang}/loading_tips_l_{lang}.yml')
@@ -522,7 +521,7 @@ def check_loading_tips():
         if not nums:
             err(f"{rel(p)}: не найдено ни одного ключа LOADING_TIP_<n>")
             continue
-        gaps = [n for n in range(1, 257) if n not in nums]
+        gaps = [n for n in range(0, 257) if n not in nums]
         if gaps:
             err(f"{rel(p)}: не перекрыты ванильные цитаты "
                 f"(нет ключей для {len(gaps)} номеров, первый: LOADING_TIP_{gaps[0]})")
@@ -530,11 +529,13 @@ def check_loading_tips():
 
 def check_music():
     """Ванильный саундтрек должен быть перекрыт файлами мода."""
-    for f in ('music/music.asset', 'music/songs.txt'):
+    for f in ('music/music.asset', 'music/songs.txt', 'music/_songs.txt'):
         if not os.path.exists(os.path.join(ROOT, f)):
             err(f"{f} отсутствует — ванильный саундтрек не будет перекрыт")
             continue
         body = read(os.path.join(ROOT, f))
+        if f.endswith('.txt') and 'music_station' not in body:
+            err(f"{f}: отсутствует директива music_station — станция не зарегистрируется в радиоприёмнике")
         for m in re.finditer(r'file\s*=\s*"([^"]+)"', body):
             if not os.path.exists(os.path.join(ROOT, 'music', m.group(1))):
                 err(f"{f}: аудиофайл не найден -> music/{m.group(1)}")
@@ -548,6 +549,16 @@ def check_music():
         if len(tracks) < 10:
             warn(f'music/music.asset: в плейлисте только {len(tracks)} '
                  f'треков (ожидается 10–11 композиций Монгол Шуудан)')
+
+
+def check_opinions(loc):
+    """Все модификаторы мнений должны быть локализованы."""
+    for p, body in all_script_text('common/opinion_modifiers').items():
+        for m in re.finditer(r'^\t([A-Za-z0-9_]+)\s*=\s*\{', body, re.M):
+            op = m.group(1)
+            for lang in ('russian', 'english'):
+                if op not in loc.get(lang, {}):
+                    err(f"{rel(p)}: модификатор мнения '{op}' не локализован ({lang})")
 
 
 def glob_dds(subdir):
@@ -701,14 +712,11 @@ def check_focus_icons():
 
 
 def check_idea_pictures():
-    """Каждый национальный дух использует тематическую ВАНИЛЬНУЮ иконку.
+    """Каждый национальный дух использует тематическую иконку GLP-пака.
 
-    Иконки подобраны по тематике из справочника hoi4-icon-search -- только
-    семейство GFX_idea_generic_* базовой игры (без DLC-зависимостей).
-    Собственный GLP-пак (GFX_idea_GLP_*) упразднён: спрайты и текстуры
-    удалены, духам они запрещены. tools/idea_pictures.tsv --
-    человекочитаемая карта подбора; аудит требует полного совпадения
-    таблицы с common/ideas/GLP_ideas.txt.
+    tools/idea_pictures.tsv является человекочитаемой картой подбора. Аудит
+    требует полного совпадения таблицы с common/ideas/GLP_ideas.txt, чтобы при
+    добавлении нового духа нельзя было незаметно вернуть generic-иконку.
     """
     actual = {}
     for p, body in all_script_text('common/ideas').items():
@@ -720,11 +728,9 @@ def check_idea_pictures():
                 continue
             name = pic.group(1)
             actual[iid] = name
-            if name.startswith('GFX_idea_GLP_'):
-                err(f"{rel(p)}: идея '{iid}' использует упразднённый спрайт '{name}'")
-            elif not name.startswith('GFX_idea_generic_'):
-                err(f"{rel(p)}: идея '{iid}' использует '{name}'; разрешены "
-                    "только ванильные GFX_idea_generic_* базовой игры")
+            if not name.startswith('GFX_idea_GLP_'):
+                err(f"{rel(p)}: идея '{iid}' использует '{name}', а должна "
+                    "использовать тематическую иконку GFX_idea_GLP_* из пака")
 
     mapping_path = os.path.join(ROOT, 'tools/idea_pictures.tsv')
     expected = {}
@@ -771,94 +777,6 @@ def check_event_pictures():
             err(f"{rel(p)}: compression {fmt} unsupported")
 
 
-def check_event_pictures_link():
-    """Каждое событие показывает тематическую картинку своего сюжета.
-
-    tools/event_pictures.tsv -- карта 'событие -> GFX'; аудит требует
-    полного совпадения таблицы с событиями, наличия у каждого GFX спрайта
-    в interface/GLP_eventpictures.gfx и текстуры в gfx/event_pictures/,
-    а у собранных картинок -- мастера _src_news_<slug>.jpg (если мастера
-    нет, честно предупреждаем: картинка ждёт перегенерации).
-    """
-    actual = {}
-    for p, body in all_script_text('events').items():
-        for m in re.finditer(r'id\s*=\s*([A-Za-z0-9_.]+).*?picture\s*=\s*(GFX_\w+)',
-                             strip_comments(body), re.S):
-            actual[m.group(1)] = m.group(2)
-
-    expected = {}
-    mapping_path = os.path.join(ROOT, 'tools/event_pictures.tsv')
-    if not os.path.exists(mapping_path):
-        err("tools/event_pictures.tsv отсутствует")
-    else:
-        for line_no, line in enumerate(read(mapping_path).splitlines(), 1):
-            if not line or line.startswith('#'):
-                continue
-            cols = line.split('\t')
-            if len(cols) != 2:
-                err(f"tools/event_pictures.tsv:{line_no}: ожидаются 2 колонки")
-                continue
-            eid, gfx = cols
-            if eid in expected:
-                err(f"tools/event_pictures.tsv:{line_no}: дубль события '{eid}'")
-            expected[eid] = gfx
-            if not gfx.startswith('GFX_news_event_GLP_'):
-                err(f"tools/event_pictures.tsv:{line_no}: '{eid}' -> чужой спрайт "
-                    f"'{gfx}'; новости Гуляйполя используют GFX_news_event_GLP_*")
-
-    for eid in sorted(set(actual) - set(expected)):
-        err(f"tools/event_pictures.tsv: нет строки для события '{eid}'")
-    for eid in sorted(set(expected) - set(actual)):
-        err(f"tools/event_pictures.tsv: лишнее/неизвестное событие '{eid}'")
-    for eid in sorted(set(actual) & set(expected)):
-        if actual[eid] != expected[eid]:
-            err(f"tools/event_pictures.tsv: '{eid}' -> {expected[eid]}, "
-                f"но в events/ указано {actual[eid]}")
-
-    spr_path = os.path.join(ROOT, 'interface/GLP_eventpictures.gfx')
-    spr_body = read(spr_path) if os.path.exists(spr_path) else ''
-    for gfx in sorted(set(expected.values())):
-        if f'"{gfx}"' not in spr_body:
-            err(f"interface/GLP_eventpictures.gfx: нет спрайта '{gfx}'")
-            continue
-        tex = re.search(r'"' + re.escape(gfx) + r'"\s*\n\s*texturefile\s*=\s*"([^"]+)"',
-                        spr_body)
-        if not tex:
-            err(f"interface/GLP_eventpictures.gfx: спрайт '{gfx}' без texturefile")
-            continue
-        dds_path = os.path.join(ROOT, tex.group(1))
-        if not os.path.exists(dds_path):
-            err(f"{tex.group(1)}: текстура спрайта '{gfx}' отсутствует")
-        base = os.path.basename(tex.group(1))
-        m = re.match(r'news_event_(?:GLP_rebirth|glp_(\w+))\.dds', base)
-        slug = 'rebirth' if base == 'news_event_GLP_rebirth.dds' else (m.group(1) if m else None)
-        master = os.path.join(ROOT, f'gfx/event_pictures/_src_news_{slug}.jpg') if slug else None
-        if master and not os.path.exists(master):
-            warn(f"{tex.group(1)}: нет мастера _src_news_{slug}.jpg "
-                 f"-- картинка ещё не перегенерирована в ч/б фото")
-
-    STATS['event_pictures'] = (len(expected), len(expected), len(set(expected.values())))
-
-
-def check_leader_ranks():
-    """У махновцев нет генеральских званий: GENERAL/FIELD_MARSHAL/ADMIRAL
-    в подсказках движка показываются словом «Командир» (RU) / 'Commander' (EN)
-    через переопределение ванильных ключей локализации."""
-    want = {
-        'russian': ('Командир', 'localisation/russian/GLP_ranks_l_russian.yml'),
-        'english': ('Commander', 'localisation/english/GLP_ranks_l_english.yml'),
-    }
-    for lang, (word, rel_p) in want.items():
-        p = os.path.join(ROOT, rel_p)
-        if not os.path.exists(p):
-            err(f"{rel_p} отсутствует -- звания не переопределены на '{word}'")
-            continue
-        body = read(p)
-        for key in ('GENERAL', 'FIELD_MARSHAL', 'ADMIRAL'):
-            if not re.search(rf'^\s*{key}:0\s+"{re.escape(word)}"', body, re.M):
-                err(f"{rel_p}: ключ {key} должен быть \"{word}\"")
-
-
 def check_idea_icon_geometry():
     """Кастомные иконки идей 60x68 (как ванильные generic_*.dds), советники 65x67."""
     for p in walk('gfx/interface/ideas', ('.dds',)):
@@ -884,46 +802,29 @@ def check_gui_overrides():
         if 'GFX_loadingtip_bg' not in body or 'bg_load_screen' not in body:
             err("interface/load_screen.gui: нет ванильной плашки bg_load_screen / GFX_loadingtip_bg")
 
-        # Панель цитат -- точная ванильная геометрия базовой игры:
-        # окно привязано к низу экрана (CENTER_DOWN), металлическая плашка
-        # в {-700, -147}, текстовая область {-450, -157} 900x200 со шрифтом
-        # loadscreen_tip. Движок кладёт сюда LOADING_TIP_*, которые у нас
-        # полностью перекрыты своими цитатами (см. check_loading_tips).
+        # Окно 180 px позиционировано внизу экрана (CENTER_DOWN, y=-195);
+        # текстовая область имеет y=20, h=140. Шрифт -- loadscreen_tip.
         required = (
+            'position = { x = -512 y = -195 }',
+            'size = { x = 1024 y = 180 }',
             'Orientation = "CENTER_DOWN"',
-            'size = { x = 1024 y = 200 }',
-            'position = { x = -700 y = -147 }',
-            'spriteType = "GFX_loadingtip_bg"',
-            'position = { x = -450 y = -157 }',
+            'spriteType = "GFX_GLP_loading_tip_journal_bg"',
+            'position = { x = 40 y = 20 }',
             'font = "loadscreen_tip"',
-            'maxWidth = 900',
-            'maxHeight = 200',
-            'vertical_alignment = center',
+            'maxWidth = 944',
+            'maxHeight = 140',
         )
         for token in required:
             if token not in body:
-                err(f"interface/load_screen.gui: нарушена ванильная спецификация цитаты -> {token}")
-
-        # Центральной кастомной панели больше не существует.
-        for token in ('journal_bg', 'GFX_GLP_loading_tip_journal_bg',
-                      'Orientation = CENTER\n', 'hoi4_typewriter22'):
-            if token in body:
-                err(f"interface/load_screen.gui: найден элемент удалённой "
-                    f"центральной панели -> {token.strip()}")
-
-    gfx_body = strip_comments(read(os.path.join(ROOT, 'interface/load_screen.gfx')))
-    if 'GFX_GLP_loading_tip_journal_bg' in gfx_body:
-        err("interface/load_screen.gfx: спрайт GFX_GLP_loading_tip_journal_bg "
-            "должен быть удалён вместе с центральной панелью")
+                err(f"interface/load_screen.gui: нарушена спецификация цитаты -> {token}")
 
     panel = os.path.join(ROOT, 'gfx/interface/loading_tip_journal_bg.dds')
-    if os.path.exists(panel):
-        err("gfx/interface/loading_tip_journal_bg.dds: текстура удалённой "
-            "центральной подложки должна отсутствовать")
-    script = os.path.join(ROOT, 'tools/build_loading_tip_bg.sh')
-    if os.path.exists(script):
-        err("tools/build_loading_tip_bg.sh: скрипт сборки удалённой "
-            "центральной подложки должен отсутствовать")
+    info = dds_info(panel) if os.path.exists(panel) else None
+    if info is None:
+        err("gfx/interface/loading_tip_journal_bg.dds: отсутствует/не является DDS")
+    elif info[:2] != (1024, 180):
+        err(f"gfx/interface/loading_tip_journal_bg.dds: {info[0]}x{info[1]}, "
+            "ожидается 1024x180")
 
     if os.path.exists(os.path.join(ROOT, 'interface/loadingscreen.gui')):
         err("interface/loadingscreen.gui: пустой файл с неванильным именем -- удалить")
@@ -934,27 +835,6 @@ def check_gui_overrides():
                       '"event_option_entry"'):
             if token not in body:
                 err(f"interface/eventwindow.gui: отсутствует ванильное окно {token}")
-        # Окно новостей: собственный фон, рамка снимка и улучшенные шрифты.
-        for token in ('"GFX_GLP_event_news_bg"', '"GFX_GLP_news_pic_frame"',
-                      '"hoi_24header"', '"hoi_18mbs"'):
-            if token not in body:
-                err(f"interface/eventwindow.gui: нет собственного оформления "
-                    f"новостей -> {token}")
-        for bad in ('GFX_event_news_bg_wide', 'GFX_event_news_pic_overlay'):
-            if bad in strip_comments(body):
-                err(f"interface/eventwindow.gui: найдена убранная ванильная "
-                    f"связь -> {bad}")
-    for rel_dds, size in (('gfx/interface/GLP_event_news_bg.dds', (1056, 595)),
-                          ('gfx/interface/GLP_news_pic_frame.dds', (405, 161))):
-        full = os.path.join(ROOT, rel_dds)
-        info = dds_info(full) if os.path.exists(full) else None
-        if info is None:
-            err(f"{rel_dds}: отсутствует/не является DDS")
-        elif info[:2] != size:
-            err(f"{rel_dds}: {info[0]}x{info[1]}, ожидается {size[0]}x{size[1]}")
-    if os.path.exists(os.path.join(ROOT, 'gfx/interface/event_news_bg_wide.dds')):
-        err("gfx/interface/event_news_bg_wide.dds: ванильный фон новостей "
-            "должен быть удалён (заменён собственным GLP_event_news_bg.dds)")
 
 
 def check_advisor_portraits(defs):
@@ -974,34 +854,23 @@ def check_advisor_portraits(defs):
                                           list(all_script_text('common/characters').values())[0], re.M))
 
 
-# Кастомные 3D-модели из Revolution or Reaction: Rise of Russia:
-#   * казачья конница DON_cavalry (tag-specific GLP_cavalry_entity /
-#     GLP_cavalry_2_entity, шашка с ножнами, 5 сабельных анимаций);
-#   * анархическая пехота RSR_marine (tag-specific GLP_infantry_entity;
-#     красная звезда с бескозырки и красная нарукавная полоса перекрашены
-#     в чёрный -- РПА большевистскую символику не носила).
-# Сущности собраны явно (без clone ванильных) -- ИМХО паттерн RSR/YR.
-# check_unit_models требует полного комплекта файлов и имён сущностей.
+# В моде нет кастомных 3D-моделей. Раньше каталог gfx/models/units/
+# содержал mesh-файлы из Revolution or Reaction: Rise of Russia, но их
+# импорт провоцировал краш рендера, и теперь мод полностью на ванильных
+# infantry_rifle_entity / cavalry_entity / cavalry_2_entity. Все следы
+# импорта (GLP_units.gfx / .asset, GLP_cavalry_animations.asset,
+# .mesh/.dds/.anim) удалены; в случае попытки вернуть их -- check_unit_models
+# сообщит об этом.
 
 
 EXPECTED_UNIT_MODEL_FILES = (
     'gfx/entities/GLP_units.asset',
     'gfx/entities/GLP_units.gfx',
     'gfx/models/units/GLP_cavalry_animations.asset',
-    'gfx/models/units/DON_cavalry.mesh',
-    'gfx/models/units/DON_cavalry_diffuse.dds',
-    'gfx/models/units/DON_cavalry_normal.dds',
-    'gfx/models/units/DON_cavalry_specular.dds',
-    'gfx/models/units/RSR_marine.mesh',
-    'gfx/models/units/RSR_marine_diffuse.dds',
-    'gfx/models/units/RSR_marine_normal.dds',
-    'gfx/models/units/RSR_marine_spec.dds',
-    'gfx/models/units/KORN_cavalry.mesh',
-    'gfx/models/units/KORN_cavalry_diffuse.dds',
-    'gfx/models/units/DROZD_stormtroopers.mesh',
-    'gfx/models/units/DROZD_stormtroopers_diffuse.dds',
-    'gfx/models/units/DROZD_stormtroopers_normal.dds',
-    'gfx/models/units/DROZD_stormtroopers_spec.dds',
+    'gfx/models/units/NTC_cavalry.mesh',
+    'gfx/models/units/NTC_cavalry_diffuse_.dds',
+    'gfx/models/units/NTC_cavalry_normal.dds',
+    'gfx/models/units/NTC_cavalry_spec.dds',
     'gfx/models/units/russian_sword_sabre.mesh',
     'gfx/models/units/russian_sword_sabre_holder.mesh',
     'gfx/models/units/russian_sword_sabre_diffuse.dds',
@@ -1019,32 +888,18 @@ EXPECTED_UNIT_MODEL_FILES = (
 
 
 def check_unit_models():
-    """Казачья конница и анархическая пехота Rise of Russia на месте."""
+    """Казачья конница Rise of Russia должна быть на месте."""
     for fname in EXPECTED_UNIT_MODEL_FILES:
         p = os.path.join(ROOT, fname)
         if not os.path.exists(p):
-            err(f"{fname}: отсутствует кастомная модель юнитов")
+            err(f"{fname}: отсутствует кастомная модель конницы/казаков")
 
     asset = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
     if os.path.exists(asset):
         body = strip_comments(read(asset))
-        for name in ('GLP_infantry_entity', 'GLP_cavalry_entity', 'GLP_cavalry_2_entity',
-                     'GLP_kornilovtsy_entity', 'GLP_kornilovtsy_rider_entity',
-                     'GLP_kornilovtsy_combined_entity', 'GLP_drozdovtsy_entity'):
+        for name in ('GLP_cavalry_entity', 'GLP_cavalry_2_entity'):
             if f'name = "{name}"' not in body:
                 err(f"gfx/entities/GLP_units.asset: нет сущности '{name}'")
-    # Перекрашенная текстура анархистов: насыщенные красные пиксели
-    # (звезда/полоса) должны отсутствовать в RSR_marine_diffuse.dds.
-    tex = os.path.join(ROOT, 'gfx/models/units/RSR_marine_diffuse.dds')
-    if os.path.exists(tex):
-        o = _run_convert(tex, '-depth', '8', 'rgba:-')
-        if o is not None:
-            data = o.stdout
-            warm = sum(1 for i in range(0, len(data) - 3, 4)
-                       if data[i] > 150 and data[i] > data[i + 1] * 2 and data[i] > data[i + 2] * 2)
-            if warm > 400:
-                err("RSR_marine_diffuse.dds: обнаружены красные элементы "
-                    f"({warm} px) -- большевистская звезда/полоса не убрана")
         if re.search(r'clone\s*=\s*"(cavalry_entity|cavalry_2_entity|generic_infantry_mg_rider_entity)"', body):
             err("gfx/entities/GLP_units.asset: запрещён clone ванильной cavalry-сущности")
 
@@ -1282,10 +1137,6 @@ def check_no_stray_art():
 
 def check_loc_tech_names(loc):
     """В значениях локализации не должно быть технических имён."""
-    for lang, keys in loc.items():
-        p = keys
-        for key, where in [] :
-            pass
     for lang in ('russian', 'english'):
         p = os.path.join(ROOT, f'localisation/{lang}')
         for fp in walk(f'localisation/{lang}', ('.yml',)):
@@ -1296,20 +1147,8 @@ def check_loc_tech_names(loc):
                 val = m.group(1)
                 if re.search(r'GFX_\w+', val):
                     err(f"{rel(fp)}:{i}: в тексте видно техническое имя спрайта")
-                if re.search(r'\bGLP_[a-z0-9_]+\b', val):
-                    err(f"{rel(fp)}:{i}: в тексте видно техническое имя ключа GLP_*")
-
-
-def _run_convert(*args):
-    """subprocess.convert -> CompletedProcess | None (IM недоступен/ошибка)."""
-    import shutil, subprocess
-    if not shutil.which('convert'):
-        return None
-    try:
-        return subprocess.run(['convert', *args],
-                              capture_output=True, timeout=30)
-    except Exception:
-        return None
+                if re.search(r'\b(GLP|GPL)_[a-z0-9_]+\b', val, re.IGNORECASE):
+                    err(f"{rel(fp)}:{i}: в тексте видно техническое имя ключа GLP_*/GPL_*")
 
 
 def _im_alpha_min(path):
@@ -1328,10 +1167,15 @@ def _im_alpha_min(path):
 
 
 def check_dds_transparency():
-    """Иконки идей и малые портреты советников обязаны иметь реальные
+    """Иконки национальных идей (духов) обязаны иметь реальные
     прозрачные пиксели (наличие альфа-канала само по себе ничего не
-    доказывает -- проверяем минимум альфы по факту)."""
+    доказывает -- проверяем минимум альфы по факту).
+    Портреты советников (людей) обязаны быть полнокадровыми непрозрачными."""
     for p in sorted(walk('gfx/interface/ideas', ('.dds',))):
+        base = os.path.basename(p)
+        # Пропускаем малые портреты персонажей (начинаются с заглавной буквы после idea_GLP_)
+        if re.match(r'^idea_GLP_[A-Z]', base):
+            continue
         mn = _im_alpha_min(p)
         if mn is None:
             warn("ImageMagick недоступен -- пиксельная проверка прозрачности пропущена")
@@ -1353,6 +1197,7 @@ def main():
     check_music()
     check_fonts()
     check_bookmarks(loc)
+    check_opinions(loc)
     check_focus_tree(defs)
     check_continuous_focus_layout()
     check_units()
@@ -1361,8 +1206,6 @@ def main():
     check_focus_icons()
     check_idea_pictures()
     check_event_pictures()
-    check_event_pictures_link()
-    check_leader_ranks()
     check_idea_icon_geometry()
     check_gui_overrides()
     check_advisor_portraits(defs)

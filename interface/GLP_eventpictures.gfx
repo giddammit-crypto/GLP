@@ -47,40 +47,4 @@ spriteTypes = {
 		name = "GFX_news_event_GLP_madrid_international"
 		texturefile = "gfx/event_pictures/news_event_glp_madrid_international.dds"
 	}
-	spriteType = {
-		name = "GFX_news_event_GLP_tachanka"
-		texturefile = "gfx/event_pictures/news_event_glp_tachanka.dds"
-	}
-	spriteType = {
-		name = "GFX_news_event_GLP_sevastopol_fleet"
-		texturefile = "gfx/event_pictures/news_event_glp_sevastopol_fleet.dds"
-	}
-	spriteType = {
-		name = "GFX_news_event_GLP_makhno_inspection"
-		texturefile = "gfx/event_pictures/news_event_glp_makhno_inspection.dds"
-	}
-	spriteType = {
-		name = "GFX_news_event_GLP_air_squadron"
-		texturefile = "gfx/event_pictures/news_event_glp_air_squadron.dds"
-	}
-	spriteType = {
-		name = "GFX_news_event_GLP_autumn_fair"
-		texturefile = "gfx/event_pictures/news_event_glp_autumn_fair.dds"
-	}
-	spriteType = {
-		name = "GFX_news_event_GLP_alliance_treaty"
-		texturefile = "gfx/event_pictures/news_event_glp_alliance_treaty.dds"
-	}
-	spriteType = {
-		name = "GFX_news_event_GLP_volunteers_arrival"
-		texturefile = "gfx/event_pictures/news_event_glp_volunteers_arrival.dds"
-	}
-	spriteType = {
-		name = "GFX_news_event_GLP_triumph"
-		texturefile = "gfx/event_pictures/news_event_glp_triumph.dds"
-	}
-	spriteType = {
-		name = "GFX_news_event_GLP_war_council"
-		texturefile = "gfx/event_pictures/news_event_glp_war_council.dds"
-	}
 }

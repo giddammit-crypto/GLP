@@ -3,23 +3,17 @@ guiTypes = {
 	#  ГУЛЯЙ-ПОЛЕ — override загрузочного экрана.
 	#
 	#  Файл повторяет структуру ванильного interface/load_screen.gui
-	#  (структура неизменна со времён 1.x; сверено с актуальными
-	#  ванильными копиями). Имена контейнеров load_screen/status/tip
+	#  (структура неизменна со времён 1.0; сверено с копиями версии 1.7.1
+	#  и актуальными зеркалами). Имена контейнеров load_screen/status/tip
 	#  и текстбоксов сохранены — по ним движок привязывает статус загрузки,
 	#  прогресс-бар и текст цитаты (LOADING_TIP_*).
 	#
-	#  ЦИТАТЫ: ванильная металлическая панель GFX_loadingtip_bg стоит на
-	#  ванильном месте (низ экрана, окно "tip" с Orientation = CENTER_DOWN).
-	#  В ней выводятся НАШИ цитаты — файлы
-	#  localisation/{russian,english}/loading_tips_l_*.yml полностью
-	#  перекрывают ванильные LOADING_TIP_1..256.
-	#
-	#  УДАЛЕНО: кастомная центральная панель с журнальной подложкой
-	#  (GFX_GLP_loading_tip_journal_bg) — цитаты больше не выводятся
-	#  в центре экрана; подложка и её спрайт/текстура/скрипт удалены.
-	#
 	#  СОХРАНЕНО: окно "status" (текст статуса + прогресс-бар загрузки),
 	#  логотипы Clausewitz/Paradox по углам, само полноэкранное окно.
+	#
+	#  ЦИТАТЫ: плашка-рамка 1024x180 расположена внизу экрана
+	#  (Orientation = "CENTER_DOWN", 15 px от нижней кромки: y = -195).
+	#  Шрифт — ванильный loadscreen_tip (поддерживает кириллицу и латиницу).
 	# =========================================================================
 	windowType = {
 		name = "load_screen"
@@ -85,12 +79,11 @@ guiTypes = {
 			}
 		}
 
-		# Ванильная панель цитат -- геометрия байт-в-байт как в базовой игре.
 		windowType = {
 			name = "tip"
 			backGround = ""
-			position = { x = 0 y = 0 }
-			size = { x = 1024 y = 200 }
+			position = { x = -512 y = -195 }
+			size = { x = 1024 y = 180 }
 			moveable = 0
 			dontRender = ""
 			horizontalBorder = "0"
@@ -101,21 +94,30 @@ guiTypes = {
 			iconType = {
 				name = "bg_load_screen"
 				spriteType = "GFX_loadingtip_bg"
-				position = { x = -700 y = -147 }
+				position = { x = 0 y = 0 }
+				alwaystransparent = yes
+			}
+
+			iconType = {
+				name = "journal_bg"
+				spriteType = "GFX_GLP_loading_tip_journal_bg"
+				position = { x = 0 y = 0 }
+				alwaystransparent = yes
 			}
 
 			instantTextBoxType = {
 				name = "text"
-				position = { x = -450 y = -157 }
+				position = { x = 40 y = 20 }
 				textureFile = ""
 				font = "loadscreen_tip"
 				borderSize = { x = 0 y = 0 }
 				text = ""
-				maxWidth = 900
-				maxHeight = 200
+				maxWidth = 944
+				maxHeight = 140
 				fixedsize = yes
 				format = centre
 				vertical_alignment = center
+				alwaystransparent = yes
 			}
 		}
 	}
