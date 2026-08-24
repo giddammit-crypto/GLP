@@ -19,11 +19,12 @@ Checks performed:
      matches tools/idea_pictures.tsv.
   8. Loading quote geometry/font (+200 px from centre) and continuous-focus
      palette centring/safe gap below the focus tree.
-  9. Imported 3D unit mesh/texture/animation integrity and dependencies.
+  9. No custom 3D unit models: the mod is fully on vanilla
+     infantry_rifle_entity / cavalry_entity / cavalry_2_entity, so
+     gfx/entities/GLP_units.* and gfx/models/units/* must be absent and
+     no script may reference imported Rise-of-Russia names.
  10. Character traits that are neither vanilla nor defined by the mod.
- 11. Entity graph: clone/pdxmesh resolution against mod+vanilla whitelists,
-     state animations declared on the pdxmesh, attach nodes present in the
-     binary mesh, and the `check_variable = { random }` anti-pattern.
+ 11. Anti-pattern `check_variable = { random ... }` in common/events/history.
 
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
@@ -832,120 +833,51 @@ def check_advisor_portraits(defs):
                                           list(all_script_text('common/characters').values())[0], re.M))
 
 
-EXPECTED_UNIT_MODEL_FILES = {
-    # The sabre-holder mesh has three hard-coded CHI_* texture names.  Local
-    # aliases make the imported model independent from Waking the Tiger.
-    'CHI_sword_sabre_diffuse.dds',
-    'CHI_sword_sabre_normal.dds',
-    'CHI_sword_sabre_spec.dds',
-    'DON_cavalry.mesh',
-    'DON_cavalry_diffuse.dds',
-    'DON_cavalry_normal.dds',
-    'DON_cavalry_specular.dds',
-    'RSR_infantry.mesh',
-    'RSR_infantry_diffuse.dds',
-    'RSR_infantry_normal.dds',
-    'RSR_infantry_spec.dds',
-    'RSR_infantry_snow.mesh',
-    'RSR_infantry_snow_diffuse.dds',
-    'RSR_infantry_snow_normal.dds',
-    'RSR_infantry_snow_spec.dds',
-    'russian_infantry_cavalry_rider_attack_sabre.anim',
-    'russian_infantry_cavalry_rider_attack_sabre_idle.anim',
-    'russian_infantry_cavalry_rider_idle_sabre.anim',
-    'russian_infantry_cavalry_rider_moving_sabre.anim',
-    'russian_infantry_cavalry_rider_retreat_sabre.anim',
-    'russian_sword_sabre.mesh',
-    'russian_sword_sabre_diffuse.dds',
-    'russian_sword_sabre_holder.mesh',
-    'russian_sword_sabre_normal.dds',
-    'russian_sword_sabre_spec.dds',
-}
+# В моде нет кастомных 3D-моделей. Раньше каталог gfx/models/units/
+# содержал mesh-файлы из Revolution or Reaction: Rise of Russia, но их
+# импорт провоцировал краш рендера, и теперь мод полностью на ванильных
+# infantry_rifle_entity / cavalry_entity / cavalry_2_entity. Все следы
+# импорта (GLP_units.gfx / .asset, GLP_cavalry_animations.asset,
+# .mesh/.dds/.anim) удалены; в случае попытки вернуть их -- check_unit_models
+# сообщит об этом.
 
 
 def check_unit_models():
-    """Проверяет комплектность 3D-моделей GLP и связи mesh/entity/animation.
+    """Подтверждает, что мод полностью на ванильных моделях.
 
-    PDX-файлы бинарные, поэтому полноценный рендер без игры невозможен. Но
-    здесь можно поймать главные причины невидимых солдат: обрезанный бинарник,
-    отсутствующую DDS, битую ссылку file=, незарегистрированную анимацию или
-    GLP-сущность, которая ссылается на необъявленный pdxmesh.
+    В моде нет кастомных 3D-файлов: gfx/entities/GLP_units.* и
+    gfx/models/units/* удалены (после краша Rise of Russia). Если кто-то
+    случайно вернёт импортированные mesh/anim/asset или ссылки на
+    GLP_*_entity -- аудит это поймает. Иначе движок выберет
+    infantry_rifle_entity / cavalry_entity / cavalry_2_entity по
+    graphical_culture= eastern_european_gfx (т. е. стандартных солдат РККА).
     """
     model_dir = os.path.join(ROOT, 'gfx/models/units')
-    gfx_path = os.path.join(ROOT, 'gfx/entities/GLP_units.gfx')
-    asset_path = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
-    animation_path = os.path.join(model_dir, 'GLP_cavalry_animations.asset')
+    entity_files = ('gfx/entities/GLP_units.asset', 'gfx/entities/GLP_units.gfx')
 
-    for p in (gfx_path, asset_path, animation_path):
-        if not os.path.exists(p):
-            err(f"{rel(p)}: отсутствует обязательный файл моделей GLP")
-            return
+    if os.path.isdir(model_dir):
+        err(f"gfx/models/units/: каталог моделей не должен существовать "
+            f"(мод полностью на ванильных infantry_rifle_entity / "
+            f"cavalry_entity / cavalry_2_entity)")
+    for fname in entity_files:
+        p = os.path.join(ROOT, fname)
+        if os.path.exists(p):
+            err(f"{rel(p)}: файл не должен существовать (ванильные модели "
+                f"подключаются автоматически по graphical_culture)")
 
-    for filename in sorted(EXPECTED_UNIT_MODEL_FILES):
-        p = os.path.join(model_dir, filename)
-        if not os.path.exists(p):
-            err(f"gfx/models/units/{filename}: отсутствует импортированный файл")
-            continue
-        with open(p, 'rb') as fh:
-            head = fh.read(5)
-        if filename.endswith('.dds'):
-            if dds_info(p) is None:
-                err(f"gfx/models/units/{filename}: файл не является DDS")
-        elif head != b'@@b@!':
-            err(f"gfx/models/units/{filename}: неверная сигнатура PDX binary")
-
-    gfx_body = strip_comments(read(gfx_path))
-    asset_body = strip_comments(read(asset_path))
-    animation_body = strip_comments(read(animation_path))
-
-    # Every explicit file path in the mesh declarations must exist.
-    for filename in re.findall(r'\bfile\s*=\s*"(gfx/models/units/[^"]+)"', gfx_body):
-        if not os.path.exists(os.path.join(ROOT, filename)):
-            err(f"{rel(gfx_path)}: file не найден -> {filename}")
-
-    # Animation files use paths relative to gfx/models/units.
-    for filename in re.findall(r'\bfile\s*=\s*"([^"]+\.anim)"', animation_body):
-        if not os.path.exists(os.path.join(model_dir, filename)):
-            err(f"{rel(animation_path)}: animation file не найден -> {filename}")
-
-    mesh_defs = set(re.findall(
-        r'\bpdxmesh\s*=\s*\{\s*name\s*=\s*"(GLP_[A-Za-z0-9_]+)"',
-        gfx_body, re.S))
-    mesh_refs = set(re.findall(r'\bpdxmesh\s*=\s*"(GLP_[A-Za-z0-9_]+)"', asset_body))
-    for name in sorted(mesh_refs - mesh_defs):
-        err(f"{rel(asset_path)}: pdxmesh '{name}' не объявлен в GLP_units.gfx")
-
-    animation_defs = set(re.findall(
-        r'\banimation\s*=\s*\{\s*name\s*=\s*"(GLP_[A-Za-z0-9_]+)"',
-        animation_body, re.S))
-    animation_refs = set(re.findall(
-        r'\btype\s*=\s*"(GLP_[A-Za-z0-9_]+)"', gfx_body))
-    for name in sorted(animation_refs - animation_defs):
-        err(f"{rel(gfx_path)}: animation type '{name}' не объявлен")
-
-    entity_defs = re.findall(
-        r'\bentity\s*=\s*\{.*?\bname\s*=\s*"(GLP_[A-Za-z0-9_]+)"',
-        asset_body, re.S)
-    for name in sorted(set(entity_defs)):
-        if entity_defs.count(name) > 1:
-            err(f"{rel(asset_path)}: entity '{name}' объявлена несколько раз")
-    entity_refs = set(re.findall(r'=\s*"(GLP_[A-Za-z0-9_]+_entity)"', asset_body))
-    for name in sorted(entity_refs - set(entity_defs)):
-        err(f"{rel(asset_path)}: ссылка на необъявленную entity '{name}'")
-
-    # PDX meshes contain their texture filenames as ASCII strings.
-    for filename in sorted(x for x in EXPECTED_UNIT_MODEL_FILES if x.endswith('.mesh')):
-        p = os.path.join(model_dir, filename)
-        if not os.path.exists(p):
-            continue
-        with open(p, 'rb') as fh:
-            raw = fh.read()
-        for dep in set(re.findall(rb'[A-Za-z0-9_.-]+\.dds', raw)):
-            dep_name = dep.decode('ascii')
-            if not os.path.exists(os.path.join(model_dir, dep_name)):
-                err(f"gfx/models/units/{filename}: встроенная DDS не найдена -> {dep_name}")
-
-    STATS['unit_model_files'] = len(EXPECTED_UNIT_MODEL_FILES)
+    # Анти-паттерн: нигде в скриптах мода не должно быть ссылок на
+    # GLP_*_entity / GLP_*_mesh / импортированные имена Rise of Russia.
+    for d in ('common', 'events', 'history', 'interface'):
+        for p in walk(d, ('.txt', '.gfx', '.gui')):
+            body = strip_comments(read(p))
+            for m in re.finditer(
+                    r'\b(GLP_(?:infantry|cavalry|sabre)[A-Za-z0-9_]*_entity'
+                    r'|GLP_[A-Za-z0-9_]+_mesh|GLP_cavalry_rider_[A-Za-z0-9_]+_animation'
+                    r'|RSR_infantry|DON_cavalry|russian_sword_sabre'
+                    r'|russian_infantry_cavalry_rider_[A-Za-z0-9_]+)\b', body):
+                err(f"{rel(p)}: осталась ссылка на удалённую кастомную "
+                    f"модель '{m.group(1)}' -- верните ванильную сущность "
+                    f"или удалите строку")
 
 
 # ---------------------------------------------------------------- 11. entity graph
@@ -1033,6 +965,10 @@ def check_entity_graph():
     gfx_path = os.path.join(ROOT, 'gfx/entities/GLP_units.gfx')
     asset_path = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
     if not (os.path.exists(gfx_path) and os.path.exists(asset_path)):
+        # Мод на ванильных моделях: gfx/entities/GLP_units.* удалены,
+        # движок выбирает infantry_rifle_entity / cavalry_entity /
+        # cavalry_2_entity по graphical_culture= eastern_european_gfx.
+        # Граф сущностей ванили в дамп мода не входит и здесь не проверяется.
         return
     model_dir = os.path.join(ROOT, 'gfx/models/units')
     gfx_body = strip_comments(read(gfx_path))
