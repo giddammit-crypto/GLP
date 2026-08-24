@@ -1,0 +1,15 @@
+# Ожидаемые дорожки Монгол Шуудан для плейлиста GLP.
+# Файл  (music/)            | Название в игре
+mongol_shuudan_batka_ataman.ogg        | Батька Атаман
+mongol_shuudan_yablochko.ogg           | Яблочко
+mongol_shuudan_strelyai_ataman.ogg     | Стреляй, атаман!
+mongol_shuudan_svoboda.ogg             | Свобода
+mongol_shuudan_moskva.ogg              | Москва
+mongol_shuudan_finsky_nozh.ogg         | Финский нож
+mongol_shuudan_privet_batke.ogg        | Привет Батьке! (Рождение)
+mongol_shuudan_dalnyaya_doroga.ogg     | Дальняя дорога
+mongol_shuudan_poltsarstva_za_konya.ogg| Полцарства за коня
+mongol_shuudan_granata.ogg             | Граната
+mongol_shuudan_sedmoi_patron.ogg       | Седьмой патрон
+# ВНИМАНИЕ: по состоянию на этот коммит все 11 .ogg — один и тот же
+# файл-заглушка. Замените их настоящими OGG Vorbis с теми же именами.

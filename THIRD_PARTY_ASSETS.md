@@ -1,11 +1,14 @@
 # Сторонние материалы
 
-В текущей версии мода используются 3D-модели **конницы в чёрных папахах**
-и шашки из модификации **Revolution or Reaction: Rise of Russia**.
+В текущей версии мода используются 3D-модели **пехоты-матроса**, **конницы
+в чёрных папахах** и шашки из модификации
+**Revolution or Reaction: Rise of Russia**.
 
 Импортированы в `gfx/models/units/` и объявлены в
 `gfx/entities/GLP_units.{asset,gfx}`:
 
+- `RSR_marine*` — пехотинец-матрос (палубная/морская пехота), tag-specific
+  `GLP_infantry_entity`;
 - `NTC_cavalry*` — повстанческий конный всадник в чёрной папахе и черкеске;
 - `russian_sword_sabre*` — шашка и ножны;
 - `CHI_sword_sabre_*.dds` — локальные алиасы текстур ножен
@@ -16,9 +19,8 @@
 Источник: <https://github.com/Gtym33/Kursach-Himiya>
 (зафиксированная ревизия — `c69a9156b76c1cafa3098974b0432adcecd64909`, 2026-08-24).
 
-Пехота `RSR_infantry*` **не** импортируется: GLP оставляет ванильную
-`infantry_rifle_entity`. Кавалерийские сущности собраны явно (без
-кросс-файлового `clone` на `cavalry_entity`), по паттерну RSR.
+Пехотные и кавалерийские сущности собраны явно (без кросс-файлового
+`clone` на `infantry_rifle_entity` / `cavalry_entity`), по паттерну RSR.
 
 Атрибуция:
 

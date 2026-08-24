@@ -17,7 +17,7 @@ spriteTypes = {
 	
 	spriteType = {
 		name = "GFX_loadingtip_bg"
-		texturefile = "gfx/interface/loading_tip_journal_bg.dds"
+		texturefile = "gfx/interface/Loadingscreen_loadingtip.dds"
 	}
 	
 	spriteType = {
@@ -45,11 +45,6 @@ spriteTypes = {
 	# =========================================================================
 	#  ГУЛЯЙ-ПОЛЕ — кастомные элементы для загрузочного экрана
 	# =========================================================================
-
-	spriteType = {
-		name = "GFX_GLP_loading_tip_journal_bg"
-		texturefile = "gfx/interface/loading_tip_journal_bg.dds"
-	}
 
 	spriteType = {
 		name = "GFX_default_fallback_texture"

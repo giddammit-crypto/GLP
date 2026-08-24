@@ -17,8 +17,8 @@ Checks performed:
   6. Portrait/event/idea/loading-panel DDS geometry, compression and alpha.
   7. Every national spirit uses a thematic GFX_idea_GLP_* icon and exactly
      matches tools/idea_pictures.tsv.
-  8. Loading quote geometry/font (CENTER_DOWN, -195 px / loadscreen_tip) and continuous-focus
-     palette centring/safe gap below the focus tree.
+  8. Loading quote geometry/font (vanilla tip window 1024x200, CENTER_DOWN,
+     loadscreen_tip) and continuous-focus palette centring/safe gap below the focus tree.
   9. Custom cavalry/cossack models from Rise of Russia must be present
      (GLP_units.*, NTC_cavalry in black papakha, sabre, sabre anims) and wired as
      tag-specific GLP_cavalry_entity / GLP_cavalry_2_entity without
@@ -28,6 +28,7 @@ Checks performed:
 
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
+import hashlib
 import os
 import re
 import struct
@@ -508,8 +509,17 @@ def check_loading_tips():
     """Ванильные цитаты загрузки должны быть полностью перекрыты.
 
     Базовая игра использует ключи LOADING_TIP_0..~90, DLC добавляют свои;
-    чтобы ванильная цитата никогда не появилась, мы перекрываем 0..256.
+    чтобы ванильная цитата никогда не появилась, мы перекрываем 0..500.
+    При этом в файле не должно остаться ни одной ванильной цитаты: только
+    авторские цитаты мода (Прудон, Бакунин, Кропоткин, Махно, Волин и т.д.).
     """
+    ALLOWED_SIGNS = ('М. А. Бакунинъ', 'П. А. Кропоткинъ', 'П.-Ж. Прудонъ',
+                     'Э. Гольдманъ', 'Н. И. Махно', 'В. М. Волинъ',
+                     'П. А. Аршиновъ', 'Декларація РПА', 'Девизъ тачанки',
+                     'Девизъ анархистовъ', 'Mikhail Bakunin', 'Peter Kropotkin',
+                     'Pierre-Joseph Proudhon', 'Emma Goldman', 'Nestor Makhno',
+                     'V. M. Voline', 'Peter Arshinov', 'RIAU Declaration',
+                     'Tachanka motto', 'Anarchist motto')
     for lang in ('russian', 'english'):
         p = os.path.join(ROOT, f'localisation/{lang}/loading_tips_l_{lang}.yml')
         if not os.path.exists(p):
@@ -521,10 +531,15 @@ def check_loading_tips():
         if not nums:
             err(f"{rel(p)}: не найдено ни одного ключа LOADING_TIP_<n>")
             continue
-        gaps = [n for n in range(0, 257) if n not in nums]
+        gaps = [n for n in range(0, 501) if n not in nums]
         if gaps:
             err(f"{rel(p)}: не перекрыты ванильные цитаты "
                 f"(нет ключей для {len(gaps)} номеров, первый: LOADING_TIP_{gaps[0]})")
+        # Никаких ванильных цитат: каждый текст обязан ссылаться на автора мода.
+        for m in re.finditer(r'^LOADING_TIP_\d+:0 .*$', text, re.M):
+            line = m.group(0)
+            if not any(sign in line for sign in ALLOWED_SIGNS):
+                err(f"{rel(p)}: ванильная цитата не перекрыта -> {line[:80]}...")
 
 
 def check_music():
@@ -549,6 +564,21 @@ def check_music():
         if len(tracks) < 10:
             warn(f'music/music.asset: в плейлисте только {len(tracks)} '
                  f'треков (ожидается 10–11 композиций Монгол Шуудан)')
+        # Предупреждаем о заглушке: если все .ogg байт-в-байт одинаковые,
+        # в игре все "дорожки" звучат как один трек (сейчас это так и есть).
+        oggs = sorted(p for p in walk('music', ('.ogg',)))
+        hashes = defaultdict(set)
+        for p in oggs:
+            with open(p, 'rb') as fh:
+                hashes[hashlib.md5(fh.read()).hexdigest()].add(rel(p))
+        dup = {h: sorted(v) for h, v in hashes.items() if len(v) > 1}
+        if dup and len(hashes) == 1:
+            warn(f'music: все {len(oggs)} .ogg файлов идентичны (md5 '
+                 f'{list(hashes)[0]}) — это плейсхолдеры. Замените их реальными '
+                 f'дорожками Монгол Шуудан (OGG Vorbis) с теми же именами.')
+        elif dup:
+            for h, v in dup.items():
+                warn(f'music: одинаковые .ogg ({len(v)} шт.): {", ".join(v)}')
 
 
 def check_opinions(loc):
@@ -802,29 +832,39 @@ def check_gui_overrides():
         if 'GFX_loadingtip_bg' not in body or 'bg_load_screen' not in body:
             err("interface/load_screen.gui: нет ванильной плашки bg_load_screen / GFX_loadingtip_bg")
 
-        # Окно 180 px позиционировано внизу экрана (CENTER_DOWN, y=-195);
-        # текстовая область имеет y=20, h=140. Шрифт -- loadscreen_tip.
+        # Окно "tip" повторяет ванильный layout: 1024x200 (CENTER_DOWN),
+        # плашка на x=-700/y=-147, текст loadscreen_tip на x=-450/y=-157.
+        # Кастомная подложка-карточка не используется.
         required = (
-            'position = { x = -512 y = -195 }',
-            'size = { x = 1024 y = 180 }',
+            'position = { x = 0 y = 0 }',
+            'size = { x = 1024 y = 200 }',
             'Orientation = "CENTER_DOWN"',
-            'spriteType = "GFX_GLP_loading_tip_journal_bg"',
-            'position = { x = 40 y = 20 }',
+            'position = { x = -700 y = -147 }',
+            'position = { x = -450 y = -157 }',
             'font = "loadscreen_tip"',
-            'maxWidth = 944',
-            'maxHeight = 140',
+            'maxWidth = 900',
+            'maxHeight = 200',
         )
         for token in required:
             if token not in body:
-                err(f"interface/load_screen.gui: нарушена спецификация цитаты -> {token}")
+                err(f"interface/load_screen.gui: нарушена ванильная спецификация цитаты -> {token}")
 
-    panel = os.path.join(ROOT, 'gfx/interface/loading_tip_journal_bg.dds')
-    info = dds_info(panel) if os.path.exists(panel) else None
-    if info is None:
-        err("gfx/interface/loading_tip_journal_bg.dds: отсутствует/не является DDS")
-    elif info[:2] != (1024, 180):
-        err(f"gfx/interface/loading_tip_journal_bg.dds: {info[0]}x{info[1]}, "
-            "ожидается 1024x180")
+        if 'GFX_GLP_loading_tip_journal_bg' in body:
+            err("interface/load_screen.gui: кастомная подложка GFX_GLP_loading_tip_journal_bg "
+                "не должна использоваться — блок цитаты должен выглядеть как в ваниле")
+
+    gfx = os.path.join(ROOT, 'interface/load_screen.gfx')
+    if os.path.exists(gfx):
+        gbody = strip_comments(read(gfx))
+        if 'GFX_GLP_loading_tip_journal_bg' in gbody:
+            err("interface/load_screen.gfx: кастомная подложка GFX_GLP_loading_tip_journal_bg "
+                "не должна определяться")
+        m = re.search(r'name\s*=\s*"GFX_loadingtip_bg"[^{}]*?texturefile\s*=\s*"([^"]+)"', gbody)
+        if not m:
+            err("interface/load_screen.gfx: GFX_loadingtip_bg не определён")
+        elif m.group(1) != 'gfx/interface/Loadingscreen_loadingtip.dds':
+            err("interface/load_screen.gfx: GFX_loadingtip_bg -> " + m.group(1) +
+                ", ожидается ванильная gfx/interface/Loadingscreen_loadingtip.dds")
 
     if os.path.exists(os.path.join(ROOT, 'interface/loadingscreen.gui')):
         err("interface/loadingscreen.gui: пустой файл с неванильным именем -- удалить")
@@ -867,6 +907,10 @@ EXPECTED_UNIT_MODEL_FILES = (
     'gfx/entities/GLP_units.asset',
     'gfx/entities/GLP_units.gfx',
     'gfx/models/units/GLP_cavalry_animations.asset',
+    'gfx/models/units/RSR_marine.mesh',
+    'gfx/models/units/RSR_marine_diffuse.dds',
+    'gfx/models/units/RSR_marine_normal.dds',
+    'gfx/models/units/RSR_marine_spec.dds',
     'gfx/models/units/NTC_cavalry.mesh',
     'gfx/models/units/NTC_cavalry_diffuse_.dds',
     'gfx/models/units/NTC_cavalry_normal.dds',
@@ -888,7 +932,7 @@ EXPECTED_UNIT_MODEL_FILES = (
 
 
 def check_unit_models():
-    """Казачья конница Rise of Russia должна быть на месте."""
+    """Пехота-матрос RSR_marine и казачья конница Rise of Russia должны быть на месте."""
     for fname in EXPECTED_UNIT_MODEL_FILES:
         p = os.path.join(ROOT, fname)
         if not os.path.exists(p):
@@ -897,11 +941,11 @@ def check_unit_models():
     asset = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
     if os.path.exists(asset):
         body = strip_comments(read(asset))
-        for name in ('GLP_cavalry_entity', 'GLP_cavalry_2_entity'):
+        for name in ('GLP_infantry_entity', 'GLP_cavalry_entity', 'GLP_cavalry_2_entity'):
             if f'name = "{name}"' not in body:
                 err(f"gfx/entities/GLP_units.asset: нет сущности '{name}'")
-        if re.search(r'clone\s*=\s*"(cavalry_entity|cavalry_2_entity|generic_infantry_mg_rider_entity)"', body):
-            err("gfx/entities/GLP_units.asset: запрещён clone ванильной cavalry-сущности")
+        if re.search(r'clone\s*=\s*"(cavalry_entity|cavalry_2_entity|generic_infantry_mg_rider_entity|infantry_rifle_entity)"', body):
+            err("gfx/entities/GLP_units.asset: запрещён clone ванильной cavalry/infantry-сущности")
 
 
 # ---------------------------------------------------------------- 11. entity graph
