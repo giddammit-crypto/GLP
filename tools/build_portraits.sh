@@ -60,6 +60,8 @@ declare -A PEOPLE=(
 GREY_BG_MASTERS=(
 	nestor_makhno viktor_belash semen_karetnik feodosiy_shchus lev_zadov
 	halyna_kuzmenko vsevolod_volin ataman_grigoriev
+	nikolai_skoblin anton_turkul grigory_semyonov
+	bogdan_dybets aleksey_dybets feodosiy_kozhin
 )
 
 # 1 -- мастер на сером фоне (новое поколение), 0 -- старый студийный.
