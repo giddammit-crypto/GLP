@@ -876,6 +876,54 @@ def check_gui_overrides():
             if token not in body:
                 err(f"interface/eventwindow.gui: отсутствует ванильное окно {token}")
 
+    # ------------------------------------------------------------------
+    #  Оверрайды «чистых портретов»: из списков командиров и карточек
+    #  советников убраны значки, которые движок рисует поверх/у портрета
+    #  (HQ-бейдж, иконки черт, иконки типа соединения, полоски ролей).
+    #  Вероятность регрессии (кто-то вернёт элементы) ловится здесь.
+    # ------------------------------------------------------------------
+    no_badge = {
+        'interface/unitleaderwindow.gui': (('army_hq_icon', 'template_button', 'ship_icon_button'),
+           ('"armyleaderentry"', '"divisionleaderentry"')),
+        'interface/countrypoliticsview.gui': (('idea_traits',),
+           ('"political_idea_entry"', '"political_selectable_idea_entry_grid"',
+            '"political_selectable_idea_entry_list"')),
+    }
+    for rel, (forbidden, required) in no_badge.items():
+        p = os.path.join(ROOT, rel)
+        if not os.path.exists(p):
+            err(f"{rel} отсутствует -- значки на портретах вернутся")
+            continue
+        body = strip_comments(read(p))
+        for token in required:
+            if token not in body:
+                err(f"{rel}: отсутствует ванильный контейнер {token}")
+        for token in forbidden:
+            if f'name = "{token}"' in body:
+                err(f"{rel}: элемент {token} снова определён -- он рисуется поверх портрета")
+
+    p = os.path.join(ROOT, 'interface/countryofficercorpview.gui')
+    if not os.path.exists(p):
+        err("interface/countryofficercorpview.gui отсутствует -- "
+            "значки ролей/черт у штабных портретов вернутся")
+    else:
+        body = strip_comments(read(p))
+        for token in ('"country_view_advisor_entry"', '"high_command_entry"',
+                      '"army_chief_entry"', '"navy_chief_entry"', '"air_chief_entry"',
+                      '"theorist_entry"'):
+            if token not in body:
+                err(f"interface/countryofficercorpview.gui: отсутствует контейнер {token}")
+        if 'name = "advisor_type_icon"' in body:
+            err("interface/countryofficercorpview.gui: advisor_type_icon снова определён "
+                "-- полоска роли рисуется у штабного портрета")
+        # idea_traits у командных entries быть не должно; блоки духов их сохраняют,
+        # поэтому проверяем по расположению: ни одного idea_traits выше theorist_entry.
+        ut = body.find('name = "theorist_entry"')
+        head = body[:ut]
+        if 'name = "idea_traits"' in head:
+            err("interface/countryofficercorpview.gui: idea_traits в командных entries "
+                "-- полоска черт рисуется у штабного портрета")
+
 
 def check_advisor_portraits(defs):
     """Каждый персонаж с ролью advisor обязан иметь portraits."""
