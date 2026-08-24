@@ -1,11 +1,12 @@
 add_namespace = glp_white
 
 # Разборки в штабе после призыва белых эмигрантов
-country_event = {
+news_event = {
 	id = glp_white.1
 	title = glp_white.1.t
 	desc = glp_white.1.d
 	picture = GFX_news_event_GLP_rebirth
+	major = no
 	is_triggered_only = yes
 	fire_only_once = yes
 

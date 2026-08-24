@@ -68,34 +68,37 @@ news_event = {
 	}
 }
 
-country_event = {
+news_event = {
 	id = glp_news.2
 	title = glp_news.2.t
 	desc = glp_news.2.d
-	picture = GFX_news_event_GLP_rebirth
+	picture = GFX_news_event_GLP_anarchist_congress
+	major = yes
 	is_triggered_only = yes
 
 	option = {
 		name = glp_news.2.a
+		trigger = { tag = GLP }
 		add_stability = 0.10
 		add_political_power = 60
 	}
 	option = {
 		name = glp_news.2.b
-		army_experience = 25
-		add_war_support = 0.10
+		trigger = { NOT = { tag = GLP } }
 	}
 }
 
-country_event = {
+news_event = {
 	id = glp_news.3
 	title = glp_news.3.t
 	desc = glp_news.3.d
-	picture = GFX_news_event_GLP_rebirth
+	picture = GFX_news_event_GLP_cavalry_raid
+	major = yes
 	is_triggered_only = yes
 
 	option = {
 		name = glp_news.3.a
+		trigger = { tag = GLP }
 		add_equipment_to_stockpile = {
 			type = infantry_equipment_1
 			amount = 1000
@@ -107,6 +110,10 @@ country_event = {
 			producer = GLP
 		}
 		army_experience = 20
+	}
+	option = {
+		name = glp_news.3.b
+		trigger = { NOT = { tag = GLP } }
 	}
 }
 
@@ -165,41 +172,50 @@ news_event = {
 	}
 }
 
-country_event = {
+news_event = {
 	id = glp_news.6
 	title = glp_news.6.t
 	desc = glp_news.6.d
 	picture = GFX_news_event_GLP_rebirth
+	major = yes
 	is_triggered_only = yes
 
 	option = {
 		name = glp_news.6.a
+		trigger = { tag = GLP }
 		add_stability = 0.10
 		add_popularity = {
 			ideology = neutrality
 			popularity = 0.10
 		}
+		army_experience = 30
+		add_war_support = 0.10
 	}
 	option = {
 		name = glp_news.6.b
-		army_experience = 30
-		add_war_support = 0.10
+		trigger = { NOT = { tag = GLP } }
 	}
 }
 
 # Бѣлые добровольцы изъ Европы прибываютъ подъ черное знамя (вѣтка «Вольному воля»).
-country_event = {
+news_event = {
 	id = glp_news.7
 	title = glp_news.7.t
 	desc = glp_news.7.d
-	picture = GFX_news_event_GLP_rebirth
+	picture = GFX_news_event_GLP_black_guard_march
+	major = yes
 	is_triggered_only = yes
 
 	option = {
 		name = glp_news.7.a
+		trigger = { tag = GLP }
 		add_manpower = 25000
 		army_experience = 25
 		add_war_support = 0.05
+	}
+	option = {
+		name = glp_news.7.b
+		trigger = { NOT = { tag = GLP } }
 	}
 }
 
