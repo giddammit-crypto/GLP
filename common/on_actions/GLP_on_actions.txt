@@ -117,8 +117,11 @@ on_actions = {
 				}
 				FROM = {
 					# --- 65%: стрелковое вооружение и снаряжение ---
+					# random = <процент> — штатный триггер вероятности.
+					# (check_variable сравнивает только set_variable-переменные,
+					#  random в них подставлять нельзя)
 					if = {
-						limit = { check_variable = { random < 0.65 } }
+						limit = { random = 65 }
 						add_equipment_to_stockpile = {
 							type = infantry_equipment
 							amount = 120
@@ -132,7 +135,7 @@ on_actions = {
 					}
 					# --- 45%: мототехника ---
 					if = {
-						limit = { check_variable = { random < 0.45 } }
+						limit = { random = 45 }
 						add_equipment_to_stockpile = {
 							type = motorized_equipment
 							amount = 20
@@ -141,7 +144,7 @@ on_actions = {
 					}
 					# --- 15%: танки и артиллерия ---
 					if = {
-						limit = { check_variable = { random < 0.15 } }
+						limit = { random = 15 }
 						add_equipment_to_stockpile = {
 							type = artillery_equipment
 							amount = 10

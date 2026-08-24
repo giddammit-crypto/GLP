@@ -1,6 +1,81 @@
 # AUDIT REPORT — GLP (Гуляйполе: Вольная Территорія)
 
-Дата: 2026-08-24 · Ветка: `arena/01a030bb-glp` · `python3 tools/glp_audit.py` → **0 ошибок, 0 предупреждений** · `git diff --check` → чисто.
+Дата: 2026-08-24 · Ветка: `arena/01a031d5-glp` · `python3 tools/glp_audit.py` → **0 ошибок, 0 предупреждений** · `git diff --check` → чисто.
+
+---
+
+## Итерация 6: краш после замены моделей конницы — найден и устранён
+
+Симптом: краш игры появился после добавления моделей войск (итерация 4).
+
+### Методика
+
+Все 25 импортированных бинарников (`gfx/models/units/*`) сверены **побайтово**
+(git blob SHA-1) с оригиналами в GitHub-репозитории Rise of Russia
+(`Gtym33/Kursach-Himiya`) — все 25 файлов идентичны оригиналу, коррупции нет.
+Скелеты мешей и `.anim` сопоставлены по костям (31 кость, полное совпадение).
+Скриптовые определения сверены с оригинальными `YR_cavalry.gfx`,
+`YR_units_cavalry.asset`, `_npt_animation_units.asset` RSR и с дампом
+базовой игры (`units_cavalry.asset`/`infantry.gfx`/`units_infantry.asset`).
+
+### Найденные ошибки
+
+1. **Краш (основной): кавалерийские сущности собирались через `clone`.**
+   `GLP_cavalry_entity` и `GLP_cavalry_2_entity` использовали
+   `clone = "cavalry_entity"`, а `GLP_infantry_mg_rider_entity` —
+   `clone = "generic_infantry_mg_rider_entity"`. Это единственное
+   структурное отклонение от проверенного паттерна RSR (исходника моделей):
+   RSR определяет все «верхние» кавалерийские сущности **явно**
+   (`pdxmesh = infantry_cavalry_horse_frame_mesh` + 7 стейтов + 3 attach:
+   infantry/cavalry/horse + scale). Кросс-файловый clone к ванильным
+   cavalry-сущностям — недостоверный путь (дамп базовой игры и опыт 1956:
+   «a parent must be in the same file as its clones to avoid errors in log»).
+   **Исправлено:** все три сущности переписаны явными определениями
+   (паттерн RSR/базовой игры), без единого `clone` к cavalry-сущностям.
+2. **`GLP_cavalry_2_entity` клонировал НЕПРАВИЛЬНОГО родителя** —
+   `cavalry_entity` (винтовочная конница), а не `cavalry_2_entity`; у него
+   нет `propagate_state = { cavalry = "idle" }` для MG-всадника.
+   **Исправлено** явным определением по образцу ванильного `cavalry_2_entity`.
+3. **Трофейная механика не работала:** `check_variable = { random < 0.65 }` —
+   `random` не является переменной (`check_variable` оперирует только
+   `set_variable`); триггер всегда падал. **Исправлено:** штатный триггер
+   вероятности `random = 65 / 45 / 15` (проверено по wiki Triggers: `random` —
+   отдельный процентный триггер; `create_unit = { division = "..." }` и
+   `teleport_armies = { limit to_state_array }` при этом подтверждены
+   ДОКУМЕНТИРОВАННЫМ синтаксисом и оставлены без изменений).
+4. **Не задокументированное требование La Résistance:**
+   `ideology = anarchism` у Махно — ванильная идеология только при наличии
+   DLC (1.9, 2020). Без DLC загрузка сценария роняет ошибку на персонаже.
+   **Исправлено:** требование добавлено в README (раздел «Требования»).
+
+### Что проверено и признано корректным (было под подозрением)
+
+- Флаги: 82×52 / 41×26 / 10×7, 32 bpp, без сжатия — эталонный размер HOI4.
+- `cavalry_entity`/`generic_infantry_mg_rider_entity`/`cavalry_2_entity`
+  действительно существуют в базовой игре (дамп `units_cavalry.asset`:
+  «moved from units_cavalry.asset»; под-юнит `cavalry` → `sprite = cavalry`).
+- Лошадь `infantry_cavalry_horse_mesh` объявляет `cavalry_attack`/
+  `cavalry_attack_2` — стейты combined-сущностей валидны; `Saddle_Node` есть.
+- GER-оружие (`GER_infantry_weapon_*_entity`) — ванильные сущности, все
+  ноды (`Right_Hand_node`, `Left_Hand_node`, `mid_back_node`, `Root_node_2`)
+  присутствуют в импортированных мещах.
+- `CHI_sword_sabre_*.dds` (ножны) — побайтовые алиасы, Waking the Tiger не
+  требуется; `.anim`-файлы завершаются корректно, костный скелет совпадает.
+- Решения: группа решения и есть категория (современный формат 1.16+),
+  все 4 категории GLP объявлены — ошибок нет.
+- `music.asset` не «перекрывает» ваниль (сливается), но ванильный
+  `maintheme` переопределён — поведения краш-уровня нет.
+
+### Усиление аудита
+
+`tools/glp_audit.py` — новый раздел **11. Entity graph**
+(`check_entity_graph`): резолв `clone`/`pdxmesh` по списку сущностей мода +
+ванильный белый список (закреплён в коде с источниками), каждая
+`animation = "…"` в `state` сверяется с объявленными id конкретного pdxmesh
+(у ванильных мешей — по закреплённому набору), каждая attach-нода сверяется
+с бинарным содержимым `.mesh`, типы анимаций в `GLP_units.gfx` — только
+`GLP_*`/`GER_infantry_*`; анти-паттерн `check_variable = { random … }`
+пресекается во всех скриптах.
 
 ## Статистика
 
