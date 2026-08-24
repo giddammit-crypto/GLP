@@ -996,6 +996,12 @@ EXPECTED_UNIT_MODEL_FILES = (
     'gfx/models/units/RSR_marine_diffuse.dds',
     'gfx/models/units/RSR_marine_normal.dds',
     'gfx/models/units/RSR_marine_spec.dds',
+    'gfx/models/units/KORN_cavalry.mesh',
+    'gfx/models/units/KORN_cavalry_diffuse.dds',
+    'gfx/models/units/DROZD_stormtroopers.mesh',
+    'gfx/models/units/DROZD_stormtroopers_diffuse.dds',
+    'gfx/models/units/DROZD_stormtroopers_normal.dds',
+    'gfx/models/units/DROZD_stormtroopers_spec.dds',
     'gfx/models/units/russian_sword_sabre.mesh',
     'gfx/models/units/russian_sword_sabre_holder.mesh',
     'gfx/models/units/russian_sword_sabre_diffuse.dds',
@@ -1022,7 +1028,9 @@ def check_unit_models():
     asset = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
     if os.path.exists(asset):
         body = strip_comments(read(asset))
-        for name in ('GLP_infantry_entity', 'GLP_cavalry_entity', 'GLP_cavalry_2_entity'):
+        for name in ('GLP_infantry_entity', 'GLP_cavalry_entity', 'GLP_cavalry_2_entity',
+                     'GLP_kornilovtsy_entity', 'GLP_kornilovtsy_rider_entity',
+                     'GLP_kornilovtsy_combined_entity', 'GLP_drozdovtsy_entity'):
             if f'name = "{name}"' not in body:
                 err(f"gfx/entities/GLP_units.asset: нет сущности '{name}'")
     # Перекрашенная текстура анархистов: насыщенные красные пиксели
