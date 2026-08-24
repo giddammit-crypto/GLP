@@ -19,10 +19,10 @@ Checks performed:
      matches tools/idea_pictures.tsv.
   8. Loading quote geometry/font (+200 px from centre) and continuous-focus
      palette centring/safe gap below the focus tree.
-  9. No custom 3D unit models: the mod is fully on vanilla
-     infantry_rifle_entity / cavalry_entity / cavalry_2_entity, so
-     gfx/entities/GLP_units.* and gfx/models/units/* must be absent and
-     no script may reference imported Rise-of-Russia names.
+  9. Custom cavalry/cossack models from Rise of Russia must be present
+     (GLP_units.*, DON_cavalry, sabre, sabre anims) and wired as
+     tag-specific GLP_cavalry_entity / GLP_cavalry_2_entity without
+     cloning vanilla cavalry entities.
  10. Character traits that are neither vanilla nor defined by the mod.
  11. Anti-pattern `check_variable = { random ... }` in common/events/history.
 
@@ -787,8 +787,8 @@ def check_gui_overrides():
         for token in ('"load_screen"', '"status"', '"tip"', '"text"', '"progressbar"'):
             if token not in body:
                 err(f"interface/load_screen.gui: отсутствует элемент {token}")
-        if 'GFX_loadingtip_bg' in body:
-            err("interface/load_screen.gui: вернулась ванильная металлическая плашка")
+        if 'GFX_loadingtip_bg' not in body or 'bg_load_screen' not in body:
+            err("interface/load_screen.gui: нет ванильной плашки bg_load_screen / GFX_loadingtip_bg")
 
         # Окно 180 px начинается на +110 от центра; текстовая область имеет
         # y=20, h=140. Следовательно, центр текста: 110+20+70 = +200 px.
@@ -851,42 +851,45 @@ def check_advisor_portraits(defs):
 # сообщит об этом.
 
 
+EXPECTED_UNIT_MODEL_FILES = (
+    'gfx/entities/GLP_units.asset',
+    'gfx/entities/GLP_units.gfx',
+    'gfx/models/units/GLP_cavalry_animations.asset',
+    'gfx/models/units/DON_cavalry.mesh',
+    'gfx/models/units/DON_cavalry_diffuse.dds',
+    'gfx/models/units/DON_cavalry_normal.dds',
+    'gfx/models/units/DON_cavalry_specular.dds',
+    'gfx/models/units/russian_sword_sabre.mesh',
+    'gfx/models/units/russian_sword_sabre_holder.mesh',
+    'gfx/models/units/russian_sword_sabre_diffuse.dds',
+    'gfx/models/units/russian_sword_sabre_normal.dds',
+    'gfx/models/units/russian_sword_sabre_spec.dds',
+    'gfx/models/units/CHI_sword_sabre_diffuse.dds',
+    'gfx/models/units/CHI_sword_sabre_normal.dds',
+    'gfx/models/units/CHI_sword_sabre_spec.dds',
+    'gfx/models/units/russian_infantry_cavalry_rider_attack_sabre.anim',
+    'gfx/models/units/russian_infantry_cavalry_rider_attack_sabre_idle.anim',
+    'gfx/models/units/russian_infantry_cavalry_rider_idle_sabre.anim',
+    'gfx/models/units/russian_infantry_cavalry_rider_moving_sabre.anim',
+    'gfx/models/units/russian_infantry_cavalry_rider_retreat_sabre.anim',
+)
+
+
 def check_unit_models():
-    """Подтверждает, что мод полностью на ванильных моделях.
-
-    В моде нет кастомных 3D-файлов: gfx/entities/GLP_units.* и
-    gfx/models/units/* удалены (после краша Rise of Russia). Если кто-то
-    случайно вернёт импортированные mesh/anim/asset или ссылки на
-    GLP_*_entity -- аудит это поймает. Иначе движок выберет
-    infantry_rifle_entity / cavalry_entity / cavalry_2_entity по
-    graphical_culture= eastern_european_gfx (т. е. стандартных солдат РККА).
-    """
-    model_dir = os.path.join(ROOT, 'gfx/models/units')
-    entity_files = ('gfx/entities/GLP_units.asset', 'gfx/entities/GLP_units.gfx')
-
-    if os.path.isdir(model_dir):
-        err(f"gfx/models/units/: каталог моделей не должен существовать "
-            f"(мод полностью на ванильных infantry_rifle_entity / "
-            f"cavalry_entity / cavalry_2_entity)")
-    for fname in entity_files:
+    """Казачья конница Rise of Russia должна быть на месте."""
+    for fname in EXPECTED_UNIT_MODEL_FILES:
         p = os.path.join(ROOT, fname)
-        if os.path.exists(p):
-            err(f"{rel(p)}: файл не должен существовать (ванильные модели "
-                f"подключаются автоматически по graphical_culture)")
+        if not os.path.exists(p):
+            err(f"{fname}: отсутствует кастомная модель конницы/казаков")
 
-    # Анти-паттерн: нигде в скриптах мода не должно быть ссылок на
-    # GLP_*_entity / GLP_*_mesh / импортированные имена Rise of Russia.
-    for d in ('common', 'events', 'history', 'interface'):
-        for p in walk(d, ('.txt', '.gfx', '.gui')):
-            body = strip_comments(read(p))
-            for m in re.finditer(
-                    r'\b(GLP_(?:infantry|cavalry|sabre)[A-Za-z0-9_]*_entity'
-                    r'|GLP_[A-Za-z0-9_]+_mesh|GLP_cavalry_rider_[A-Za-z0-9_]+_animation'
-                    r'|RSR_infantry|DON_cavalry|russian_sword_sabre'
-                    r'|russian_infantry_cavalry_rider_[A-Za-z0-9_]+)\b', body):
-                err(f"{rel(p)}: осталась ссылка на удалённую кастомную "
-                    f"модель '{m.group(1)}' -- верните ванильную сущность "
-                    f"или удалите строку")
+    asset = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
+    if os.path.exists(asset):
+        body = strip_comments(read(asset))
+        for name in ('GLP_cavalry_entity', 'GLP_cavalry_2_entity'):
+            if f'name = "{name}"' not in body:
+                err(f"gfx/entities/GLP_units.asset: нет сущности '{name}'")
+        if re.search(r'clone\s*=\s*"(cavalry_entity|cavalry_2_entity|generic_infantry_mg_rider_entity)"', body):
+            err("gfx/entities/GLP_units.asset: запрещён clone ванильной cavalry-сущности")
 
 
 # ---------------------------------------------------------------- 11. entity graph

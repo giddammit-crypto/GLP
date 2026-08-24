@@ -35,6 +35,9 @@ declare -A PEOPLE=(
 	[halyna_kuzmenko]=Halyna_Kuzmenko
 	[vsevolod_volin]=Vsevolod_Volin
 	[ataman_grigoriev]=Ataman_Grigoriev
+	[nikolai_skoblin]=Nikolai_Skoblin
+	[anton_turkul]=Anton_Turkul
+	[grigory_semyonov]=Grigory_Semyonov
 )
 
 # Общая обработка: лёгкое освѣтленіе (ТЗ: «чуть осветли», контрастъ сохранёнъ),

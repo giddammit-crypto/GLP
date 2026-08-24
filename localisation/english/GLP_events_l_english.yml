@@ -148,3 +148,12 @@
  glp_trophy.1.t:0 "Trophy Teams of the RIA"
  glp_trophy.1.d:0 "Batko's fighters have stripped another beaten enemy unit clean: Gulyaypole's armouries brim with captured rifles, gear and vehicles. From volunteers and prisoners willing to serve the Free Territory, a new detachment has been raised — with its own maintenance company, so that the enemy's weapons keep serving the revolution."
  glp_trophy.1.a:0 "Anarchy is the mother of order!"
+
+ glp_white.1.t:0 "Staff Quarrel"
+ glp_white.1.d:0 "A month after Skoblin, Turkul and Semyonov were called, RIA headquarters is splitting. Makhnovists demand the 'gold-epaulettes' be disarmed. The emigres demand full command of the shock brigades."
+ glp_white.1.a:0 "Back the generals"
+ glp_white.1.b:0 "Back the Makhnovists"
+
+ GLP_reconciliation_with_past:0 "Reconciliation with the Past"
+ GLP_equip_volunteer_shock_brigades:0 "Equip Volunteer Shock Brigades"
+ GLP_equip_volunteer_shock_brigades_desc:0 "Re-arm the White brigades with rifles and guns — at the communes' expense."

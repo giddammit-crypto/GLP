@@ -24,7 +24,7 @@ focus_tree = {
 		icon = GFX_goal_generic_army_doctrines
 		x = 4
 		y = 0
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			army_experience = 25
@@ -39,7 +39,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_insurgent_army_reorganization }
 		x = 2
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_underground_armories
@@ -53,7 +53,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_insurgent_army_reorganization }
 		x = 4
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_partisan_doctrine
@@ -67,7 +67,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_insurgent_army_reorganization }
 		x = 6
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 9 }
 		completion_reward = {
 			add_ideas = GLP_idea_legendary_tachankas
@@ -83,7 +83,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_underground_armories }
 		x = 2
 		y = 2
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			army_experience = 35
@@ -98,7 +98,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_partisan_warfare_doctrine }
 		x = 4
 		y = 2
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_steppe_lightning
@@ -111,7 +111,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_legendary_tachankas }
 		x = 6
 		y = 2
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_anti_tank_cavalry
@@ -153,7 +153,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_anti_tank_cavalry }
 		x = 6
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			army_experience = 35
@@ -168,7 +168,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_armored_train_production focus = GLP_rapid_rail_deployment }
 		x = 3
 		y = 4
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		completion_reward = {
 			add_ideas = GLP_idea_steel_ram
@@ -199,7 +199,7 @@ focus_tree = {
 		icon = GFX_focus_generic_workers
 		x = 12
 		y = 0
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			add_political_power = 100
@@ -214,7 +214,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_syndicate_industrial_planning }
 		x = 10
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_communes_empowerment
@@ -232,7 +232,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_syndicate_industrial_planning }
 		x = 14
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			227 = {
@@ -284,7 +284,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_donbass_coal_and_steel_collective }
 		x = 14
 		y = 2
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_decentralized_workshops
@@ -373,7 +373,7 @@ focus_tree = {
 		icon = GFX_goal_generic_intelligence_exchange
 		x = 20
 		y = 0
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			add_political_power = 80
@@ -387,7 +387,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_kontrrazvedka_reorganization }
 		x = 18
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_stability = 0.08
@@ -402,7 +402,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_kontrrazvedka_reorganization }
 		x = 22
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_anti_cheka_vigilance
@@ -501,7 +501,7 @@ focus_tree = {
 		icon = GFX_goal_generic_improve_relations
 		x = 30
 		y = 0
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			add_political_power = 100
@@ -515,7 +515,11 @@ focus_tree = {
 		mutually_exclusive = { focus = GLP_alliance_with_germany focus = GLP_alliance_with_britain focus = GLP_free_will }
 		x = 26
 		y = 1
-		cost = 10
+		cost = 5
+		available = {
+			SOV = { exists = yes NOT = { has_war_with = ROOT } }
+			NOT = { has_war_with = SOV }
+		}
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			add_opinion_modifier = { target = SOV modifier = GLP_soviet_military_pact }
@@ -533,7 +537,10 @@ focus_tree = {
 		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_britain focus = GLP_free_will }
 		x = 30
 		y = 1
-		cost = 10
+		cost = 5
+		available = {
+			GER = { exists = yes NOT = { has_war_with = ROOT } }
+		}
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_opinion_modifier = { target = GER modifier = GLP_german_military_pact }
@@ -551,7 +558,10 @@ focus_tree = {
 		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_germany focus = GLP_free_will }
 		x = 34
 		y = 1
-		cost = 10
+		cost = 5
+		available = {
+			ENG = { exists = yes NOT = { has_war_with = ROOT } }
+		}
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_opinion_modifier = { target = ENG modifier = GLP_british_military_pact }
@@ -706,7 +716,7 @@ focus_tree = {
 		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_germany focus = GLP_alliance_with_britain }
 		x = 24
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			add_political_power = 120
@@ -723,14 +733,34 @@ focus_tree = {
 		prerequisite = { focus = GLP_free_will }
 		x = 24
 		y = 2
-		cost = 10
+		cost = 5
+		available = {
+			OR = {
+				has_war = yes
+				threat > 0.15
+				date > 1938.1.1
+			}
+		}
 		ai_will_do = { factor = 9 }
 		completion_reward = {
+			add_stability = -0.15
+			add_political_power = -75
+			add_popularity = { ideology = neutrality popularity = -0.10 }
+			set_country_flag = GLP_allied_white_emigres
+			if = {
+				limit = { NOT = { has_tech = gw_artillery } }
+				set_technology = { gw_artillery = 1 popup = no }
+			}
+			add_timed_idea = { idea = GLP_idea_white_emigre_officers days = 730 }
 			add_ideas = GLP_idea_white_volunteers
-			add_manpower = 25000
-			army_experience = 25
-			# Бѣлые добровольцы изъ Европы немедленно вліваются въ РПА.
+			recruit_character = GLP_nikolai_skoblin
+			recruit_character = GLP_anton_turkul
+			recruit_character = GLP_grigory_semyonov
+			load_oob = "GLP_old_enemies"
+			add_manpower = 8000
+			army_experience = 15
 			country_event = { id = glp_news.7 days = 1 }
+			country_event = { id = glp_white.1 days = 45 random_days = 15 }
 		}
 	}
 
@@ -740,7 +770,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_old_enemies_unite }
 		x = 24
 		y = 3
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 9 }
 		completion_reward = {
 			add_ideas = GLP_idea_international_brigades
@@ -755,7 +785,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_international_brigades }
 		x = 24
 		y = 4
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_black_cross_aid
@@ -780,7 +810,6 @@ focus_tree = {
 			add_ideas = GLP_idea_makhno_myth
 			add_war_support = 0.15
 			add_stability = 0.10
-			army_morale_factor = 0.10
 		}
 	}
 
@@ -792,7 +821,7 @@ focus_tree = {
 		icon = GFX_focus_generic_farmland
 		x = 40
 		y = 0
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			add_stability = 0.10
@@ -807,7 +836,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_peasant_grain_supplies }
 		x = 38
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_bread_for_front
@@ -820,7 +849,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_peasant_grain_supplies }
 		x = 42
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_manpower = 15000
@@ -941,7 +970,7 @@ focus_tree = {
 		icon = GFX_focus_generic_workers_and_farmers_rise
 		x = 49
 		y = 0
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			add_stability = 0.10
@@ -958,7 +987,7 @@ focus_tree = {
 		mutually_exclusive = { focus = GLP_black_military_dictatorship }
 		x = 47
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 10 }
 		completion_reward = {
 			add_ideas = GLP_idea_federation_of_free_soviets
@@ -973,7 +1002,7 @@ focus_tree = {
 		mutually_exclusive = { focus = GLP_federation_of_free_soviets }
 		x = 51
 		y = 1
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 3 }
 		completion_reward = {
 			set_politics = {
@@ -991,7 +1020,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_federation_of_free_soviets }
 		x = 47
 		y = 2
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_ideas = GLP_idea_black_international
@@ -1006,7 +1035,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_black_military_dictatorship }
 		x = 51
 		y = 2
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_total_militarization
@@ -1024,7 +1053,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_black_international }
 		x = 46
 		y = 3
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = -2000 producer = GLP }
@@ -1039,7 +1068,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_black_international }
 		x = 48
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		completion_reward = {
 			add_ideas = GLP_idea_black_crescent
@@ -1053,7 +1082,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_total_militarization_of_communes }
 		x = 51
 		y = 3
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 6 }
 		completion_reward = {
 			add_war_support = 0.20
@@ -1067,7 +1096,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_aid_to_spanish_anarchists focus = GLP_black_crescent_of_the_steppes }
 		x = 47
 		y = 4
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_world_anarchy
@@ -1118,7 +1147,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_sevastopol_naval_base }
 		x = 2
 		y = 7
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 6 }
 		completion_reward = {
 			add_tech_bonus = { name = glp_naval_bonus bonus = 1.0 uses = 2 category = dd_tech }
@@ -1133,7 +1162,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_sevastopol_naval_base }
 		x = 4
 		y = 7
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_tech_bonus = { name = glp_sub_bonus bonus = 1.0 uses = 2 category = ss_tech }
@@ -1150,7 +1179,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_revolutionary_destroyers }
 		x = 2
 		y = 8
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 6 }
 		completion_reward = {
 			add_tech_bonus = { name = glp_marines_bonus bonus = 1.0 uses = 1 category = marine_tech }
@@ -1200,7 +1229,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_black_sea_dominance }
 		x = 2
 		y = 10
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_merchant_raiders
@@ -1349,7 +1378,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_air_superiority_doctrine }
 		x = 10
 		y = 10
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 6 }
 		completion_reward = {
 			add_tech_bonus = { name = glp_cas bonus = 1.0 uses = 2 category = cas_bomber }
@@ -1364,7 +1393,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_air_superiority_doctrine }
 		x = 14
 		y = 10
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_tech_bonus = { name = glp_strat_bomber bonus = 1.0 uses = 1 category = cat_strategic_bomber }
@@ -1399,7 +1428,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_unshakeable_revolutionary_order }
 		x = 20
 		y = 6
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 7 }
 		completion_reward = {
 			add_tech_bonus = { name = glp_captured bonus = 0.75 uses = 2 category = infantry_weapons }
@@ -1722,7 +1751,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_safe_houses_network }
 		x = 34
 		y = 8
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			army_experience = 20
@@ -1737,7 +1766,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_coded_communications }
 		x = 38
 		y = 8
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 6 }
 		completion_reward = {
 			add_ideas = GLP_idea_partisan_cells
@@ -1936,7 +1965,6 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = GLP_idea_economic_independence
 			add_stability = 0.08
-			consumer_goods_factor = -0.05
 		}
 	}
 
@@ -2038,7 +2066,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_disinformation_campaigns }
 		x = 52
 		y = 9
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 6 }
 		completion_reward = {
 			add_ideas = GLP_idea_special_ops
@@ -2053,7 +2081,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_special_operations }
 		x = 50
 		y = 10
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_commando_raids
@@ -2068,7 +2096,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_special_operations }
 		x = 54
 		y = 10
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_behind_lines
@@ -2084,7 +2112,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_behind_enemy_lines }
 		x = 52
 		y = 11
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_shadow_war
@@ -2456,7 +2484,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_womens_emancipation }
 		x = 42
 		y = 13
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_female_combat
@@ -2560,7 +2588,6 @@ focus_tree = {
 		}
 	}
 
-}
 	# =========================================================================
 	# 21. РАСШИРЕНИЕ ВОЕННОЙ ДОКТРИНЫ (6 фокусов, x = 2..6, y = 16..18)
 	# =========================================================================
@@ -2585,7 +2612,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_deep_battle_doctrine }
 		x = 2
 		y = 17
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_mass_assault
@@ -2600,7 +2627,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_deep_battle_doctrine }
 		x = 4
 		y = 17
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_elite_guard
@@ -2704,7 +2731,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_defense_in_depth }
 		x = 20
 		y = 16
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_political_power = 60
@@ -2719,7 +2746,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_balkan_anarchist_federation }
 		x = 18
 		y = 17
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 4 }
 		completion_reward = {
 			add_political_power = 40
@@ -2734,7 +2761,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_balkan_anarchist_federation }
 		x = 22
 		y = 17
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 4 }
 		completion_reward = {
 			add_political_power = 40
@@ -2750,7 +2777,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_persian_revolutionary_aid }
 		x = 20
 		y = 18
-		cost = 10
+		cost = 5
 		ai_will_do = { factor = 4 }
 		completion_reward = {
 			add_ideas = GLP_idea_global_network
@@ -2965,7 +2992,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_cossack_glory }
 		x = 52
 		y = 16
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_cossack_officers
@@ -2980,7 +3007,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_cossack_officer_corps }
 		x = 50
 		y = 17
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_cossack_divisions
@@ -3020,3 +3047,4 @@ focus_tree = {
 			army_experience = 40
 		}
 	}
+}

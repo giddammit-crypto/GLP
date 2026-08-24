@@ -98,6 +98,13 @@ guiTypes = {
 			Orientation = CENTER
 
 			iconType = {
+				name = "bg_load_screen"
+				spriteType = "GFX_loadingtip_bg"
+				position = { x = 0 y = 0 }
+				alwaystransparent = yes
+			}
+
+			iconType = {
 				name = "journal_bg"
 				spriteType = "GFX_GLP_loading_tip_journal_bg"
 				position = { x = 0 y = 0 }

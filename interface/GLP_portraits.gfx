@@ -125,4 +125,29 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_feodosiy_kozhin_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Feodosiy_Kozhin.dds"
 	}
+
+	spriteType = {
+		name = "GFX_portrait_GLP_nikolai_skoblin"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Nikolai_Skoblin_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_nikolai_skoblin_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Nikolai_Skoblin.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_anton_turkul"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Anton_Turkul_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_anton_turkul_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Anton_Turkul.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_grigory_semyonov"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Grigory_Semyonov_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_grigory_semyonov_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Grigory_Semyonov.dds"
+	}
 }
