@@ -701,11 +701,14 @@ def check_focus_icons():
 
 
 def check_idea_pictures():
-    """Каждый национальный дух использует тематическую иконку GLP-пака.
+    """Каждый национальный дух использует тематическую ВАНИЛЬНУЮ иконку.
 
-    tools/idea_pictures.tsv является человекочитаемой картой подбора. Аудит
-    требует полного совпадения таблицы с common/ideas/GLP_ideas.txt, чтобы при
-    добавлении нового духа нельзя было незаметно вернуть generic-иконку.
+    Иконки подобраны по тематике из справочника hoi4-icon-search -- только
+    семейство GFX_idea_generic_* базовой игры (без DLC-зависимостей).
+    Собственный GLP-пак (GFX_idea_GLP_*) упразднён: спрайты и текстуры
+    удалены, духам они запрещены. tools/idea_pictures.tsv --
+    человекочитаемая карта подбора; аудит требует полного совпадения
+    таблицы с common/ideas/GLP_ideas.txt.
     """
     actual = {}
     for p, body in all_script_text('common/ideas').items():
@@ -717,9 +720,11 @@ def check_idea_pictures():
                 continue
             name = pic.group(1)
             actual[iid] = name
-            if not name.startswith('GFX_idea_GLP_'):
-                err(f"{rel(p)}: идея '{iid}' использует '{name}', а должна "
-                    "использовать тематическую иконку GFX_idea_GLP_* из пака")
+            if name.startswith('GFX_idea_GLP_'):
+                err(f"{rel(p)}: идея '{iid}' использует упразднённый спрайт '{name}'")
+            elif not name.startswith('GFX_idea_generic_'):
+                err(f"{rel(p)}: идея '{iid}' использует '{name}'; разрешены "
+                    "только ванильные GFX_idea_generic_* базовой игры")
 
     mapping_path = os.path.join(ROOT, 'tools/idea_pictures.tsv')
     expected = {}
@@ -841,6 +846,27 @@ def check_gui_overrides():
                       '"event_option_entry"'):
             if token not in body:
                 err(f"interface/eventwindow.gui: отсутствует ванильное окно {token}")
+        # Окно новостей: собственный фон, рамка снимка и улучшенные шрифты.
+        for token in ('"GFX_GLP_event_news_bg"', '"GFX_GLP_news_pic_frame"',
+                      '"hoi_24header"', '"hoi_18mbs"'):
+            if token not in body:
+                err(f"interface/eventwindow.gui: нет собственного оформления "
+                    f"новостей -> {token}")
+        for bad in ('GFX_event_news_bg_wide', 'GFX_event_news_pic_overlay'):
+            if bad in strip_comments(body):
+                err(f"interface/eventwindow.gui: найдена убранная ванильная "
+                    f"связь -> {bad}")
+    for rel_dds, size in (('gfx/interface/GLP_event_news_bg.dds', (1056, 595)),
+                          ('gfx/interface/GLP_news_pic_frame.dds', (405, 161))):
+        full = os.path.join(ROOT, rel_dds)
+        info = dds_info(full) if os.path.exists(full) else None
+        if info is None:
+            err(f"{rel_dds}: отсутствует/не является DDS")
+        elif info[:2] != size:
+            err(f"{rel_dds}: {info[0]}x{info[1]}, ожидается {size[0]}x{size[1]}")
+    if os.path.exists(os.path.join(ROOT, 'gfx/interface/event_news_bg_wide.dds')):
+        err("gfx/interface/event_news_bg_wide.dds: ванильный фон новостей "
+            "должен быть удалён (заменён собственным GLP_event_news_bg.dds)")
 
 
 def check_advisor_portraits(defs):
@@ -860,13 +886,14 @@ def check_advisor_portraits(defs):
                                           list(all_script_text('common/characters').values())[0], re.M))
 
 
-# В моде нет кастомных 3D-моделей. Раньше каталог gfx/models/units/
-# содержал mesh-файлы из Revolution or Reaction: Rise of Russia, но их
-# импорт провоцировал краш рендера, и теперь мод полностью на ванильных
-# infantry_rifle_entity / cavalry_entity / cavalry_2_entity. Все следы
-# импорта (GLP_units.gfx / .asset, GLP_cavalry_animations.asset,
-# .mesh/.dds/.anim) удалены; в случае попытки вернуть их -- check_unit_models
-# сообщит об этом.
+# Кастомные 3D-модели из Revolution or Reaction: Rise of Russia:
+#   * казачья конница DON_cavalry (tag-specific GLP_cavalry_entity /
+#     GLP_cavalry_2_entity, шашка с ножнами, 5 сабельных анимаций);
+#   * анархическая пехота RSR_marine (tag-specific GLP_infantry_entity;
+#     красная звезда с бескозырки и красная нарукавная полоса перекрашены
+#     в чёрный -- РПА большевистскую символику не носила).
+# Сущности собраны явно (без clone ванильных) -- ИМХО паттерн RSR/YR.
+# check_unit_models требует полного комплекта файлов и имён сущностей.
 
 
 EXPECTED_UNIT_MODEL_FILES = (
@@ -877,6 +904,10 @@ EXPECTED_UNIT_MODEL_FILES = (
     'gfx/models/units/DON_cavalry_diffuse.dds',
     'gfx/models/units/DON_cavalry_normal.dds',
     'gfx/models/units/DON_cavalry_specular.dds',
+    'gfx/models/units/RSR_marine.mesh',
+    'gfx/models/units/RSR_marine_diffuse.dds',
+    'gfx/models/units/RSR_marine_normal.dds',
+    'gfx/models/units/RSR_marine_spec.dds',
     'gfx/models/units/russian_sword_sabre.mesh',
     'gfx/models/units/russian_sword_sabre_holder.mesh',
     'gfx/models/units/russian_sword_sabre_diffuse.dds',
@@ -894,18 +925,30 @@ EXPECTED_UNIT_MODEL_FILES = (
 
 
 def check_unit_models():
-    """Казачья конница Rise of Russia должна быть на месте."""
+    """Казачья конница и анархическая пехота Rise of Russia на месте."""
     for fname in EXPECTED_UNIT_MODEL_FILES:
         p = os.path.join(ROOT, fname)
         if not os.path.exists(p):
-            err(f"{fname}: отсутствует кастомная модель конницы/казаков")
+            err(f"{fname}: отсутствует кастомная модель юнитов")
 
     asset = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
     if os.path.exists(asset):
         body = strip_comments(read(asset))
-        for name in ('GLP_cavalry_entity', 'GLP_cavalry_2_entity'):
+        for name in ('GLP_infantry_entity', 'GLP_cavalry_entity', 'GLP_cavalry_2_entity'):
             if f'name = "{name}"' not in body:
                 err(f"gfx/entities/GLP_units.asset: нет сущности '{name}'")
+    # Перекрашенная текстура анархистов: насыщенные красные пиксели
+    # (звезда/полоса) должны отсутствовать в RSR_marine_diffuse.dds.
+    tex = os.path.join(ROOT, 'gfx/models/units/RSR_marine_diffuse.dds')
+    if os.path.exists(tex):
+        o = _run_convert(tex, '-depth', '8', 'rgba:-')
+        if o is not None:
+            data = o.stdout
+            warm = sum(1 for i in range(0, len(data) - 3, 4)
+                       if data[i] > 150 and data[i] > data[i + 1] * 2 and data[i] > data[i + 2] * 2)
+            if warm > 400:
+                err("RSR_marine_diffuse.dds: обнаружены красные элементы "
+                    f"({warm} px) -- большевистская звезда/полоса не убрана")
         if re.search(r'clone\s*=\s*"(cavalry_entity|cavalry_2_entity|generic_infantry_mg_rider_entity)"', body):
             err("gfx/entities/GLP_units.asset: запрещён clone ванильной cavalry-сущности")
 
@@ -1159,6 +1202,18 @@ def check_loc_tech_names(loc):
                     err(f"{rel(fp)}:{i}: в тексте видно техническое имя спрайта")
                 if re.search(r'\bGLP_[a-z0-9_]+\b', val):
                     err(f"{rel(fp)}:{i}: в тексте видно техническое имя ключа GLP_*")
+
+
+def _run_convert(*args):
+    """subprocess.convert -> CompletedProcess | None (IM недоступен/ошибка)."""
+    import shutil, subprocess
+    if not shutil.which('convert'):
+        return None
+    try:
+        return subprocess.run(['convert', *args],
+                              capture_output=True, timeout=30)
+    except Exception:
+        return None
 
 
 def _im_alpha_min(path):

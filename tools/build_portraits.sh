@@ -14,6 +14,17 @@
 #  Источники — «мастера» фотореалистичныхъ портретовъ:
 #     gfx/leaders/GLP/_src_<person>_large.jpg
 #
+#  Мастера новаго поколенія (GREY_BG_MASTERS) сняты наъ ровномъ
+#  свѣтло-сѣромъ фонѣ: примѣняется градація съ приподнятой радіальной
+#  виньеткой (центръ къ лицу, края въ тень), имитирующая тёмную студійную
+#  подложку HOI4. Тупая вырезка по серому фону «съѣдаетъ» мехъ папахъ и
+#  волосы, поэтому отъ нея отказались.
+#
+#  ВАЖНО: въ этомъ проходѣ иконки совѣтниковъ (idea_GLP_*.dds, 65x67,
+#  съ вырезнымъ фономъ) НЕ пересобираются — сохраняются существующие
+#  файлы съ прозрачностью (аудитъ ихъ требуетъ). Новые иконки будутъ
+#  собраны послѣ перегенераціи всѣхъ мастеровъ наъ хромакей-фонѣ.
+#
 #  Идемпотентно: .dds всегда пересобираются изъ мастеровъ. Требуется ImageMagick.
 # =============================================================================
 set -euo pipefail
@@ -38,10 +49,30 @@ declare -A PEOPLE=(
 	[nikolai_skoblin]=Nikolai_Skoblin
 	[anton_turkul]=Anton_Turkul
 	[grigory_semyonov]=Grigory_Semyonov
+	[bogdan_dybets]=Bogdan_Dybets
+	[aleksey_dybets]=Aleksey_Dybets
+	[feodosiy_kozhin]=Feodosiy_Kozhin
 )
 
-# Общая обработка: лёгкое освѣтленіе (ТЗ: «чуть осветли», контрастъ сохранёнъ),
-# холодная сѣро-охристая гамма, умѣренная виньетка и зерно.
+# Мастера новаго поколенія (сняты наъ ровномъ свѣтло-сѣромъ фонѣ).
+# Перегенерированные лица добавляются сюда; мастера не изъ списка
+# обрабатываются по-старому (тёмный фотофонъ).
+GREY_BG_MASTERS=(
+	nestor_makhno viktor_belash semen_karetnik feodosiy_shchus lev_zadov
+	halyna_kuzmenko vsevolod_volin ataman_grigoriev
+)
+
+# 1 -- мастер на сером фоне (новое поколение), 0 -- старый студийный.
+is_grey_bg() {  # $1 = image path (_src_<slug>_large.jpg)
+	local base slug
+	base="$(basename "$1")"; slug="${base#_src_}"; slug="${slug%_large.jpg}"
+	printf '%s\n' "${GREY_BG_MASTERS[@]}" | grep -qx "$slug"
+}
+
+# --- helpers ------------------------------------------------------------------
+
+# Общая обработка (старые мастера): лёгкое освѣтленіе, холодная
+# сѣро-охристая гамма, умѣренная виньетка и зерно.
 colorgrade() {  # $1 in, $2 out, $W, $H, $gravity
 	local W="$3" H="$4" grav="$5"
 	convert "$1" -colorspace sRGB \
@@ -56,26 +87,44 @@ colorgrade() {  # $1 in, $2 out, $W, $H, $gravity
 		"$2"
 }
 
+# Градація новаго мастера (свѣтло-сѣрый фонъ): центръ виньетки приподнятъ
+# къ лицу, края уходятъ въ тень — имитація тёмной студійной подложки HOI4.
+colorgrade_vignette() {  # $1 in, $2 out, $W, $H, $gravity
+	local W="$3" H="$4" grav="$5"
+	convert "$1" -colorspace sRGB \
+		-resize "${W}x${H}^" -gravity "$grav" -extent "${W}x${H}" \
+		-modulate 100,90,100 \
+		\( -size "${W}x$((H*2))" radial-gradient:white-gray74 \
+		   -gravity center -crop "${W}x${H}+0+$((H*75/210))" \) \
+		-compose multiply -composite \
+		-sigmoidal-contrast 1.8x45% \
+		-fill '#2a2723' -colorize 4 \
+		\( +clone -colorspace Gray -fill gray50 -colorize 100 -attenuate 0.22 +noise Gaussian \) \
+			-compose overlay -composite \
+		-unsharp 0x0.6+0.45+0.01 \
+		"$2"
+}
+
 # Большой портрет лидера/генерала: 156x210, ARGB8888 (безсжатый).
-make_large() {
-	colorgrade "$1" "$TMP/l.png" 156 210 north
+make_large() {  # $1 in, $2 out.dds, $3 grey?0/1
+	if [ "$3" = 1 ]; then
+		colorgrade_vignette "$1" "$TMP/l.png" 156 210 north
+	else
+		colorgrade "$1" "$TMP/l.png" 156 210 north
+	fi
 	convert "$TMP/l.png" -alpha set \
 		-define dds:compression=none -define dds:mipmaps=0 "DDS:$2"
 }
 
 # Средній портрет (списокъ генераловъ): 88x119, DXT5 — точная оффиціальная
 # геометрія, чтобы кадры не тянуло по высотѣ.
-make_medium() {
-	colorgrade "$1" "$TMP/m.png" 88 119 north
+make_medium() {  # $1 in, $2 out.dds, $3 grey?0/1
+	if [ "$3" = 1 ]; then
+		colorgrade_vignette "$1" "$TMP/m.png" 88 119 north
+	else
+		colorgrade "$1" "$TMP/m.png" 88 119 north
+	fi
 	convert "$TMP/m.png" -alpha set \
-		-define dds:compression=dxt5 -define dds:mipmaps=0 "DDS:$2"
-}
-
-# Малый портрет/иконка совѣтника: 65x67, DXT5 — квадратная ячейка идеи.
-# Лицо центрируется и кропится подъ почти квадратный кадръ.
-make_small() {
-	colorgrade "$1" "$TMP/s.png" 65 67 center
-	convert "$TMP/s.png" -alpha set \
 		-define dds:compression=dxt5 -define dds:mipmaps=0 "DDS:$2"
 }
 
@@ -86,10 +135,16 @@ for slug in "${!PEOPLE[@]}"; do
 		echo "!! мастер отсутствует: $src" >&2
 		continue
 	fi
-	make_large  "$src" "$TMP/l.dds" && mv "$TMP/l.dds" "$LEADERS/Portrait_GLP_${name}_large.dds"
-	make_medium "$src" "$TMP/m.dds" && mv "$TMP/m.dds" "$LEADERS/Portrait_GLP_${name}.dds"
-	make_small  "$src" "$TMP/s.dds" && mv "$TMP/s.dds" "$IDEAS/idea_GLP_${name}.dds"
-	echo "   $name: large 156x210 ARGB8888 + medium 88x119 DXT5 + advisor 65x67 DXT5"
+	grey=0; is_grey_bg "$src" && grey=1
+	make_large  "$src" "$TMP/l.dds" "$grey" && mv "$TMP/l.dds" "$LEADERS/Portrait_GLP_${name}_large.dds"
+	make_medium "$src" "$TMP/m.dds" "$grey" && mv "$TMP/m.dds" "$LEADERS/Portrait_GLP_${name}.dds"
+	# idea_GLP_${name}.dds (65x67) намеренно не трогаем: пересборка съ
+	# чистой вырезкой будет послѣ перегенераціи мастеровъ на хромакѣ.
+	if [ "$grey" = 1 ]; then
+		echo "   $name: 156x210 + 88x119 (новый мастер, виньетка)"
+	else
+		echo "   $name: 156x210 + 88x119 (старый мастер)"
+	fi
 done
 
 echo "готово."
