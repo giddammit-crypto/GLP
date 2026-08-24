@@ -1,9 +1,22 @@
+<<<<<<< HEAD
 division_template = {
 	name = "Ударная Добровольческая Бригада"
+=======
+# OOB фокуса «Старые враги в одних рядах» (GLP_old_enemies_unite).
+# Элитные добровольческие части Белого движения под чёрным знаменем:
+# УНИКАЛЬНЫЕ подразделения kornilovtsy / drozdovtsy (common/units/
+# GLP_white_units.txt) — только эти дивизии носят модели KORN_cavalry
+# (фуражка с красным околышем) и DROZD_stormtroopers. Ветеранские кадры:
+# start_experience_factor 0.75, полное снаряжение.
+
+division_template = {
+	name = "Корниловская Ударная Бригада"
+>>>>>>> origin/main
 	division_names_group = GLP_INF_HISTORICAL
 	is_locked = yes
 
 	regiments = {
+<<<<<<< HEAD
 		infantry = { x = 0 y = 0 }
 		infantry = { x = 0 y = 1 }
 		infantry = { x = 1 y = 0 }
@@ -11,6 +24,36 @@ division_template = {
 		cavalry = { x = 2 y = 0 }
 		cavalry = { x = 2 y = 1 }
 	}
+=======
+		kornilovtsy = { x = 0 y = 0 }
+		kornilovtsy = { x = 0 y = 1 }
+		kornilovtsy = { x = 1 y = 0 }
+		kornilovtsy = { x = 1 y = 1 }
+		kornilovtsy = { x = 2 y = 0 }
+		kornilovtsy = { x = 2 y = 1 }
+	}
+
+	support = {
+		recon = { x = 0 y = 0 }
+		artillery = { x = 0 y = 1 }
+	}
+}
+
+division_template = {
+	name = "Дроздовская Стрелковая Бригада"
+	division_names_group = GLP_INF_HISTORICAL
+	is_locked = yes
+
+	regiments = {
+		drozdovtsy = { x = 0 y = 0 }
+		drozdovtsy = { x = 0 y = 1 }
+		drozdovtsy = { x = 1 y = 0 }
+		drozdovtsy = { x = 1 y = 1 }
+		drozdovtsy = { x = 2 y = 0 }
+		drozdovtsy = { x = 2 y = 1 }
+	}
+
+>>>>>>> origin/main
 	support = {
 		recon = { x = 0 y = 0 }
 		artillery = { x = 0 y = 1 }
@@ -19,6 +62,7 @@ division_template = {
 
 units = {
 	division = {
+<<<<<<< HEAD
 		name = "1-я Ударная Добровольческая Бригада"
 		location = 9729
 		division_template = "Ударная Добровольческая Бригада"
@@ -38,5 +82,33 @@ units = {
 		division_template = "Ударная Добровольческая Бригада"
 		start_experience_factor = 0.5
 		start_equipment_factor = 0.9
+=======
+		name = "1-я Корниловская Ударная Дивизия"
+		location = 9729
+		division_template = "Корниловская Ударная Бригада"
+		start_experience_factor = 0.75
+		start_equipment_factor = 1.0
+	}
+	division = {
+		name = "2-я Корниловская Ударная Дивизия"
+		location = 6596
+		division_template = "Корниловская Ударная Бригада"
+		start_experience_factor = 0.75
+		start_equipment_factor = 1.0
+	}
+	division = {
+		name = "1-я Дроздовская Стрелковая Дивизия"
+		location = 9729
+		division_template = "Дроздовская Стрелковая Бригада"
+		start_experience_factor = 0.75
+		start_equipment_factor = 1.0
+	}
+	division = {
+		name = "2-я Дроздовская Стрелковая Дивизия"
+		location = 6596
+		division_template = "Дроздовская Стрелковая Бригада"
+		start_experience_factor = 0.75
+		start_equipment_factor = 1.0
+>>>>>>> origin/main
 	}
 }

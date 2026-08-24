@@ -72,7 +72,11 @@ country_event = {
 	id = glp_news.2
 	title = glp_news.2.t
 	desc = glp_news.2.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_anarchist_congress
+>>>>>>> origin/main
 	is_triggered_only = yes
 
 	option = {
@@ -91,7 +95,11 @@ country_event = {
 	id = glp_news.3
 	title = glp_news.3.t
 	desc = glp_news.3.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_tachanka
+>>>>>>> origin/main
 	is_triggered_only = yes
 
 	option = {
@@ -114,7 +122,11 @@ news_event = {
 	id = glp_news.4
 	title = glp_news.4.t
 	desc = glp_news.4.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_madrid_international
+>>>>>>> origin/main
 	major = yes
 	is_triggered_only = yes
 
@@ -134,7 +146,11 @@ news_event = {
 	id = glp_news.5
 	title = glp_news.5.t
 	desc = glp_news.5.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_alliance_treaty
+>>>>>>> origin/main
 	major = yes
 	is_triggered_only = yes
 
@@ -169,7 +185,11 @@ country_event = {
 	id = glp_news.6
 	title = glp_news.6.t
 	desc = glp_news.6.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_triumph
+>>>>>>> origin/main
 	is_triggered_only = yes
 
 	option = {
@@ -192,7 +212,11 @@ country_event = {
 	id = glp_news.7
 	title = glp_news.7.t
 	desc = glp_news.7.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_volunteers_arrival
+>>>>>>> origin/main
 	is_triggered_only = yes
 
 	option = {
@@ -212,7 +236,11 @@ country_event = {
 	id = glp.10
 	title = glp.10.t
 	desc = glp.10.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_madrid_international
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1936.4.1
@@ -242,7 +270,11 @@ country_event = {
 	id = glp.11
 	title = glp.11.t
 	desc = glp.11.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_tachanka
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1936.6.1
@@ -270,7 +302,11 @@ country_event = {
 	id = glp.12
 	title = glp.12.t
 	desc = glp.12.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_dnieper_electric
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		controls_state = 200
@@ -307,7 +343,11 @@ country_event = {
 	id = glp.13
 	title = glp.13.t
 	desc = glp.13.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_donbass_syndicates
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		controls_state = 227
@@ -340,7 +380,11 @@ country_event = {
 	id = glp.14
 	title = glp.14.t
 	desc = glp.14.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_armored_train
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1937.1.1
@@ -365,7 +409,11 @@ country_event = {
 	id = glp.15
 	title = glp.15.t
 	desc = glp.15.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_autumn_fair
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1937.3.1
@@ -389,7 +437,11 @@ country_event = {
 	id = glp.16
 	title = glp.16.t
 	desc = glp.16.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_sevastopol_fleet
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		controls_state = 137
@@ -421,7 +473,11 @@ country_event = {
 	id = glp.17
 	title = glp.17.t
 	desc = glp.17.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_makhno_inspection
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1937.7.1
@@ -446,7 +502,11 @@ country_event = {
 	id = glp.18
 	title = glp.18.t
 	desc = glp.18.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_peasant_communes
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1937.9.1
@@ -477,7 +537,11 @@ country_event = {
 	id = glp.19
 	title = glp.19.t
 	desc = glp.19.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_radio_tower
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1937.11.1
@@ -502,7 +566,11 @@ country_event = {
 	id = glp.20
 	title = glp.20.t
 	desc = glp.20.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_war_council
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1938.1.1
@@ -532,7 +600,11 @@ country_event = {
 	id = glp.21
 	title = glp.21.t
 	desc = glp.21.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_counter_intel
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1938.3.1
@@ -560,7 +632,11 @@ country_event = {
 	id = glp.22
 	title = glp.22.t
 	desc = glp.22.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_air_squadron
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1938.5.1
@@ -596,7 +672,11 @@ country_event = {
 	id = glp.23
 	title = glp.23.t
 	desc = glp.23.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_anarchist_congress
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1938.8.1
@@ -625,7 +705,11 @@ country_event = {
 	id = glp.24
 	title = glp.24.t
 	desc = glp.24.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_triumph
+>>>>>>> origin/main
 	trigger = {
 		tag = GLP
 		date > 1938.11.1
@@ -646,7 +730,11 @@ country_event = {
 	id = glp.1
 	title = glp.1.t
 	desc = glp.1.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_war_council
+>>>>>>> origin/main
 	is_triggered_only = yes
 	option = { name = glp.1.a add_political_power = 50 }
 }
@@ -655,7 +743,11 @@ country_event = {
 	id = glp.2
 	title = glp.2.t
 	desc = glp.2.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_anarchist_congress
+>>>>>>> origin/main
 	is_triggered_only = yes
 	option = { name = glp.2.a add_stability = 0.05 }
 }
@@ -664,7 +756,11 @@ country_event = {
 	id = glp.3
 	title = glp.3.t
 	desc = glp.3.d
+<<<<<<< HEAD
 	picture = GFX_news_event_GLP_rebirth
+=======
+	picture = GFX_news_event_GLP_volunteers_arrival
+>>>>>>> origin/main
 	is_triggered_only = yes
 	option = { name = glp.3.a add_manpower = 15000 }
 }

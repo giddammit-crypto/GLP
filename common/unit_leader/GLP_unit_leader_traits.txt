@@ -115,4 +115,81 @@ leader_traits = {
 		}
 		ai_will_do = { factor = 1 }
 	}
+<<<<<<< HEAD
+=======
+
+	# ------------------------------------------------------------------
+	#  Черты белых добровольческих командиров (бафы+дебафы, одна пара
+	#  на человека — платить за легенду приходится кровью).
+	# ------------------------------------------------------------------
+
+	# Ледяной поход (Корнилов): победоносный удар, но не окопная наука
+	GLP_ice_march = {
+		type = { land }
+		trait_type = personality_trait
+		gui_row = 4
+		gui_column = 0
+
+		modifier = {
+			cavalry_attack_factor = 0.12
+			breakthrough_factor = 0.12
+			army_speed_factor = 0.05
+			planning_speed = -0.10       # дебаф: ставка на штык
+		}
+
+		ai_will_do = { factor = 1 }
+	}
+
+	# Легенда Добрармии (Корнилов): армия верит в него, но кадры элиты
+	# невосполнимы — гибкое планирование страдает
+	GLP_white_legend = {
+		type = { land }
+		trait_type = personality_trait
+		gui_row = 4
+		gui_column = 1
+
+		modifier = {
+			army_org_factor = 0.08
+			army_morale_factor = 0.05
+			recon_factor = 0.10
+			max_planning = -0.05         # дебаф: легенда мыслит наступлением
+		}
+
+		ai_will_do = { factor = 1 }
+	}
+
+	# Железная дисциплина (Дроздовский): в обороне стоят насмерть,
+	# но атакует такая армия скованно
+	GLP_iron_discipline = {
+		type = { land }
+		trait_type = personality_trait
+		gui_row = 4
+		gui_column = 2
+
+		modifier = {
+			army_defence_factor = 0.12
+			army_org_factor = 0.05
+			army_attack_factor = -0.08   # дебаф: срослись с окопом
+		}
+
+		ai_will_do = { factor = 1 }
+	}
+
+	# Последний батальон (Дроздовский): армия бережёт людей и снабжение,
+	# ценой темпа манёвра
+	GLP_last_stand = {
+		type = { land }
+		trait_type = personality_trait
+		gui_row = 4
+		gui_column = 3
+
+		modifier = {
+			out_of_supply_factor = -0.10
+			supply_consumption_factor = -0.10
+			army_speed_factor = -0.05    # дебаф: осторожность дороже темпа
+		}
+
+		ai_will_do = { factor = 1 }
+	}
+>>>>>>> origin/main
 }

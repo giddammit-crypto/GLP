@@ -1,10 +1,10 @@
 ### =========================================================================
-###  ГУЛЯЙ-ПОЛЕ — игровой плейлист
+###  ГУЛЯЙ-ПОЛЕ — игровой плейлистъ
 ###
-###  Файл ПЕРЕКРЫВАЕТ ванильный music/songs.txt: ванильный саундтрек
-###  полностью исключён, в игре звучит только подборка Монгол Шуудан.
-###  «maintheme» играет в меню/загрузке, остальные дорожки — во время игры.
-###  Все 11 треков имеют равные шансы и будут играть.
+###  Файл ПЕРЕКРЫВАЕТ ванильный music/songs.txt: ванильный саундтрекъ
+###  полностью исключёнъ, въ игрѣ звучитъ только подборка Монголъ Шууданъ.
+###  «maintheme» играетъ въ меню/загрузкѣ, остальныя дорожки — во время
+###  игры; для Гуляйполя шансъ выше.
 ### =========================================================================
 
 music = {
@@ -31,7 +31,7 @@ music = {
 music = {
 	song = "GLP_ms_svoboda"
 	chance = {
-		factor = 10
+		factor = 9
 		modifier = { factor = 2 tag = GLP }
 	}
 }
@@ -39,7 +39,7 @@ music = {
 music = {
 	song = "GLP_ms_moskva"
 	chance = {
-		factor = 10
+		factor = 7
 		modifier = { factor = 2 tag = GLP }
 	}
 }
@@ -47,7 +47,7 @@ music = {
 music = {
 	song = "GLP_ms_finka"
 	chance = {
-		factor = 10
+		factor = 9
 		modifier = { factor = 2 tag = GLP }
 	}
 }
@@ -55,7 +55,7 @@ music = {
 music = {
 	song = "GLP_ms_privet_batke"
 	chance = {
-		factor = 10
+		factor = 9
 		modifier = { factor = 2 tag = GLP }
 	}
 }
@@ -63,7 +63,7 @@ music = {
 music = {
 	song = "GLP_ms_dalnyaya"
 	chance = {
-		factor = 10
+		factor = 7
 		modifier = { factor = 2 tag = GLP }
 	}
 }
@@ -71,7 +71,7 @@ music = {
 music = {
 	song = "GLP_ms_poltsarstva"
 	chance = {
-		factor = 10
+		factor = 9
 		modifier = { factor = 2 tag = GLP }
 	}
 }
@@ -87,7 +87,7 @@ music = {
 music = {
 	song = "GLP_ms_sedmoi_patron"
 	chance = {
-		factor = 10
+		factor = 9
 		modifier = { factor = 2 tag = GLP }
 	}
 }
