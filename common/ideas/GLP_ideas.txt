@@ -128,7 +128,7 @@ ideas = {
 		GLP_idea_militia_patrols = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_military
+			picture = GFX_idea_GLP_kontrrazvedka_surveillance
 			modifier = {
 				compliance_growth = 0.15
 				resistance_target = -0.15
@@ -159,7 +159,7 @@ ideas = {
 		GLP_idea_black_crescent = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_hostile_encirclement
+			picture = GFX_idea_GLP_health
 			modifier = {
 				army_core_attack_factor = 0.15
 				army_core_defence_factor = 0.15
@@ -206,7 +206,7 @@ ideas = {
 		GLP_idea_revvoensovet_partisan_command = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_tachanka
+			picture = GFX_idea_GLP_insurgent_army
 			modifier = {
 				planning_speed = 0.25
 				recon_factor = 0.20
@@ -363,7 +363,7 @@ ideas = {
 		GLP_anglo_free_bastion = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_hostile_encirclement
+			picture = GFX_idea_GLP_navy
 			modifier = {
 				army_core_defence_factor = 0.15
 				experience_gain_navy_factor = 0.15
@@ -375,7 +375,7 @@ ideas = {
 		GLP_idea_military_junta = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_military
+			picture = GFX_idea_GLP_black_guard_legacy
 			modifier = {
 				war_support_factor = 0.25
 				conscription_factor = 0.20
@@ -421,7 +421,7 @@ ideas = {
 		GLP_idea_underground_armories = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_military
+			picture = GFX_idea_GLP_industry
 			modifier = {
 				production_factory_max_efficiency_factor = 0.12
 				equipment_capture_factor = 0.08
@@ -432,7 +432,7 @@ ideas = {
 		GLP_idea_partisan_doctrine = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_tachanka
+			picture = GFX_idea_GLP_insurgent_army
 			modifier = {
 				out_of_supply_factor = -0.35
 				dig_in_speed_factor = 0.20
@@ -476,7 +476,7 @@ ideas = {
 		GLP_idea_steel_ram = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_military
+			picture = GFX_idea_GLP_logistics
 			modifier = {
 				supply_consumption_factor = -0.15
 				railway_gun_bombardment_factor = 0.30
@@ -519,7 +519,7 @@ ideas = {
 		GLP_idea_black_avalanche = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_cavalry
+			picture = GFX_idea_GLP_tachanka
 			modifier = {
 				cavalry_attack_factor = 0.20
 				cavalry_defence_factor = 0.20
@@ -625,7 +625,7 @@ ideas = {
 		GLP_idea_sports_militarization = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_military
+			picture = GFX_idea_GLP_society
 			modifier = {
 				training_time_factor = -0.10
 				army_org_factor = 0.05
@@ -658,7 +658,7 @@ ideas = {
 		GLP_idea_underground_railway = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_intelligence
+			picture = GFX_idea_GLP_logistics
 			modifier = {
 				operative_slot = 1
 				intel_network_gain_factor = 0.15
@@ -698,7 +698,7 @@ ideas = {
 		GLP_idea_resistance_coordination = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_intelligence
+			picture = GFX_idea_GLP_insurgent_army
 			modifier = {
 				resistance_damage_to_garrison = -0.20
 				compliance_growth = 0.10
@@ -708,7 +708,7 @@ ideas = {
 		GLP_idea_underground_state = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_intelligence
+			picture = GFX_idea_GLP_insurgent_army
 			modifier = {
 				operative_slot = 1
 				intel_network_gain_factor = 0.25
@@ -813,7 +813,7 @@ ideas = {
 		GLP_idea_special_ops = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_military
+			picture = GFX_idea_GLP_insurgent_army
 			modifier = {
 				special_forces_cap = 0.15
 				special_forces_attack_factor = 0.10
@@ -823,7 +823,7 @@ ideas = {
 		GLP_idea_commando_raids = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_tachanka
+			picture = GFX_idea_GLP_insurgent_army
 			modifier = {
 				out_of_supply_factor = -0.20
 				army_speed_factor = 0.08
@@ -833,7 +833,7 @@ ideas = {
 		GLP_idea_behind_lines = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_intelligence
+			picture = GFX_idea_GLP_insurgent_army
 			modifier = {
 				resistance_growth_on_our_occupied_states = 0.20
 				enemy_partisan_effect = -0.25
@@ -876,7 +876,7 @@ ideas = {
 		GLP_idea_hospital_trains = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_logistics
+			picture = GFX_idea_GLP_health
 			modifier = {
 				casualty_trickleback = 0.15
 				attrition = -0.12
@@ -886,7 +886,7 @@ ideas = {
 		GLP_idea_population_growth = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_society
+			picture = GFX_idea_GLP_health
 			modifier = {
 				monthly_population = 0.20
 				conscription_factor = 0.10
@@ -1047,7 +1047,7 @@ ideas = {
 		GLP_idea_steppe_warfare = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_tachanka
+			picture = GFX_idea_GLP_cavalry
 			modifier = {
 				cavalry_attack_factor = 0.15
 				army_speed_factor = 0.10
@@ -1112,7 +1112,7 @@ ideas = {
 		GLP_idea_global_network = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_intelligence
+			picture = GFX_idea_GLP_society
 			modifier = {
 				send_volunteer_divisions_required = -1
 				send_volunteer_size = 3
@@ -1163,7 +1163,7 @@ ideas = {
 		GLP_idea_border_security = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_hostile_encirclement
+			picture = GFX_idea_GLP_kontrrazvedka_surveillance
 			modifier = {
 				army_core_defence_factor = 0.08
 				drift_defence_factor = 0.15
@@ -1323,7 +1323,7 @@ ideas = {
 		GLP_idea_white_emigre_officers = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_military
+			picture = GFX_idea_GLP_cavalry
 			modifier = {
 				cavalry_attack_factor = 0.10
 				army_infantry_attack_factor = 0.10
