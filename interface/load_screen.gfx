@@ -46,10 +46,8 @@ spriteTypes = {
 	#  ГУЛЯЙ-ПОЛЕ — кастомные элементы для загрузочного экрана
 	# =========================================================================
 
-	spriteType = {
-		name = "GFX_GLP_loading_tip_journal_bg"
-		texturefile = "gfx/interface/loading_tip_journal_bg.dds"
-	}
+	# Спрайт журнальной подложки цитат (GFX_GLP_loading_tip_journal_bg)
+	# удалён вместе с центральной панелью: используется ванильная панель.
 
 	spriteType = {
 		name = "GFX_default_fallback_texture"

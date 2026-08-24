@@ -448,4 +448,56 @@ characters = {
 			logistics_skill = 3
 		}
 	}
+
+	# ------------------------------------------------------------------
+	#  Лавр Георгиевич Корнилов — легенда Ледяного похода, командир
+	#  корниловских ударных дивизий. Призван фокусом «Старые враги».
+	# ------------------------------------------------------------------
+	GLP_lavr_kornilov = {
+		name = GLP_lavr_kornilov
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_lavr_kornilov"
+				small = "GFX_portrait_GLP_lavr_kornilov_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_lavr_kornilov"
+				small = "GFX_portrait_GLP_lavr_kornilov_small"
+			}
+		}
+		corps_commander = {
+			traits = { GLP_ice_march GLP_white_legend offensive_doctrine cavalry_officer }
+			skill = 4
+			attack_skill = 5
+			defense_skill = 3
+			planning_skill = 2
+			logistics_skill = 3
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  Михаил Гордеевич Дроздовский — командир дроздовских стрелковых
+	#  дивизий. Призван фокусом «Старые враги».
+	# ------------------------------------------------------------------
+	GLP_mikhail_drozdovsky = {
+		name = GLP_mikhail_drozdovsky
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_mikhail_drozdovsky"
+				small = "GFX_portrait_GLP_mikhail_drozdovsky_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_mikhail_drozdovsky"
+				small = "GFX_portrait_GLP_mikhail_drozdovsky_small"
+			}
+		}
+		corps_commander = {
+			traits = { GLP_iron_discipline GLP_last_stand defensive_doctrine infantry_officer }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 4
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
 }
