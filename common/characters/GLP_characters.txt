@@ -379,4 +379,73 @@ characters = {
 			logistics_skill = 3
 		}
 	}
+
+	# ------------------------------------------------------------------
+	#  Белые эмигранты — рекрутируются ТОЛЬКО фокусом GLP_old_enemies_unite
+	# ------------------------------------------------------------------
+	GLP_nikolai_skoblin = {
+		name = GLP_nikolai_skoblin
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_nikolai_skoblin"
+				small = "GFX_portrait_GLP_nikolai_skoblin_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_nikolai_skoblin"
+				small = "GFX_portrait_GLP_nikolai_skoblin_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_officer trait_reckless GLP_white_emigre }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
+
+	GLP_anton_turkul = {
+		name = GLP_anton_turkul
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_anton_turkul"
+				small = "GFX_portrait_GLP_anton_turkul_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_anton_turkul"
+				small = "GFX_portrait_GLP_anton_turkul_small"
+			}
+		}
+		corps_commander = {
+			traits = { infantry_officer trait_reckless GLP_white_emigre }
+			skill = 4
+			attack_skill = 5
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 3
+		}
+	}
+
+	GLP_grigory_semyonov = {
+		name = GLP_grigory_semyonov
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_grigory_semyonov"
+				small = "GFX_portrait_GLP_grigory_semyonov_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_grigory_semyonov"
+				small = "GFX_portrait_GLP_grigory_semyonov_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_leader harsh_leader GLP_white_emigre }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 3
+		}
+	}
 }

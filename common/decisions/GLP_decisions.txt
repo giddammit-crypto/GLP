@@ -220,4 +220,22 @@ GLP_kontrrazvedka_and_order = {
 		ai_will_do = { factor = 1 }
 	}
 }
+
+GLP_reconciliation_with_past = {
+	GLP_equip_volunteer_shock_brigades = {
+		icon = generic_prepare_civil_war
+		cost = 40
+		days_remove = 45
+		visible = { has_country_flag = GLP_allied_white_emigres }
+		available = { has_equipment = { infantry_equipment > 400 } }
+		fire_only_once = no
+		complete_effect = {
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 800 producer = GLP }
+			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 80 producer = GLP }
+			add_stability = -0.02
+			add_political_power = -25
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
 }

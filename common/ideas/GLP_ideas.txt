@@ -1319,5 +1319,18 @@ ideas = {
 				conscription_factor = 0.08
 			}
 		}
+
+		GLP_idea_white_emigre_officers = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_military
+			modifier = {
+				cavalry_attack_factor = 0.10
+				army_infantry_attack_factor = 0.10
+				army_org_factor = 0.05
+				political_power_gain = -0.05
+				neutrality_drift = -0.10
+			}
+		}
 	}
 }
