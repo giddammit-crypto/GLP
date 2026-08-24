@@ -14,9 +14,13 @@ Checks performed:
      "scenario fails to load / checksum" crash source).
   5. Sprite integrity: every GFX_* referenced by script is defined,
      every texturefile on a spriteType exists on disk.
-  6. Portrait .dds geometry & compression against the art spec
-     (156x210 for small/advisor icons, 156x224 for large portraits).
-  7. Character traits that are neither vanilla nor defined by the mod.
+  6. Portrait/event/idea/loading-panel DDS geometry, compression and alpha.
+  7. Every national spirit uses a thematic GFX_idea_GLP_* icon and exactly
+     matches tools/idea_pictures.tsv.
+  8. Loading quote geometry/font (+200 px from centre) and continuous-focus
+     palette centring/safe gap below the focus tree.
+  9. Imported 3D unit mesh/texture/animation integrity and dependencies.
+ 10. Character traits that are neither vanilla nor defined by the mod.
 
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
@@ -82,12 +86,21 @@ def strip_comments(text):
 
 
 # ---------------------------------------------------------------- 1. syntax
-SCRIPT_DIRS = ('common', 'events', 'history', 'interface')
+SCRIPT_DIRS = (
+    ('common', ('.txt', '.gfx', '.gui')),
+    ('events', ('.txt', '.gfx', '.gui')),
+    ('history', ('.txt', '.gfx', '.gui')),
+    ('interface', ('.txt', '.gfx', '.gui')),
+    # 3D unit declarations are Clausewitz script too.  A missing brace in
+    # either directory silently prevents models from loading in HOI4.
+    ('gfx/entities', ('.gfx', '.asset')),
+    ('gfx/models/units', ('.asset',)),
+)
 
 
 def check_syntax():
-    for d in SCRIPT_DIRS:
-        for p in walk(d, ('.txt', '.gfx', '.gui')):
+    for d, exts in SCRIPT_DIRS:
+        for p in walk(d, exts):
             body = strip_comments(read(p))
             depth = 0
             for i, line in enumerate(body.split('\n'), 1):
@@ -603,6 +616,58 @@ VANILLA_IDEA_SPRITES = set(['GFX_idea_generic_acquire_tanks', 'GFX_idea_generic_
 STATS = {}
 
 
+def check_continuous_focus_layout():
+    """Палитра вечных фокусов должна стоять по центру ниже всего дерева."""
+    focus_spacing = (96, 130)       # interface/nationalfocusview.gui
+    focus_item = (165, 128)
+    palette_size = (770, 380)
+    safe_gap = 100
+
+    paths = list(walk('common/national_focus', ('.txt',)))
+    target = next((p for p in paths if os.path.basename(p) == 'GLP_focus.txt'), None)
+    if target is None:
+        err("common/national_focus/GLP_focus.txt отсутствует")
+        return
+    body = strip_comments(read(target))
+    pos = re.search(
+        r'continuous_focus_position\s*=\s*\{\s*x\s*=\s*(-?\d+)\s+y\s*=\s*(-?\d+)\s*\}',
+        body)
+    if not pos:
+        err(f"{rel(target)}: нет continuous_focus_position")
+        return
+    palette_x, palette_y = map(int, pos.groups())
+
+    coordinates = []
+    for block in re.finditer(r'\bfocus\s*=\s*\{(.*?)\n\t\}', body, re.S):
+        b = block.group(1)
+        if re.search(r'\brelative_position_id\s*=', b):
+            # В GLP сейчас абсолютная сетка; не делаем неверных вычислений,
+            # если будущая ветка перейдёт на относительные координаты.
+            continue
+        x = re.search(r'^\s*x\s*=\s*(-?\d+)', b, re.M)
+        y = re.search(r'^\s*y\s*=\s*(-?\d+)', b, re.M)
+        if x and y:
+            coordinates.append((int(x.group(1)), int(y.group(1))))
+    if not coordinates:
+        err(f"{rel(target)}: не удалось определить координаты фокусов")
+        return
+
+    left = min(x for x, _ in coordinates) * focus_spacing[0]
+    right = max(x for x, _ in coordinates) * focus_spacing[0] + focus_item[0]
+    bottom = max(y for _, y in coordinates) * focus_spacing[1] + focus_item[1]
+    tree_center = (left + right) / 2
+    palette_center = palette_x + palette_size[0] / 2
+
+    if abs(tree_center - palette_center) > 1:
+        err(f"{rel(target)}: панель вечных фокусов не по центру "
+            f"(центр дерева {tree_center:.1f}, центр панели {palette_center:.1f})")
+    if palette_y < bottom + safe_gap:
+        err(f"{rel(target)}: панель вечных фокусов наезжает на дерево "
+            f"(y={palette_y}, нужно не меньше {bottom + safe_gap})")
+
+    STATS['continuous_focus_position'] = (palette_x, palette_y)
+
+
 def check_focus_icons():
     """Каждый фокус: иконка есть и это ванильный base-game спрайт."""
     for p, body in all_script_text('common/national_focus').items():
@@ -622,7 +687,13 @@ def check_focus_icons():
 
 
 def check_idea_pictures():
-    """Каждая идея: picture есть; ванильные ссылки -- только base-game."""
+    """Каждый национальный дух использует тематическую иконку GLP-пака.
+
+    tools/idea_pictures.tsv является человекочитаемой картой подбора. Аудит
+    требует полного совпадения таблицы с common/ideas/GLP_ideas.txt, чтобы при
+    добавлении нового духа нельзя было незаметно вернуть generic-иконку.
+    """
+    actual = {}
     for p, body in all_script_text('common/ideas').items():
         for m in re.finditer(r'^\t\t(GLP_\w+)\s*=\s*\{(.*?)^\t\t\}', body, re.M | re.S):
             iid, blk = m.group(1), m.group(2)
@@ -631,14 +702,39 @@ def check_idea_pictures():
                 err(f"{rel(p)}: идея '{iid}' без picture")
                 continue
             name = pic.group(1)
-            if 'GLP' in name:
-                continue          # кастомный спрайт -- проверяется в check_sprites
-            if name not in VANILLA_IDEA_SPRITES:
-                err(f"{rel(p)}: идея '{iid}' ссылается на неванильный/DLC "
-                    f"спрайт '{name}' (нет в базовой игре)")
-    pics = [m.group(1) for p, b in all_script_text('common/ideas').items()
-            for m in re.finditer(r'picture\s*=\s*(GFX_\w+)', b)]
-    STATS['idea_pictures'] = (len(pics), sum(1 for x in pics if 'GLP' in x), len(set(pics)))
+            actual[iid] = name
+            if not name.startswith('GFX_idea_GLP_'):
+                err(f"{rel(p)}: идея '{iid}' использует '{name}', а должна "
+                    "использовать тематическую иконку GFX_idea_GLP_* из пака")
+
+    mapping_path = os.path.join(ROOT, 'tools/idea_pictures.tsv')
+    expected = {}
+    if not os.path.exists(mapping_path):
+        err("tools/idea_pictures.tsv отсутствует")
+    else:
+        for line_no, line in enumerate(read(mapping_path).splitlines(), 1):
+            if not line or line.startswith('#') or line == 'idea\tpicture':
+                continue
+            cols = line.split('\t')
+            if len(cols) != 2:
+                err(f"tools/idea_pictures.tsv:{line_no}: ожидаются 2 колонки")
+                continue
+            iid, picture = cols
+            if iid in expected:
+                err(f"tools/idea_pictures.tsv:{line_no}: дубль идеи '{iid}'")
+            expected[iid] = picture
+
+    for iid in sorted(set(actual) - set(expected)):
+        err(f"tools/idea_pictures.tsv: нет строки для идеи '{iid}'")
+    for iid in sorted(set(expected) - set(actual)):
+        err(f"tools/idea_pictures.tsv: лишняя/неизвестная идея '{iid}'")
+    for iid in sorted(set(actual) & set(expected)):
+        if actual[iid] != expected[iid]:
+            err(f"tools/idea_pictures.tsv: '{iid}' -> {expected[iid]}, "
+                f"но в GLP_ideas.txt указано {actual[iid]}")
+
+    pics = list(actual.values())
+    STATS['idea_pictures'] = (len(pics), len(pics), len(set(pics)))
 
 
 def check_event_pictures():
@@ -669,19 +765,42 @@ def check_idea_icon_geometry():
 
 
 def check_gui_overrides():
-    """load_screen.gui: панель цитат удалена, все контейнеры на месте.
-    eventwindow.gui: все ванильные окна присутствуют."""
+    """Проверяет окно загрузки и полноту ванильных event windows."""
     p = os.path.join(ROOT, 'interface/load_screen.gui')
     if not os.path.exists(p):
-        err("interface/load_screen.gui отсутствует -- ванильная металлическая "
-            "панель цитат вернётся на загрузочный экран")
+        err("interface/load_screen.gui отсутствует -- цитаты не будут оформлены")
     else:
         body = strip_comments(read(p))
         for token in ('"load_screen"', '"status"', '"tip"', '"text"', '"progressbar"'):
             if token not in body:
                 err(f"interface/load_screen.gui: отсутствует элемент {token}")
         if 'GFX_loadingtip_bg' in body:
-            err("interface/load_screen.gui: всё ещё ссылается на GFX_loadingtip_bg")
+            err("interface/load_screen.gui: вернулась ванильная металлическая плашка")
+
+        # Окно 180 px начинается на +110 от центра; текстовая область имеет
+        # y=20, h=140. Следовательно, центр текста: 110+20+70 = +200 px.
+        required = (
+            'position = { x = -512 y = 110 }',
+            'size = { x = 1024 y = 180 }',
+            'Orientation = CENTER',
+            'spriteType = "GFX_GLP_loading_tip_journal_bg"',
+            'position = { x = 40 y = 20 }',
+            'font = "hoi4_typewriter22"',
+            'maxWidth = 944',
+            'maxHeight = 140',
+        )
+        for token in required:
+            if token not in body:
+                err(f"interface/load_screen.gui: нарушена спецификация цитаты -> {token}")
+
+    panel = os.path.join(ROOT, 'gfx/interface/loading_tip_journal_bg.dds')
+    info = dds_info(panel) if os.path.exists(panel) else None
+    if info is None:
+        err("gfx/interface/loading_tip_journal_bg.dds: отсутствует/не является DDS")
+    elif info[:2] != (1024, 180):
+        err(f"gfx/interface/loading_tip_journal_bg.dds: {info[0]}x{info[1]}, "
+            "ожидается 1024x180")
+
     if os.path.exists(os.path.join(ROOT, 'interface/loadingscreen.gui')):
         err("interface/loadingscreen.gui: пустой файл с неванильным именем -- удалить")
     p = os.path.join(ROOT, 'interface/eventwindow.gui')
@@ -708,6 +827,122 @@ def check_advisor_portraits(defs):
                     err(f"{rel(p)}: персонаж '{cid}' -> спрайт '{s}' не объявлен")
     STATS['characters'] = len(re.findall(r'^\tGLP_\w+\s*=\s*\{',
                                           list(all_script_text('common/characters').values())[0], re.M))
+
+
+EXPECTED_UNIT_MODEL_FILES = {
+    # The sabre-holder mesh has three hard-coded CHI_* texture names.  Local
+    # aliases make the imported model independent from Waking the Tiger.
+    'CHI_sword_sabre_diffuse.dds',
+    'CHI_sword_sabre_normal.dds',
+    'CHI_sword_sabre_spec.dds',
+    'DON_cavalry.mesh',
+    'DON_cavalry_diffuse.dds',
+    'DON_cavalry_normal.dds',
+    'DON_cavalry_specular.dds',
+    'RSR_infantry.mesh',
+    'RSR_infantry_diffuse.dds',
+    'RSR_infantry_normal.dds',
+    'RSR_infantry_spec.dds',
+    'RSR_infantry_snow.mesh',
+    'RSR_infantry_snow_diffuse.dds',
+    'RSR_infantry_snow_normal.dds',
+    'RSR_infantry_snow_spec.dds',
+    'russian_infantry_cavalry_rider_attack_sabre.anim',
+    'russian_infantry_cavalry_rider_attack_sabre_idle.anim',
+    'russian_infantry_cavalry_rider_idle_sabre.anim',
+    'russian_infantry_cavalry_rider_moving_sabre.anim',
+    'russian_infantry_cavalry_rider_retreat_sabre.anim',
+    'russian_sword_sabre.mesh',
+    'russian_sword_sabre_diffuse.dds',
+    'russian_sword_sabre_holder.mesh',
+    'russian_sword_sabre_normal.dds',
+    'russian_sword_sabre_spec.dds',
+}
+
+
+def check_unit_models():
+    """Проверяет комплектность 3D-моделей GLP и связи mesh/entity/animation.
+
+    PDX-файлы бинарные, поэтому полноценный рендер без игры невозможен. Но
+    здесь можно поймать главные причины невидимых солдат: обрезанный бинарник,
+    отсутствующую DDS, битую ссылку file=, незарегистрированную анимацию или
+    GLP-сущность, которая ссылается на необъявленный pdxmesh.
+    """
+    model_dir = os.path.join(ROOT, 'gfx/models/units')
+    gfx_path = os.path.join(ROOT, 'gfx/entities/GLP_units.gfx')
+    asset_path = os.path.join(ROOT, 'gfx/entities/GLP_units.asset')
+    animation_path = os.path.join(model_dir, 'GLP_cavalry_animations.asset')
+
+    for p in (gfx_path, asset_path, animation_path):
+        if not os.path.exists(p):
+            err(f"{rel(p)}: отсутствует обязательный файл моделей GLP")
+            return
+
+    for filename in sorted(EXPECTED_UNIT_MODEL_FILES):
+        p = os.path.join(model_dir, filename)
+        if not os.path.exists(p):
+            err(f"gfx/models/units/{filename}: отсутствует импортированный файл")
+            continue
+        with open(p, 'rb') as fh:
+            head = fh.read(5)
+        if filename.endswith('.dds'):
+            if dds_info(p) is None:
+                err(f"gfx/models/units/{filename}: файл не является DDS")
+        elif head != b'@@b@!':
+            err(f"gfx/models/units/{filename}: неверная сигнатура PDX binary")
+
+    gfx_body = strip_comments(read(gfx_path))
+    asset_body = strip_comments(read(asset_path))
+    animation_body = strip_comments(read(animation_path))
+
+    # Every explicit file path in the mesh declarations must exist.
+    for filename in re.findall(r'\bfile\s*=\s*"(gfx/models/units/[^"]+)"', gfx_body):
+        if not os.path.exists(os.path.join(ROOT, filename)):
+            err(f"{rel(gfx_path)}: file не найден -> {filename}")
+
+    # Animation files use paths relative to gfx/models/units.
+    for filename in re.findall(r'\bfile\s*=\s*"([^"]+\.anim)"', animation_body):
+        if not os.path.exists(os.path.join(model_dir, filename)):
+            err(f"{rel(animation_path)}: animation file не найден -> {filename}")
+
+    mesh_defs = set(re.findall(
+        r'\bpdxmesh\s*=\s*\{\s*name\s*=\s*"(GLP_[A-Za-z0-9_]+)"',
+        gfx_body, re.S))
+    mesh_refs = set(re.findall(r'\bpdxmesh\s*=\s*"(GLP_[A-Za-z0-9_]+)"', asset_body))
+    for name in sorted(mesh_refs - mesh_defs):
+        err(f"{rel(asset_path)}: pdxmesh '{name}' не объявлен в GLP_units.gfx")
+
+    animation_defs = set(re.findall(
+        r'\banimation\s*=\s*\{\s*name\s*=\s*"(GLP_[A-Za-z0-9_]+)"',
+        animation_body, re.S))
+    animation_refs = set(re.findall(
+        r'\btype\s*=\s*"(GLP_[A-Za-z0-9_]+)"', gfx_body))
+    for name in sorted(animation_refs - animation_defs):
+        err(f"{rel(gfx_path)}: animation type '{name}' не объявлен")
+
+    entity_defs = re.findall(
+        r'\bentity\s*=\s*\{.*?\bname\s*=\s*"(GLP_[A-Za-z0-9_]+)"',
+        asset_body, re.S)
+    for name in sorted(set(entity_defs)):
+        if entity_defs.count(name) > 1:
+            err(f"{rel(asset_path)}: entity '{name}' объявлена несколько раз")
+    entity_refs = set(re.findall(r'=\s*"(GLP_[A-Za-z0-9_]+_entity)"', asset_body))
+    for name in sorted(entity_refs - set(entity_defs)):
+        err(f"{rel(asset_path)}: ссылка на необъявленную entity '{name}'")
+
+    # PDX meshes contain their texture filenames as ASCII strings.
+    for filename in sorted(x for x in EXPECTED_UNIT_MODEL_FILES if x.endswith('.mesh')):
+        p = os.path.join(model_dir, filename)
+        if not os.path.exists(p):
+            continue
+        with open(p, 'rb') as fh:
+            raw = fh.read()
+        for dep in set(re.findall(rb'[A-Za-z0-9_.-]+\.dds', raw)):
+            dep_name = dep.decode('ascii')
+            if not os.path.exists(os.path.join(model_dir, dep_name)):
+                err(f"gfx/models/units/{filename}: встроенная DDS не найдена -> {dep_name}")
+
+    STATS['unit_model_files'] = len(EXPECTED_UNIT_MODEL_FILES)
 
 
 def check_no_stray_art():
@@ -785,6 +1020,7 @@ def main():
     check_fonts()
     check_bookmarks(loc)
     check_focus_tree(defs)
+    check_continuous_focus_layout()
     check_units()
     check_events(loc)
     check_characters(defs, loc)
@@ -794,6 +1030,7 @@ def main():
     check_idea_icon_geometry()
     check_gui_overrides()
     check_advisor_portraits(defs)
+    check_unit_models()
     check_no_stray_art()
     check_loc_tech_names(loc)
     check_dds_transparency()

@@ -2,14 +2,14 @@
 
 Подбор выполнен через каталог **HOI4 Icon Search**: <https://wyandotte.github.io/hoi4-icon-search/> (витрина данных репозитория `kr4/icons`: 1960 иконок фокусов + 1294 духа/советника).
 
-**Метод проверки.** Каждое имя спрайта сверено с ванильными файлами базовой игры `interface/goals.gfx` / `interface/ideas.gfx` (дампы **1.7.1 Hydra** и **1.14.10**): используются **только спрайты базовой игры — никаких DLC-зависимостей** (DLC-иконки каталога — tfv/wtt/dod/bftb и пр. — и 1325 иконок Kaiserreich не используются). Примечание: каталог немного старее текущей игры — 59 выбранных спрайтов добавлены в базу позже и в каталоге отсутствуют; для них указан точный путь в файлах игры.
+**Метод проверки.** Иконки фокусов сверены с ванильным `interface/goals.gfx` (дампы **1.7.1 Hydra** и **1.14.10**) и не требуют DLC. Все национальные духи используют только 15 тематических категорий собственного GLP-пака из `interface/GLP_ideas.gfx`; точное соответствие контролируется файлом `tools/idea_pictures.tsv` и автоматическим аудитом. Иконки Kaiserreich и DLC-контент не используются.
 
 **Сводка**
 
 | Категория | Всего | Уникальных иконок | Макс. повторов использования |
 |---|---|---|---|
 | Фокусы | 190 | **118** | 5 (`mass_production` — производственные ветки) |
-| Национальные духи | 118 | 15 своих GLP + 29 ванильных | 17 (`production_bonus`) |
+| Национальные духи | 118 | **15 собственных GLP** | 17 (`GLP_military`) |
 
 ## Иконки дерева фокусов (190)
 
@@ -208,123 +208,147 @@
 
 ## Иконки национальных духов (118)
 
-| Дух | Картинка | Источник |
+Все духи используют **только собственный GLP-пак**. Категория выбрана по смыслу эффекта: армия, промышленность, разведка, логистика, медицина, сельское хозяйство, флот, кавалерия, общество и т. д.
+
+### Использование категорий
+
+| Категория пака | Назначений | Файл |
+|---|---:|---|
+| `GFX_idea_GLP_military` | 17 | `gfx/interface/ideas/idea_GLP_military.dds` |
+| `GFX_idea_GLP_industry` | 16 | `gfx/interface/ideas/idea_GLP_industry.dds` |
+| `GFX_idea_GLP_intelligence` | 15 | `gfx/interface/ideas/idea_GLP_intelligence.dds` |
+| `GFX_idea_GLP_cavalry` | 10 | `gfx/interface/ideas/idea_GLP_cavalry.dds` |
+| `GFX_idea_GLP_society` | 9 | `gfx/interface/ideas/idea_GLP_society.dds` |
+| `GFX_idea_GLP_logistics` | 8 | `gfx/interface/ideas/idea_GLP_logistics.dds` |
+| `GFX_idea_GLP_agriculture` | 7 | `gfx/interface/ideas/idea_GLP_agriculture.dds` |
+| `GFX_idea_GLP_free_syndicates_and_soviets` | 7 | `gfx/interface/ideas/idea_GLP_free_syndicates_and_soviets.dds` |
+| `GFX_idea_GLP_hostile_encirclement` | 5 | `gfx/interface/ideas/idea_GLP_hostile_encirclement.dds` |
+| `GFX_idea_GLP_kontrrazvedka_surveillance` | 5 | `gfx/interface/ideas/idea_GLP_kontrrazvedka_surveillance.dds` |
+| `GFX_idea_GLP_tachanka` | 5 | `gfx/interface/ideas/idea_GLP_tachanka.dds` |
+| `GFX_idea_GLP_black_guard_legacy` | 4 | `gfx/interface/ideas/idea_GLP_black_guard_legacy.dds` |
+| `GFX_idea_GLP_health` | 4 | `gfx/interface/ideas/idea_GLP_health.dds` |
+| `GFX_idea_GLP_insurgent_army` | 3 | `gfx/interface/ideas/idea_GLP_insurgent_army.dds` |
+| `GFX_idea_GLP_navy` | 3 | `gfx/interface/ideas/idea_GLP_navy.dds` |
+
+### Полное соответствие
+
+| Дух | ID | Иконка пака |
 |---|---|---|
-| Оплот Свободных Наций | `GFX_idea_generic_flexible_foreign_policy` | ванильная базовая игра: `gfx/interface/ideas/generic_flexible_foreign_policy.dds` |
-| Наследие Черной Гвардии | `GFX_idea_GLP_black_guard_legacy` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_black_guard_legacy.dds` |
-| Кредиты Британского Сити | `GFX_idea_generic_foreign_capital` | ванильная базовая игра: `gfx/interface/ideas/generic_foreign_capital.dds` |
-| Евразийский Красно-Черный Авангард | `GFX_idea_generic_communist_army` | ванильная базовая игра: `gfx/interface/ideas/generic_communist_army.dds` |
-| Вольные Синдикаты и Советы | `GFX_idea_GLP_free_syndicates_and_soviets` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_free_syndicates_and_soviets.dds` |
-| Кооперация с Державами Оси | `GFX_idea_generic_deal_with_the_devil` | ванильная базовая игра: `gfx/interface/ideas/generic_deal_with_the_devil.dds` |
-| Враждебное окружение | `GFX_idea_GLP_hostile_encirclement` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_hostile_encirclement.dds` |
-| Агентурные сети | `GFX_idea_generic_spy_intel` | ванильная базовая игра: `gfx/interface/ideas/generic_spy_intel.dds` |
-| Владыки небес | `GFX_idea_generic_air_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_air_bonus.dds` |
-| Воздушная разведка | `GFX_idea_generic_air_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_air_bonus.dds` |
-| Щит от провокаторов | `GFX_idea_generic_spy_intel` | ванильная базовая игра: `gfx/interface/ideas/generic_spy_intel.dds` |
-| Истребители Бронетехники | `GFX_idea_generic_artillery_regiments` | ванильная базовая игра: `gfx/interface/ideas/generic_artillery_regiments.dds` |
-| Производство Бронепоездов | `GFX_idea_GLP_logistics` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_logistics.dds` |
-| Автаркический рай | `GFX_idea_GLP_industry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_industry.dds` |
-| Автаркия | `GFX_idea_GLP_industry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_industry.dds` |
-| Автономная индустрия | `GFX_idea_GLP_industry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_industry.dds` |
-| В тылу врага | `GFX_idea_generic_spy_coup` | ванильная базовая игра: `gfx/interface/ideas/generic_spy_coup.dds` |
-| Черная Лавина | `GFX_idea_GLP_cavalry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_cavalry.dds` |
-| Черный Полумесяц Степей | `GFX_idea_GLP_society` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_society.dds` |
-| Сеть Чёрного Креста | `GFX_idea_GLP_health` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_health.dds` |
-| Черный Интернационал | `GFX_idea_generic_volunteer_expedition_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_volunteer_expedition_bonus.dds` |
-| Господство на Чёрном море | `GFX_idea_GLP_navy` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_navy.dds` |
-| Черный Террор | `GFX_idea_generic_purge` | ванильная базовая игра: `gfx/interface/ideas/generic_purge.dds` |
-| Безопасность границ | `GFX_idea_generic_wall_line` | ванильная базовая игра: `gfx/interface/ideas/generic_wall_line.dds` |
-| Хлеб для фронта | `GFX_idea_GLP_agriculture` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_agriculture.dds` |
-| Житница Европы | `GFX_idea_generic_agrarian_society` | ванильная базовая игра: `gfx/interface/ideas/generic_agrarian_society.dds` |
-| Кинопропаганда | `GFX_idea_generic_political_support` | ванильная базовая игра: `gfx/interface/ideas/generic_political_support.dds` |
-| Шифрованная связь | `GFX_idea_generic_electronics_concern_1` | ванильная базовая игра: `gfx/interface/ideas/generic_electronics_concern_1.dds` |
-| Коллективное земледелие | `GFX_idea_generic_agrarian_reform` | ванильная базовая игра: `gfx/interface/ideas/generic_agrarian_reform.dds` |
-| Общевойсковой бой | `GFX_idea_generic_armor` | ванильная базовая игра: `gfx/interface/ideas/generic_armor.dds` |
-| Рейды коммандос | `GFX_idea_GLP_tachanka` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_tachanka.dds` |
-| Укрепление Коммун | `GFX_idea_generic_local_self_management` | ванильная базовая игра: `gfx/interface/ideas/generic_local_self_management.dds` |
-| Континентальный поход | `GFX_idea_generic_war_preparation` | ванильная базовая игра: `gfx/interface/ideas/generic_war_preparation.dds` |
-| Казачьи дивизии | `GFX_idea_GLP_cavalry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_cavalry.dds` |
-| Казачья слава | `GFX_idea_GLP_cavalry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_cavalry.dds` |
-| Казачье наследие | `GFX_idea_GLP_cavalry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_cavalry.dds` |
-| Казачье наследие | `GFX_idea_GLP_cavalry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_cavalry.dds` |
-| Казачьи офицеры | `GFX_idea_generic_army_war_college` | ванильная базовая игра: `gfx/interface/ideas/generic_army_war_college.dds` |
-| Казачьи традиции | `GFX_idea_GLP_society` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_society.dds` |
-| Контршпионаж | `GFX_idea_GLP_kontrrazvedka_surveillance` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_kontrrazvedka_surveillance.dds` |
-| Криптоанализ | `GFX_idea_generic_electronics_concern_1` | ванильная базовая игра: `gfx/interface/ideas/generic_electronics_concern_1.dds` |
-| Культурное просвещение | `GFX_idea_GLP_society` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_society.dds` |
-| Децентрализованные мастерские | `GFX_idea_GLP_industry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_industry.dds` |
-| Оборона в глубину | `GFX_idea_generic_fortify_the_borders` | ванильная базовая игра: `gfx/interface/ideas/generic_fortify_the_borders.dds` |
-| Дезинформация | `GFX_idea_generic_spy_political` | ванильная базовая игра: `gfx/interface/ideas/generic_spy_political.dds` |
-| Энергия ДнепроГЭС | `GFX_idea_generic_production_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_production_bonus.dds` |
-| Двойные агенты | `GFX_idea_generic_spy_coup` | ванильная базовая игра: `gfx/interface/ideas/generic_spy_coup.dds` |
-| Экономическая независимость | `GFX_idea_generic_production_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_production_bonus.dds` |
-| Экономическое чудо | `GFX_idea_generic_production_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_production_bonus.dds` |
-| Элитная гвардия | `GFX_idea_GLP_black_guard_legacy` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_black_guard_legacy.dds` |
-| Фабричные комитеты | `GFX_idea_GLP_industry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_industry.dds` |
-| Федерация Вольных Советов | `GFX_idea_generic_local_self_management` | ванильная базовая игра: `gfx/interface/ideas/generic_local_self_management.dds` |
-| Женские боевые части | `GFX_idea_GLP_military` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_military.dds` |
-| Полевые госпитали | `GFX_idea_GLP_health` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_health.dds` |
-| Переработка продовольствия | `GFX_idea_GLP_agriculture` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_agriculture.dds` |
-| Вольному воля | `GFX_idea_GLP_free_syndicates_and_soviets` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_free_syndicates_and_soviets.dds` |
-| Фронтовая разведка | `GFX_idea_GLP_intelligence` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_intelligence.dds` |
-| Полная занятость | `GFX_idea_GLP_industry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_industry.dds` |
-| Гендерное равенство | `GFX_idea_GLP_society` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_society.dds` |
-| Глобальная сеть | `GFX_idea_generic_intel_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_intel_bonus.dds` |
-| Слава моря | `GFX_idea_GLP_navy` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_navy.dds` |
-| Коневодство | `GFX_idea_GLP_cavalry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_cavalry.dds` |
-| Санитарные поезда | `GFX_idea_GLP_logistics` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_logistics.dds` |
-| Непробиваемая разведка | `GFX_idea_GLP_intelligence` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_intelligence.dds` |
-| Промышленная сверхдержава | `GFX_idea_GLP_industry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_industry.dds` |
-| Народная Повстанческая Армия | `GFX_idea_GLP_insurgent_army` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_insurgent_army.dds` |
-| Внутренняя безопасность | `GFX_idea_generic_secret_police` | ванильная базовая игра: `gfx/interface/ideas/generic_secret_police.dds` |
-| Интернациональные бригады | `GFX_idea_generic_volunteer_expedition_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_volunteer_expedition_bonus.dds` |
-| Непобедимое Повстанчество | `GFX_idea_GLP_insurgent_army` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_insurgent_army.dds` |
-| Бдительность Контрразведки | `GFX_idea_GLP_kontrrazvedka_surveillance` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_kontrrazvedka_surveillance.dds` |
-| Земля народу | `GFX_idea_generic_agrarian_reform` | ванильная базовая игра: `gfx/interface/ideas/generic_agrarian_reform.dds` |
-| Легендарные Махновские Тачанки | `GFX_idea_GLP_tachanka` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_tachanka.dds` |
-| Народные сходы правосудия | `GFX_idea_generic_constitutional_guarantees` | ванильная базовая игра: `gfx/interface/ideas/generic_constitutional_guarantees.dds` |
-| Мастерство логистики | `GFX_idea_GLP_logistics` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_logistics.dds` |
-| Миф о Махно | `GFX_idea_GLP_black_guard_legacy` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_black_guard_legacy.dds` |
-| Массированный штурм | `GFX_idea_generic_infantry_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_infantry_bonus.dds` |
-| Механизированное хозяйство | `GFX_idea_GLP_agriculture` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_agriculture.dds` |
-| Рейдеры торговых путей | `GFX_idea_generic_sea_focused_navy` | ванильная базовая игра: `gfx/interface/ideas/generic_sea_focused_navy.dds` |
-| Черная Военная Хунта | `GFX_idea_generic_oppression` | ванильная базовая игра: `gfx/interface/ideas/generic_oppression.dds` |
-| Народная стража | `GFX_idea_GLP_military` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_military.dds` |
-| Моторный транспорт | `GFX_idea_generic_motorized_equipment_manufacturer_1` | ванильная базовая игра: `gfx/interface/ideas/generic_motorized_equipment_manufacturer_1.dds` |
-| Новая культура | `GFX_idea_GLP_society` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_society.dds` |
-| Партизанские ячейки | `GFX_idea_GLP_military` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_military.dds` |
-| Партизанская Доктрина | `GFX_idea_GLP_tachanka` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_tachanka.dds` |
-| Рост населения | `GFX_idea_generic_manpower_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_manpower_bonus.dds` |
-| Бонусы за производительность | `GFX_idea_generic_production_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_production_bonus.dds` |
-| Железнодорожная Мобильность | `GFX_idea_generic_build_infrastructure` | ванильная базовая игра: `gfx/interface/ideas/generic_build_infrastructure.dds` |
-| Координация сопротивления | `GFX_idea_GLP_intelligence` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_intelligence.dds` |
-| Координация РевВоенСовета | `GFX_idea_GLP_logistics` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_logistics.dds` |
-| Партизанское управление РевВоенСовета | `GFX_idea_GLP_tachanka` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_tachanka.dds` |
-| Всеобщая боеготовность | `GFX_idea_generic_war_preparation` | ванильная базовая игра: `gfx/interface/ideas/generic_war_preparation.dds` |
-| Земская медицина | `GFX_idea_GLP_health` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_health.dds` |
-| Санитарные батальоны | `GFX_idea_GLP_health` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_health.dds` |
-| Теневая война | `GFX_idea_generic_spy_intel` | ванильная базовая игра: `gfx/interface/ideas/generic_spy_intel.dds` |
-| Специальные операции | `GFX_idea_GLP_military` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_military.dds` |
-| Милитаризация спорта | `GFX_idea_generic_manpower_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_manpower_bonus.dds` |
-| Стальной Таран Бронепоездов | `GFX_idea_generic_armor` | ванильная базовая игра: `gfx/interface/ideas/generic_armor.dds` |
-| Степная Молния | `GFX_idea_GLP_cavalry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_cavalry.dds` |
-| Степная война | `GFX_idea_GLP_tachanka` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_tachanka.dds` |
-| Житница свободной степи | `GFX_idea_generic_agrarian_society` | ванильная базовая игра: `gfx/interface/ideas/generic_agrarian_society.dds` |
-| Стратегические резервы | `GFX_idea_generic_reserve_divisions` | ванильная базовая игра: `gfx/interface/ideas/generic_reserve_divisions.dds` |
-| Склады снабжения | `GFX_idea_GLP_logistics` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_logistics.dds` |
-| Синдикалистский рай | `GFX_idea_GLP_industry` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_industry.dds` |
-| Технологическое превосходство | `GFX_idea_generic_research_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_research_bonus.dds` |
-| Текстильные синдикаты | `GFX_idea_generic_production_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_production_bonus.dds` |
-| Тотальная Милитаризация | `GFX_idea_generic_manpower_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_manpower_bonus.dds` |
-| Триумф Свободы | `GFX_idea_generic_victors_of_ww1` | ванильная базовая игра: `gfx/interface/ideas/generic_victors_of_ww1.dds` |
-| Сеть Тайных Арсеналов | `GFX_idea_GLP_military` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_military.dds` |
-| Подпольная железная дорога | `GFX_idea_GLP_intelligence` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_intelligence.dds` |
-| Подпольное государство | `GFX_idea_generic_secret_police` | ванильная базовая игра: `gfx/interface/ideas/generic_secret_police.dds` |
-| Полки европейских доббровольцев | `GFX_idea_generic_volunteer_expedition_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_volunteer_expedition_bonus.dds` |
-| Освобождение женщин | `GFX_idea_GLP_society` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_society.dds` |
-| Рабочие факультеты | `GFX_idea_generic_research_bonus` | ванильная базовая игра: `gfx/interface/ideas/generic_research_bonus.dds` |
-| Демократия на производстве | `GFX_idea_generic_local_self_management` | ванильная базовая игра: `gfx/interface/ideas/generic_local_self_management.dds` |
-| Пламя Мировой Анархии | `GFX_idea_GLP_society` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_society.dds` |
-| Агентурная сеть Задова | `GFX_idea_GLP_intelligence` | собственная иконка мода: `gfx/interface/ideas/idea_GLP_intelligence.dds` |
-| Прусская Дисциплина и Выучка | `GFX_idea_generic_army_war_college` | ванильная базовая игра: `gfx/interface/ideas/generic_army_war_college.dds` |
-| Советская Промышленная Помощь | `GFX_idea_generic_foreign_capital` | ванильная базовая игра: `gfx/interface/ideas/generic_foreign_capital.dds` |
+| Автаркический рай | `GLP_idea_autarkic_paradise` | `GFX_idea_GLP_industry` |
+| Автаркия | `GLP_idea_autarky` | `GFX_idea_GLP_industry` |
+| Автономная индустрия | `GLP_idea_autonomous_industrial_bastion` | `GFX_idea_GLP_industry` |
+| Агентурная сеть Задова | `GLP_idea_zadov_network` | `GFX_idea_GLP_intelligence` |
+| Агентурные сети | `GLP_idea_agent_networks` | `GFX_idea_GLP_intelligence` |
+| Бдительность Контрразведки | `GLP_idea_kontrrazvedka_surveillance` | `GFX_idea_GLP_kontrrazvedka_surveillance` |
+| Безопасность границ | `GLP_idea_border_security` | `GFX_idea_GLP_hostile_encirclement` |
+| Бонусы за производительность | `GLP_idea_productivity_bonuses` | `GFX_idea_GLP_industry` |
+| В тылу врага | `GLP_idea_behind_lines` | `GFX_idea_GLP_intelligence` |
+| Владыки небес | `GLP_idea_air_mastery` | `GFX_idea_GLP_military` |
+| Внутренняя безопасность | `GLP_idea_internal_security` | `GFX_idea_GLP_kontrrazvedka_surveillance` |
+| Воздушная разведка | `GLP_idea_air_recon` | `GFX_idea_GLP_intelligence` |
+| Вольному воля | `GLP_idea_free_will` | `GFX_idea_GLP_free_syndicates_and_soviets` |
+| Вольные Синдикаты и Советы | `GLP_free_syndicates_and_soviets` | `GFX_idea_GLP_free_syndicates_and_soviets` |
+| Враждебное окружение | `GLP_hostile_encirclement` | `GFX_idea_GLP_hostile_encirclement` |
+| Всеобщая боеготовность | `GLP_idea_revvoensovet_total_preparedness` | `GFX_idea_GLP_military` |
+| Гендерное равенство | `GLP_idea_gender_equality` | `GFX_idea_GLP_society` |
+| Глобальная сеть | `GLP_idea_global_network` | `GFX_idea_GLP_intelligence` |
+| Господство на Чёрном море | `GLP_idea_black_sea_dominance` | `GFX_idea_GLP_navy` |
+| Двойные агенты | `GLP_idea_double_agents` | `GFX_idea_GLP_intelligence` |
+| Дезинформация | `GLP_idea_disinformation` | `GFX_idea_GLP_intelligence` |
+| Демократия на производстве | `GLP_idea_workplace_democracy` | `GFX_idea_GLP_free_syndicates_and_soviets` |
+| Децентрализованные мастерские | `GLP_idea_decentralized_workshops` | `GFX_idea_GLP_industry` |
+| Евразийский Красно-Черный Авангард | `GLP_eurasian_red_black_vanguard` | `GFX_idea_GLP_black_guard_legacy` |
+| Железнодорожная Мобильность | `GLP_idea_rapid_rail_deployment` | `GFX_idea_GLP_logistics` |
+| Женские боевые части | `GLP_idea_female_combat` | `GFX_idea_GLP_military` |
+| Житница Европы | `GLP_idea_breadbasket` | `GFX_idea_GLP_agriculture` |
+| Житница свободной степи | `GLP_idea_steppes_breadbasket` | `GFX_idea_GLP_agriculture` |
+| Земля народу | `GLP_idea_land_to_tillers` | `GFX_idea_GLP_agriculture` |
+| Земская медицина | `GLP_idea_rural_healthcare` | `GFX_idea_GLP_health` |
+| Интернациональные бригады | `GLP_idea_international_brigades` | `GFX_idea_GLP_military` |
+| Истребители Бронетехники | `GLP_idea_anti_tank_cavalry` | `GFX_idea_GLP_cavalry` |
+| Казачье наследие | `GLP_idea_cossack_heritage` | `GFX_idea_GLP_cavalry` |
+| Казачье наследие | `GLP_idea_cossack_legacy` | `GFX_idea_GLP_cavalry` |
+| Казачьи дивизии | `GLP_idea_cossack_divisions` | `GFX_idea_GLP_cavalry` |
+| Казачьи офицеры | `GLP_idea_cossack_officers` | `GFX_idea_GLP_cavalry` |
+| Казачьи традиции | `GLP_idea_cossack_traditions` | `GFX_idea_GLP_cavalry` |
+| Казачья слава | `GLP_idea_cossack_glory` | `GFX_idea_GLP_cavalry` |
+| Кинопропаганда | `GLP_idea_cinema_propaganda` | `GFX_idea_GLP_society` |
+| Коллективное земледелие | `GLP_idea_collective_farming` | `GFX_idea_GLP_agriculture` |
+| Коневодство | `GLP_idea_horse_breeding` | `GFX_idea_GLP_cavalry` |
+| Континентальный поход | `GLP_idea_continental_crusade` | `GFX_idea_GLP_military` |
+| Контршпионаж | `GLP_idea_counter_espionage` | `GFX_idea_GLP_kontrrazvedka_surveillance` |
+| Кооперация с Державами Оси | `GLP_german_axis_synergy` | `GFX_idea_GLP_military` |
+| Координация РевВоенСовета | `GLP_idea_revvoensovet_coordination` | `GFX_idea_GLP_logistics` |
+| Координация сопротивления | `GLP_idea_resistance_coordination` | `GFX_idea_GLP_intelligence` |
+| Кредиты Британского Сити | `GLP_british_sterling_credits` | `GFX_idea_GLP_industry` |
+| Криптоанализ | `GLP_idea_cryptanalysis` | `GFX_idea_GLP_intelligence` |
+| Культурное просвещение | `GLP_idea_cultural_enlightenment` | `GFX_idea_GLP_society` |
+| Легендарные Махновские Тачанки | `GLP_idea_legendary_tachankas` | `GFX_idea_GLP_tachanka` |
+| Массированный штурм | `GLP_idea_mass_assault` | `GFX_idea_GLP_military` |
+| Мастерство логистики | `GLP_idea_logistics_mastery` | `GFX_idea_GLP_logistics` |
+| Механизированное хозяйство | `GLP_idea_mechanized_agriculture` | `GFX_idea_GLP_agriculture` |
+| Милитаризация спорта | `GLP_idea_sports_militarization` | `GFX_idea_GLP_military` |
+| Миф о Махно | `GLP_idea_makhno_myth` | `GFX_idea_GLP_black_guard_legacy` |
+| Моторный транспорт | `GLP_idea_motor_transport` | `GFX_idea_GLP_logistics` |
+| Народная Повстанческая Армия | `GLP_idea_insurgent_army` | `GFX_idea_GLP_insurgent_army` |
+| Народная стража | `GLP_idea_militia_patrols` | `GFX_idea_GLP_military` |
+| Народные сходы правосудия | `GLP_idea_libertarian_courts` | `GFX_idea_GLP_free_syndicates_and_soviets` |
+| Наследие Черной Гвардии | `GLP_black_guard_legacy` | `GFX_idea_GLP_black_guard_legacy` |
+| Непобедимое Повстанчество | `GLP_idea_invincible_insurgency` | `GFX_idea_GLP_insurgent_army` |
+| Непробиваемая разведка | `GLP_idea_impregnable_intel` | `GFX_idea_GLP_intelligence` |
+| Новая культура | `GLP_idea_new_culture` | `GFX_idea_GLP_society` |
+| Оборона в глубину | `GLP_idea_defense_in_depth` | `GFX_idea_GLP_hostile_encirclement` |
+| Общевойсковой бой | `GLP_idea_combined_arms` | `GFX_idea_GLP_military` |
+| Оплот Свободных Наций | `GLP_anglo_free_bastion` | `GFX_idea_GLP_hostile_encirclement` |
+| Освобождение женщин | `GLP_idea_womens_emancipation` | `GFX_idea_GLP_society` |
+| Партизанская Доктрина | `GLP_idea_partisan_doctrine` | `GFX_idea_GLP_tachanka` |
+| Партизанские ячейки | `GLP_idea_partisan_cells` | `GFX_idea_GLP_insurgent_army` |
+| Партизанское управление РевВоенСовета | `GLP_idea_revvoensovet_partisan_command` | `GFX_idea_GLP_tachanka` |
+| Переработка продовольствия | `GLP_idea_food_processing` | `GFX_idea_GLP_agriculture` |
+| Пламя Мировой Анархии | `GLP_idea_world_anarchy` | `GFX_idea_GLP_society` |
+| Подпольная железная дорога | `GLP_idea_underground_railway` | `GFX_idea_GLP_intelligence` |
+| Подпольное государство | `GLP_idea_underground_state` | `GFX_idea_GLP_intelligence` |
+| Полевые госпитали | `GLP_idea_field_hospitals` | `GFX_idea_GLP_health` |
+| Полки европейских доббровольцев | `GLP_idea_white_volunteers` | `GFX_idea_GLP_military` |
+| Полная занятость | `GLP_idea_full_employment` | `GFX_idea_GLP_industry` |
+| Производство Бронепоездов | `GLP_idea_armored_train_production` | `GFX_idea_GLP_logistics` |
+| Промышленная сверхдержава | `GLP_idea_industrial_powerhouse` | `GFX_idea_GLP_industry` |
+| Прусская Дисциплина и Выучка | `GLP_prussian_drill_discipline` | `GFX_idea_GLP_military` |
+| Рабочие факультеты | `GLP_idea_worker_faculties` | `GFX_idea_GLP_society` |
+| Рейдеры торговых путей | `GLP_idea_merchant_raiders` | `GFX_idea_GLP_navy` |
+| Рейды коммандос | `GLP_idea_commando_raids` | `GFX_idea_GLP_tachanka` |
+| Рост населения | `GLP_idea_population_growth` | `GFX_idea_GLP_society` |
+| Санитарные батальоны | `GLP_idea_sanitary_battalions` | `GFX_idea_GLP_health` |
+| Санитарные поезда | `GLP_idea_hospital_trains` | `GFX_idea_GLP_logistics` |
+| Сеть Тайных Арсеналов | `GLP_idea_underground_armories` | `GFX_idea_GLP_military` |
+| Сеть Чёрного Креста | `GLP_idea_black_cross_aid` | `GFX_idea_GLP_health` |
+| Синдикалистский рай | `GLP_idea_syndicalist_paradise` | `GFX_idea_GLP_industry` |
+| Склады снабжения | `GLP_idea_supply_depots` | `GFX_idea_GLP_logistics` |
+| Слава моря | `GLP_idea_glory_of_the_sea` | `GFX_idea_GLP_navy` |
+| Советская Промышленная Помощь | `GLP_soviet_industrial_aid` | `GFX_idea_GLP_industry` |
+| Специальные операции | `GLP_idea_special_ops` | `GFX_idea_GLP_military` |
+| Стальной Таран Бронепоездов | `GLP_idea_steel_ram` | `GFX_idea_GLP_military` |
+| Степная война | `GLP_idea_steppe_warfare` | `GFX_idea_GLP_tachanka` |
+| Степная Молния | `GLP_idea_steppe_lightning` | `GFX_idea_GLP_cavalry` |
+| Стратегические резервы | `GLP_idea_strategic_reserves` | `GFX_idea_GLP_logistics` |
+| Текстильные синдикаты | `GLP_idea_textile_syndicates` | `GFX_idea_GLP_industry` |
+| Теневая война | `GLP_idea_shadow_war` | `GFX_idea_GLP_intelligence` |
+| Технологическое превосходство | `GLP_idea_tech_supremacy` | `GFX_idea_GLP_industry` |
+| Тотальная Милитаризация | `GLP_idea_total_militarization` | `GFX_idea_GLP_military` |
+| Триумф Свободы | `GLP_idea_triumph_of_liberty` | `GFX_idea_GLP_free_syndicates_and_soviets` |
+| Укрепление Коммун | `GLP_idea_communes_empowerment` | `GFX_idea_GLP_free_syndicates_and_soviets` |
+| Фабричные комитеты | `GLP_idea_factory_committees` | `GFX_idea_GLP_industry` |
+| Федерация Вольных Советов | `GLP_idea_federation_of_free_soviets` | `GFX_idea_GLP_free_syndicates_and_soviets` |
+| Фронтовая разведка | `GLP_idea_frontline_recon` | `GFX_idea_GLP_intelligence` |
+| Хлеб для фронта | `GLP_idea_bread_for_front` | `GFX_idea_GLP_agriculture` |
+| Черная Военная Хунта | `GLP_idea_military_junta` | `GFX_idea_GLP_military` |
+| Черная Лавина | `GLP_idea_black_avalanche` | `GFX_idea_GLP_cavalry` |
+| Черный Интернационал | `GLP_idea_black_international` | `GFX_idea_GLP_society` |
+| Черный Полумесяц Степей | `GLP_idea_black_crescent` | `GFX_idea_GLP_hostile_encirclement` |
+| Черный Террор | `GLP_idea_black_terror` | `GFX_idea_GLP_kontrrazvedka_surveillance` |
+| Шифрованная связь | `GLP_idea_coded_comms` | `GFX_idea_GLP_intelligence` |
+| Щит от провокаторов | `GLP_idea_anti_cheka_vigilance` | `GFX_idea_GLP_kontrrazvedka_surveillance` |
+| Экономическая независимость | `GLP_idea_economic_independence` | `GFX_idea_GLP_industry` |
+| Экономическое чудо | `GLP_idea_economic_miracle` | `GFX_idea_GLP_industry` |
+| Элитная гвардия | `GLP_idea_elite_guard` | `GFX_idea_GLP_black_guard_legacy` |
+| Энергия ДнепроГЭС | `GLP_idea_dnieper_hydroelectric` | `GFX_idea_GLP_industry` |
