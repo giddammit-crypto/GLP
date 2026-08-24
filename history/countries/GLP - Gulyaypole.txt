@@ -39,6 +39,11 @@ recruit_character = GLP_vsevolod_volin
 recruit_character = GLP_bogdan_dybets
 recruit_character = GLP_aleksey_dybets
 recruit_character = GLP_feodosiy_kozhin
+recruit_character = GLP_trofim_vdovychenko
+recruit_character = GLP_aleksey_marchenko
+recruit_character = GLP_platon_petrenko
+recruit_character = GLP_vasily_kurylenko
+recruit_character = GLP_petr_gavrilenko
 
 # National Spirits / Ideas
 add_ideas = {

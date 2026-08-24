@@ -381,6 +381,126 @@ characters = {
 	}
 
 	# ------------------------------------------------------------------
+	#  КОМАНДИРЫ РПА — исторические полевые командиры Повстанческой армии.
+	#  Всегда в стартовом составе (recruit_character в history/countries).
+	# ------------------------------------------------------------------
+
+	# Трофим Вдовиченко — командир Азовской группы
+	GLP_trofim_vdovychenko = {
+		name = GLP_trofim_vdovychenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_trofim_vdovychenko"
+				small = "GFX_portrait_GLP_trofim_vdovychenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_trofim_vdovychenko"
+				small = "GFX_portrait_GLP_trofim_vdovychenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { organizer skilled_staffer GLP_guerilla_master }
+			skill = 4
+			attack_skill = 4
+			defense_skill = 3
+			planning_skill = 4
+			logistics_skill = 3
+		}
+	}
+
+	# Алексей Марченко — командир конной группы, герой крымского прорыва
+	GLP_aleksey_marchenko = {
+		name = GLP_aleksey_marchenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_aleksey_marchenko"
+				small = "GFX_portrait_GLP_aleksey_marchenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_aleksey_marchenko"
+				small = "GFX_portrait_GLP_aleksey_marchenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_leader cavalry_expert trait_reckless GLP_steppe_raider }
+			skill = 3
+			attack_skill = 5
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 3
+		}
+	}
+
+	# Платон Петренко — командир 3-го Крымского корпуса, штурм Перекопа
+	GLP_platon_petrenko = {
+		name = GLP_platon_petrenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_platon_petrenko"
+				small = "GFX_portrait_GLP_platon_petrenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_platon_petrenko"
+				small = "GFX_portrait_GLP_platon_petrenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { aggressive_assaulter commando GLP_tachanka_commander }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
+
+	# Василий Куриленко — командир Новоспасовской группы, освободитель Мариуполя
+	GLP_vasily_kurylenko = {
+		name = GLP_vasily_kurylenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_vasily_kurylenko"
+				small = "GFX_portrait_GLP_vasily_kurylenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_vasily_kurylenko"
+				small = "GFX_portrait_GLP_vasily_kurylenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { guerilla_fighter defensive_doctrine GLP_guerilla_master }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 4
+			planning_skill = 3
+			logistics_skill = 3
+		}
+	}
+
+	# Пётр Гавриленко — начальник полевого штаба Крымской группы
+	GLP_petr_gavrilenko = {
+		name = GLP_petr_gavrilenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_petr_gavrilenko"
+				small = "GFX_portrait_GLP_petr_gavrilenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_petr_gavrilenko"
+				small = "GFX_portrait_GLP_petr_gavrilenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { organizer fast_planner GLP_guerilla_master }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 3
+			planning_skill = 4
+			logistics_skill = 3
+		}
+	}
+
+	# ------------------------------------------------------------------
 	#  Белые эмигранты — рекрутируются ТОЛЬКО фокусом GLP_old_enemies_unite
 	# ------------------------------------------------------------------
 	GLP_nikolai_skoblin = {

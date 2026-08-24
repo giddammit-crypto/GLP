@@ -63,6 +63,17 @@
  GLP_feodosiy_kozhin:0 "Feodosiy Kozhin"
  GLP_feodosiy_kozhin_desc:0 "A steppe commander of the old school, a peasant anarchist. Harsh to the enemy and to his men alike, a master of ambush in the Black Sea gullies."
 
+ GLP_trofim_vdovychenko:0 "Trofim Vdovychenko"
+ GLP_trofim_vdovychenko_desc:0 "A peasant anarchist from Novospasovka and commander of the Azov group. Beloved across the whole Priazovye for his iron discipline and for forging scattered detachments into a single fighting force."
+ GLP_aleksey_marchenko:0 "Aleksey Marchenko"
+ GLP_aleksey_marchenko_desc:0 "Commander of the Makhnovist cavalry. His mounted columns broke out of the Crimean encirclement through Perekop and rode night and day to rejoin Batko — the finest sabre of the free steppe."
+ GLP_platon_petrenko:0 "Platon Petrenko"
+ GLP_platon_petrenko_desc:0 "Commander of the Crimean corps. It was his men who forded the rotting Sivash and stormed the Perekop fortifications, opening the way into Crimea."
+ GLP_vasily_kurylenko:0 "Vasily Kurylenko"
+ GLP_vasily_kurylenko_desc:0 "A young commander of the Novospasovka group and hero of the liberation of Mariupol. Daring to the point of recklessness, his raids made an entire regiment measure itself by his courage."
+ GLP_petr_gavrilenko:0 "Petr Gavrilenko"
+ GLP_petr_gavrilenko_desc:0 "Chief of the field staff of the Crimean group. A quiet, precise staff officer whose maps and timetables turn the insurgents' daring into a single calculated blow."
+
  GLP_nikolai_skoblin:0 "Nikolai Skoblin"
  GLP_nikolai_skoblin_desc:0 "A former White cavalry general in exile. A pragmatic ally of Batko — and a standing source of distrust in the staff."
  GLP_anton_turkul:0 "Anton Turkul"
