@@ -38,6 +38,8 @@ declare -A PEOPLE=(
 	[nikolai_skoblin]=Nikolai_Skoblin
 	[anton_turkul]=Anton_Turkul
 	[grigory_semyonov]=Grigory_Semyonov
+	[lavr_kornilov]=Lavr_Kornilov
+	[mikhail_droz]=Mikhail_Droz
 )
 
 # Общая обработка: лёгкое освѣтленіе (ТЗ: «чуть осветли», контрастъ сохранёнъ),
@@ -93,3 +95,8 @@ for slug in "${!PEOPLE[@]}"; do
 done
 
 echo "готово."
+
+# Старые враги (белые эмигранты) — добавлены вручную
+# Требуются файлы:
+#   _src_lavr_kornilov_large.jpg
+#   _src_mikhail_droz_large.jpg

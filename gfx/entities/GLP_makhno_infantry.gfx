@@ -1,0 +1,81 @@
+### =========================================================================
+###  ГУЛЯЙ-ПОЛЕ — пехотные модели Батьки Махно
+###  Вдохновлено Rise of Russia: пешие казаки + матросы в чёрных бушлатах
+### =========================================================================
+
+objectTypes = {
+
+	# ===================== ПЕШИЕ КАЗАКИ (анархистская пехота) =====================
+	pdxmesh = {
+		name = "GLP_makhno_cossack_infantry_mesh"
+		file = "gfx/models/units/DON_cavalry.mesh"
+
+		animation = { id = "idle"			type = "GER_infantry_idle_animation" }
+		animation = { id = "attack"			type = "GER_infantry_attack_animation" }
+		animation = { id = "support_attack"	type = "GER_infantry_support_attack_animation" }
+		animation = { id = "charge"			type = "GER_infantry_charge_animation" }
+		animation = { id = "move"			type = "GER_infantry_moving_animation" }
+		animation = { id = "retreat"		type = "GER_infantry_retreat_animation" }
+		animation = { id = "death"			type = "GER_infantry_death_animation" }
+		animation = { id = "long_idle01"	type = "GER_infantry_long_idle_01_animation" }
+		animation = { id = "long_idle02"	type = "GER_infantry_long_idle_02_animation" }
+		animation = { id = "long_idle03"	type = "GER_infantry_long_idle_03_animation" }
+		animation = { id = "long_idle04"	type = "GER_infantry_long_idle_04_animation" }
+		animation = { id = "long_idle05"	type = "GER_infantry_long_idle_05_animation" }
+		animation = { id = "training"		type = "GER_infantry_idle_training_animation" }
+		animation = { id = "jumping_jacks"	type = "GER_infantry_jumping_jacks_animation" }
+		animation = { id = "pushup"			type = "GER_infantry_pushup_animation" }
+		animation = { id = "guard_rifle"	type = "GER_infantry_guard_rifle_animation" }
+		animation = { id = "aim_exercise"	type = "GER_infantry_aim_exercise_animation" }
+	}
+
+	# ===================== МАТРОСЫ В ЧЁРНЫХ БУШЛАТАХ =====================
+	pdxmesh = {
+		name = "GLP_makhno_sailor_infantry_mesh"
+		file = "gfx/models/units/DON_cavalry.mesh"
+
+		animation = { id = "idle"			type = "GER_infantry_idle_animation" }
+		animation = { id = "attack"			type = "GER_infantry_attack_animation" }
+		animation = { id = "support_attack"	type = "GER_infantry_support_attack_animation" }
+		animation = { id = "charge"			type = "GER_infantry_charge_animation" }
+		animation = { id = "move"			type = "GER_infantry_moving_animation" }
+		animation = { id = "retreat"		type = "GER_infantry_retreat_animation" }
+		animation = { id = "death"			type = "GER_infantry_death_animation" }
+		animation = { id = "long_idle01"	type = "GER_infantry_long_idle_01_animation" }
+		animation = { id = "long_idle02"	type = "GER_infantry_long_idle_02_animation" }
+		animation = { id = "long_idle03"	type = "GER_infantry_long_idle_03_animation" }
+		animation = { id = "long_idle04"	type = "GER_infantry_long_idle_04_animation" }
+		animation = { id = "long_idle05"	type = "GER_infantry_long_idle_05_animation" }
+		animation = { id = "training"		type = "GER_infantry_idle_training_animation" }
+		animation = { id = "jumping_jacks"	type = "GER_infantry_jumping_jacks_animation" }
+		animation = { id = "pushup"			type = "GER_infantry_pushup_animation" }
+		animation = { id = "guard_rifle"	type = "GER_infantry_guard_rifle_animation" }
+		animation = { id = "aim_exercise"	type = "GER_infantry_aim_exercise_animation" }
+	}
+
+	# ===================== ENTITY ДЛЯ ПЕХОТЫ МАХНО =====================
+	entity = {
+		name = "GLP_makhno_cossack_infantry_entity"
+		pdxmesh = "GLP_makhno_cossack_infantry_mesh"
+
+		default_state = "idle"
+		default_animation = "idle"
+
+		attach = { name = "rifle"			Right_Hand_node = "GER_infantry_weapon_rifle_right_entity" }
+		attach = { name = "rifle_left"		Left_Hand_node = "GER_infantry_weapon_rifle_left_entity" }
+		attach = { name = "backpack"		Backpack_node = "GER_infantry_backpack_entity" }
+	}
+
+	entity = {
+		name = "GLP_makhno_sailor_infantry_entity"
+		pdxmesh = "GLP_makhno_sailor_infantry_mesh"
+
+		default_state = "idle"
+		default_animation = "idle"
+
+		attach = { name = "rifle"			Right_Hand_node = "GER_infantry_weapon_rifle_right_entity" }
+		attach = { name = "rifle_left"		Left_Hand_node = "GER_infantry_weapon_rifle_left_entity" }
+		attach = { name = "backpack"		Backpack_node = "GER_infantry_backpack_entity" }
+	}
+
+}

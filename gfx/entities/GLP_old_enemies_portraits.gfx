@@ -1,0 +1,28 @@
+### =========================================================================
+###  ГУЛЯЙ-ПОЛЕ — портреты «Старых врагов» (белые эмигранты)
+###  Стиль 1930-х годов
+### =========================================================================
+
+spriteTypes = {
+
+	# ===================== Лавр Корнилов =====================
+	spriteType = {
+		name = "GFX_portrait_GLP_lavr_kornilov"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Lavr_Kornilov_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_lavr_kornilov_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Lavr_Kornilov.dds"
+	}
+
+	# ===================== Михаил Дроздовский =====================
+	spriteType = {
+		name = "GFX_portrait_GLP_mikhail_droz"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Mikhail_Droz_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_mikhail_droz_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Mikhail_Droz.dds"
+	}
+
+}

@@ -383,6 +383,42 @@ characters = {
 	# ------------------------------------------------------------------
 	#  Белые эмигранты — рекрутируются ТОЛЬКО фокусом GLP_old_enemies_unite
 	# ------------------------------------------------------------------
+	GLP_lavr_kornilov = {
+		name = GLP_lavr_kornilov
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_lavr_kornilov"
+				small = "GFX_portrait_GLP_lavr_kornilov_small"
+			}
+		}
+		corps_commander = {
+			traits = { infantry_officer old_guard GLP_white_emigre }
+			skill = 4
+			attack_skill = 5
+			defense_skill = 3
+			planning_skill = 4
+			logistics_skill = 3
+		}
+	}
+
+	GLP_mikhail_droz = {
+		name = GLP_mikhail_droz
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_mikhail_droz"
+				small = "GFX_portrait_GLP_mikhail_droz_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_officer trait_reckless GLP_white_emigre }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
+
 	GLP_nikolai_skoblin = {
 		name = GLP_nikolai_skoblin
 		portraits = {

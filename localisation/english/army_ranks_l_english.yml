@@ -1,0 +1,19 @@
+﻿l_english:
+ # ================================================================
+ # RENAMING RANKS — GENERAL OF THE ARMY → DIVISION COMMANDER
+ # ================================================================
+
+ GENERAL_RANK_0:0 "Division Commander"
+ GENERAL_RANK_1:0 "Division Commander"
+ GENERAL_RANK_2:0 "Division Commander"
+ GENERAL_RANK_3:0 "Division Commander"
+ GENERAL_RANK_4:0 "Division Commander"
+
+ FIELD_MARSHAL_RANK_0:0 "Division Commander"
+ FIELD_MARSHAL_RANK_1:0 "Division Commander"
+ FIELD_MARSHAL_RANK_2:0 "Division Commander"
+ FIELD_MARSHAL_RANK_3:0 "Division Commander"
+ FIELD_MARSHAL_RANK_4:0 "Division Commander"
+
+ ARMY_GENERAL_RANK:0 "Division Commander"
+ FIELD_MARSHAL_RANK:0 "Division Commander"
