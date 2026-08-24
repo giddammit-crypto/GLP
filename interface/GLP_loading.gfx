@@ -2,6 +2,5 @@ spriteTypes = {
 	spriteType = {
 		name = "GFX_GLP_loading_tip_journal_bg"
 		texturefile = "gfx/interface/loading_tip_journal_bg.dds"
-		allwaystransparent = yes
 	}
 }
