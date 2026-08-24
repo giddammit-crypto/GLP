@@ -875,6 +875,23 @@ def check_gui_overrides():
                       '"event_option_entry"'):
             if token not in body:
                 err(f"interface/eventwindow.gui: отсутствует ванильное окно {token}")
+        # Окно новостей стоит на тёмном фоне GLP_event_news_bg_wide, поэтому
+        # заголовок и описание обязаны использовать «инверсные» (белые) шрифты;
+        # обычные (чёрные) в этом окне = текст нечитаем.
+        m = re.search(r'name\s*=\s*"EventWindow_News"(.*?)(?=\n\tcontainerWindowType|\n})', body, re.S)
+        if not m:
+            err("interface/eventwindow.gui: не найден блок EventWindow_News")
+        else:
+            news = m.group(1)
+            for want in ('font = "hoi4_typewriter22_inverted"',
+                         'font = "hoi4_typewriter16_inverted"'):
+                if want not in news:
+                    err(f"interface/eventwindow.gui: в новостях отсутствует {want} "
+                        "-- текст рисуется чёрным на тёмном фоне")
+            for bad in ('font = "hoi4_typewriter22"', 'font = "hoi4_typewriter16"'):
+                if re.search(re.escape(bad) + r'(?![_A-Za-z])', news):
+                    err(f"interface/eventwindow.gui: в EventWindow_News остался {bad} "
+                        "-- чёрный текст на тёмном фоне")
 
     # ------------------------------------------------------------------
     #  Оверрайды «чистых портретов»: из списков командиров и карточек
