@@ -52,6 +52,8 @@ declare -A PEOPLE=(
 	[bogdan_dybets]=Bogdan_Dybets
 	[aleksey_dybets]=Aleksey_Dybets
 	[feodosiy_kozhin]=Feodosiy_Kozhin
+	[lavr_kornilov]=Lavr_Kornilov
+	[mikhail_drozdovsky]=Mikhail_Drozdovsky
 )
 
 # Мастера новаго поколенія (сняты наъ ровномъ свѣтло-сѣромъ фонѣ).
@@ -62,6 +64,7 @@ GREY_BG_MASTERS=(
 	halyna_kuzmenko vsevolod_volin ataman_grigoriev
 	nikolai_skoblin anton_turkul grigory_semyonov
 	bogdan_dybets aleksey_dybets feodosiy_kozhin
+	lavr_kornilov mikhail_drozdovsky
 )
 
 # 1 -- мастер на сером фоне (новое поколение), 0 -- старый студийный.
