@@ -39,6 +39,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VANILLA_TEXTURES = {
     'gfx/interface/goals/shine_overlay.dds',
     'gfx/FX/buttonstate.lua',
+    'gfx//interface//thisisdog.dds',
+    'gfx/interface/pdx_dev_logo_s.dds',
+    'gfx/interface/Loadingscreen_loadingstatus.dds',
+    'gfx/interface/Loadingscreen_loadingtip.dds',
+    'gfx/interface/pdx_int_logo.dds',
+    'gfx/interface/clausewitz_logo.dds',
+    'gfx//interface//LoadingScreen_Progress_2.dds',
+    'gfx//interface//LoadingScreen_Progress_1.dds',
+    'gfx//FX//progress.lua',
 }
 
 ERRORS = []
