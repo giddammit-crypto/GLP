@@ -1,4 +1,13 @@
 spriteTypes = {
+<<<<<<< HEAD
+	# Широкий фон газетного окна новостей (EventWindow_News, 1056x595).
+	# Собран 9-slice'ом из ванильной gfx/interface/event_news_bg.dds
+	# (528x595): левая/правая кромки 160 px сохранены, середина растянута.
+	# Формат как у ванили: несжатый RGBA DDS без мипмапов.
+	spriteType = {
+		name = "GFX_event_news_bg_wide"
+		texturefile = "gfx/interface/event_news_bg_wide.dds"
+=======
 	# Собственный стильный фон газетного окна новостей (EventWindow_News,
 	# 1056x595): тёмная состаренная бумага, золотая ар-нуво рамка с красной
 	# нитью -- ванильная газета больше не используется. Мастер:
@@ -14,5 +23,6 @@ spriteTypes = {
 	spriteType = {
 		name = "GFX_GLP_news_pic_frame"
 		texturefile = "gfx/interface/GLP_news_pic_frame.dds"
+>>>>>>> origin/main
 	}
 }

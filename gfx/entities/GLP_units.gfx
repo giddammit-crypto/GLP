@@ -10,6 +10,8 @@ objectTypes = {
 		file = "gfx/models/units/russian_sword_sabre_holder.mesh"
 	}
 
+<<<<<<< HEAD
+=======
 	# Анархическая пехота: чёрный бушлат RSR_marine из Rise of Russia
 	# (красная звезда/нарукавная полоса перекрашены -- РПА не носила
 	# большевистскую символику). Анимации -- ванильные GER_infantry_rifle_*.
@@ -38,6 +40,7 @@ objectTypes = {
 		animation = { id = "aim_exercise"	type = "GER_infantry_aim_exercise_animation" }
 	}
 
+>>>>>>> origin/main
 	pdxmesh = {
 		name = "GLP_cavalry_mesh"
 		file = "gfx/models/units/DON_cavalry.mesh"
@@ -74,6 +77,10 @@ objectTypes = {
 		animation = { id = "training"			type = "GER_infantry_idle_training_animation" }
 		animation = { id = "jumping_jacks"		type = "GER_infantry_jumping_jacks_animation" }
 		animation = { id = "pushup"			type = "GER_infantry_pushup_animation" }
+<<<<<<< HEAD
+		animation = { id = "guard_rifle"		type = "GER_infantry_guard_rifle_animation" }
+		animation = { id = "aim_exercise"		type = "GER_infantry_aim_exercise_mg_animation" }
+=======
 		animation = { id = "guard_rifle"	type = "GER_infantry_guard_rifle_animation" }
 		animation = { id = "aim_exercise"	type = "GER_infantry_aim_exercise_mg_animation" }
 	}
@@ -119,5 +126,6 @@ objectTypes = {
 		animation = { id = "pushup"			type = "GER_infantry_pushup_animation" }
 		animation = { id = "guard_rifle"	type = "GER_infantry_guard_rifle_animation" }
 		animation = { id = "aim_exercise"	type = "GER_infantry_aim_exercise_animation" }
+>>>>>>> origin/main
 	}
 }

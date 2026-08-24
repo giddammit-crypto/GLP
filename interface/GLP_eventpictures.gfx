@@ -47,6 +47,8 @@ spriteTypes = {
 		name = "GFX_news_event_GLP_madrid_international"
 		texturefile = "gfx/event_pictures/news_event_glp_madrid_international.dds"
 	}
+<<<<<<< HEAD
+=======
 	spriteType = {
 		name = "GFX_news_event_GLP_tachanka"
 		texturefile = "gfx/event_pictures/news_event_glp_tachanka.dds"
@@ -83,4 +85,5 @@ spriteTypes = {
 		name = "GFX_news_event_GLP_war_council"
 		texturefile = "gfx/event_pictures/news_event_glp_war_council.dds"
 	}
+>>>>>>> origin/main
 }

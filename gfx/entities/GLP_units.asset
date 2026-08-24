@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+# Tag-specific cavalry for GLP.
+# Pattern copied from Rise of Russia YR_units_cavalry.asset (DON_* block):
+# explicit pdxmesh + states + attach, no clone of vanilla cavalry_entity.
+=======
 # Tag-specific units for GLP.
 # Pattern copied from Rise of Russia YR_units_cavalry.asset (DON_* block)
 # and vanilla units_infantry.asset (infantry_rifle_entity): explicit
@@ -40,6 +45,7 @@ entity = {
 
 	scale = 0.8
 }
+>>>>>>> origin/main
 
 entity = {
 	name = "GLP_sabre_entity"
@@ -181,6 +187,8 @@ entity = {
 
 	attach = { name = "infantry_unit"	Saddle_Node = "GLP_infantry_2_rider_entity" }
 }
+<<<<<<< HEAD
+=======
 
 # --- Корниловцы (KORN_cavalry: белая форма, фуражка с красным околышем) ---
 # Кластер зеркалит казачий GLP_cavalry_*, только pdxmesh другой.
@@ -289,3 +297,4 @@ entity = {
 
 	scale = 0.8
 }
+>>>>>>> origin/main

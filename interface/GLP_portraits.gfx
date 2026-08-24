@@ -16,8 +16,34 @@ spriteTypes = {
 	spriteType = {
 		name = "GFX_portrait_GLP_nestor_makhno"
 		texturefile = "gfx/leaders/GLP/Portrait_GLP_Nestor_Makhno_large.dds"
+<<<<<<< HEAD
+	
+	# ----------------------------- Лавр Корнилов -----------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_lavr_kornilov"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Lavr_Kornilov_large.dds"
 	}
 	spriteType = {
+		name = "GFX_portrait_GLP_lavr_kornilov_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Lavr_Kornilov.dds"
+	}
+
+	# --------------------------- Михаил Дроздовский ---------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_mikhail_droz"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Mikhail_Droz_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_mikhail_droz_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Mikhail_Droz.dds"
+	}
+
+}
+	spriteType = {
+=======
+	}
+	spriteType = {
+>>>>>>> origin/main
 		name = "GFX_portrait_GLP_nestor_makhno_army"
 		texturefile = "gfx/leaders/GLP/Portrait_GLP_Nestor_Makhno_large.dds"
 	}
@@ -150,6 +176,8 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_grigory_semyonov_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Grigory_Semyonov.dds"
 	}
+<<<<<<< HEAD
+=======
 
 	# ---------------------- Лавр Корнилов (белые добровольцы) ----------------------
 	spriteType = {
@@ -170,4 +198,5 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_mikhail_drozdovsky_small"
 		texturefile = "gfx/leaders/GLP/Portrait_GLP_Mikhail_Drozdovsky.dds"
 	}
+>>>>>>> origin/main
 }
