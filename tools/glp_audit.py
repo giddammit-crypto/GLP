@@ -771,6 +771,94 @@ def check_event_pictures():
             err(f"{rel(p)}: compression {fmt} unsupported")
 
 
+def check_event_pictures_link():
+    """Каждое событие показывает тематическую картинку своего сюжета.
+
+    tools/event_pictures.tsv -- карта 'событие -> GFX'; аудит требует
+    полного совпадения таблицы с событиями, наличия у каждого GFX спрайта
+    в interface/GLP_eventpictures.gfx и текстуры в gfx/event_pictures/,
+    а у собранных картинок -- мастера _src_news_<slug>.jpg (если мастера
+    нет, честно предупреждаем: картинка ждёт перегенерации).
+    """
+    actual = {}
+    for p, body in all_script_text('events').items():
+        for m in re.finditer(r'id\s*=\s*([A-Za-z0-9_.]+).*?picture\s*=\s*(GFX_\w+)',
+                             strip_comments(body), re.S):
+            actual[m.group(1)] = m.group(2)
+
+    expected = {}
+    mapping_path = os.path.join(ROOT, 'tools/event_pictures.tsv')
+    if not os.path.exists(mapping_path):
+        err("tools/event_pictures.tsv отсутствует")
+    else:
+        for line_no, line in enumerate(read(mapping_path).splitlines(), 1):
+            if not line or line.startswith('#'):
+                continue
+            cols = line.split('\t')
+            if len(cols) != 2:
+                err(f"tools/event_pictures.tsv:{line_no}: ожидаются 2 колонки")
+                continue
+            eid, gfx = cols
+            if eid in expected:
+                err(f"tools/event_pictures.tsv:{line_no}: дубль события '{eid}'")
+            expected[eid] = gfx
+            if not gfx.startswith('GFX_news_event_GLP_'):
+                err(f"tools/event_pictures.tsv:{line_no}: '{eid}' -> чужой спрайт "
+                    f"'{gfx}'; новости Гуляйполя используют GFX_news_event_GLP_*")
+
+    for eid in sorted(set(actual) - set(expected)):
+        err(f"tools/event_pictures.tsv: нет строки для события '{eid}'")
+    for eid in sorted(set(expected) - set(actual)):
+        err(f"tools/event_pictures.tsv: лишнее/неизвестное событие '{eid}'")
+    for eid in sorted(set(actual) & set(expected)):
+        if actual[eid] != expected[eid]:
+            err(f"tools/event_pictures.tsv: '{eid}' -> {expected[eid]}, "
+                f"но в events/ указано {actual[eid]}")
+
+    spr_path = os.path.join(ROOT, 'interface/GLP_eventpictures.gfx')
+    spr_body = read(spr_path) if os.path.exists(spr_path) else ''
+    for gfx in sorted(set(expected.values())):
+        if f'"{gfx}"' not in spr_body:
+            err(f"interface/GLP_eventpictures.gfx: нет спрайта '{gfx}'")
+            continue
+        tex = re.search(r'"' + re.escape(gfx) + r'"\s*\n\s*texturefile\s*=\s*"([^"]+)"',
+                        spr_body)
+        if not tex:
+            err(f"interface/GLP_eventpictures.gfx: спрайт '{gfx}' без texturefile")
+            continue
+        dds_path = os.path.join(ROOT, tex.group(1))
+        if not os.path.exists(dds_path):
+            err(f"{tex.group(1)}: текстура спрайта '{gfx}' отсутствует")
+        base = os.path.basename(tex.group(1))
+        m = re.match(r'news_event_(?:GLP_rebirth|glp_(\w+))\.dds', base)
+        slug = 'rebirth' if base == 'news_event_GLP_rebirth.dds' else (m.group(1) if m else None)
+        master = os.path.join(ROOT, f'gfx/event_pictures/_src_news_{slug}.jpg') if slug else None
+        if master and not os.path.exists(master):
+            warn(f"{tex.group(1)}: нет мастера _src_news_{slug}.jpg "
+                 f"-- картинка ещё не перегенерирована в ч/б фото")
+
+    STATS['event_pictures'] = (len(expected), len(expected), len(set(expected.values())))
+
+
+def check_leader_ranks():
+    """У махновцев нет генеральских званий: GENERAL/FIELD_MARSHAL/ADMIRAL
+    в подсказках движка показываются словом «Командир» (RU) / 'Commander' (EN)
+    через переопределение ванильных ключей локализации."""
+    want = {
+        'russian': ('Командир', 'localisation/russian/GLP_ranks_l_russian.yml'),
+        'english': ('Commander', 'localisation/english/GLP_ranks_l_english.yml'),
+    }
+    for lang, (word, rel_p) in want.items():
+        p = os.path.join(ROOT, rel_p)
+        if not os.path.exists(p):
+            err(f"{rel_p} отсутствует -- звания не переопределены на '{word}'")
+            continue
+        body = read(p)
+        for key in ('GENERAL', 'FIELD_MARSHAL', 'ADMIRAL'):
+            if not re.search(rf'^\s*{key}:0\s+"{re.escape(word)}"', body, re.M):
+                err(f"{rel_p}: ключ {key} должен быть \"{word}\"")
+
+
 def check_idea_icon_geometry():
     """Кастомные иконки идей 60x68 (как ванильные generic_*.dds), советники 65x67."""
     for p in walk('gfx/interface/ideas', ('.dds',)):
@@ -1265,6 +1353,8 @@ def main():
     check_focus_icons()
     check_idea_pictures()
     check_event_pictures()
+    check_event_pictures_link()
+    check_leader_ranks()
     check_idea_icon_geometry()
     check_gui_overrides()
     check_advisor_portraits(defs)
