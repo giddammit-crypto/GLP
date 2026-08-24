@@ -150,4 +150,54 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_grigory_semyonov_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Grigory_Semyonov.dds"
 	}
+
+	# --------------------------- Трофим Вдовиченко --------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_trofim_vdovychenko"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Trofim_Vdovychenko_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_trofim_vdovychenko_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Trofim_Vdovychenko.dds"
+	}
+
+	# ---------------------------- Алексей Марченко --------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_aleksey_marchenko"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Aleksey_Marchenko_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_aleksey_marchenko_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Aleksey_Marchenko.dds"
+	}
+
+	# ---------------------------- Платон Петренко ---------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_platon_petrenko"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Platon_Petrenko_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_platon_petrenko_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Platon_Petrenko.dds"
+	}
+
+	# --------------------------- Василий Куриленко --------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_vasily_kurylenko"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Vasily_Kurylenko_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_vasily_kurylenko_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Vasily_Kurylenko.dds"
+	}
+
+	# ---------------------------- Пётр Гавриленко ---------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_petr_gavrilenko"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Petr_Gavrilenko_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_petr_gavrilenko_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Petr_Gavrilenko.dds"
+	}
 }

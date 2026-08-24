@@ -41,6 +41,11 @@ declare -A PEOPLE=(
 	[aleksey_dybets]=Aleksey_Dybets
 	[bogdan_dybets]=Bogdan_Dybets
 	[feodosiy_kozhin]=Feodosiy_Kozhin
+	[trofim_vdovychenko]=Trofim_Vdovychenko
+	[aleksey_marchenko]=Aleksey_Marchenko
+	[platon_petrenko]=Platon_Petrenko
+	[vasily_kurylenko]=Vasily_Kurylenko
+	[petr_gavrilenko]=Petr_Gavrilenko
 )
 
 # Общая обработка: лёгкое освѣтленіе (ТЗ: «чуть осветли», контрастъ сохранёнъ),

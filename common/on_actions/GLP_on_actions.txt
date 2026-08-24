@@ -33,7 +33,8 @@ on_actions = {
 				#  детерминирован: <TAG>_<token_base>. Каждый retire обёрнут
 				#  в has_character (документированный триггер 1.11+), поэтому
 				#  отсутствие персонажа (нет DLC/другая версия) не даёт ошибок.
-				#  У Гуляйполя остаются только собственные 11 персонажей.
+				#  У Гуляйполя остаются только собственные 16 персонажей
+				#  (плюс союзные военные миссии и белые эмигранты из фокусов).
 				# ----------------------------------------------------------
 				if = { limit = { has_character = GLP_generic_communist_revolutionary }	retire_character = GLP_generic_communist_revolutionary }
 				if = { limit = { has_character = GLP_generic_democratic_reformer }		retire_character = GLP_generic_democratic_reformer }
