@@ -14,10 +14,11 @@ Checks performed:
      "scenario fails to load / checksum" crash source).
   5. Sprite integrity: every GFX_* referenced by script is defined,
      every texturefile on a spriteType exists on disk.
-  6. Portrait/event/idea/loading-panel DDS geometry, compression and alpha.
+  6. Portrait/event/idea DDS geometry, compression and alpha.
   7. Every national spirit uses a thematic GFX_idea_GLP_* icon and exactly
      matches tools/idea_pictures.tsv.
-  8. Loading quote geometry/font (+200 px from centre) and continuous-focus
+  8. Loading tip panel is the stock vanilla one (CENTER_DOWN geometry,
+     loadscreen_tip font; no custom centrepiece) and the continuous-focus
      palette centring/safe gap below the focus tree.
   9. Custom cavalry/cossack models from Rise of Russia must be present
      (GLP_units.*, DON_cavalry, sabre, sabre anims) and wired as
@@ -790,29 +791,46 @@ def check_gui_overrides():
         if 'GFX_loadingtip_bg' not in body or 'bg_load_screen' not in body:
             err("interface/load_screen.gui: нет ванильной плашки bg_load_screen / GFX_loadingtip_bg")
 
-        # Окно 180 px начинается на +110 от центра; текстовая область имеет
-        # y=20, h=140. Следовательно, центр текста: 110+20+70 = +200 px.
+        # Панель цитат -- точная ванильная геометрия базовой игры:
+        # окно привязано к низу экрана (CENTER_DOWN), металлическая плашка
+        # в {-700, -147}, текстовая область {-450, -157} 900x200 со шрифтом
+        # loadscreen_tip. Движок кладёт сюда LOADING_TIP_*, которые у нас
+        # полностью перекрыты своими цитатами (см. check_loading_tips).
         required = (
-            'position = { x = -512 y = 110 }',
-            'size = { x = 1024 y = 180 }',
-            'Orientation = CENTER',
-            'spriteType = "GFX_GLP_loading_tip_journal_bg"',
-            'position = { x = 40 y = 20 }',
-            'font = "hoi4_typewriter22"',
-            'maxWidth = 944',
-            'maxHeight = 140',
+            'Orientation = "CENTER_DOWN"',
+            'size = { x = 1024 y = 200 }',
+            'position = { x = -700 y = -147 }',
+            'spriteType = "GFX_loadingtip_bg"',
+            'position = { x = -450 y = -157 }',
+            'font = "loadscreen_tip"',
+            'maxWidth = 900',
+            'maxHeight = 200',
+            'vertical_alignment = center',
         )
         for token in required:
             if token not in body:
-                err(f"interface/load_screen.gui: нарушена спецификация цитаты -> {token}")
+                err(f"interface/load_screen.gui: нарушена ванильная спецификация цитаты -> {token}")
+
+        # Центральной кастомной панели больше не существует.
+        for token in ('journal_bg', 'GFX_GLP_loading_tip_journal_bg',
+                      'Orientation = CENTER\n', 'hoi4_typewriter22'):
+            if token in body:
+                err(f"interface/load_screen.gui: найден элемент удалённой "
+                    f"центральной панели -> {token.strip()}")
+
+    gfx_body = strip_comments(read(os.path.join(ROOT, 'interface/load_screen.gfx')))
+    if 'GFX_GLP_loading_tip_journal_bg' in gfx_body:
+        err("interface/load_screen.gfx: спрайт GFX_GLP_loading_tip_journal_bg "
+            "должен быть удалён вместе с центральной панелью")
 
     panel = os.path.join(ROOT, 'gfx/interface/loading_tip_journal_bg.dds')
-    info = dds_info(panel) if os.path.exists(panel) else None
-    if info is None:
-        err("gfx/interface/loading_tip_journal_bg.dds: отсутствует/не является DDS")
-    elif info[:2] != (1024, 180):
-        err(f"gfx/interface/loading_tip_journal_bg.dds: {info[0]}x{info[1]}, "
-            "ожидается 1024x180")
+    if os.path.exists(panel):
+        err("gfx/interface/loading_tip_journal_bg.dds: текстура удалённой "
+            "центральной подложки должна отсутствовать")
+    script = os.path.join(ROOT, 'tools/build_loading_tip_bg.sh')
+    if os.path.exists(script):
+        err("tools/build_loading_tip_bg.sh: скрипт сборки удалённой "
+            "центральной подложки должен отсутствовать")
 
     if os.path.exists(os.path.join(ROOT, 'interface/loadingscreen.gui')):
         err("interface/loadingscreen.gui: пустой файл с неванильным именем -- удалить")
