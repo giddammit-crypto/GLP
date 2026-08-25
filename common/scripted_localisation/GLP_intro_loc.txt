@@ -1,0 +1,15 @@
+# Гуляй-Поле — динамические подписи элементов кинематографической заставки.
+# Кнопка переключения режима меняет текст в зависимости от того, какой
+# режим сейчас активен (кино-заставка / ручное чтение локализованного текста).
+
+defined_text = {
+	name = GULYAIPOLE_TOGGLE_MODE_DYNAMIC
+	text = {
+		localisation_key = GULYAIPOLE_TOGGLE_TO_CRAWL
+		trigger = { has_country_flag = glp_intro_manual_mode }
+	}
+	text = {
+		localisation_key = GULYAIPOLE_TOGGLE_TO_TEXT
+		trigger = { always = yes }
+	}
+}
