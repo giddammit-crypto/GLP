@@ -61,15 +61,20 @@ spriteTypes = {
         texturefile = "gfx/interface/intro/gulyaipole_cavalry.dds"
     }
 
-    # Кинематографический автоскролл текста снизу вверх (звёздная сага / титры).
+    # Кинематографический автоскролл текста снизу вверх (титры).
     # base  — полностью прозрачная подложка 310x525 (DXT5), чтобы под иконой
     #         просвечивала архивная фактура окна, а не белый квадрат.
-    # mask  — вертикальный альфа-градиент: текст плавно всплывает снизу и
-    #         растворяется сверху (DXT5 с альфой).
-    # crawl — длинная лента 310x2048 с золотым/кремовым текстом (DXT5).
-    # animationrotation = 0.0 задает вертикальное направление скролла
-    # (-90.0 в ванили — диагональный блик для иконок фокусов, он крутил
-    # текст вбок и был причиной «технических слов» вместо титров).
+    # mask  — БЕЛЫЙ вертикальный градиент в RGB-каналах (DXT5, альфа=255).
+    #         Движок Clausewitz маскирует анимацию по яркости RGB, альфа
+    #         маски игнорируется: чёрная маска (как была здесь раньше)
+    #         полностью скрывала титры — «нет кинематографического текста».
+    # crawl — лента 310x4096 с кремовым текстом (DXT5), заполненная от
+    #         верхнего края (генератор tools/render_intro_crawl.py берёт
+    #         текст прямо из локализации GULYAIPOLE_EPIC_INTRO_TEXT).
+    # animationrotation = 0.0 — глифы строго вертикально (не повёрнуты);
+    # animationlooping = yes — титры идут по кругу: окно можно открыть
+    #         повторно (решение «Пересмотреть вступление») и текст всегда
+    #         виден, а не застывает пустым кадром после первого прохода.
     spriteType = {
         name = "GFX_intro_text_crawl"
         texturefile = "gfx/interface/intro/gulyaipole_text_base.dds"
@@ -78,7 +83,7 @@ spriteTypes = {
             animationmaskfile = "gfx/interface/intro/gulyaipole_text_mask.dds"
             animationtexturefile = "gfx/interface/intro/gulyaipole_text_crawl.dds"
             animationrotation = 0.0
-            animationlooping = no
+            animationlooping = yes
             animationtime = 165.0
             animationdelay = 0.0
             animationblendmode = "add"

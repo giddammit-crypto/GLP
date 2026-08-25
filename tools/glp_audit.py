@@ -534,7 +534,7 @@ def check_loading_tips():
     """
     ALLOWED_SIGNS = ('М. А. Бакунинъ', 'П. А. Кропоткинъ', 'П.-Ж. Прудонъ',
                      'Э. Гольдманъ', 'Н. И. Махно', 'В. М. Волинъ',
-                     'П. А. Аршиновъ', 'Декларація РПА', 'Девизъ тачанки',
+                     'П. А. Аршиновъ', 'Декларация РПА', 'Девизъ тачанки',
                      'Девизъ анархистовъ', 'Mikhail Bakunin', 'Peter Kropotkin',
                      'Pierre-Joseph Proudhon', 'Emma Goldman', 'Nestor Makhno',
                      'V. M. Voline', 'Peter Arshinov', 'RIAU Declaration',
@@ -1596,6 +1596,121 @@ def check_cinematic_intro_voice():
         err('intro voice: music и soundeffect используют одно имя gulyaipole_intro_voice')
 
 
+# --------------------------------------------- cinematic intro regression guards
+# Буквы дореволюционной/украинской кириллицы, которых НЕТ в атласе шрифтов
+# HOI4: движок рисует вместо них «?» (классические «?????????» в текстах).
+FORBIDDEN_FONT_CHARS = 'ѣѢіІїЇєЄґҐѳѲѵѴѣ́І́'
+
+
+def check_loc_font_charset():
+    """Значения локализации обязаны состоять из символов атласа шрифтов HOI4.
+
+    Раньше в цитатах загрузки и текстах мода использовалась дореформенная
+    орфография (ѣ, і) — в игре все такие буквы отображались знаками «?».
+    Твёрдый знак «ъ» в атласе есть и сохранён ради колорита.
+    """
+    pat = re.compile('[' + re.escape(FORBIDDEN_FONT_CHARS) + ']')
+    for lang in ('russian', 'english'):
+        for fp in walk(f'localisation/{lang}', ('.yml',)):
+            for i, line in enumerate(read(fp).split('\n'), 1):
+                m = re.match(r'^\s*[A-Za-z0-9_.\-]+:\d*\s*"(.*)"', line)
+                if m and pat.search(m.group(1)):
+                    bad = sorted(set(pat.findall(m.group(1))))
+                    err(f"{rel(fp)}:{i}: символы {' '.join(bad)} отсутствуют "
+                        f"в атласе шрифтов HOI4 и покажутся «?»")
+    # descriptor.mod рендерит только лаунчер (Chromium), но приводим к тому
+    # же алфавиту для единообразия.
+    dmod = read(os.path.join(ROOT, 'descriptor.mod'))
+    if pat.search(dmod):
+        warn('descriptor.mod: остались символы вне атласа HOI4 (ѣ/і) — '
+             'приведите имя мода к современному алфавиту')
+
+
+def check_intro_gui_keys(loc):
+    """Каждый text=/buttonText= ключ окна заставки должен быть в RU и EN loc.
+
+    Отсутствующий ключ движок печатает на элементе как есть — на заставке
+    была видна «техническая» надпись GULYAIPOLE_TOGGLE_MODE_DYNAMIC.
+    """
+    gui_path = os.path.join(ROOT, 'interface/gulyaipole_intro_custom.gui')
+    text = strip_comments(read(gui_path))
+    keys = set()
+    for m in re.finditer(r'^\s*text\s*=\s*"([^"]+)"', text, re.M):
+        keys.add(m.group(1))
+    for m in re.finditer(r'buttonText\s*=\s*"([^"]+)"', text):
+        keys.add(m.group(1))
+    for key in sorted(keys):
+        if key.startswith(('[', '$')) or not re.match(r'^[A-Z0-9_]+$', key):
+            continue  # динамические команды и литералы
+        for lang in ('russian', 'english'):
+            if key not in loc.get(lang, {}):
+                err(f"interface/gulyaipole_intro_custom.gui: ключ '{key}' "
+                    f"отсутствует в {lang} локализации — увидите техническое имя")
+    # defined_text нельзя использовать как buttonText без записи в .yml
+    for fp in walk('common/scripted_localisation', ('.txt',)):
+        for m in re.finditer(r'name\s*=\s*([A-Za-z0-9_.]+)', read(fp)):
+            name = m.group(1)
+            if name in keys:
+                err(f"defined_text '{name}' использован как прямой ключ GUI; "
+                    f"нужна запись в .yml или две кнопки с обычными ключами")
+
+
+def _im_mean(path, ops):
+    import shutil, subprocess
+    if not shutil.which('convert'):
+        return None
+    try:
+        o = subprocess.run(['convert', path] + ops + ['-format', '%[fx:mean]', 'info:'],
+                           capture_output=True, text=True, timeout=60)
+        return float(o.stdout.strip())
+    except Exception:
+        return None
+
+
+def check_intro_crawl_textures():
+    """Текстуры кинематографической ленты титров обязаны быть рабочими.
+
+    1. Маска должна быть БЕЛОЙ по яркости RGB: движок Clausewitz маскирует
+       анимацию по RGB, альфу маски он не читает. Чёрная маска (градиент
+       только в альфе) полностью скрывала титры.
+    2. Лента 310x4096 должна нести текст и в верхней, и в нижней четверти:
+       раньше текст начинался с y~1900, и половина прохода анимации окно
+       стояло пустым («нет кинематографического текста»).
+    """
+    intro = 'gfx/interface/intro'
+    crawl = os.path.join(ROOT, intro, 'gulyaipole_text_crawl.dds')
+    mask = os.path.join(ROOT, intro, 'gulyaipole_text_mask.dds')
+    for p, want in ((crawl, (310, 4096)), (mask, (310, 525))):
+        info = dds_info(p)
+        if not info:
+            err(f"{rel(p)}: не читается DDS-заголовок")
+        elif (info[0], info[1]) != want:
+            err(f"{rel(p)}: размер {info[0]}x{info[1]}, ожидается {want[0]}x{want[1]}")
+
+    m = _im_mean(mask, ['-alpha', 'off', '-colorspace', 'Gray'])
+    if m is None:
+        warn('ImageMagick недоступен — проверка маски ленты пропущена')
+    elif m < 0.5:
+        err(f"{rel(mask)}: маска тёмная (яркость {m:.2f}) — движок маскирует "
+            f"по RGB, титры будут невидимы; нужна белая маска (tools/render_intro_crawl.py)")
+
+    for label, crop in (('верхней', '310x1024+0+0'), ('нижней', '310x1024+0+3072')):
+        v = _im_mean(crawl, ['-crop', crop, '+repage', '-alpha', 'extract',
+                             '-threshold', '50%'])
+        if v is None:
+            warn('ImageMagick недоступен — проверка ленты пропущена')
+            break
+        elif v < 0.005:
+            err(f"{rel(crawl)}: в {label} четверти ленты нет текста — окно "
+                f"часть цикла прокрутки будет пустым")
+
+    for need in ('tools/render_intro_crawl.py',
+                 'tools/_gfx_src/gulyaipole_text_crawl_v3.png',
+                 'tools/_gfx_src/gulyaipole_text_mask_v3.png'):
+        if not os.path.exists(os.path.join(ROOT, need)):
+            err(f"{need} отсутствует — пересборка ленты невоспроизводима")
+
+
 def main():
     check_syntax()
     loc = load_loc()
@@ -1607,6 +1722,9 @@ def main():
     check_loading_tips()
     check_music()
     check_cinematic_intro_voice()
+    check_loc_font_charset()
+    check_intro_gui_keys(loc)
+    check_intro_crawl_textures()
     check_fonts()
     check_bookmarks(loc)
     check_opinions(loc)

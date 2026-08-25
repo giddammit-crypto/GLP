@@ -11,6 +11,5 @@
  GULYAIPOLE_REPLAY_INTRO_TT:0 "Opens §Ygulyaipole_cinematic_intro_window§! with scrollable text and §Yvoice.ogg§! voiceover."
  gulyaipole_intro:0 "Gulyaypole - Intro"
  gulyaipole_intro_voice:0 "Gulyaypole - Intro Voice"
- GULYAIPOLE_TOGGLE_MODE_BTN:0 "Text / Auto-Scroll"
- GULYAIPOLE_TOGGLE_TO_TEXT:0 "Text / Intro"
+ GULYAIPOLE_TOGGLE_TO_TEXT:0 "Read Text"
  GULYAIPOLE_TOGGLE_TO_CRAWL:0 "Cinematic intro"
