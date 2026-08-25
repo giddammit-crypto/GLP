@@ -231,6 +231,94 @@ GLP_kontrrazvedka_and_order = {
 	}
 }
 
+GLP_occupation_soviets = {
+	GLP_found_kiev_free_soviet = {
+		icon = generic_national_unity
+		cost = 40
+		days_remove = 60
+		fire_only_once = yes
+		visible = { 202 = { is_controlled_by = ROOT } }
+		available = { 202 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			202 = { add_compliance = 12 add_resistance = -10 }
+			add_timed_idea = { idea = GLP_idea_occupied_kiev_soviet days = 240 }
+			add_political_power = -15
+		}
+		ai_will_do = { factor = 2 }
+	}
+	GLP_found_odessa_port_soviet = {
+		icon = generic_industry
+		cost = 35
+		days_remove = 45
+		fire_only_once = yes
+		visible = { 192 = { is_controlled_by = ROOT } }
+		available = { 192 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			192 = { add_compliance = 10 add_resistance = -8 }
+			add_equipment_to_stockpile = { type = convoy amount = 5 producer = GLP }
+			navy_experience = 10
+		}
+		ai_will_do = { factor = 1 }
+	}
+	GLP_found_rostov_raid_soviet = {
+		icon = generic_cavalry
+		cost = 40
+		days_remove = 45
+		fire_only_once = yes
+		visible = { 218 = { is_controlled_by = ROOT } }
+		available = { 218 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			218 = { add_compliance = 8 add_resistance = -6 }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = 400 producer = GLP }
+			army_experience = 10
+		}
+		ai_will_do = { factor = 1 }
+	}
+	GLP_found_kuban_cossack_soviet = {
+		icon = generic_cavalry
+		cost = 40
+		days_remove = 45
+		fire_only_once = yes
+		visible = { 234 = { is_controlled_by = ROOT } }
+		available = { 234 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			234 = { add_compliance = 10 }
+			add_manpower = 4000
+			add_stability = -0.02
+		}
+		ai_will_do = { factor = 1 }
+	}
+	GLP_steppe_raid_on_border = {
+		icon = generic_assassination
+		cost = 30
+		days_re_enable = 90
+		visible = {
+			has_war = yes
+			has_completed_focus = GLP_partisan_warfare_doctrine
+		}
+		available = {
+			has_war = yes
+			has_manpower > 2000
+		}
+		complete_effect = {
+			add_manpower = -1500
+			army_experience = 15
+			add_command_power = 10
+			random_enemy_country = {
+				add_timed_idea = { idea = GLP_idea_partisan_camps_timed days = 60 }
+			}
+			if = {
+				limit = { random = 35 }
+				add_equipment_to_stockpile = { type = infantry_equipment amount = 200 producer = GLP }
+			}
+			else = {
+				add_stability = -0.02
+			}
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
+
 GLP_reconciliation_with_past = {
 	GLP_equip_volunteer_shock_brigades = {
 		icon = generic_prepare_civil_war

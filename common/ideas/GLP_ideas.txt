@@ -1351,5 +1351,27 @@ ideas = {
 				out_of_supply_factor = -0.10
 			}
 		}
+
+		GLP_idea_makhno_illness = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_health
+			modifier = {
+				stability_factor = -0.08
+				political_power_factor = -0.15
+				army_morale_factor = -0.05
+			}
+		}
+
+		GLP_idea_occupied_kiev_soviet = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_free_syndicates_and_soviets
+			modifier = {
+				compliance_growth = 0.08
+				resistance_target = -0.08
+				consumer_goods_factor = 0.02
+			}
+		}
 	}
 }

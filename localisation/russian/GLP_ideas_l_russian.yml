@@ -227,3 +227,8 @@
  GLP_idea_moscow_grain_tribute_desc:0 "Коммуны отгружают зерно в обмен на отсрочку войны. Тыл голодает, советы ропщут."
  GLP_idea_partisan_camps_timed:0 "Лагеря в плавнях"
  GLP_idea_partisan_camps_timed_desc:0 "Временные базы в днепровских камышах прикрывают тыл и кормят разведку."
+
+ GLP_idea_makhno_illness:0 "Болезнь Батьки"
+ GLP_idea_makhno_illness_desc:0 "Туберкулёз валит Махно. Советы спорят, штаб теряет нить."
+ GLP_idea_occupied_kiev_soviet:0 "Киевский вольный совет"
+ GLP_idea_occupied_kiev_soviet_desc:0 "В занятом Киеве собирают совет — повиновение растёт ценой хлеба."

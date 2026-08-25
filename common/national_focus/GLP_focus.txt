@@ -110,7 +110,7 @@ focus_tree = {
 		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
-			add_ideas = GLP_idea_steppe_lightning
+			add_timed_idea = { idea = GLP_idea_steppe_lightning days = 540 }
 		}
 	}
 
@@ -160,7 +160,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 8 }
 		completion_reward = {
-			add_ideas = GLP_idea_rapid_rail_deployment
+			if = {
+				limit = { has_idea = GLP_idea_armored_train_production }
+				swap_ideas = {
+					remove_idea = GLP_idea_armored_train_production
+					add_idea = GLP_idea_rapid_rail_deployment
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_rapid_rail_deployment
+			}
 			add_political_power = -25
 		}
 	}
@@ -198,7 +207,16 @@ focus_tree = {
 		cost = 7
 		ai_will_do = { factor = 7 }
 		completion_reward = {
-			add_ideas = GLP_idea_steel_ram
+			if = {
+				limit = { has_idea = GLP_idea_rapid_rail_deployment }
+				swap_ideas = {
+					remove_idea = GLP_idea_rapid_rail_deployment
+					add_idea = GLP_idea_steel_ram
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_steel_ram
+			}
 			add_war_support = 0.10
 			add_political_power = -30
 		}
@@ -323,7 +341,7 @@ focus_tree = {
 		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
-			add_ideas = GLP_idea_decentralized_workshops
+			add_timed_idea = { idea = GLP_idea_decentralized_workshops days = 480 }
 		}
 	}
 
@@ -450,7 +468,16 @@ focus_tree = {
 		cost = 5
 		ai_will_do = { factor = 8 }
 		completion_reward = {
-			add_ideas = GLP_idea_anti_cheka_vigilance
+			if = {
+				limit = { has_idea = GLP_idea_kontrrazvedka_surveillance }
+				swap_ideas = {
+					remove_idea = GLP_idea_kontrrazvedka_surveillance
+					add_idea = GLP_idea_anti_cheka_vigilance
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_anti_cheka_vigilance
+			}
 		}
 	}
 
@@ -466,6 +493,7 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.12
 			add_ideas = GLP_idea_libertarian_courts
+			country_event = { id = glp_crisis.20 days = 20 }
 		}
 	}
 
@@ -480,6 +508,7 @@ focus_tree = {
 		ai_will_do = { factor = 4 }
 		completion_reward = {
 			add_ideas = GLP_idea_black_terror
+			country_event = { id = glp_crisis.20 days = 20 }
 			add_manpower = -5000 # Debuff: Жесткие чистки
 		}
 	}
@@ -493,7 +522,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 8 }
 		completion_reward = {
-			add_ideas = GLP_idea_zadov_network
+			if = {
+				limit = { has_idea = GLP_idea_libertarian_courts }
+				swap_ideas = {
+					remove_idea = GLP_idea_libertarian_courts
+					add_idea = GLP_idea_zadov_network
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_zadov_network
+			}
 		}
 	}
 
@@ -506,7 +544,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_war_support = 0.25
+			add_war_support = 0.10
 			add_political_power = -50
 		}
 	}
@@ -520,7 +558,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 7 }
 		completion_reward = {
-			add_ideas = GLP_idea_militia_patrols
+			if = {
+				limit = { has_idea = GLP_idea_zadov_network }
+				swap_ideas = {
+					remove_idea = GLP_idea_zadov_network
+					add_idea = GLP_idea_militia_patrols
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_militia_patrols
+			}
 		}
 	}
 
@@ -707,7 +754,7 @@ focus_tree = {
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			army_experience = 50
-			add_ideas = GLP_prussian_drill_discipline
+			add_timed_idea = { idea = GLP_prussian_drill_discipline days = 730 }
 		}
 	}
 
@@ -737,7 +784,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 7 }
 		completion_reward = {
-			add_ideas = GLP_eurasian_red_black_vanguard
+			add_timed_idea = { idea = GLP_eurasian_red_black_vanguard days = 730 }
 		}
 	}
 
@@ -750,7 +797,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 7 }
 		completion_reward = {
-			add_ideas = GLP_german_axis_synergy
+			add_timed_idea = { idea = GLP_german_axis_synergy days = 730 }
 		}
 	}
 
@@ -763,7 +810,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 7 }
 		completion_reward = {
-			add_ideas = GLP_anglo_free_bastion
+			add_timed_idea = { idea = GLP_anglo_free_bastion days = 730 }
 		}
 	}
 
@@ -818,7 +865,16 @@ focus_tree = {
 				set_technology = { gw_artillery = 1 popup = no }
 			}
 			add_timed_idea = { idea = GLP_idea_white_emigre_officers days = 730 }
-			add_ideas = GLP_idea_white_volunteers
+			if = {
+				limit = { has_idea = GLP_idea_free_will }
+				swap_ideas = {
+					remove_idea = GLP_idea_free_will
+					add_idea = GLP_idea_white_volunteers
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_white_volunteers
+			}
 			recruit_character = GLP_nikolai_skoblin
 			recruit_character = GLP_anton_turkul
 			recruit_character = GLP_grigory_semyonov
@@ -827,6 +883,7 @@ focus_tree = {
 			army_experience = 15
 			news_event = { id = glp_news.7 days = 1 }
 			news_event = { id = glp_white.1 days = 45 random_days = 15 }
+			country_event = { id = glp_crisis.40 days = 120 random_days = 30 }
 		}
 	}
 
@@ -839,7 +896,16 @@ focus_tree = {
 		cost = 5
 		ai_will_do = { factor = 9 }
 		completion_reward = {
-			add_ideas = GLP_idea_international_brigades
+			if = {
+				limit = { has_idea = GLP_idea_white_volunteers }
+				swap_ideas = {
+					remove_idea = GLP_idea_white_volunteers
+					add_idea = GLP_idea_international_brigades
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_international_brigades
+			}
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1500 producer = GLP }
 			add_manpower = 6000
 		}
@@ -854,7 +920,16 @@ focus_tree = {
 		cost = 7
 		ai_will_do = { factor = 8 }
 		completion_reward = {
-			add_ideas = GLP_idea_black_cross_aid
+			if = {
+				limit = { has_idea = GLP_idea_international_brigades }
+				swap_ideas = {
+					remove_idea = GLP_idea_international_brigades
+					add_idea = GLP_idea_black_cross_aid
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_black_cross_aid
+			}
 			random_owned_controlled_state = {
 				limit = { is_core_of = GLP }
 				add_extra_state_shared_building_slots = 2
@@ -873,7 +948,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 8 }
 		completion_reward = {
-			add_ideas = GLP_idea_makhno_myth
+			if = {
+				limit = { has_idea = GLP_idea_black_cross_aid }
+				swap_ideas = {
+					remove_idea = GLP_idea_black_cross_aid
+					add_idea = GLP_idea_makhno_myth
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_makhno_myth
+			}
 			add_war_support = 0.15
 			add_stability = 0.10
 		}
@@ -956,7 +1040,7 @@ focus_tree = {
 		ai_will_do = { factor = 8 }
 		completion_reward = {
 			add_stability = 0.10
-			add_ideas = GLP_idea_land_to_tillers
+			add_timed_idea = { idea = GLP_idea_land_to_tillers days = 730 }
 		}
 	}
 
@@ -983,7 +1067,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 7 }
 		completion_reward = {
-			add_ideas = GLP_idea_rural_healthcare
+			add_timed_idea = { idea = GLP_idea_rural_healthcare days = 540 }
 		}
 	}
 
@@ -1096,7 +1180,16 @@ focus_tree = {
 		cost = 7
 		ai_will_do = { factor = 8 }
 		completion_reward = {
-			add_ideas = GLP_idea_black_international
+			if = {
+				limit = { has_idea = GLP_idea_federation_of_free_soviets }
+				swap_ideas = {
+					remove_idea = GLP_idea_federation_of_free_soviets
+					add_idea = GLP_idea_black_international
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_black_international
+			}
 			add_political_power = -40
 			news_event = { id = glp_news.4 days = 2 }
 		}
@@ -1111,7 +1204,16 @@ focus_tree = {
 		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_total_militarization
+			if = {
+				limit = { has_idea = GLP_idea_military_junta }
+				swap_ideas = {
+					remove_idea = GLP_idea_military_junta
+					add_idea = GLP_idea_total_militarization
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_total_militarization
+			}
 			random_owned_controlled_state = {
 				prioritize = { 227 }
 				add_extra_state_shared_building_slots = 2
@@ -1148,7 +1250,7 @@ focus_tree = {
 		cost = 7
 		ai_will_do = { factor = 7 }
 		completion_reward = {
-			add_ideas = GLP_idea_black_crescent
+			add_timed_idea = { idea = GLP_idea_black_crescent days = 400 }
 			add_war_support = 0.15
 		}
 	}
@@ -1163,7 +1265,16 @@ focus_tree = {
 		ai_will_do = { factor = 6 }
 		completion_reward = {
 			add_war_support = 0.20
-			add_ideas = GLP_idea_continental_crusade
+			if = {
+				limit = { has_idea = GLP_idea_total_militarization }
+				swap_ideas = {
+					remove_idea = GLP_idea_total_militarization
+					add_idea = GLP_idea_continental_crusade
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_continental_crusade
+			}
 		}
 	}
 
@@ -1176,7 +1287,16 @@ focus_tree = {
 		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_world_anarchy
+			if = {
+				limit = { has_idea = GLP_idea_black_international }
+				swap_ideas = {
+					remove_idea = GLP_idea_black_international
+					add_idea = GLP_idea_world_anarchy
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_world_anarchy
+			}
 			add_war_support = 0.20
 			add_stability = -0.08
 		}
@@ -1193,7 +1313,16 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.20
 			add_political_power = 200
-			add_ideas = GLP_idea_triumph_of_liberty
+			if = {
+				limit = { has_idea = GLP_idea_world_anarchy }
+				swap_ideas = {
+					remove_idea = GLP_idea_world_anarchy
+					add_idea = GLP_idea_triumph_of_liberty
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_triumph_of_liberty
+			}
 		}
 	}
 
@@ -1310,7 +1439,16 @@ focus_tree = {
 		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_merchant_raiders
+			if = {
+				limit = { has_idea = GLP_idea_black_sea_dominance }
+				swap_ideas = {
+					remove_idea = GLP_idea_black_sea_dominance
+					add_idea = GLP_idea_merchant_raiders
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_merchant_raiders
+			}
 			137 = {
 				add_building_construction = { type = dockyard level = 2 instant_build = yes }
 			}
@@ -1345,7 +1483,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 6 }
 		completion_reward = {
-			add_ideas = GLP_idea_glory_of_the_sea
+			if = {
+				limit = { has_idea = GLP_idea_merchant_raiders }
+				swap_ideas = {
+					remove_idea = GLP_idea_merchant_raiders
+					add_idea = GLP_idea_glory_of_the_sea
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_glory_of_the_sea
+			}
 			navy_experience = 50
 			add_war_support = 0.08
 			add_political_power = -40
@@ -1362,6 +1509,7 @@ focus_tree = {
 		x = 12
 		y = 6
 		cost = 10
+		available = { controls_state = 227 }
 		ai_will_do = { factor = 7 }
 		completion_reward = {
 			air_experience = 25
@@ -1490,7 +1638,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 6 }
 		completion_reward = {
-			add_ideas = GLP_idea_air_mastery
+			if = {
+				limit = { has_idea = GLP_idea_air_recon }
+				swap_ideas = {
+					remove_idea = GLP_idea_air_recon
+					add_idea = GLP_idea_air_mastery
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_air_mastery
+			}
 			air_experience = 50
 			add_war_support = 0.08
 			add_political_power = -40
@@ -1694,7 +1851,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_cinema_propaganda
+			if = {
+				limit = { has_idea = GLP_idea_worker_faculties }
+				swap_ideas = {
+					remove_idea = GLP_idea_worker_faculties
+					add_idea = GLP_idea_cinema_propaganda
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_cinema_propaganda
+			}
 			add_political_power = 40
 		}
 	}
@@ -1724,7 +1890,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_sports_militarization
+			if = {
+				limit = { has_idea = GLP_idea_cinema_propaganda }
+				swap_ideas = {
+					remove_idea = GLP_idea_cinema_propaganda
+					add_idea = GLP_idea_sports_militarization
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_sports_militarization
+			}
 			add_war_support = 0.05
 			add_manpower = 5000
 		}
@@ -1754,7 +1929,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_cultural_enlightenment
+			if = {
+				limit = { has_idea = GLP_idea_sports_militarization }
+				swap_ideas = {
+					remove_idea = GLP_idea_sports_militarization
+					add_idea = GLP_idea_cultural_enlightenment
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_cultural_enlightenment
+			}
 			add_stability = 0.05
 			add_political_power = 50
 		}
@@ -1770,7 +1954,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_new_culture
+			if = {
+				limit = { has_idea = GLP_idea_cultural_enlightenment }
+				swap_ideas = {
+					remove_idea = GLP_idea_cultural_enlightenment
+					add_idea = GLP_idea_new_culture
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_new_culture
+			}
 			add_stability = 0.15
 			add_political_power = 100
 			add_tech_bonus = { name = glp_lab_bonus bonus = 0.50 uses = 1 category = industry }
@@ -1818,7 +2011,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 6 }
 		completion_reward = {
-			add_ideas = GLP_idea_coded_comms
+			add_timed_idea = { idea = GLP_idea_coded_comms days = 480 }
 			add_political_power = 20
 		}
 	}
@@ -1847,7 +2040,16 @@ focus_tree = {
 		cost = 5
 		ai_will_do = { factor = 6 }
 		completion_reward = {
-			add_ideas = GLP_idea_partisan_cells
+			if = {
+				limit = { has_idea = GLP_idea_underground_railway }
+				swap_ideas = {
+					remove_idea = GLP_idea_underground_railway
+					add_idea = GLP_idea_partisan_cells
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_partisan_cells
+			}
 			add_manpower = 8000
 			add_war_support = 0.03
 		}
@@ -1878,7 +2080,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_double_agents
+			add_timed_idea = { idea = GLP_idea_double_agents days = 540 }
 			add_political_power = 50
 			add_stability = -0.03
 		}
@@ -1893,7 +2095,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_resistance_coordination
+			add_timed_idea = { idea = GLP_idea_resistance_coordination days = 540 }
 			army_experience = 25
 			add_war_support = 0.05
 		}
@@ -1968,7 +2170,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_textile_syndicates
+			add_timed_idea = { idea = GLP_idea_textile_syndicates days = 480 }
 			add_stability = 0.03
 		}
 	}
@@ -1982,7 +2184,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 6 }
 		completion_reward = {
-			add_ideas = GLP_idea_food_processing
+			add_timed_idea = { idea = GLP_idea_food_processing days = 480 }
 			add_stability = 0.05
 			add_manpower = 5000
 		}
@@ -2143,7 +2345,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_agent_networks
+			if = {
+				limit = { has_idea = GLP_idea_cryptanalysis }
+				swap_ideas = {
+					remove_idea = GLP_idea_cryptanalysis
+					add_idea = GLP_idea_agent_networks
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_agent_networks
+			}
 			add_political_power = 30
 			add_stability = -0.02
 		}
@@ -2158,7 +2369,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_disinformation
+			add_timed_idea = { idea = GLP_idea_disinformation days = 365 }
 			add_war_support = 0.05
 			add_political_power = 20
 		}
@@ -2174,7 +2385,16 @@ focus_tree = {
 		cost = 7
 		ai_will_do = { factor = 6 }
 		completion_reward = {
-			add_ideas = GLP_idea_special_ops
+			if = {
+				limit = { has_idea = GLP_idea_agent_networks }
+				swap_ideas = {
+					remove_idea = GLP_idea_agent_networks
+					add_idea = GLP_idea_special_ops
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_special_ops
+			}
 			army_experience = 30
 			add_command_power = 40
 		}
@@ -2189,7 +2409,7 @@ focus_tree = {
 		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_commando_raids
+			add_timed_idea = { idea = GLP_idea_commando_raids days = 365 }
 			army_experience = 20
 			add_war_support = 0.05
 		}
@@ -2204,7 +2424,7 @@ focus_tree = {
 		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_behind_lines
+			add_timed_idea = { idea = GLP_idea_behind_lines days = 365 }
 			add_manpower = 5000
 			add_command_power = 30
 		}
@@ -2276,7 +2496,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_sanitary_battalions
+			add_timed_idea = { idea = GLP_idea_sanitary_battalions days = 400 }
 			add_manpower = 3000
 		}
 	}
@@ -2291,7 +2511,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_hospital_trains
+			if = {
+				limit = { has_idea = GLP_idea_field_hospitals }
+				swap_ideas = {
+					remove_idea = GLP_idea_field_hospitals
+					add_idea = GLP_idea_hospital_trains
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_hospital_trains
+			}
 			add_equipment_to_stockpile = { type = train_equipment amount = 5 producer = GLP }
 		}
 	}
@@ -2305,7 +2534,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_population_growth
+			if = {
+				limit = { has_idea = GLP_idea_hospital_trains }
+				swap_ideas = {
+					remove_idea = GLP_idea_hospital_trains
+					add_idea = GLP_idea_population_growth
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_population_growth
+			}
 			add_manpower = 20000
 			add_stability = 0.05
 		}
@@ -2343,7 +2581,16 @@ focus_tree = {
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_tech_bonus = { name = glp_motor bonus = 1.0 uses = 1 category = motorized_equipment }
-			add_ideas = GLP_idea_motor_transport
+			if = {
+				limit = { has_idea = GLP_idea_steel_ram }
+				swap_ideas = {
+					remove_idea = GLP_idea_steel_ram
+					add_idea = GLP_idea_motor_transport
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_motor_transport
+			}
 		}
 	}
 
@@ -2356,7 +2603,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_supply_depots
+			if = {
+				limit = { has_idea = GLP_idea_motor_transport }
+				swap_ideas = {
+					remove_idea = GLP_idea_motor_transport
+					add_idea = GLP_idea_supply_depots
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_supply_depots
+			}
 			random_owned_controlled_state = {
 				add_building_construction = { type = supply_node level = 1 instant_build = yes }
 			}
@@ -2373,7 +2629,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_logistics_mastery
+			if = {
+				limit = { has_idea = GLP_idea_supply_depots }
+				swap_ideas = {
+					remove_idea = GLP_idea_supply_depots
+					add_idea = GLP_idea_logistics_mastery
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_logistics_mastery
+			}
 			army_experience = 20
 		}
 	}
@@ -2507,7 +2772,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_strategic_reserves
+			add_timed_idea = { idea = GLP_idea_strategic_reserves days = 540 }
 			add_stability = 0.05
 		}
 	}
@@ -2538,7 +2803,16 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_workplace_democracy
+			if = {
+				limit = { has_idea = GLP_idea_factory_committees }
+				swap_ideas = {
+					remove_idea = GLP_idea_factory_committees
+					add_idea = GLP_idea_workplace_democracy
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_workplace_democracy
+			}
 			add_stability = 0.08
 			add_political_power = 40
 		}
@@ -2553,7 +2827,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_productivity_bonuses
+			add_timed_idea = { idea = GLP_idea_productivity_bonuses days = 400 }
 			add_stability = -0.02
 		}
 	}
@@ -2610,7 +2884,16 @@ focus_tree = {
 		cost = 5
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_female_combat
+			if = {
+				limit = { has_idea = GLP_idea_womens_emancipation }
+				swap_ideas = {
+					remove_idea = GLP_idea_womens_emancipation
+					add_idea = GLP_idea_female_combat
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_female_combat
+			}
 			add_manpower = 10000
 			add_war_support = 0.05
 		}
@@ -2641,7 +2924,23 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_gender_equality
+			if = {
+				limit = { has_idea = GLP_idea_female_combat }
+				swap_ideas = {
+					remove_idea = GLP_idea_female_combat
+					add_idea = GLP_idea_gender_equality
+				}
+			}
+			else_if = {
+				limit = { has_idea = GLP_idea_womens_emancipation }
+				swap_ideas = {
+					remove_idea = GLP_idea_womens_emancipation
+					add_idea = GLP_idea_gender_equality
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_gender_equality
+			}
 			add_stability = 0.10
 			add_manpower = 20000
 			add_political_power = 50
@@ -2674,7 +2973,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_horse_breeding
+			add_timed_idea = { idea = GLP_idea_horse_breeding days = 480 }
 			add_manpower = 5000
 		}
 	}
@@ -2771,7 +3070,7 @@ focus_tree = {
 		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_elite_guard
+			add_timed_idea = { idea = GLP_idea_elite_guard days = 480 }
 			army_experience = 25
 			add_political_power = -30
 		}
@@ -2784,10 +3083,21 @@ focus_tree = {
 		prerequisite = { focus = GLP_elite_guard_formations }
 		x = 3
 		y = 18
+		mutually_exclusive = { focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
 		cost = 10
+		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_combined_arms
+			if = {
+				limit = { has_idea = GLP_idea_mass_assault }
+				swap_ideas = {
+					remove_idea = GLP_idea_mass_assault
+					add_idea = GLP_idea_combined_arms
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_combined_arms
+			}
 			army_experience = 50
 			add_war_support = 0.08
 		}
@@ -2855,7 +3165,9 @@ focus_tree = {
 		prerequisite = { focus = GLP_military_production_surge }
 		x = 12
 		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
 		cost = 10
+		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			if = {
@@ -2927,10 +3239,12 @@ focus_tree = {
 		prerequisite = { focus = GLP_persian_revolutionary_aid }
 		x = 20
 		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
 		cost = 5
+		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 4 }
 		completion_reward = {
-			add_ideas = GLP_idea_global_network
+			add_timed_idea = { idea = GLP_idea_global_network days = 730 }
 			add_political_power = 80
 			add_war_support = 0.08
 		}
@@ -2948,7 +3262,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_mechanized_agriculture
+			add_timed_idea = { idea = GLP_idea_mechanized_agriculture days = 540 }
 			add_stability = 0.05
 			add_manpower = 10000
 		}
@@ -2963,7 +3277,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_collective_farming
+			add_timed_idea = { idea = GLP_idea_collective_farming days = 540 }
 			add_stability = 0.05
 			add_political_power = 30
 		}
@@ -2991,7 +3305,9 @@ focus_tree = {
 		prerequisite = { focus = GLP_agricultural_research }
 		x = 28
 		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
 		cost = 10
+		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			if = {
@@ -3037,7 +3353,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_border_security
+			add_timed_idea = { idea = GLP_idea_border_security days = 480 }
 			add_stability = 0.05
 			add_war_support = 0.03
 		}
@@ -3052,7 +3368,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_internal_security
+			add_timed_idea = { idea = GLP_idea_internal_security days = 480 }
 			add_political_power = 50
 			add_stability = 0.05
 		}
@@ -3065,7 +3381,9 @@ focus_tree = {
 		prerequisite = { focus = GLP_internal_security_directorate }
 		x = 36
 		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_economic_miracle focus = GLP_cossack_legacy }
 		cost = 10
+		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			if = {
@@ -3095,7 +3413,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_full_employment
+			add_timed_idea = { idea = GLP_idea_full_employment days = 540 }
 			add_stability = 0.08
 			add_political_power = 40
 		}
@@ -3142,7 +3460,9 @@ focus_tree = {
 		prerequisite = { focus = GLP_infrastructure_modernization }
 		x = 44
 		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_cossack_legacy }
 		cost = 10
+		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			if = {
@@ -3172,7 +3492,7 @@ focus_tree = {
 		cost = 7
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_cossack_officers
+			add_timed_idea = { idea = GLP_idea_cossack_officers days = 480 }
 			army_experience = 30
 			add_political_power = 20
 		}
@@ -3211,7 +3531,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_ideas = GLP_idea_cossack_traditions
+			add_timed_idea = { idea = GLP_idea_cossack_traditions days = 480 }
 			add_stability = 0.08
 			add_war_support = 0.05
 		}
@@ -3224,7 +3544,9 @@ focus_tree = {
 		prerequisite = { focus = GLP_cossack_traditions_preserved }
 		x = 52
 		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle }
 		cost = 10
+		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			if = {

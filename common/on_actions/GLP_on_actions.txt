@@ -85,6 +85,23 @@ on_actions = {
 				country_event = { id = glp_news.1 days = 2 }
 				country_event = { id = glp_crisis.1 days = 150 }
 				country_event = { id = glp_crisis.10 days = 220 }
+				country_event = { id = glp_crisis.30 days = 900 }
+				# Соседи сразу видят Вольную территорию как проблему, не как обычный минор.
+				SOV = {
+					add_ai_strategy = { type = antagonize id = "GLP" value = 160 }
+					add_ai_strategy = { type = contain id = "GLP" value = 80 }
+					add_ai_strategy = { type = conquer id = "GLP" value = 40 }
+				}
+				POL = {
+					add_ai_strategy = { type = contain id = "GLP" value = 40 }
+					add_ai_strategy = { type = antagonize id = "GLP" value = 25 }
+				}
+				ROM = {
+					add_ai_strategy = { type = contain id = "GLP" value = 35 }
+				}
+				TUR = {
+					add_ai_strategy = { type = contain id = "GLP" value = 20 }
+				}
 			}
 		}
 	}
