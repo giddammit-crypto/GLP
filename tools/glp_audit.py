@@ -135,6 +135,15 @@ def check_syntax():
             if '\ufffd' in body:
                 warn(f"{rel(p)}: contains invalid UTF-8 bytes")
 
+            # Clausewitz не всегда сообщает понятную ошибку для опечатки
+            # вроде `position = { y = 1s }`: окно просто получает неверную
+            # геометрию. Координаты и размеры допускают число, процент или
+            # выражение, но не число с буквенным суффиксом.
+            for i, line in enumerate(body.split('\n'), 1):
+                if ('position' in line or 'size' in line) and re.search(
+                        r'\b[xy]\s*=\s*-?\d+(?:\.\d+)?[A-Za-z_]+\b', line):
+                    err(f"{rel(p)}:{i}: malformed UI coordinate or size value")
+
 
 # --------------------------------------------------------- 2/3. localisation
 LOC_LINE = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*\d*\s*"')
@@ -1545,6 +1554,46 @@ def check_idea_modifier_keys():
     STATS['idea_modifier_keys'] = len(used)
 
 
+def check_cinematic_intro_voice():
+    """Проверяет полную цепочку автоматической озвучки заставки GLP.
+
+    Проверка намеренно идёт от события до файла: наличие одного voice.ogg
+    недостаточно, если asset не зарегистрирован или событие не вызывает
+    sound_effect. В таком случае заставка открывается молча.
+    """
+    required = {
+        'sound/gulyaipole_sounds.asset': (
+            'name = "gulyaipole_intro_voice_file"',
+            'file = "voice.ogg"',
+            'name = "gulyaipole_intro_voice"',
+        ),
+        'events/GulyaipoleCinematicIntro.txt': (
+            'set_country_flag = glp_show_cinematic_intro',
+            'sound_effect = gulyaipole_intro_voice',
+        ),
+        'common/on_actions/GLP_on_actions.txt': (
+            'country_event = { id = glp_cinematic_intro.1 }',
+        ),
+    }
+    for path, tokens in required.items():
+        text = read(os.path.join(ROOT, path))
+        for token in tokens:
+            if token not in text:
+                err(f"intro voice: {path} не содержит обязательную запись {token!r}")
+
+    voice_path = os.path.join(ROOT, 'sound/voice.ogg')
+    if not os.path.isfile(voice_path):
+        err('intro voice: отсутствует sound/voice.ogg')
+    elif not open(voice_path, 'rb').read(4) == b'OggS':
+        err('intro voice: sound/voice.ogg не является OGG-контейнером')
+
+    # Радио-версия не должна иметь имя soundeffect: одинаковое имя делает
+    # диагностику и поведение движка неоднозначными.
+    music_asset = read(os.path.join(ROOT, 'music/gulyaipole.asset'))
+    if 'name = "gulyaipole_intro_voice"' in music_asset:
+        err('intro voice: music и soundeffect используют одно имя gulyaipole_intro_voice')
+
+
 def main():
     check_syntax()
     loc = load_loc()
@@ -1555,6 +1604,7 @@ def main():
     check_screens()
     check_loading_tips()
     check_music()
+    check_cinematic_intro_voice()
     check_fonts()
     check_bookmarks(loc)
     check_opinions(loc)

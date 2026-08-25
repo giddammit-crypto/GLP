@@ -5,8 +5,10 @@
 # sound_effect = gulyaipole_intro_voice; музыкальная регистрация оставлена
 # для радио-совместимости и не подменяет обычный саундтрек игры.
 
+# Имя намеренно отличается от soundeffect gulyaipole_intro_voice:
+# событие заставки всегда выбирает именно sound_effect, а не запись радио.
 music = {
-	name = "gulyaipole_intro_voice"
+	name = "gulyaipole_intro_voice_music"
 	file = "voice.ogg"
 	volume = 1.0
 }

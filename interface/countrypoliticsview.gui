@@ -1,5 +1,8 @@
 guiTypes = {
 
+	# Единая тёмная архивная подложка GLP: политика и вложенные окна
+	# визуально продолжают главное меню, сохраняя ванильную геометрию.
+
 	containerWindowType = {
 		name = "countrypoliticsview"
 		position = { x=-606 y=78}
@@ -15,7 +18,7 @@ guiTypes = {
 
 		background = {
 			name = "Background"
-			quadTextureSprite ="GFX_tiled_plain_bg"
+			quadTextureSprite ="GFX_tiled_bg_dark_tiled"
 		}
 
 		iconType ={
@@ -88,7 +91,7 @@ guiTypes = {
 			iconType ={
 				name ="pol_view_bg"
 				spriteType = "GFX_pol_piechart_overlay_63x63"
-				position = { x= -2 y = 1s }
+				position = { x = -2 y = 1 }
 			}
 		}
 
@@ -800,7 +803,7 @@ guiTypes = {
 
 		background = {
 			name = "Background"
-			quadTextureSprite ="GFX_tiled_plain_bg"
+			quadTextureSprite ="GFX_tiled_bg_dark_tiled"
 		}
 
 		instantTextboxType = {
@@ -1147,7 +1150,7 @@ guiTypes = {
 
 			background = {
 				name = "Background"
-				quadTextureSprite = "GFX_tiled_plain_bg"
+				quadTextureSprite = "GFX_tiled_bg_dark_tiled"
 			}
 
 		containerWindowType = {
@@ -1329,7 +1332,7 @@ guiTypes = {
 
 		background = {
 			name = "Background"
-			quadTextureSprite = "GFX_tiled_plain_bg"
+			quadTextureSprite = "GFX_tiled_bg_dark_tiled"
 		}
 
 		containerWindowType = {

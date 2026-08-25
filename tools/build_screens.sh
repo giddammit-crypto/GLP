@@ -131,12 +131,17 @@ echo ">> фонъ главнаго меню (1920x1440 — эталонное 4:
 # подъ 4:3: кинематографичная 16:9-сцена центрируется, а верхняя и нижняя
 # полосы добираются сильно размытымъ продолженіемъ того же кадра —
 # изображеніе не искажается и заполняетъ весь экранъ.
-if [ -f "$LS/_src_menu_bg.jpg" ]; then
+# Отдельный мастер главного меню хранится в tools/_gfx_src: у него уже
+# предусмотрена тёмная свободная правая половина под кнопки меню. Если мастер
+# отсутствует, сохраняем совместимый fallback на старый loading-screen source.
+MENU_MASTER="tools/_gfx_src/frontend_menu_imperial_noir.png"
+[ -f "$MENU_MASTER" ] || MENU_MASTER="$LS/_src_menu_bg.jpg"
+if [ -f "$MENU_MASTER" ]; then
 	hero="$TMP/menu_hero.png"
 	blur="$TMP/menu_blur.png"
 	mask="$TMP/menu_mask.png"
 	png="$TMP/menu.png"
-	grade "$LS/_src_menu_bg.jpg" "$hero"                      # 1920x1080, цвѣтокоррекція
+	grade "$MENU_MASTER" "$hero"                                # исходный главный фон
 	# Спокойное заполнение 4:3: размытая копия кадра с резким оригиналом по центру.
 	convert "$hero" -resize 1920x1440^ -gravity center -extent 1920x1440 \
 		-blur 0x55 -modulate 74,95,100 "$blur"

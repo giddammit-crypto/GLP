@@ -30,16 +30,18 @@ GUI не содержит `show_sound`, поэтому голос не запу�
   `sound` + `soundeffect` с именем `gulyaipole_intro_voice`.
 - **Музыкальная регистрация:** `music/gulyaipole.asset` и
   `music/gulyaipole_songs.txt`; копия `music/voice.ogg` нужна потому, что
-  музыкальные asset-файлы ищут аудио относительно каталога `music/`.
+  музыкальные asset-файлы ищут аудио относительно каталога `music/`. Её
+  идентификатор `gulyaipole_intro_voice_music` намеренно не совпадает с
+  `soundeffect`, поэтому автоматический запуск всегда идёт через sound-канал.
 
-В данной сборке озвучка сгенерирована через TTS (русский masculine narration,
-`voice-00`) из оригинального текста `GULYAIPOLE_EPIC_INTRO_TEXT`, разбитого на
-4 части и склеенного как chained OGG (валидный для HOI4).
+В сборке используется валидный OGG Vorbis `sound/voice.ogg`. Аудит проверяет
+всю цепочку автозапуска: `on_startup` → скрытое событие → `sound_effect` →
+зарегистрированный OGG-файл.
 
 ## Архитектура файлов
 
 ```
-/interface/gulyaipole_intro_custom.gui  — единое окно 900×700, centered, vanilla background
+/interface/gulyaipole_intro_custom.gui  — единое окно 900×700, centered, тёмная tiled-подложка
 /interface/gulyaipole_intro.gfx         — декоративные спрайты:
     GFX_gold_inner_border                 -> gfx/interface/intro/gulyaipole_gold_inner_border.dds (900×700 DXT5, прозрачный центр, золотая кайма)
     GFX_portrait_nestor_makhno_intro      -> gfx/leaders/GLP/Portrait_GLP_Makhno_Intro_large.dds (156×210 ARGB, ч/б)
@@ -109,5 +111,5 @@ convert src.png -resize WxH -define dds:compression=dxt1/dxt5 -define dds:mipmap
 ## Дальнейшее улучшение
 
 - Добавить анимацию автопрокрутки через `animation` в `guiTypes` (если движок поддерживает)
-- Заменить TTS-озвучку на оригинальную `voice.mp3` от автора (если файл будет предоставлен — конвертировать `ffmpeg -i voice.mp3 -c:a libvorbis -q:a 6 sound/voice.ogg`)
+- При замене исходной озвучки перекодировать её в Vorbis и обновить `sound/voice.ogg` (например: `ffmpeg -i voice.mp3 -c:a libvorbis -q:a 6 sound/voice.ogg`).
 - Добавить виньетку и film grain overlay как отдельный спрайт с `alwaystransparent = yes`
