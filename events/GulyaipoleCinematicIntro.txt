@@ -1,0 +1,26 @@
+# Гуляй-Поле — запуск кинематографической заставки (HOI4 1.19.2)
+#
+# Это скрытое событие вызывается при старте партии и из решения повтора.
+# Оно сначала ставит флаг, затем запускает зарегистрированный soundeffect.
+# Scripted GUI видит флаг и показывает одно центральное окно.
+#
+# Голос зарегистрирован в sound/*.asset и запускается документированным
+# эффектом sound_effect, поэтому ему не нужен музыкальный переключатель.
+
+add_namespace = glp_cinematic_intro
+
+country_event = {
+	id = glp_cinematic_intro.1
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		tag = GLP
+		is_ai = no
+	}
+
+	immediate = {
+		set_country_flag = glp_show_cinematic_intro
+		sound_effect = gulyaipole_intro_voice
+	}
+}

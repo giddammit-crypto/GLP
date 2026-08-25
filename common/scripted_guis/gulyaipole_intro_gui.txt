@@ -1,91 +1,33 @@
-# =============================================================================
-#  ГУЛЯЙ-ПОЛЕ — Scripted GUI для кинематографической заставки (HOI4 v1.19.2)
-#  Автор: Амброзиев О.А.
-#  AAA Photorealistic & PDX Technical Guidelines Compliance
+# Гуляй-Поле — scripted GUI кинематографической заставки (HOI4 1.19.2)
 #
-#  Окно: gulyaipole_cinematic_intro_window (interface/gulyaipole_intro_custom.gui)
-#  Звук: gulyaipole_intro_voiceover (sound/gulyaipole_sounds.sfx -> voice.ogg)
-#
-#  Логика:
-#    - При старте игры (on_startup) для GLP ставится флаг glp_show_cinematic_intro
-#    - Scripted GUI видит флаг и показывает окно по центру экрана
-#    - Кнопка «Вольному воля!» снимает флаг и закрывает окно
-#    - Решение в категории «Анархические меры» позволяет пересмотреть заставку
-# =============================================================================
+# Одно окно из interface/gulyaipole_intro_custom.gui показывается, пока
+# установлен glp_show_cinematic_intro. Голос запускается событием
+# glp_cinematic_intro.1, а не из GUI.
 
 scripted_gui = {
-    gulyaipole_cinematic_intro = {
-        window_name = "gulyaipole_cinematic_intro_window"
-        context_type = player_context
+	gulyaipole_cinematic_intro = {
+		window_name = "gulyaipole_cinematic_intro_window"
+		context_type = player_context
 
-        # Видимость только для игрока за Гуляй-Поле при наличии флага
-        visible = {
-            has_country_flag = glp_show_cinematic_intro
-            original_tag = GLP
-        }
+		visible = {
+			tag = GLP
+			is_ai = no
+			has_country_flag = glp_show_cinematic_intro
+		}
 
-        # Эффекты кнопок окна.
-        #
-        # ВАЖНО (HOI4 1.19): в scripted_gui имя эффекта/триггера кнопки
-        # формируется как `<имя_кнопки_в_gui> + суффикс`. Для обработки
-        # клика обязателен суффикс `_click`. Без него клик просто не
-        # привязывается, и кнопка ничего не делает (окно «не закрывается»).
-        #
-        # В gulyaipole_intro_custom.gui кнопка названа `start_campaign_button`,
-        # поэтому правильные имена:
-        #   effects   = { start_campaign_button_click = { ... } }
-        #   triggers  = { start_campaign_button_click_enabled = { ... } }
-        # Суффикс `_visible` пишется без `_click` (это валидное имя триггера).
-        effects = {
-            # Кнопка «Вольному воля!» — закрыть заставку
-            start_campaign_button_click = {
-                clr_country_flag = glp_show_cinematic_intro
-                # Дублируем газету на случай если on_startup ещё не успел
-                # (безопасно — fire_only_once)
-                # news_event = { id = glp_news.100 hours = 1 }
-            }
+		effects = {
+			start_campaign_button_click = {
+				clr_country_flag = glp_show_cinematic_intro
+			}
+		}
 
-            # Клик по фону не закрывает (только кнопка)
-        }
-
-        # Триггеры для доступности кнопки (всегда доступна).
-        # Имя триггера enabled для clickable-кнопки — `<имя>_click_enabled`.
-        triggers = {
-            start_campaign_button_click_enabled = {
-                always = yes
-            }
-            start_campaign_button_visible = {
-                always = yes
-            }
-        }
-
-        # Динамические списки не требуются для статичного интро
-    }
-
-    # Fallback для малых разрешений
-    gulyaipole_cinematic_intro_small = {
-        window_name = "gulyaipole_cinematic_intro_window_small"
-        context_type = player_context
-
-        visible = {
-            has_country_flag = glp_show_cinematic_intro_small
-            original_tag = GLP
-        }
-
-        effects = {
-            # Суффикс `_click` обязателен, иначе клик игнорируется
-            start_campaign_button_click = {
-                clr_country_flag = glp_show_cinematic_intro_small
-            }
-        }
-
-        triggers = {
-            start_campaign_button_click_enabled = {
-                always = yes
-            }
-            start_campaign_button_visible = {
-                always = yes
-            }
-        }
-    }
+		triggers = {
+			start_campaign_button_click_enabled = {
+				always = yes
+			}
+			start_campaign_button_visible = {
+				always = yes
+			}
+		}
+	}
 }
