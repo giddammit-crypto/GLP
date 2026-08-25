@@ -4,16 +4,16 @@ GLP_revolutionary_military_ops = {
 	GLP_mobilize_black_guard_reserves = {
 		icon = generic_prepare_civil_war
 		cost = 50
-		days_remove = 90
+		days_remove = 120
 		available = { has_war = yes }
 		visible = { has_completed_focus = GLP_insurgent_army_reorganization }
-		fire_only_once = no
+		fire_only_once = yes
 		complete_effect = {
-			add_manpower = 25000
+			add_manpower = 12000
 			add_war_support = 0.05
-			add_stability = -0.03
+			add_stability = -0.05
 		}
-		ai_will_do = { factor = 1 }
+		ai_will_do = { factor = 2 }
 	}
 
 	# 2. Кавалерийский рейд по тылам
@@ -49,13 +49,19 @@ GLP_revolutionary_military_ops = {
 	GLP_send_brigade_to_cnt_fai = {
 		icon = generic_volunteer_expedition
 		cost = 75
-		available = { SPR = { has_civil_war = yes } }
+		available = {
+			SPR = { has_civil_war = yes }
+			has_equipment = { infantry_equipment > 499 }
+			has_manpower > 4000
+		}
 		visible = { has_completed_focus = GLP_aid_to_spanish_anarchists }
 		fire_only_once = yes
 		complete_effect = {
-			add_manpower = -5000
-			army_experience = 35
-			add_political_power = 60
+			add_manpower = -4000
+			add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
+			SPR = { add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 500 producer = GLP } }
+			army_experience = 25
+			add_political_power = 40
 		}
 		ai_will_do = { factor = 2 }
 	}
@@ -66,9 +72,10 @@ GLP_revolutionary_military_ops = {
 		cost = 40
 		days_remove = 90
 		visible = { has_completed_focus = GLP_invincible_insurgency }
+		fire_only_once = yes
 		complete_effect = {
-			add_ideas = GLP_idea_partisan_doctrine
-			add_war_support = 0.05
+			add_timed_idea = { idea = GLP_idea_partisan_camps_timed days = 180 }
+			add_war_support = 0.03
 		}
 		ai_will_do = { factor = 1 }
 	}
@@ -94,6 +101,7 @@ GLP_syndicate_industrial_initiatives = {
 		cost = 50
 		days_remove = 120
 		visible = { has_completed_focus = GLP_donbass_coal_and_steel_collective }
+		fire_only_once = yes
 		complete_effect = {
 			227 = { add_building_construction = { type = industrial_complex level = 1 instant_build = yes } }
 			add_political_power = -20
@@ -173,8 +181,10 @@ GLP_peasant_agrarian_communes = {
 		cost = 50
 		days_remove = 180
 		visible = { has_completed_focus = GLP_communal_granaries }
+		fire_only_once = yes
 		complete_effect = {
-			add_ideas = GLP_idea_steppes_breadbasket
+			add_stability = 0.05
+			add_political_power = -15
 		}
 		ai_will_do = { factor = 1 }
 	}
@@ -216,6 +226,94 @@ GLP_kontrrazvedka_and_order = {
 		complete_effect = {
 			add_political_power = 40
 			add_stability = 0.04
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
+
+GLP_occupation_soviets = {
+	GLP_found_kiev_free_soviet = {
+		icon = generic_national_unity
+		cost = 40
+		days_remove = 60
+		fire_only_once = yes
+		visible = { 202 = { is_controlled_by = ROOT } }
+		available = { 202 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			202 = { add_compliance = 12 add_resistance = -10 }
+			add_timed_idea = { idea = GLP_idea_occupied_kiev_soviet days = 240 }
+			add_political_power = -15
+		}
+		ai_will_do = { factor = 2 }
+	}
+	GLP_found_odessa_port_soviet = {
+		icon = generic_industry
+		cost = 35
+		days_remove = 45
+		fire_only_once = yes
+		visible = { 192 = { is_controlled_by = ROOT } }
+		available = { 192 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			192 = { add_compliance = 10 add_resistance = -8 }
+			add_equipment_to_stockpile = { type = convoy amount = 5 producer = GLP }
+			navy_experience = 10
+		}
+		ai_will_do = { factor = 1 }
+	}
+	GLP_found_rostov_raid_soviet = {
+		icon = generic_cavalry
+		cost = 40
+		days_remove = 45
+		fire_only_once = yes
+		visible = { 218 = { is_controlled_by = ROOT } }
+		available = { 218 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			218 = { add_compliance = 8 add_resistance = -6 }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = 400 producer = GLP }
+			army_experience = 10
+		}
+		ai_will_do = { factor = 1 }
+	}
+	GLP_found_kuban_cossack_soviet = {
+		icon = generic_cavalry
+		cost = 40
+		days_remove = 45
+		fire_only_once = yes
+		visible = { 234 = { is_controlled_by = ROOT } }
+		available = { 234 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			234 = { add_compliance = 10 }
+			add_manpower = 4000
+			add_stability = -0.02
+		}
+		ai_will_do = { factor = 1 }
+	}
+	GLP_steppe_raid_on_border = {
+		icon = generic_assassination
+		cost = 30
+		days_re_enable = 90
+		visible = {
+			has_war = yes
+			has_completed_focus = GLP_partisan_warfare_doctrine
+		}
+		available = {
+			has_war = yes
+			has_manpower > 2000
+		}
+		complete_effect = {
+			add_manpower = -1500
+			army_experience = 15
+			add_command_power = 10
+			random_enemy_country = {
+				add_timed_idea = { idea = GLP_idea_partisan_camps_timed days = 60 }
+			}
+			if = {
+				limit = { random = 35 }
+				add_equipment_to_stockpile = { type = infantry_equipment amount = 200 producer = GLP }
+			}
+			else = {
+				add_stability = -0.02
+			}
 		}
 		ai_will_do = { factor = 1 }
 	}

@@ -1,0 +1,35 @@
+GLP_historical_plan = {
+	name = "GLP: survive the encirclement"
+	desc = "Prioritise RIA, grain and the Moscow crisis over late miracles."
+
+	allowed = {
+		original_tag = GLP
+	}
+	enable = {
+		always = yes
+	}
+
+	ai_national_focuses = {
+		GLP_insurgent_army_reorganization
+		GLP_peasant_grain_supplies
+		GLP_kontrrazvedka_reorganization
+		GLP_partisan_warfare_doctrine
+		GLP_legendary_tachankas
+		GLP_underground_armories
+		GLP_syndicate_industrial_planning
+		GLP_fourth_congress_of_peasants
+		GLP_international_diplomacy_crossroads
+		GLP_free_will
+	}
+
+	focus_factors = {
+		GLP_black_military_dictatorship = 0.3
+		GLP_alliance_with_germany = 0.4
+		GLP_computing_machines = 0.4
+		GLP_jet_engines = 0.3
+	}
+
+	weight = {
+		factor = 1
+	}
+}

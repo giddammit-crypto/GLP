@@ -52,3 +52,7 @@
  GLP_MOTTO_1:0 "Anarchy is the mother of order"
  GLP_MOTTO_2:0 "Liberty or death!"
  GLP_MOTTO_3:0 "Land to the peasants, factories to the workers"
+
+ GLP_kharkov_pact:0 "Kharkov Pact"
+ GLP_steppe_axis:0 "Steppe Axis"
+ GLP_free_nations_pact:0 "Pact of Free Nations"

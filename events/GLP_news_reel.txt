@@ -262,8 +262,8 @@ news_event = {
 	option = {
 		name = glp_press.5.a
 		trigger = { tag = GLP }
-		add_manpower = 25000
-		add_war_support = 0.10
+		add_manpower = 8000
+		add_war_support = 0.05
 		add_stability = -0.03
 	}
 
