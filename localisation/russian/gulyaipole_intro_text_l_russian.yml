@@ -8,4 +8,6 @@
  GULYAIPOLE_MAKHNO_CAPTION:0 "Несторъ Махно, 1921"
  GLP_replay_cinematic_intro:0 "Пересмотреть вступление: «Гуляй-Поле»"
  GLP_replay_cinematic_intro_desc:0 "Вновь открыть кинематографическую заставку мода — мрачный нуар с портретом Батьки Махно, военной картой Екатеринославщины и сепированной фотокарточкой конницы. Звучит озвучка §Yvoice.ogg§!."
- GULYAIPOLE_REPLAY_INTRO_TT:0 "Откроется окно §Ygulyaipole_cinematic_intro_window§! с автопрокруткой текста и озвучкой §Yvoice.ogg§!."
+ GULYAIPOLE_REPLAY_INTRO_TT:0 "Откроется окно §Ygulyaipole_cinematic_intro_window§! с ограниченным текстовым полем и озвучкой §Yvoice.ogg§!."
+ gulyaipole_intro:0 "Гуляй-Поле — заставка"
+ gulyaipole_intro_voice:0 "Гуляй-Поле — голос заставки"

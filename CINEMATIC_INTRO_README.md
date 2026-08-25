@@ -11,45 +11,55 @@
 ### Композиция экрана (900×700, centered)
 
 1. **Левый верхний угол (30,30):** Исторический фотопортрет Нестора Ивановича Махно в суровом черно-белом исполнении с золотой окантовкой (156×210, `GFX_portrait_nestor_makhno_intro` + `GFX_political_leader_frame_gold`)
-2. **Правый нижний угол:** 
-   - Военная карта Юга Украины, Екатеринославской губернии периода Гражданской войны (580,400 — 300×240, `GFX_intro_ukraine_map`)
-   - Сепированная фотокарточка махновской конницы на марше (580,230 — 300×150, `GFX_intro_makhno_cavalry`)
-3. **Центрально-левая зона (240,30 — 320×580):** Контейнер с вертикальной прокруткой `text_scroll_container` и эффектом медленного подъема текста снизу вверх (классические титры исторической кинохроники). Шрифт `hoi_16mbs`, текст `GULYAIPOLE_EPIC_INTRO_TEXT`, maxHeight 2500, clipping yes, scrollbar `right_vertical_slider`.
-4. **Кнопка «Начать» (340,625):** Золотое тиснение, `GFX_button_221x34`, `GULYAIPOLE_START_BUTTON` = «Вольному воля!», shortcut ENTER.
+2. **Правый блок:**
+   - Военная карта Юга Украины, Екатеринославской губернии периода Гражданской войны (550,304 — 320×260, `GFX_intro_ukraine_map`)
+   - Сепированная фотокарточка махновской конницы на марше (550,110 — 320×160, `GFX_intro_makhno_cavalry`)
+3. **Центрально-левая зона:** Одно текстовое поле в общей координатной системе окна. Шрифт `hoi_16mbs`, текст `GULYAIPOLE_EPIC_INTRO_TEXT`, `maxWidth = 300`, `maxHeight = 510`, `fixedsize = yes`; лишний текст не раздвигает окно и не перекрывает правый блок.
+4. **Кнопка «Начать» (340,635):** Золотое тиснение, `GFX_button_221x34`, `GULYAIPOLE_START_BUTTON` = «Вольному воля!», shortcut ENTER.
 
 ### Аудиосопровождение
 
-Автоматическое воспроизведение `voice.ogg` (сконвертировано из `voice.mp3`) в момент открытия окна через `show_sound = gulyaipole_intro_voiceover`.
+Автоматическое воспроизведение `voice.ogg` выполняет скрытое событие
+`glp_cinematic_intro.1`: его `immediate`-блок вызывает
+`sound_effect = gulyaipole_intro_voice`, после чего scripted GUI показывает окно.
+GUI не содержит `show_sound`, поэтому голос не запускается повторно при
+перерисовке окна.
 
-- **Исходник:** `voice.mp3` в корне проекта (`/home/user/GLP/voice.mp3`) — если файл предоставлен, конвертируется в OGG Vorbis.
-- **Регистрация:** `/sound/gulyaipole_sounds.sfx` → `gulyaipole_intro_voiceover = { file = "voice.ogg" volume = 1.0 is_3d = no }`
-- **Файл в моде:** `sound/voice.ogg` (959 KB, OGG Vorbis, chained, 4 части склеены, озвучка мужским нарративным голосом на русском, 4 абзаца эпического интро)
-- **Fallback:** `voice.ogg` и `voice.mp3` в корне мода для совместимости
+- **Исходник:** `sound/voice.ogg` (OGG Vorbis).
+- **Звуковая регистрация:** `sound/gulyaipole_sounds.asset` → низкоуровневый
+  `sound` + `soundeffect` с именем `gulyaipole_intro_voice`.
+- **Музыкальная регистрация:** `music/gulyaipole.asset` и
+  `music/gulyaipole_songs.txt`; копия `music/voice.ogg` нужна потому, что
+  музыкальные asset-файлы ищут аудио относительно каталога `music/`.
 
-В данной сборке озвучка сгенерирована через TTS (русский masculine narration, `voice-00`) из оригинального текста `GULYAIPOLE_EPIC_INTRO_TEXT`, разбитого на 4 части и склеенного как chained OGG (валидный для HOI4).
+В данной сборке озвучка сгенерирована через TTS (русский masculine narration,
+`voice-00`) из оригинального текста `GULYAIPOLE_EPIC_INTRO_TEXT`, разбитого на
+4 части и склеенного как chained OGG (валидный для HOI4).
 
 ## Архитектура файлов
 
 ```
-/interface/gulyaipole_intro_custom.gui  — главное окно 900×700, centered, noir, gold border
-/interface/gulyaipole_intro.gfx         — спрайты:
-    GFX_tiled_bg_dark                     -> gfx/interface/intro/gulyaipole_tiled_bg_dark.dds (512×512 DXT1, тёмная бумага)
+/interface/gulyaipole_intro_custom.gui  — единое окно 900×700, centered, vanilla background
+/interface/gulyaipole_intro.gfx         — декоративные спрайты:
     GFX_gold_inner_border                 -> gfx/interface/intro/gulyaipole_gold_inner_border.dds (900×700 DXT5, прозрачный центр, золотая кайма)
     GFX_portrait_nestor_makhno_intro      -> gfx/leaders/GLP/Portrait_GLP_Makhno_Intro_large.dds (156×210 ARGB, ч/б)
     GFX_political_leader_frame_gold       -> gfx/interface/intro/gulyaipole_portrait_frame_gold.dds (166×220 DXT5)
     GFX_intro_ukraine_map                 -> gfx/interface/intro/gulyaipole_ukraine_map.dds (320×260 DXT1, сепия карта)
     GFX_intro_makhno_cavalry              -> gfx/interface/intro/gulyaipole_cavalry.dds (320×160 DXT1, сепия конница)
 
-/sound/gulyaipole_sounds.sfx             — регистрация звука
-/sound/voice.ogg                         — озвучка (OGG)
-/voice.ogg + /voice.mp3                  — копии в корне (требование ТЗ)
+/sound/gulyaipole_sounds.asset            — регистрация sound/soundeffect
+/sound/voice.ogg                         — озвучка для sound_effect (OGG)
+/music/gulyaipole.asset                  — регистрация voice.ogg как music asset
+/music/gulyaipole_songs.txt              — отдельная станция с высоким весом
+/music/voice.ogg                         — копия для music asset
 
 /localisation/russian/gulyaipole_intro_text_l_russian.yml — локализация (BOM, l_russian)
 /localisation/english/gulyaipole_intro_text_l_english.yml — английская версия
 
-/common/scripted_guis/gulyaipole_intro_gui.txt — scripted GUI, visible = has_country_flag = glp_show_cinematic_intro
-/common/on_actions/GLP_on_actions.txt     — on_startup: set_country_flag = glp_show_cinematic_intro для GLP
-/common/decisions/GLP_decisions.txt       — решение GLP_replay_cinematic_intro для повторного просмотра
+/common/scripted_guis/gulyaipole_intro_gui.txt — scripted GUI, visible по флагу
+/events/GulyaipoleCinematicIntro.txt      — скрытое событие: флаг + sound_effect
+/common/on_actions/GLP_on_actions.txt     — on_startup вызывает событие для GLP
+/common/decisions/GLP_decisions.txt       — решение GLP_replay_cinematic_intro вызывает событие
 ```
 
 ## Текстуры — генерация
@@ -74,10 +84,12 @@ convert src.png -resize WxH -define dds:compression=dxt1/dxt5 -define dds:mipmap
 
 ## Логика показа
 
-1. `on_startup` (GLP): `set_country_flag = glp_show_cinematic_intro`
-2. `scripted_gui = gulyaipole_cinematic_intro` видит флаг → показывает `gulyaipole_cinematic_intro_window` по центру
-3. `show_sound = gulyaipole_intro_voiceover` → играет `voice.ogg`
-4. Игрок читает текст (прокрутка мышью/колесом, эффект кинохроники через затемнения сверху/снизу)
+1. `on_startup` (GLP) вызывает скрытое событие `glp_cinematic_intro.1`
+2. Событие ставит флаг и вызывает
+   `sound_effect = gulyaipole_intro_voice` → играет `sound/voice.ogg`
+3. `scripted_gui = gulyaipole_cinematic_intro` видит флаг и показывает
+   `gulyaipole_cinematic_intro_window` по центру
+4. Игрок читает текст, ограниченный `maxWidth`/`maxHeight`, и нажимает кнопку
 5. Кнопка «Вольному воля!» → `clr_country_flag = glp_show_cinematic_intro` → окно закрывается, далее `glp_news.100` (газета)
 6. Решение «Пересмотреть вступление» в категории анархических мер позволяет открыть окно снова
 
