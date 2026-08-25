@@ -479,6 +479,24 @@ GLP_anarchist_freedom_measures = {
 		}
 		ai_will_do = { factor = 1 }
 	}
+
+	# 13. Пересмотреть кинематографическую заставку Гуляй-Поля (AAA нуар)
+	GLP_replay_cinematic_intro = {
+		icon = generic_national_unity
+		cost = 0
+		available = {
+			original_tag = GLP
+		}
+		visible = {
+			original_tag = GLP
+			NOT = { has_country_flag = glp_show_cinematic_intro }
+		}
+		complete_effect = {
+			set_country_flag = glp_show_cinematic_intro
+			custom_effect_tooltip = GULYAIPOLE_REPLAY_INTRO_TT
+		}
+		ai_will_do = { factor = 0 }
+	}
 }
 
 }

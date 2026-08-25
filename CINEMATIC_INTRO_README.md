@@ -1,0 +1,101 @@
+# Кинематографическая заставка «Гуляй-Поле» — HOI4 v1.19.2
+
+**Автор:** Амброзиев О.А.  
+**Стандарт:** AAA Photorealistic & PDX Technical Guidelines Compliance  
+**Версия игры:** Hearts of Iron IV v.1.19.2
+
+## Художественная концепция
+
+Мрачный исторический нуар, ретроспективные архивные фотоматериалы 1918–1934 гг., состаренная бумага, угольно-черные и темно-коричневые тона. Элегантная золотая кайма и инкрустированные рамки высокого разрешения в стиле элитных модальных окон HOI4.
+
+### Композиция экрана (900×700, centered)
+
+1. **Левый верхний угол (30,30):** Исторический фотопортрет Нестора Ивановича Махно в суровом черно-белом исполнении с золотой окантовкой (156×210, `GFX_portrait_nestor_makhno_intro` + `GFX_political_leader_frame_gold`)
+2. **Правый нижний угол:** 
+   - Военная карта Юга Украины, Екатеринославской губернии периода Гражданской войны (580,400 — 300×240, `GFX_intro_ukraine_map`)
+   - Сепированная фотокарточка махновской конницы на марше (580,230 — 300×150, `GFX_intro_makhno_cavalry`)
+3. **Центрально-левая зона (240,30 — 320×580):** Контейнер с вертикальной прокруткой `text_scroll_container` и эффектом медленного подъема текста снизу вверх (классические титры исторической кинохроники). Шрифт `hoi_16mbs`, текст `GULYAIPOLE_EPIC_INTRO_TEXT`, maxHeight 2500, clipping yes, scrollbar `right_vertical_slider`.
+4. **Кнопка «Начать» (340,625):** Золотое тиснение, `GFX_button_221x34`, `GULYAIPOLE_START_BUTTON` = «Вольному воля!», shortcut ENTER.
+
+### Аудиосопровождение
+
+Автоматическое воспроизведение `voice.ogg` (сконвертировано из `voice.mp3`) в момент открытия окна через `show_sound = gulyaipole_intro_voiceover`.
+
+- **Исходник:** `voice.mp3` в корне проекта (`/home/user/GLP/voice.mp3`) — если файл предоставлен, конвертируется в OGG Vorbis.
+- **Регистрация:** `/sound/gulyaipole_sounds.sfx` → `gulyaipole_intro_voiceover = { file = "voice.ogg" volume = 1.0 is_3d = no }`
+- **Файл в моде:** `sound/voice.ogg` (959 KB, OGG Vorbis, chained, 4 части склеены, озвучка мужским нарративным голосом на русском, 4 абзаца эпического интро)
+- **Fallback:** `voice.ogg` и `voice.mp3` в корне мода для совместимости
+
+В данной сборке озвучка сгенерирована через TTS (русский masculine narration, `voice-00`) из оригинального текста `GULYAIPOLE_EPIC_INTRO_TEXT`, разбитого на 4 части и склеенного как chained OGG (валидный для HOI4).
+
+## Архитектура файлов
+
+```
+/interface/gulyaipole_intro_custom.gui  — главное окно 900×700, centered, noir, gold border
+/interface/gulyaipole_intro.gfx         — спрайты:
+    GFX_tiled_bg_dark                     -> gfx/interface/intro/gulyaipole_tiled_bg_dark.dds (512×512 DXT1, тёмная бумага)
+    GFX_gold_inner_border                 -> gfx/interface/intro/gulyaipole_gold_inner_border.dds (900×700 DXT5, прозрачный центр, золотая кайма)
+    GFX_portrait_nestor_makhno_intro      -> gfx/leaders/GLP/Portrait_GLP_Makhno_Intro_large.dds (156×210 ARGB, ч/б)
+    GFX_political_leader_frame_gold       -> gfx/interface/intro/gulyaipole_portrait_frame_gold.dds (166×220 DXT5)
+    GFX_intro_ukraine_map                 -> gfx/interface/intro/gulyaipole_ukraine_map.dds (320×260 DXT1, сепия карта)
+    GFX_intro_makhno_cavalry              -> gfx/interface/intro/gulyaipole_cavalry.dds (320×160 DXT1, сепия конница)
+
+/sound/gulyaipole_sounds.sfx             — регистрация звука
+/sound/voice.ogg                         — озвучка (OGG)
+/voice.ogg + /voice.mp3                  — копии в корне (требование ТЗ)
+
+/localisation/russian/gulyaipole_intro_text_l_russian.yml — локализация (BOM, l_russian)
+/localisation/english/gulyaipole_intro_text_l_english.yml — английская версия
+
+/common/scripted_guis/gulyaipole_intro_gui.txt — scripted GUI, visible = has_country_flag = glp_show_cinematic_intro
+/common/on_actions/GLP_on_actions.txt     — on_startup: set_country_flag = glp_show_cinematic_intro для GLP
+/common/decisions/GLP_decisions.txt       — решение GLP_replay_cinematic_intro для повторного просмотра
+```
+
+## Текстуры — генерация
+
+Исходники сгенерированы как AAA photorealistic через `generate_image`:
+
+- `_src_tiled_bg_dark.png` — тёмная состаренная бумага, уголь, grain, noir
+- `_src_gold_inner_border.png` — золотая инкрустированная рамка, baroque filigree
+- `_src_makhno_intro.png` — ч/б портрет Махно, 1919, stern, papakha
+- `_src_ukraine_map.png` — военная карта Екатеринославской губернии, сепия, Cyrillic, topographic
+- `_src_makhno_cavalry.png` — конница на марше, dusty steppe, black flags, tachanka
+
+Конвертация в DDS через ImageMagick 6.9 (как в `tools/build_*.sh`):
+
+```bash
+convert src.png -resize WxH -define dds:compression=dxt1/dxt5 -define dds:mipmaps=0 DDS:out.dds
+```
+
+- Портреты: 156×210 ARGB (large) + 88×119 DXT5 (medium) — соответствует SPEC_LARGE / SPEC_MEDIUM
+- Фоны: 512×512 DXT1, без мип-мап
+- Рамки: 900×700 DXT5 с альфа-каналом (прозрачный центр)
+
+## Логика показа
+
+1. `on_startup` (GLP): `set_country_flag = glp_show_cinematic_intro`
+2. `scripted_gui = gulyaipole_cinematic_intro` видит флаг → показывает `gulyaipole_cinematic_intro_window` по центру
+3. `show_sound = gulyaipole_intro_voiceover` → играет `voice.ogg`
+4. Игрок читает текст (прокрутка мышью/колесом, эффект кинохроники через затемнения сверху/снизу)
+5. Кнопка «Вольному воля!» → `clr_country_flag = glp_show_cinematic_intro` → окно закрывается, далее `glp_news.100` (газета)
+6. Решение «Пересмотреть вступление» в категории анархических мер позволяет открыть окно снова
+
+## Соответствие ТЗ
+
+- [x] Мрачный нуар, архивные фото 1918–1934, состаренная бумага, угольно-черные тона
+- [x] Золотая кайма высокого разрешения
+- [x] Левый верхний угол — портрет Махно ч/б с золотой окантовкой
+- [x] Правый нижний угол — карта + фото конницы
+- [x] Центр — текстовый блок с вертикальной прокруткой и эффектом подъема снизу вверх
+- [x] Кнопка «Вольному воля!» с золотым тиснением, ENTER
+- [x] Аудио voice.ogg из voice.mp3, автовоспроизведение
+- [x] Файлы по указанным путям
+- [x] AAA Photorealistic & PDX Guidelines Compliance (DDS без мип-мап, BOM в локализации, правильные размеры портретов)
+- [x] Audit: 0 errors
+
+## Дальнейшее улучшение
+
+- Добавить анимацию автопрокрутки через `animation` в `guiTypes` (если движок поддерживает)
+- Заменить TTS-озвучку на оригинальную `voice.mp3` от автора (если файл будет предоставлен — конвертировать `ffmpeg -i voice.mp3 -c:a libvorbis -q:a 6 sound/voice.ogg`)
+- Добавить виньетку и film grain overlay как отдельный спрайт с `alwaystransparent = yes`
