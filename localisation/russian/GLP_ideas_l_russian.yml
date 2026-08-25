@@ -222,3 +222,16 @@
 
  GLP_idea_white_emigre_officers:0 "Офицерский корпус эмигрантов"
  GLP_idea_white_emigre_officers_desc:0 "Белые кадры поднимают удар конницы и пехоты, но каждый день съедают политическую власть и злят анархистов."
+
+ GLP_idea_moscow_grain_tribute:0 "Хлебная дань Москве"
+ GLP_idea_moscow_grain_tribute_desc:0 "Коммуны отгружают зерно в обмен на отсрочку войны. Тыл голодает, советы ропщут."
+ GLP_idea_partisan_camps_timed:0 "Лагеря в плавнях"
+ GLP_idea_partisan_camps_timed_desc:0 "Временные базы в днепровских камышах прикрывают тыл и кормят разведку."
+
+ GLP_idea_makhno_illness:0 "Болезнь Батьки"
+ GLP_idea_makhno_illness_desc:0 "Туберкулёз валит Махно. Советы спорят, штаб теряет нить."
+ GLP_idea_occupied_kiev_soviet:0 "Киевский вольный совет"
+ GLP_idea_occupied_kiev_soviet_desc:0 "В занятом Киеве собирают совет — повиновение растёт ценой хлеба."
+
+ GLP_idea_recognized_border:0 "Признанная граница"
+ GLP_idea_recognized_border_desc:0 "Хоть одна держава поручилась за Вольную территорию. Окружение ослабло, но степь всё ещё чужая для бирж."

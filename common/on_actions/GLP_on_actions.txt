@@ -83,6 +83,25 @@ on_actions = {
 				# вступительная газета новой партіи — сразу послѣ загрузки
 				news_event = { id = glp_news.100 hours = 2 }
 				country_event = { id = glp_news.1 days = 2 }
+				country_event = { id = glp_crisis.1 days = 150 }
+				country_event = { id = glp_crisis.10 days = 220 }
+				country_event = { id = glp_crisis.30 days = 900 }
+				# Соседи сразу видят Вольную территорию как проблему, не как обычный минор.
+				SOV = {
+					add_ai_strategy = { type = antagonize id = "GLP" value = 160 }
+					add_ai_strategy = { type = contain id = "GLP" value = 80 }
+					add_ai_strategy = { type = conquer id = "GLP" value = 40 }
+				}
+				POL = {
+					add_ai_strategy = { type = contain id = "GLP" value = 40 }
+					add_ai_strategy = { type = antagonize id = "GLP" value = 25 }
+				}
+				ROM = {
+					add_ai_strategy = { type = contain id = "GLP" value = 35 }
+				}
+				TUR = {
+					add_ai_strategy = { type = contain id = "GLP" value = 20 }
+				}
 			}
 		}
 	}
@@ -112,17 +131,12 @@ on_actions = {
 					FROM = {
 						tag = GLP
 						has_war = yes
-						has_tech = tech_maintenance_company
-						has_template_containing_unit = maintenance_company
 					}
 				}
 				FROM = {
-					# --- 65%: стрелковое вооружение и снаряжение ---
-					# random = <процент> — штатный триггер вероятности.
-					# (check_variable сравнивает только set_variable-переменные,
-					#  random в них подставлять нельзя)
+					# --- 50%: стрелковое вооружение и снаряжение ---
 					if = {
-						limit = { random = 65 }
+						limit = { random = 50 }
 						add_equipment_to_stockpile = {
 							type = infantry_equipment
 							amount = 120
@@ -134,18 +148,18 @@ on_actions = {
 							producer = GLP
 						}
 					}
-					# --- 45%: мототехника ---
+					# --- 25%: мототехника ---
 					if = {
-						limit = { random = 45 }
+						limit = { random = 25 }
 						add_equipment_to_stockpile = {
 							type = motorized_equipment
 							amount = 20
 							producer = GLP
 						}
 					}
-					# --- 15%: танки и артиллерия ---
+					# --- 8%: танки и артиллерия ---
 					if = {
-						limit = { random = 15 }
+						limit = { random = 8 }
 						add_equipment_to_stockpile = {
 							type = artillery_equipment
 							amount = 10
@@ -184,7 +198,7 @@ on_actions = {
 						}
 						# формирование честно расходует резервы (ванильный паттерн
 						# отрицательных amount у add_equipment_to_stockpile)
-						add_manpower = -8000
+						add_manpower = -4000
 						add_equipment_to_stockpile = {
 							type = infantry_equipment
 							amount = -400
@@ -193,7 +207,7 @@ on_actions = {
 							type = support_equipment
 							amount = -60
 						}
-						set_country_flag = { flag = glp_trophy_division_cooldown days = 30 }
+						set_country_flag = { flag = glp_trophy_division_cooldown days = 45 }
 						country_event = { id = glp_trophy.1 hours = 6 }
 					}
 				}

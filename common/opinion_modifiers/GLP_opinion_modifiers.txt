@@ -11,4 +11,10 @@ opinion_modifiers = {
 	GLP_kharkov_pact_signed = {
 		value = 50
 	}
+	GLP_pact_alarm = {
+		value = -40
+	}
+	GLP_pact_watch = {
+		value = -15
+	}
 }
