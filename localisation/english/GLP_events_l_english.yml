@@ -1,28 +1,28 @@
 ﻿l_english:
  # News Events
- glp_news.1.t:0 "REBIRTH OF FREE GULYAYPOLE"
- glp_news.1.d:0 "GULYAYPOLE. Across the Black Sea steppes and the industrial giants of Donbass, the Free Territory has resumed activity under Batko Makhno and the Revolutionary Insurgent Army (RIA). Free peasant communes and factory committees have taken control, proclaiming a stateless society ready to defend freedom by force of arms."
+ glp_news.1.t:0 "§WREBIRTH OF FREE GULYAYPOLE§!"
+ glp_news.1.d:0 "§WGULYAYPOLE. Across the Black Sea steppes and the industrial giants of Donbass, the Free Territory has resumed activity under Batko Makhno and the Revolutionary Insurgent Army (RIA). Free peasant communes and factory committees have taken control, proclaiming a stateless society ready to defend freedom by force of arms.§!"
  glp_news.1.a:0 "Liberty or Death! Anarchy is the Mother of Order!"
 
- glp_news.2.t:0 "FOURTH CONGRESS OF PEASANTS & WORKERS"
- glp_news.2.d:0 "GULYAYPOLE. Delegates from hundreds of communes, mines, and Black Guard regiments have proclaimed the Federation of Free Soviets."
+ glp_news.2.t:0 "§WFOURTH CONGRESS OF PEASANTS & WORKERS§!"
+ glp_news.2.d:0 "§WGULYAYPOLE. Delegates from hundreds of communes, mines, and Black Guard regiments have proclaimed the Federation of Free Soviets.§!"
  glp_news.2.a:0 "Long live the free order!"
 
- glp_news.3.t:0 "LEGENDARY TACHANKAS RIDE THE STEPPE"
- glp_news.3.d:0 "GULYAYPOLE. Mass production of legendary machine-gun carriages is underway across southern workshops."
+ glp_news.3.t:0 "§WLEGENDARY TACHANKAS RIDE THE STEPPE§!"
+ glp_news.3.d:0 "§WGULYAYPOLE. Mass production of legendary machine-gun carriages is underway across southern workshops.§!"
  glp_news.3.a:0 "The steppe belongs to the free!"
  glp_news.3.b:0 "Formidable news from the steppes"
 
- glp_news.4.t:0 "FORMATION OF THE BLACK INTERNATIONAL"
- glp_news.4.d:0 "GULYAYPOLE. Syndicalist and anarchist delegations from across the globe have gathered to establish the Black International."
+ glp_news.4.t:0 "§WFORMATION OF THE BLACK INTERNATIONAL§!"
+ glp_news.4.d:0 "§WGULYAYPOLE. Syndicalist and anarchist delegations from across the globe have gathered to establish the Black International.§!"
  glp_news.4.a:0 "The flame of revolution will never die!"
 
- glp_news.5.t:0 "NEW FOREIGN ALLIANCE RATIFIED"
- glp_news.5.d:0 "GULYAYPOLE. The Revolutionary Military Council has ratified an international treaty of mutual military cooperation."
+ glp_news.5.t:0 "§WNEW FOREIGN ALLIANCE RATIFIED§!"
+ glp_news.5.d:0 "§WGULYAYPOLE. The Revolutionary Military Council has ratified an international treaty of mutual military cooperation.§!"
  glp_news.5.a:0 "The enemy shall be defeated!"
 
- glp_news.6.t:0 "TRIUMPH OF THE FREE PEOPLE"
- glp_news.6.d:0 "GULYAYPOLE. The Free Territory has proven the invincible strength of stateless fraternity."
+ glp_news.6.t:0 "§WTRIUMPH OF THE FREE PEOPLE§!"
+ glp_news.6.d:0 "§WGULYAYPOLE. The Free Territory has proven the invincible strength of stateless fraternity.§!"
  glp_news.6.a:0 "Glory to Batko Makhno and the free people!"
 
  # Decisions (16 Unique Decisions)
@@ -54,8 +54,8 @@
  # ---------------------------------------------------------------------------
  #  Intro newspaper of a new campaign
  # ---------------------------------------------------------------------------
- glp_news.100.t:0 "THE FREE VOICE OF GULYAYPOLE: a storm gathers over the free steppe"
- glp_news.100.d:0 "Gulyaypole, 1 January 1936. Alternate history.\n\nEighteen years ago, in the fire of 1917, the black banner rose over the Azov steppe. White regiments, the Hetman's guard, German bayonets and Red commissars each promised the peasant here order — and each left with nothing.\n\nContrary to every textbook, the Revolutionary Insurgent Army (Anarcho-Communists of the Bakunin school) was never destroyed. Neither Perekop in 1920, nor the Cheka sweeps of 1921, nor the hungry years finished off the free insurgency. By 1925 Moscow, bled white by war and revolt, signed what it had signed with no one else: a treaty recognising the Free Territory.\n\nSince then, between the Dnieper, the Don and the Crimea, stands the Free Republic of Gulyaypole — the whole south of the former Russian Empire, wrested from every government at once. There is no landlord and no minister here: the works are run by their factory committee, the village by its assembly, and Batko Makhno is still styled a counsellor of the working people rather than a leader.\n\nBut the world is sharpening its bayonets again. Moscow counts our grain and coal as its own, Berlin measures our steppe on its maps, Warsaw eyes the river crossings. The great war is already at the gate — and which side Nestor Ivanovich takes is yours to decide."
+ glp_news.100.t:0 "§WTHE FREE VOICE OF GULYAYPOLE: a storm gathers over the free steppe§!"
+ glp_news.100.d:0 "§WGulyaypole, 1 January 1936. Alternate history.\n\nEighteen years ago, in the fire of 1917, the black banner rose over the Azov steppe. White regiments, the Hetman's guard, German bayonets and Red commissars each promised the peasant here order — and each left with nothing.\n\nContrary to every textbook, the Revolutionary Insurgent Army (Anarcho-Communists of the Bakunin school) was never destroyed. Neither Perekop in 1920, nor the Cheka sweeps of 1921, nor the hungry years finished off the free insurgency. By 1925 Moscow, bled white by war and revolt, signed what it had signed with no one else: a treaty recognising the Free Territory.\n\nSince then, between the Dnieper, the Don and the Crimea, stands the Free Republic of Gulyaypole — the whole south of the former Russian Empire, wrested from every government at once. There is no landlord and no minister here: the works are run by their factory committee, the village by its assembly, and Batko Makhno is still styled a counsellor of the working people rather than a leader.\n\nBut the world is sharpening its bayonets again. Moscow counts our grain and coal as its own, Berlin measures our steppe on its maps, Warsaw eyes the river crossings. The great war is already at the gate — and which side Nestor Ivanovich takes is yours to decide.§!"
  glp_news.100.a:0 "Let the thunder roll!"
  glp_news.100.b:0 "We wrote the Batko off too soon..."
  glp_news.100.c:0 "A strange state with no government"
@@ -143,8 +143,8 @@
  glp_news.5.c:0 "Note the new alignment"
  glp_news.6.b:0 "Acknowledge the obvious"
  glp_press.8.c:0 "Take note"
- glp_news.7.t:0 "Old Enemies in the RIA Ranks"
- glp_news.7.d:0 "Former White officers, soldiers of broken armies and free spirits from across Europe gather beneath the black flag. 'Against the common enemy we stand together,' declare veterans as they enlist in the Batko's regiments."
+ glp_news.7.t:0 "§WOld Enemies in the RIA Ranks§!"
+ glp_news.7.d:0 "§WFormer White officers, soldiers of broken armies and free spirits from across Europe gather beneath the black flag. 'Against the common enemy we stand together,' declare veterans as they enlist in the Batko's regiments.§!"
  glp_news.7.a:0 "A rifle and a horse for every free man!"
  glp_news.7.b:0 "An unexpected alliance in the steppes"
  glp_trophy.1.t:0 "Trophy Teams of the RIA"

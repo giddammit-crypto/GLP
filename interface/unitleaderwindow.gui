@@ -255,7 +255,7 @@ guiTypes = {
 		iconType = {
 			name = "advisor_role_icon"
 			position = {x=3 y=45}	
-			spriteType = "GFX_empty_paper"
+			spriteType = "GFX_GLP_empty"
 			alwaystransparent = yes
 		}
 		buttonType = {
@@ -1208,7 +1208,7 @@ guiTypes = {
 		iconType = {
 			name = "advisor_role_icon"
 			position = {x=3 y=45}	
-			spriteType = "GFX_empty_paper"
+			spriteType = "GFX_GLP_empty"
 			alwaystransparent = yes
 		}
 		iconType = {
