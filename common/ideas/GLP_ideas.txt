@@ -6,20 +6,16 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_black_guard_legacy
 			modifier = {
-				# Мощный бонус к защите на своей территории
-				army_core_defence_factor = 0.25
-				army_core_attack_factor = 0.15
-				# Кавалерийское наследие
-				cavalry_attack_factor = 0.15
-				cavalry_defence_factor = 0.10
-				cavalry_speed_factor = 0.10
-				# Общие боевые бонусы
-				army_org_factor = 0.05
-				dig_in_speed_factor = 0.15
-				conscription_factor = 0.10
-				# Штраф к снабжению за пределами коренных стейтов
-				out_of_supply_factor = 0.25
-				supply_consumption_factor = 0.10
+			army_core_defence_factor = 0.10
+			army_core_attack_factor = 0.05
+			cavalry_attack_factor = 0.10
+			cavalry_defence_factor = 0.05
+			cavalry_speed_factor = 0.05
+			army_org_factor = 0.03
+			dig_in_speed_factor = 0.10
+			conscription_factor = 0.05
+			out_of_supply_factor = 0.15
+			supply_consumption_factor = 0.10
 			}
 		}
 
@@ -29,11 +25,11 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_free_syndicates_and_soviets
 			modifier = {
-				stability_factor = 0.15
-				industrial_capacity_factory = 0.10
-				consumer_goods_factor = -0.08
-				research_speed_factor = 0.10
-				production_factory_efficiency_gain_factor = 0.15
+			stability_factor = 0.08
+			industrial_capacity_factory = 0.05
+			consumer_goods_factor = -0.04
+			research_speed_factor = 0.05
+			production_factory_efficiency_gain_factor = 0.08
 			}
 		}
 
@@ -43,11 +39,12 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_hostile_encirclement
 			modifier = {
-				resistance_damage_to_garrison = -0.30
-				army_core_defence_factor = 0.20
-				army_core_attack_factor = 0.15
-				drift_defence_factor = 0.50
-				enemy_partisan_effect = -0.50
+			political_power_factor = -0.15
+			consumer_goods_factor = 0.08
+			trade_opinion_factor = -0.35
+			stability_factor = -0.05
+			drift_defence_factor = 0.25
+			production_lack_of_resource_penalty_factor = 0.15
 			}
 		}
 
@@ -57,9 +54,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_industry
 			modifier = {
-				industrial_capacity_factory = 0.15
-				production_speed_industrial_complex_factor = 0.15
-				production_speed_arms_factory_factor = 0.15
+			industrial_capacity_factory = 0.08
+			production_speed_industrial_complex_factor = 0.08
+			production_speed_arms_factory_factor = 0.08
 			}
 		}
 
@@ -78,9 +75,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_industry
 			modifier = {
-				consumer_goods_factor = -0.05
-				industrial_capacity_factory = 0.10
-				production_factory_max_efficiency_factor = 0.10
+			consumer_goods_factor = -0.03
+			industrial_capacity_factory = 0.08
+			production_factory_max_efficiency_factor = 0.08
 			}
 		}
 
@@ -161,9 +158,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_health
 			modifier = {
-				army_core_attack_factor = 0.15
-				army_core_defence_factor = 0.15
-				war_support_factor = 0.15
+			army_core_attack_factor = 0.08
+			army_core_defence_factor = 0.08
+			war_support_factor = 0.08
 			}
 		}
 
@@ -183,10 +180,10 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_free_syndicates_and_soviets
 			modifier = {
-				stability_factor = 0.20
-				political_power_gain = 0.30
-				research_speed_factor = 0.15
-				production_factory_max_efficiency_factor = 0.15
+			stability_factor = 0.10
+			political_power_gain = 0.15
+			research_speed_factor = 0.08
+			production_factory_max_efficiency_factor = 0.08
 			}
 		}
 
@@ -196,10 +193,10 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_logistics
 			modifier = {
-				industrial_capacity_factory = 0.12
-				production_factory_max_efficiency_factor = 0.10
-				production_speed_arms_factory_factor = 0.15
-				consumer_goods_factor = 0.03
+			industrial_capacity_factory = 0.08
+			production_factory_max_efficiency_factor = 0.06
+			production_speed_arms_factory_factor = 0.10
+			consumer_goods_factor = 0.03
 			}
 		}
 
@@ -377,9 +374,10 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_black_guard_legacy
 			modifier = {
-				war_support_factor = 0.25
-				conscription_factor = 0.20
-				stability_factor = -0.10
+			war_support_factor = 0.15
+			conscription_factor = 0.12
+			stability_factor = -0.12
+			political_power_factor = 0.10
 			}
 		}
 
@@ -446,9 +444,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_insurgent_army
 			modifier = {
-				army_core_defence_factor = 0.25
-				army_core_attack_factor = 0.15
-				org_loss_when_moving = -0.20
+			army_core_defence_factor = 0.12
+			army_core_attack_factor = 0.08
+			org_loss_when_moving = -0.15
 			}
 		}
 
@@ -488,9 +486,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_tachanka
 			modifier = {
-				cavalry_attack_factor = 0.25
-				breakthrough_factor = 0.20
-				army_speed_factor = 0.10
+			cavalry_attack_factor = 0.12
+			breakthrough_factor = 0.08
+			army_speed_factor = 0.05
 			}
 		}
 
@@ -499,9 +497,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_cavalry
 			modifier = {
-				army_speed_factor = 0.15
-				recon_factor = 0.25
-				max_dig_in = -2
+			army_speed_factor = 0.10
+			recon_factor = 0.15
+			max_dig_in = -2
 			}
 		}
 
@@ -510,9 +508,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_cavalry
 			modifier = {
-				cavalry_attack_factor = 0.20
-				cavalry_defence_factor = 0.15
-				breakthrough_factor = 0.12
+			cavalry_attack_factor = 0.16
+			cavalry_defence_factor = 0.08
+			breakthrough_factor = 0.10
 			}
 		}
 
@@ -521,11 +519,11 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_tachanka
 			modifier = {
-				cavalry_attack_factor = 0.20
-				cavalry_defence_factor = 0.20
-				breakthrough_factor = 0.30
-				army_org_factor = 0.12
-				supply_consumption_factor = 0.05
+			cavalry_attack_factor = 0.20
+			cavalry_defence_factor = 0.12
+			breakthrough_factor = 0.15
+			army_org_factor = 0.06
+			supply_consumption_factor = 0.05
 			}
 		}
 
@@ -595,9 +593,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_industry
 			modifier = {
-				research_speed_factor = 0.15
-				production_factory_max_efficiency_factor = 0.08
-				land_reinforce_rate = 0.05
+			research_speed_factor = 0.10
+			production_factory_max_efficiency_factor = 0.05
+			land_reinforce_rate = 0.03
 			}
 		}
 
@@ -647,10 +645,10 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_society
 			modifier = {
-				stability_factor = 0.10
-				research_speed_factor = 0.10
-				political_power_gain = 0.20
-				drift_defence_factor = 0.20
+			stability_factor = 0.08
+			research_speed_factor = 0.06
+			political_power_gain = 0.10
+			drift_defence_factor = 0.15
 			}
 		}
 
@@ -763,10 +761,10 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_industry
 			modifier = {
-				consumer_goods_factor = -0.08
-				industrial_capacity_factory = 0.12
-				production_factory_max_efficiency_factor = 0.10
-				stability_factor = 0.05
+			consumer_goods_factor = -0.05
+			industrial_capacity_factory = 0.10
+			production_factory_max_efficiency_factor = 0.08
+			stability_factor = 0.04
 			}
 		}
 
@@ -888,9 +886,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_health
 			modifier = {
-				monthly_population = 0.20
-				conscription_factor = 0.10
-				stability_factor = 0.05
+			monthly_population = 0.12
+			conscription_factor = 0.05
+			stability_factor = 0.03
 			}
 		}
 
@@ -930,9 +928,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_hostile_encirclement
 			modifier = {
-				army_core_defence_factor = 0.15
-				dig_in_speed_factor = 0.20
-				max_dig_in = 5
+			army_core_defence_factor = 0.10
+			dig_in_speed_factor = 0.15
+			max_dig_in = 3
 			}
 		}
 
@@ -1016,10 +1014,10 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_society
 			modifier = {
-				conscription_factor = 0.20
-				monthly_population = 0.12
-				stability_factor = 0.08
-				research_speed_factor = 0.05
+			conscription_factor = 0.12
+			monthly_population = 0.08
+			stability_factor = 0.05
+			research_speed_factor = 0.03
 			}
 		}
 
@@ -1029,9 +1027,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_cavalry
 			modifier = {
-				cavalry_attack_factor = 0.12
-				cavalry_defence_factor = 0.10
-				war_support_factor = 0.05
+			cavalry_attack_factor = 0.08
+			cavalry_defence_factor = 0.06
+			war_support_factor = 0.03
 			}
 		}
 		GLP_idea_horse_breeding = {
@@ -1039,9 +1037,8 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_cavalry
 			modifier = {
-				cavalry_speed_factor = 0.10
-				monthly_population = 0.05
-				conscription_factor = 0.05
+			cavalry_speed_factor = 0.08
+			monthly_population = 0.03
 			}
 		}
 		GLP_idea_steppe_warfare = {
@@ -1049,9 +1046,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_cavalry
 			modifier = {
-				cavalry_attack_factor = 0.15
-				army_speed_factor = 0.10
-				recon_factor = 0.15
+			cavalry_attack_factor = 0.12
+			army_speed_factor = 0.06
+			recon_factor = 0.10
 			}
 		}
 		GLP_idea_cossack_glory = {
@@ -1059,10 +1056,10 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_cavalry
 			modifier = {
-				cavalry_attack_factor = 0.20
-				cavalry_defence_factor = 0.15
-				war_support_factor = 0.10
-				conscription_factor = 0.10
+			cavalry_attack_factor = 0.16
+			cavalry_defence_factor = 0.10
+			war_support_factor = 0.05
+			conscription_factor = 0.05
 			}
 		}
 
@@ -1094,9 +1091,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_military
 			modifier = {
-				army_attack_factor = 0.10
-				army_defence_factor = 0.10
-				breakthrough_factor = 0.15
+			army_attack_factor = 0.06
+			army_defence_factor = 0.06
+			breakthrough_factor = 0.08
 			}
 		}
 		GLP_idea_industrial_powerhouse = {
@@ -1104,9 +1101,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_industry
 			modifier = {
-				industrial_capacity_factory = 0.15
-				production_factory_max_efficiency_factor = 0.10
-				production_speed_arms_factory_factor = 0.10
+			industrial_capacity_factory = 0.10
+			production_factory_max_efficiency_factor = 0.08
+			production_speed_arms_factory_factor = 0.08
 			}
 		}
 		GLP_idea_global_network = {
@@ -1206,10 +1203,10 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_industry
 			modifier = {
-				industrial_capacity_factory = 0.20
-				production_factory_max_efficiency_factor = 0.15
-				consumer_goods_factor = -0.08
-				research_speed_factor = 0.10
+			industrial_capacity_factory = 0.12
+			production_factory_max_efficiency_factor = 0.10
+			consumer_goods_factor = -0.05
+			research_speed_factor = 0.05
 			}
 		}
 		GLP_idea_cossack_officers = {
@@ -1227,9 +1224,9 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_cavalry
 			modifier = {
-				cavalry_attack_factor = 0.18
-				cavalry_defence_factor = 0.12
-				army_speed_factor = 0.08
+			cavalry_attack_factor = 0.18
+			cavalry_defence_factor = 0.12
+			army_speed_factor = 0.06
 			}
 		}
 		GLP_idea_cossack_traditions = {
@@ -1247,10 +1244,10 @@ ideas = {
 			removal_cost = -1
 			picture = GFX_idea_GLP_cavalry
 			modifier = {
-				cavalry_attack_factor = 0.25
-				cavalry_defence_factor = 0.20
-				war_support_factor = 0.12
-				conscription_factor = 0.12
+			cavalry_attack_factor = 0.22
+			cavalry_defence_factor = 0.14
+			war_support_factor = 0.08
+			conscription_factor = 0.08
 			}
 		}
 
@@ -1330,6 +1327,28 @@ ideas = {
 				army_org_factor = 0.05
 				political_power_gain = -0.05
 				neutrality_drift = -0.10
+			}
+		}
+
+		GLP_idea_moscow_grain_tribute = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_agriculture
+			modifier = {
+				consumer_goods_factor = 0.08
+				political_power_factor = -0.10
+				stability_factor = -0.05
+			}
+		}
+
+		GLP_idea_partisan_camps_timed = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_insurgent_army
+			modifier = {
+				army_core_defence_factor = 0.05
+				recon_factor = 0.10
+				out_of_supply_factor = -0.10
 			}
 		}
 	}

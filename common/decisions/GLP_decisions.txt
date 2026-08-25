@@ -4,16 +4,16 @@ GLP_revolutionary_military_ops = {
 	GLP_mobilize_black_guard_reserves = {
 		icon = generic_prepare_civil_war
 		cost = 50
-		days_remove = 90
+		days_remove = 120
 		available = { has_war = yes }
 		visible = { has_completed_focus = GLP_insurgent_army_reorganization }
-		fire_only_once = no
+		fire_only_once = yes
 		complete_effect = {
-			add_manpower = 25000
+			add_manpower = 12000
 			add_war_support = 0.05
-			add_stability = -0.03
+			add_stability = -0.05
 		}
-		ai_will_do = { factor = 1 }
+		ai_will_do = { factor = 2 }
 	}
 
 	# 2. Кавалерийский рейд по тылам
@@ -49,13 +49,19 @@ GLP_revolutionary_military_ops = {
 	GLP_send_brigade_to_cnt_fai = {
 		icon = generic_volunteer_expedition
 		cost = 75
-		available = { SPR = { has_civil_war = yes } }
+		available = {
+			SPR = { has_civil_war = yes }
+			has_equipment = { infantry_equipment > 499 }
+			has_manpower > 4000
+		}
 		visible = { has_completed_focus = GLP_aid_to_spanish_anarchists }
 		fire_only_once = yes
 		complete_effect = {
-			add_manpower = -5000
-			army_experience = 35
-			add_political_power = 60
+			add_manpower = -4000
+			add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
+			SPR = { add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 500 producer = GLP } }
+			army_experience = 25
+			add_political_power = 40
 		}
 		ai_will_do = { factor = 2 }
 	}
@@ -66,9 +72,10 @@ GLP_revolutionary_military_ops = {
 		cost = 40
 		days_remove = 90
 		visible = { has_completed_focus = GLP_invincible_insurgency }
+		fire_only_once = yes
 		complete_effect = {
-			add_ideas = GLP_idea_partisan_doctrine
-			add_war_support = 0.05
+			add_timed_idea = { idea = GLP_idea_partisan_camps_timed days = 180 }
+			add_war_support = 0.03
 		}
 		ai_will_do = { factor = 1 }
 	}
@@ -94,6 +101,7 @@ GLP_syndicate_industrial_initiatives = {
 		cost = 50
 		days_remove = 120
 		visible = { has_completed_focus = GLP_donbass_coal_and_steel_collective }
+		fire_only_once = yes
 		complete_effect = {
 			227 = { add_building_construction = { type = industrial_complex level = 1 instant_build = yes } }
 			add_political_power = -20
@@ -173,8 +181,10 @@ GLP_peasant_agrarian_communes = {
 		cost = 50
 		days_remove = 180
 		visible = { has_completed_focus = GLP_communal_granaries }
+		fire_only_once = yes
 		complete_effect = {
-			add_ideas = GLP_idea_steppes_breadbasket
+			add_stability = 0.05
+			add_political_power = -15
 		}
 		ai_will_do = { factor = 1 }
 	}

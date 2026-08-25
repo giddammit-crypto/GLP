@@ -222,3 +222,8 @@
 
  GLP_idea_white_emigre_officers:0 "Emigre Officer Corps"
  GLP_idea_white_emigre_officers_desc:0 "White cadres lift cavalry and infantry punch, but drain political power every day and anger the anarchists."
+
+ GLP_idea_moscow_grain_tribute:0 "Grain Tribute to Moscow"
+ GLP_idea_moscow_grain_tribute_desc:0 "Communes ship grain for a delay of war. The rear goes hungry and the soviets grumble."
+ GLP_idea_partisan_camps_timed:0 "Floodplain Camps"
+ GLP_idea_partisan_camps_timed_desc:0 "Temporary bases in the Dnieper reeds cover the rear and feed reconnaissance."

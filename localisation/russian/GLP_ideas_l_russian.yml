@@ -222,3 +222,8 @@
 
  GLP_idea_white_emigre_officers:0 "Офицерский корпус эмигрантов"
  GLP_idea_white_emigre_officers_desc:0 "Белые кадры поднимают удар конницы и пехоты, но каждый день съедают политическую власть и злят анархистов."
+
+ GLP_idea_moscow_grain_tribute:0 "Хлебная дань Москве"
+ GLP_idea_moscow_grain_tribute_desc:0 "Коммуны отгружают зерно в обмен на отсрочку войны. Тыл голодает, советы ропщут."
+ GLP_idea_partisan_camps_timed:0 "Лагеря в плавнях"
+ GLP_idea_partisan_camps_timed_desc:0 "Временные базы в днепровских камышах прикрывают тыл и кормят разведку."
