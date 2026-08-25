@@ -5,6 +5,7 @@
  GULYAIPOLE_INTRO_SUBTITLE:0 "Anarchy is the mother of order — 1936"
  GULYAIPOLE_MAP_CAPTION:0 "Ekaterinoslav Governorate, 1919"
  GULYAIPOLE_CAVALRY_CAPTION:0 "Makhno cavalry on the march"
+ GULYAIPOLE_MAKHNO_CAPTION:0 "Nestor Makhno, 1921"
  GLP_replay_cinematic_intro:0 "Replay Cinematic Intro: Gulyaypole"
  GLP_replay_cinematic_intro_desc:0 "Reopen the mod's cinematic intro — dark noir with Batko Makhno portrait, military map of Ekaterinoslav and sepia cavalry photo. Voiceover §Yvoice.ogg§! plays."
  GULYAIPOLE_REPLAY_INTRO_TT:0 "Opens §Ygulyaipole_cinematic_intro_window§! with auto-scrolling text and §Yvoice.ogg§! voiceover."

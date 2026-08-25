@@ -22,7 +22,7 @@ guiTypes = {
         name = "gulyaipole_cinematic_intro_window"
         position = { x = -450 y = -350 }
         size = { width = 900 height = 700 }
-        orientation = center
+        Orientation = center
         origo = center
         moveable = no
         clipping = no
@@ -86,13 +86,15 @@ guiTypes = {
             alwaystransparent = yes
         }
 
-        # Подпись под портретом — атмосферная деталь
+        # Подпись под портретом — атмосферная деталь.
+        # Локализация через `[KEY]` (HOI4 1.19). Без скобок — литерал,
+        # и в английской локали подпись останется русской.
         instantTextBoxType = {
             name = "makhno_caption"
             position = { x = 30 y = 250 }
             font = "hoi_14mbs"
             borderSize = { x = 0 y = 0 }
-            text = "Несторъ Махно, 1921"
+            text = "[GULYAIPOLE_MAKHNO_CAPTION]"
             maxWidth = 156
             maxHeight = 20
             format = centre
@@ -132,13 +134,14 @@ guiTypes = {
             alwaystransparent = yes
         }
 
-        # Подпись карты
+        # Подпись карты — локализация через `[KEY]`, иначе в английской
+        # версии будет русский литерал.
         instantTextBoxType = {
             name = "map_caption"
             position = { x = 580 y = 645 }
             font = "hoi_12mbs"
             borderSize = { x = 0 y = 0 }
-            text = "Екатеринославская губерния, 1919"
+            text = "[GULYAIPOLE_MAP_CAPTION]"
             maxWidth = 300
             maxHeight = 16
             format = centre
@@ -152,7 +155,7 @@ guiTypes = {
             name = "text_scroll_container"
             position = { x = 240 y = 30 }
             size = { width = 320 height = 580 }
-            orientation = upper_left
+            Orientation = upper_left
             origo = upper_left
             verticalScrollbar = "right_vertical_slider"
             clipping = yes
@@ -162,6 +165,12 @@ guiTypes = {
             }
 
             # Текстовый бокс с эпическим интро
+            #
+            # ВАЖНО (HOI4 1.19): для подстановки локализации в instantTextBoxType
+            # в scripted_gui ключ локализации ОБЯЗАТЕЛЬНО заключать в
+            # квадратные скобки `[KEY]`. Без скобок движок показывает
+            # строку-литерал «GULYAIPOLE_EPIC_INTRO_TEXT» как есть.
+            #
             # Для эффекта медленного подъема — большой maxHeight и начальная
             # позиция внизу контейнера; в движке HOI4 автопрокрутка реализуется
             # через скриптовую анимацию, но базовая прокрутка мышью/колесом
@@ -172,7 +181,7 @@ guiTypes = {
                 position = { x = 5 y = 0 }
                 font = "hoi_16mbs"
                 borderSize = { x = 0 y = 0 }
-                text = "GULYAIPOLE_EPIC_INTRO_TEXT"
+                text = "[GULYAIPOLE_EPIC_INTRO_TEXT]"
                 maxWidth = 300
                 maxHeight = 2500
                 format = left
@@ -205,12 +214,15 @@ guiTypes = {
             size = { width = 220 height = 34 }
             spriteType = "GFX_button_221x34"
             buttonFont = "hoi_18mbs"
-            buttonText = "GULYAIPOLE_START_BUTTON"
+            # Локализация текста кнопки — через квадратные скобки,
+            # иначе движок покажет строку-литерал «GULYAIPOLE_START_BUTTON»
+            # вместо «Вольному воля!».
+            buttonText = "[GULYAIPOLE_START_BUTTON]"
             shortcut = "ENTER"
-            default_value = yes
             clicksound = click_default
             # При клике — закрыть окно и запустить интро-газету
-            # Логика закрытия обрабатывается в on_actions / events
+            # Логика закрытия обрабатывается в scripted_gui (effects):
+            # start_campaign_button_click = { clr_country_flag = ... }
         }
 
         # Дополнительная декоративная линия над кнопкой
@@ -230,7 +242,7 @@ guiTypes = {
         name = "gulyaipole_cinematic_intro_window_small"
         position = { x = -350 y = -280 }
         size = { width = 700 height = 560 }
-        orientation = center
+        Orientation = center
         origo = center
         moveable = no
         clipping = no
@@ -269,7 +281,9 @@ guiTypes = {
                 position = { x = 0 y = 0 }
                 font = "hoi_14mbs"
                 borderSize = { x = 0 y = 0 }
-                text = "GULYAIPOLE_EPIC_INTRO_TEXT"
+                # Скобки `[KEY]` — обязательное условие для подстановки
+                # локализации в scripted_gui (HOI4 1.19).
+                text = "[GULYAIPOLE_EPIC_INTRO_TEXT]"
                 maxWidth = 340
                 maxHeight = 2000
                 format = left
@@ -282,8 +296,10 @@ guiTypes = {
             size = { width = 220 height = 34 }
             spriteType = "GFX_button_221x34"
             buttonFont = "hoi_16mbs"
-            buttonText = "GULYAIPOLE_START_BUTTON"
+            # Локализация через `[KEY]` (HOI4 1.19)
+            buttonText = "[GULYAIPOLE_START_BUTTON]"
             shortcut = "ENTER"
+            clicksound = click_default
         }
     }
 }
