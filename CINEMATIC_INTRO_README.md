@@ -14,27 +14,25 @@
 2. **Правый блок:**
    - Военная карта Юга Украины, Екатеринославской губернии периода Гражданской войны (550,304 — 320×260, `GFX_intro_ukraine_map`)
    - Сепированная фотокарточка махновской конницы на марше (550,110 — 320×160, `GFX_intro_makhno_cavalry`)
-3. **Центрально-левая зона:** Одно текстовое поле в общей координатной системе окна. Шрифт `hoi_16mbs`, текст `GULYAIPOLE_EPIC_INTRO_TEXT`, `maxWidth = 300`, `maxHeight = 510`, `fixedsize = yes`; лишний текст не раздвигает окно и не перекрывает правый блок.
+3. **Центрально-левая зона:** Одно текстовое поле в общей координатной системе окна. Шрифт `hoi_16mbs`, текст `GULYAIPOLE_EPIC_INTRO_TEXT`, `maxWidth = 310`, `maxHeight = 525`, плавная вертикальная прокрутка `standardtext_slider`; все спецсимволы оптимизированы под атлас шрифта HOI4 без артефактов и «???».
 4. **Кнопка «Начать» (340,635):** Золотое тиснение, `GFX_button_221x34`, `GULYAIPOLE_START_BUTTON` = «Вольному воля!», shortcut ENTER.
 
 ### Аудиосопровождение
 
 Автоматическое воспроизведение `voice.ogg` выполняет скрытое событие
 `glp_cinematic_intro.1`: его `immediate`-блок вызывает
-`sound_effect = gulyaipole_intro_voice`, после чего scripted GUI показывает окно.
-GUI не содержит `show_sound`, поэтому голос не запускается повторно при
-перерисовке окна.
+`sound_effect = gulyaipole_intro_voice` и `scoped_play_song = gulyaipole_intro_voice_music`.
+Вся базовая фоновая музыка игры (`base_music`) снабжена модификатором
+`factor = 0` при активном флаге `glp_show_cinematic_intro`, что полностью
+исключает наложение музыки поверх голоса рассказчика.
 
-- **Исходник:** `sound/voice.ogg` (OGG Vorbis).
-- **Звуковая регистрация:** `sound/gulyaipole_sounds.asset` → низкоуровневый
+- **Исходник:** `sound/voice.ogg` (полная версия, OGG Vorbis, 44.1 kHz, 1 ch, 157 сек.).
+- **Звуковая регистрация:** `sound/gulyaipole_sounds.asset` → категория `Voices` + низкоуровневый
   `sound` + `soundeffect` с именем `gulyaipole_intro_voice`.
 - **Музыкальная регистрация:** `music/gulyaipole.asset` и
-  `music/gulyaipole_songs.txt`; копия `music/voice.ogg` нужна потому, что
-  музыкальные asset-файлы ищут аудио относительно каталога `music/`. Её
-  идентификатор `gulyaipole_intro_voice_music` намеренно не совпадает с
-  `soundeffect`, поэтому автоматический запуск всегда идёт через sound-канал.
+  `music/gulyaipole_songs.txt`; копия `music/voice.ogg` обеспечивает радио-воспроизведение.
 
-В сборке используется валидный OGG Vorbis `sound/voice.ogg`. Аудит проверяет
+В сборке используется валидный OGG Vorbis `sound/voice.ogg` (44.1 kHz, Vorbis). Аудит проверяет
 всю цепочку автозапуска: `on_startup` → скрытое событие → `sound_effect` →
 зарегистрированный OGG-файл.
 

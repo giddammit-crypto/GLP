@@ -15,6 +15,10 @@ music = {
 			factor = 0
 			has_war = yes
 		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
 	}
 }
 
@@ -25,6 +29,10 @@ music = {
 		modifier = {
 			factor = 2
 			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
 		}
 	}
 }
@@ -37,6 +45,10 @@ music = {
 			factor = 2
 			tag = GLP
 		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
 	}
 }
 
@@ -47,6 +59,10 @@ music = {
 		modifier = {
 			factor = 2
 			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
 		}
 	}
 }
@@ -59,6 +75,10 @@ music = {
 			factor = 2
 			tag = GLP
 		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
 	}
 }
 
@@ -69,6 +89,10 @@ music = {
 		modifier = {
 			factor = 2
 			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
 		}
 	}
 }
@@ -81,6 +105,10 @@ music = {
 			factor = 2
 			tag = GLP
 		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
 	}
 }
 
@@ -91,6 +119,10 @@ music = {
 		modifier = {
 			factor = 2
 			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
 		}
 	}
 }
@@ -103,6 +135,10 @@ music = {
 			factor = 2
 			tag = GLP
 		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
 	}
 }
 
@@ -114,6 +150,10 @@ music = {
 			factor = 2
 			tag = GLP
 		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
 	}
 }
 
@@ -124,6 +164,10 @@ music = {
 		modifier = {
 			factor = 2
 			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
 		}
 	}
 }

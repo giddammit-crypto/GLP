@@ -1,6 +1,13 @@
 # Гуляй-Поле — звуковая регистрация для HOI4 1.19.2.
 # Файл voice.ogg находится в каталоге sound/.
 
+category = {
+	name = "Voices"
+	soundeffects = {
+		gulyaipole_intro_voice
+	}
+}
+
 sound = {
 	name = "gulyaipole_intro_voice_file"
 	file = "voice.ogg"
