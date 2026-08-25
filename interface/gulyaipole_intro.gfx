@@ -61,7 +61,15 @@ spriteTypes = {
         texturefile = "gfx/interface/intro/gulyaipole_cavalry.dds"
     }
 
-    # Кинематографический автоскролл текста снизу вверх (как в кино)
+    # Кинематографический автоскролл текста снизу вверх (звёздная сага / титры).
+    # base  — полностью прозрачная подложка 310x525 (DXT5), чтобы под иконой
+    #         просвечивала архивная фактура окна, а не белый квадрат.
+    # mask  — вертикальный альфа-градиент: текст плавно всплывает снизу и
+    #         растворяется сверху (DXT5 с альфой).
+    # crawl — длинная лента 310x2048 с золотым/кремовым текстом (DXT5).
+    # animationrotation = 0.0 задает вертикальное направление скролла
+    # (-90.0 в ванили — диагональный блик для иконок фокусов, он крутил
+    # текст вбок и был причиной «технических слов» вместо титров).
     spriteType = {
         name = "GFX_intro_text_crawl"
         texturefile = "gfx/interface/intro/gulyaipole_text_base.dds"
@@ -69,15 +77,16 @@ spriteTypes = {
         animation = {
             animationmaskfile = "gfx/interface/intro/gulyaipole_text_mask.dds"
             animationtexturefile = "gfx/interface/intro/gulyaipole_text_crawl.dds"
-            animationrotation = -90.0
+            animationrotation = 0.0
             animationlooping = no
-            animationtime = 155.0
+            animationtime = 165.0
             animationdelay = 0.0
             animationblendmode = "add"
             animationtype = "scrolling"
             animationrotationoffset = { x = 0.0 y = 0.0 }
             animationtexturescale = { x = 1.0 y = 1.0 }
         }
+        legacy_lazy_load = no
     }
 
     # Дополнительные вспомогательные спрайты для атмосферы
