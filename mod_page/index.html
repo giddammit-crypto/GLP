@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гуляйполе: Вольная Территорія — Total Conversion для Hearts of Iron IV</title>
+<meta name="description" content="Гуляйполе: Вольная Территорія — альтернативно-историческая total conversion для Hearts of Iron IV. Возродите анархистскую Вольную Территорию Батьки Махно: 190 фокусов, 119 национальных духов, 22 персонажа, тачанки, партизанская война и мировая революция.">
+<meta property="og:title" content="Гуляйполе: Вольная Территорія — Hearts of Iron IV">
+<meta property="og:description" content="Анархія есть мать порядка. Возродите повстанческую армию Батьки Махно на юге Украины в 1936 году.">
+<meta property="og:image" content="assets/thumbnail.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,900;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0b09;
+    --bg2:#14110d;
+    --panel:#1a1612;
+    --panel2:#221c16;
+    --ink:#ece6d8;
+    --ink-dim:#b8ac95;
+    --muted:#8d8674;
+    --red:#c0392b;
+    --red-bright:#e24b3d;
+    --gold:#b8ac95;
+    --line:rgba(236,230,216,.12);
+    --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --shadow:0 24px 60px rgba(0,0,0,.55);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--red);color:#fff}
+  a{color:var(--red-bright);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 28px;gap:16px;
+    background:linear-gradient(180deg,rgba(13,11,9,.92),rgba(13,11,9,.78));
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:700;letter-spacing:.5px}
+  .brand img{height:34px;width:auto;image-rendering:pixelated}
+  .brand .t{font-size:19px;color:var(--ink)}
+  .brand .t b{color:var(--red-bright);font-weight:900}
+  .links{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .links a{color:var(--ink-dim);font-size:13.5px;font-weight:500;padding:7px 12px;border-radius:999px;transition:.2s}
+  .links a:hover{color:var(--ink);background:rgba(236,230,216,.08);text-decoration:none}
+  .links a.cta{background:var(--red);color:#fff}
+  .links a.cta:hover{background:var(--red-bright)}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;min-height:92vh;display:flex;align-items:center;
+    padding:150px 0 90px;overflow:hidden;
+  }
+  .hero-bg{position:absolute;inset:0;z-index:-3}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+  .hero-bg .veil{
+    position:absolute;inset:0;
+    background:
+      linear-gradient(180deg,rgba(13,11,9,.72) 0%,rgba(13,11,9,.45) 42%,rgba(13,11,9,.96) 100%),
+      radial-gradient(90% 70% at 18% 40%,rgba(192,57,43,.16),transparent 60%);
+  }
+  .hero .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--red-bright);font-weight:600}
+  .eyebrow::before{content:"";width:34px;height:2px;background:var(--red)}
+  h1{font-family:var(--serif);font-weight:900;font-size:clamp(44px,7vw,86px);line-height:.98;letter-spacing:.5px;margin:20px 0 8px}
+  h1 .sub{display:block;color:var(--red-bright);font-size:clamp(26px,3.4vw,40px);font-weight:700;letter-spacing:2px;margin-top:14px}
+  .tagline{max-width:560px;color:var(--ink-dim);font-size:17.5px;margin:22px 0 34px}
+  .tagline em{font-family:var(--serif);color:var(--ink);font-style:italic}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:10px;
+    font-weight:600;font-size:15px;letter-spacing:.2px;transition:.22s;border:1px solid transparent;
+  }
+  .btn.solid{background:var(--red);color:#fff;box-shadow:0 10px 30px rgba(192,57,43,.35)}
+  .btn.solid:hover{background:var(--red-bright);transform:translateY(-2px);text-decoration:none}
+  .btn.ghost{background:rgba(236,230,216,.06);color:var(--ink);border-color:var(--line);backdrop-filter:blur(4px)}
+  .btn.ghost:hover{background:rgba(236,230,216,.12);transform:translateY(-2px);text-decoration:none}
+  .hero-card{position:relative}
+  .hero-card .frame{
+    position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);
+    box-shadow:var(--shadow);background:var(--panel);
+  }
+  .hero-card img{display:block;width:100%;height:auto}
+  .hero-card .cap{
+    display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    padding:14px 18px;font-family:var(--serif);border-top:1px solid var(--line);
+  }
+  .hero-card .cap b{font-size:19px}
+  .hero-card .cap span{font-size:13px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+  .hero-card .chip{
+    position:absolute;top:16px;right:16px;background:rgba(13,11,9,.72);border:1px solid var(--line);
+    color:var(--gold);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;
+    padding:6px 12px;border-radius:999px;backdrop-filter:blur(6px)
+  }
+
+  /* ---------- stats ---------- */
+  .stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
+  .stats .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line)}
+  .stat{background:var(--bg2);text-align:center;padding:30px 12px}
+  .stat b{display:block;font-family:var(--serif);font-size:38px;font-weight:900;color:var(--ink);line-height:1}
+  .stat span{display:block;margin-top:9px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- sections ---------- */
+  section{padding:96px 0}
+  .sec-head{margin-bottom:46px}
+  .sec-head h2{font-family:var(--serif);font-size:clamp(30px,4vw,44px);font-weight:900;line-height:1.1}
+  .sec-head h2 em{color:var(--red-bright);font-style:normal}
+  .sec-head .lead{margin-top:14px;max-width:720px;color:var(--ink-dim);font-size:16.5px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .two .art{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+  .two .art img{display:block;width:100%;height:100%;object-fit:cover}
+  .prose p{margin-bottom:18px;color:var(--ink-dim)}
+  .prose p strong{color:var(--ink);font-weight:600}
+  .prose p em{font-family:var(--serif);color:var(--gold);font-style:italic}
+
+  /* ---------- timeline ---------- */
+  .timeline{position:relative;margin-top:8px;padding-left:30px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--red),rgba(192,57,43,.12))}
+  .tl{position:relative;padding:0 0 34px 26px}
+  .tl::before{content:"";position:absolute;left:-30px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--red)}
+  .tl .yr{font-family:var(--serif);font-weight:900;font-size:20px;color:var(--red-bright)}
+  .tl h3{font-family:var(--serif);font-size:20px;margin:6px 0 8px}
+  .tl p{color:var(--ink-dim);font-size:15.5px;max-width:760px}
+
+  /* ---------- features ---------- */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .feat{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;transition:.25s;
+  }
+  .feat:hover{transform:translateY(-6px);border-color:rgba(192,57,43,.5);box-shadow:var(--shadow)}
+  .feat .img{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--bg2)}
+  .feat .img img{width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(1.02);transition:.4s}
+  .feat:hover .img img{transform:scale(1.05)}
+  .feat .body{padding:22px 22px 26px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .feat h3{font-family:var(--serif);font-size:21px;font-weight:700}
+  .feat p{color:var(--ink-dim);font-size:14.5px;flex:1}
+  .feat .tag{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--red-bright);font-weight:600}
+
+  /* ---------- commanders ---------- */
+  .roster{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .cmdr{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:var(--panel);transition:.25s}
+  .cmdr:hover{transform:translateY(-6px);border-color:rgba(192,57,43,.5);box-shadow:var(--shadow)}
+  .cmdr .ph{aspect-ratio:3/4;overflow:hidden;background:var(--bg2)}
+  .cmdr .ph img{width:100%;height:100%;object-fit:cover;object-position:top;transition:.4s}
+  .cmdr:hover .ph img{transform:scale(1.05)}
+  .cmdr .info{padding:14px 16px 16px}
+  .cmdr .info b{font-family:var(--serif);font-size:17.5px;display:block;line-height:1.25}
+  .cmdr .info span{display:block;margin-top:6px;color:var(--muted);font-size:13px}
+  .cmdr .badge{
+    position:absolute;top:12px;left:12px;background:rgba(13,11,9,.78);border:1px solid var(--line);
+    color:var(--gold);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;backdrop-filter:blur(6px)
+  }
+  .cmdr.leader .ph{box-shadow:inset 0 0 0 2px var(--red)}
+  .cmdr.leader .badge{background:var(--red);color:#fff;border-color:transparent}
+
+  /* ---------- gallery ---------- */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .shot{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);cursor:zoom-in;background:var(--bg2);transition:.25s;position:relative}
+  .shot:hover{transform:translateY(-5px);border-color:rgba(192,57,43,.5)}
+  .shot img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:16/9}
+  .shot .lbl{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:linear-gradient(transparent,rgba(13,11,9,.88))}
+  .lightbox{position:fixed;inset:0;background:rgba(8,6,5,.92);z-index:100;display:none;align-items:center;justify-content:center;padding:40px;backdrop-filter:blur(6px)}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:100%;max-height:92vh;border-radius:10px;box-shadow:var(--shadow)}
+  .lightbox .x{position:absolute;top:22px;right:28px;font-size:34px;color:#fff;cursor:pointer;line-height:1}
+  .lightbox .x:hover{color:var(--red-bright)}
+
+  /* ---------- install ---------- */
+  .install{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .steps{counter-reset:s}
+  .step{display:flex;gap:18px;margin-bottom:26px}
+  .step .n{counter-increment:s;flex:0 0 46px;height:46px;border-radius:50%;border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:900;font-size:20px;color:var(--red-bright)}
+  .step h3{font-family:var(--serif);font-size:18.5px;margin-bottom:5px}
+  .step p{color:var(--ink-dim);font-size:14.5px}
+  .step code{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 7px;font-size:13px;color:var(--gold)}
+  .req{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .req h3{font-family:var(--serif);font-size:20px;margin-bottom:16px}
+  .req li{list-style:none;padding:11px 0 11px 30px;position:relative;color:var(--ink-dim);font-size:15px;border-bottom:1px dashed var(--line)}
+  .req li:last-child{border-bottom:0}
+  .req li::before{content:"⚠";position:absolute;left:0;color:var(--red-bright)}
+  .req li.ok::before{content:"✓";color:#7ba05b}
+  .card-thumb{margin-top:26px;text-align:center}
+  .card-thumb img{width:210px;height:210px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
+  .card-thumb p{margin-top:10px;font-size:12.5px;color:var(--muted)}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);background:var(--bg2);padding:64px 0 48px}
+  footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+  footer h4{font-family:var(--serif);font-size:16px;margin-bottom:14px;letter-spacing:.08em}
+  footer p,footer li{color:var(--muted);font-size:13.5px}
+  footer ul{list-style:none}
+  footer li{margin-bottom:8px}
+  footer a{color:var(--ink-dim)}
+  footer a:hover{color:var(--red-bright)}
+  .foot-note{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;color:var(--muted);font-size:12.5px}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:1024px){
+    .hero .grid{grid-template-columns:1fr;gap:40px}
+    .hero-card{max-width:360px}
+    .stats .grid{grid-template-columns:repeat(3,1fr)}
+    .two{grid-template-columns:1fr}
+    .features{grid-template-columns:repeat(2,1fr)}
+    .roster{grid-template-columns:repeat(3,1fr)}
+    .install{grid-template-columns:1fr}
+    footer .cols{grid-template-columns:1fr}
+  }
+  @media(max-width:640px){
+    .features,.gallery{grid-template-columns:1fr}
+    .roster{grid-template-columns:repeat(2,1fr)}
+    .stats .grid{grid-template-columns:repeat(2,1fr)}
+    .links a{display:none}
+    .links a.cta{display:inline-flex}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================== NAV ============================== -->
+<nav>
+  <div class="brand">
+    <img src="assets/flag.png" alt="Флаг Вольной Территории">
+    <span class="t">Анархія! <b>Гуляйполе</b></span>
+  </div>
+  <div class="links">
+    <a href="#about">О моде</a>
+    <a href="#history">Предистория</a>
+    <a href="#features">Функционал</a>
+    <a href="#commanders">Командиры</a>
+    <a href="#gallery">Галерея</a>
+    <a href="#install" class="cta">Установка</a>
+  </div>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero-bg">
+    <img src="assets/hero.jpg" alt="Конница Вольной Территории">
+    <div class="veil"></div>
+  </div>
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <span class="eyebrow">Total Conversion · Hearts of Iron IV</span>
+        <h1>Гуляйполе<span class="sub">Вольная Территорія</span></h1>
+        <p class="tagline">
+          <em>«Анархія есть мать порядка».</em> Альтернативная история, в которой восстание
+          Батьки Махно не погасло в 1921-м, а разгорелось заново — в безгосударственное
+          общество свободных коммун, вольных советов и непобедимой Повстанческой армии.
+        </p>
+        <div class="hero-cta">
+          <a class="btn solid" href="#install">Начать в 1936 году</a>
+          <a class="btn ghost" href="#commanders">Командиры РПА</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="frame">
+          <span class="chip">Launcher card</span>
+          <img src="assets/makhno.jpg" alt="Нестор Махно">
+          <div class="cap"><b>Батько Махно</b><span>глава государства · 1936</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================== STATS ============================== -->
+<div class="stats">
+  <div class="wrap">
+    <div class="grid">
+      <div class="stat"><b>190</b><span>нац. фокусов</span></div>
+      <div class="stat"><b>27</b><span>ветвей</span></div>
+      <div class="stat"><b>119</b><span>нац. духов</span></div>
+      <div class="stat"><b>22</b><span>персонажа</span></div>
+      <div class="stat"><b>22</b><span>решения</span></div>
+      <div class="stat"><b>26</b><span>событий</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== ABOUT ============================== -->
+<section id="about">
+  <div class="wrap">
+    <div class="two">
+      <div class="reveal">
+        <div class="sec-head">
+          <span class="eyebrow">О моде</span>
+          <h2>Свобода <em>с оружием в руках</em></h2>
+        </div>
+        <div class="prose">
+          <p><strong>«Гуляйполе: Вольная Территорія» (GLP)</strong> — AAA-уровневая total conversion
+          для Hearts of Iron IV, посвящённая одному из самых ярких эпизодов Гражданской войны —
+          махновскому движению. Игрок возглавляет Вольную Территорию и Революционную
+          Повстанческую Армию Украины (РПА) в 1936 году и ведёт её сквозь Вторую мировую.</p>
+          <p>Это не «ещё одна страна»: мод пересобирает геймплей вокруг фирменной асимметрии
+          махновщины — <strong>тачанки, партизанская война, трофейная экономика, вольные
+          советы и федерация без государства</strong>. Вместо классического блицкрига — степная
+          манёвренная война, глубокие кавалерийские рейды и подпольная сеть в тылу врага.</p>
+          <p>Вся графика — портреты исторических командиров, экраны загрузки, новостная лента
+          в духе газет 1930-х — выдержана в едином сепийно-угольном стиле: <em>архивная
+          фотография, ожившая на экране.</em></p>
+        </div>
+      </div>
+      <div class="art reveal"><img src="assets/backstory.jpg" alt="Совет повстанцев"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== HISTORY ============================== -->
+<section id="history" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Предистория</span>
+      <h2>От гибели — <em>к возрождению</em></h2>
+      <p class="lead">Точка расхождения с реальной историей — 1936 год. Всё, что было раньше, — подлинная история махновщины.</p>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl">
+        <div class="yr">1918–1921</div>
+        <h3>Вольная Территория и Повстанческая армия</h3>
+        <p>В Гуляйполе Нестор Махно поднимает крестьянское восстание. РПА бьёт австро-германских
+        оккупантов, гетманцев, белых и красных, провозглашает безвластные коммуны и вольные
+        советы. Легендарные тачанки — пулемётные повозки — становятся символом степной войны.
+        В 1921 году после разгрома Махно с остатками отряда уходит за границу.</p>
+      </div>
+      <div class="tl">
+        <div class="yr">1921–1936</div>
+        <h3>Эмиграция и тлеющий уголёк</h3>
+        <p>Париж, гаражи и типографии, анархистские кружки и недописанные мемуары. Но в сёлах
+        Приазовья, в шахтах Донбасса и в казармах память о «батьке» не угасает — ждут только
+        искры.</p>
+      </div>
+      <div class="tl">
+        <div class="yr">1936</div>
+        <h3>IV съезд вольных крестьян и рабочих</h3>
+        <p>Мир на пороге новой большой войны, и юг Украины снова загорается. Делегаты сотен
+        коммун, шахт и полков Черной Гвардии провозглашают <strong>Федерацию Вольных Советов</strong>.
+        Всякая государственная власть объявлена вне закона, земля — в общее пользование, заводы —
+        фабричным комитетам. Батько возвращается.</p>
+      </div>
+      <div class="tl">
+        <div class="yr">1936–1945</div>
+        <h3>Альтернативная история — ваша</h3>
+        <p>Куда поведёт Вольную Территорию игрок: к союзу с СССР, Германией или Британией — или
+        по пути «Вольному воля», собирая под чёрное знамя добровольцев со всего мира? К судьбе
+        свободных коммун — или к мировой революции и Черному Интернационалу?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== FEATURES ============================== -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Функционал</span>
+      <h2>Механики, достойные <em>коммерческого аддона</em></h2>
+      <p class="lead">Каждая система — от фокусов до 3D-моделей — заточена под асимметричный стиль махновщины и выверена по балансу.</p>
+    </div>
+    <div class="features">
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/anarchist_congress.jpg" alt="Фокус-дерево"></div>
+        <div class="body"><span class="tag">Национальные фокусы</span><h3>27 ветвей · 190 фокусов</h3>
+        <p>Военная доктрина и партизанская война, индустриализация и вольные советы, контрразведка,
+        дипломатические союзы, аграрные реформы, Черноморский флот, воздушные силы степи, культурная
+        революция, казачья традиция и мировая революция. Все иконки — тематические, без DLC-зависимостей.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/black_guard_march.jpg" alt="Национальные духи"></div>
+        <div class="body"><span class="tag">Национальные духи</span><h3>119 духов и модификаторов</h3>
+        <p>Пятнадцать тематических категорий иконок (военные, промышленные, кавалерийские,
+        разведывательные, медицинские и др.) с настоящей прозрачностью. Экономика, стабильность,
+        военная мощь и боевой дух настраиваются динамически — без мёртвых модификаторов.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/tachanka.jpg" alt="Тачанки"></div>
+        <div class="body"><span class="tag">Асимметрия</span><h3>Тачанки и партизанская война</h3>
+        <p>Фирменная махновская механика: пулемётные тачанки, глубокие конные рейды, засады в балках,
+        подпольные ячейки и партизанская доктрина. Бонусы кавалерии и рейдов сочетаются со штрафами
+        снабжения вдали от коренных земель — честная асимметрия.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/armored_train.jpg" alt="Трофейная война"></div>
+        <div class="body"><span class="tag">Экономика войны</span><h3>Трофейные отряды РПА</h3>
+        <p>После каждой победы в бою армия подбирает трофеи: стрелковое вооружение, мототехнику,
+        танки и артиллерию. При достатке резервов и снаряжения на контролируемой земле формируется
+        новая дивизия «Трофейный отряд РПА» с ремонтной ротой — война кормит войну.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/madrid_international.jpg" alt="Решения"></div>
+        <div class="body"><span class="tag">Решения</span><h3>5 категорий · 22 решения</h3>
+        <p>Военные операции и ополчение, инициативы вольных синдикатов, крестьянское снабжение,
+        контрразведка и порядок, примирение с прошлым. От мобилизации резервов Черной Гвардии до
+        отправки бригады анархистам Испании.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/dnieper_electric.jpg" alt="События"></div>
+        <div class="body"><span class="tag">Новостная лента</span><h3>26 газетных событий</h3>
+        <p>События и новости в духе передовиц 1930-х: «Легендарные тачанки выходят в степь»,
+        «IV съезд вольных крестьян и рабочих», «Образование Черного Интернационала» — с расширенным
+        широкоформатным окном и тёмным газетным фоном.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/sevastopol_fleet.jpg" alt="Дипломатия"></div>
+        <div class="body"><span class="tag">Дипломатия</span><h3>Четыре развилки союзов</h3>
+        <p>Военный союз с СССР (глубокая операция), с Германией (прусская выучка), с Британией
+        (морская выучка) — либо независимая линия «Вольному воля»: под чёрное знамя стекаются
+        добровольцы со всего мира. Каждая миссия — со своими советниками и бонусами.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/radio_tower.jpg" alt="GUI"></div>
+        <div class="body"><span class="tag">Интерфейс и графика</span><h3>Кастомный GUI и экраны</h3>
+        <p>Широкоформатное окно новостей, тёмный газетный фон, шесть авторских экранов загрузки с
+        цитатами Прудона, Бакунина, Кропоткина и Махно, шрифт с кириллицей и кастомная карточка
+        мода для лаунчера.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/dnieper_electric.jpg" alt="Модели"></div>
+        <div class="body"><span class="tag">3D-модели</span><h3>Матросы и конница в папахах</h3>
+        <p>Пехота РПА использует модель матроса, кавалерия и казаки — всадников в чёрных папахах с
+        шашками (материалы Rise of Russia, подключены как tag-specific сущности). Войска на карте
+        выглядят как настоящие махновцы.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/black_guard_march.jpg" alt="Музыка"></div>
+        <div class="body"><span class="tag">Атмосфера</span><h3>Саундтрек и локализация</h3>
+        <p>Музыка группы «Монгол Шуудан» в меню и на карте, полная локализация на русском и
+        английском (UTF-8 BOM), а также встроенные подсказки загрузки с авторскими цитатами
+        анархистов.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/anarchist_congress.jpg" alt="Советники"></div>
+        <div class="body"><span class="tag">Персонажи</span><h3>22 героя движения</h3>
+        <p>Шестнадцать собственных командиров и советников — от Белаша и Каретника до Вдовиченко и
+        Марченко — плюс три союзные военные миссии и три белых эмигранта, нанимаемых фокусом.
+        У каждого — свой портрет, биография и боевые черты.</p></div>
+      </div>
+      <div class="feat reveal">
+        <div class="img"><img src="assets/news/black_guard_march.jpg" alt="Старт"></div>
+        <div class="body"><span class="tag">Сценарий</span><h3>Готовый старт в 1936</h3>
+        <p>Собственный букмарк, стартовый OOB из четырёх кавалерийских и семи стрелковых дивизий,
+        автобронетанковый полк «Гроза Степей», технологии, национальные духи и фокус-дерево —
+        всё настроено для немедленного погружения.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== COMMANDERS ============================== -->
+<section id="commanders" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Командный состав</span>
+      <h2>Командиры <em>Революционной Повстанческой Армии</em></h2>
+      <p class="lead">Исторические личности махновского движения — с фотореалистичными портретами эпохи, выдержанными в единой сепийно-зернистой манере.</p>
+    </div>
+    <div class="roster reveal">
+      <div class="cmdr leader"><span class="badge">Батько</span><div class="ph"><img src="assets/portraits/nestor_makhno.jpg" alt="Нестор Махно"></div><div class="info"><b>Нестор Махно</b><span>Глава государства и главнокомандующий</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/viktor_belash.jpg" alt="Виктор Белаш"></div><div class="info"><b>Виктор Белаш</b><span>Начальник штаба РПА</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/semen_karetnik.jpg" alt="Семён Каретник"></div><div class="info"><b>Семён Каретник</b><span>Командующий корпусом</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/feodosiy_shchus.jpg" alt="Феодосий Щусь"></div><div class="info"><b>Феодосий Щусь</b><span>Командующий кавалерией</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/lev_zadov.jpg" alt="Лев Задов"></div><div class="info"><b>Лев Задов</b><span>Начальник контрразведки (РЗР)</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/halyna_kuzmenko.jpg" alt="Галина Кузьменко"></div><div class="info"><b>Галина Кузьменко</b><span>Комиссар просвещения</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/vsevolod_volin.jpg" alt="Всеволод Волин"></div><div class="info"><b>Всеволод Волин</b><span>Министр пропаганды</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/ataman_grigoriev.jpg" alt="Атаман Григорьев"></div><div class="info"><b>Атаман Григорьев</b><span>Союзник поневоле</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/bogdan_dybets.jpg" alt="Богдан Дыбец"></div><div class="info"><b>Богдан Дыбец</b><span>Старый гуляйпольский командир</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/aleksey_dybets.jpg" alt="Алексей Дыбец"></div><div class="info"><b>Алексей Дыбец</b><span>Кавалерийский командир</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/feodosiy_kozhin.jpg" alt="Феодосий Кожин"></div><div class="info"><b>Феодосий Кожин</b><span>Степной командир</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/trofim_vdovychenko.jpg" alt="Трофим Вдовиченко"></div><div class="info"><b>Трофим Вдовиченко</b><span>Командир Азовской группы</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/aleksey_marchenko.jpg" alt="Алексей Марченко"></div><div class="info"><b>Алексей Марченко</b><span>Командир конницы</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/platon_petrenko.jpg" alt="Платон Петренко"></div><div class="info"><b>Платон Петренко</b><span>Командир Крымского корпуса</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/vasily_kurylenko.jpg" alt="Василий Куриленко"></div><div class="info"><b>Василий Куриленко</b><span>Командир Новоспасовской группы</span></div></div>
+      <div class="cmdr"><div class="ph"><img src="assets/portraits/petr_gavrilenko.jpg" alt="Пётр Гавриленко"></div><div class="info"><b>Пётр Гавриленко</b><span>Начальник полевого штаба</span></div></div>
+      <div class="cmdr"><span class="badge">Фокус</span><div class="ph"><img src="assets/portraits/nikolai_skoblin.jpg" alt="Николай Скоблин"></div><div class="info"><b>Николай Скоблин</b><span>Белый генерал-эмигрант</span></div></div>
+      <div class="cmdr"><span class="badge">Фокус</span><div class="ph"><img src="assets/portraits/anton_turkul.jpg" alt="Антон Туркул"></div><div class="info"><b>Антон Туркул</b><span>Пехотный генерал-эмигрант</span></div></div>
+      <div class="cmdr"><span class="badge">Фокус</span><div class="ph"><img src="assets/portraits/grigory_semyonov.jpg" alt="Григорий Семёнов"></div><div class="info"><b>Григорий Семёнов</b><span>Казачий атаман-эмигрант</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== GALLERY ============================== -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Галерея</span>
+      <h2>Экраны и <em>арт мода</em></h2>
+    </div>
+    <div class="gallery reveal">
+      <div class="shot" data-cap="Кавалерийская атака"><img src="assets/gallery/cavalry_charge.jpg" alt="Кавалерийская атака"><span class="lbl">Кавалерийская атака</span></div>
+      <div class="shot" data-cap="Тачанки в степи"><img src="assets/gallery/tachanka.jpg" alt="Тачанки в степи"><span class="lbl">Тачанки в степи</span></div>
+      <div class="shot" data-cap="Совет в лагере"><img src="assets/gallery/camp_council.jpg" alt="Совет в лагере"><span class="lbl">Совет в лагере</span></div>
+      <div class="shot" data-cap="Бронепоезд"><img src="assets/gallery/armored_train.jpg" alt="Бронепоезд"><span class="lbl">Бронепоезд</span></div>
+      <div class="shot" data-cap="Пулемётная линия"><img src="assets/gallery/machinegun_line.jpg" alt="Пулемётная линия"><span class="lbl">Пулемётная линия</span></div>
+      <div class="shot" data-cap="Штурм села"><img src="assets/gallery/village_storm.jpg" alt="Штурм села"><span class="lbl">Штурм села</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== INSTALL ============================== -->
+<section id="install" style="background:var(--bg2);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Установка</span>
+      <h2>Как <em>начать</em></h2>
+    </div>
+    <div class="install">
+      <div class="steps reveal">
+        <div class="step"><div class="n">1</div><div><h3>Проверьте требования</h3><p>Hearts of Iron IV версии <code>1.19.*</code> и дополнение <strong>La Résistance</strong> — оно добавляет идеологию «анархизм», без которой мод не загрузится.</p></div></div>
+        <div class="step"><div class="n">2</div><div><h3>Скопируйте мод</h3><p>Распакуйте папку мода в <code>Documents/Paradox Interactive/Hearts of Iron IV/mod/</code> вместе с <code>GLP.mod</code> (или подпишитесь в Steam Workshop).</p></div></div>
+        <div class="step"><div class="n">3</div><div><h3>Включите в лаунчере</h3><p>Отметьте «Гуляйполе: Вольная Территорія» в списке модов лаунчера Paradox и создайте плейсет.</p></div></div>
+        <div class="step"><div class="n">4</div><div><h3>Начните в 1936 году</h3><p>Выберите сценарий «Надвигающаяся буря», страну <strong>Гуляйполе</strong> — и ведите Вольную Территорию к свободе или мировой революции.</p></div></div>
+      </div>
+      <div class="reveal">
+        <div class="req">
+          <h3>Системные требования</h3>
+          <ul>
+            <li class="ok">Hearts of Iron IV (любое издание)</li>
+            <li class="ok">Версия игры 1.19.*</li>
+            <li>DLC La Résistance — обязательно (идеология «анархизм»)</li>
+            <li class="ok">Русская и английская локализация включены</li>
+          </ul>
+          <div class="card-thumb">
+            <img src="assets/thumbnail.png" alt="Карточка мода в лаунчере">
+            <p>Карточка мода для лаунчера Paradox (thumbnail.png, 512×512)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>Гуляйполе: Вольная Территорія</h4>
+        <p>Альтернативно-историческая total conversion для Hearts of Iron IV.
+        «Анархія есть мать порядка» — возродите повстанческую армию Батьки Махно
+        и постройте общество без господ на юге Украины.</p>
+      </div>
+      <div>
+        <h4>Разделы</h4>
+        <ul>
+          <li><a href="#about">О моде</a></li>
+          <li><a href="#history">Предистория</a></li>
+          <li><a href="#features">Функционал</a></li>
+          <li><a href="#commanders">Командиры</a></li>
+          <li><a href="#install">Установка</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Атрибуция</h4>
+        <ul>
+          <li>3D-модели — Rise of Russia</li>
+          <li>Шрифты — Source Serif Pro (SIL OFL)</li>
+          <li>Музыка — «Монгол Шуудан»</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>© <span id="yr"></span> Гуляйполе: Вольная Территорія. Неаффилированный фанатский проект.</span>
+      <span>Hearts of Iron IV и Paradox Interactive — товарные знаки Paradox Interactive AB.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lb"><span class="x">×</span><img src="" alt="Просмотр"></div>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Gallery lightbox
+  const lb = document.getElementById('lb');
+  const lbImg = lb.querySelector('img');
+  document.querySelectorAll('.shot img').forEach(img => {
+    img.addEventListener('click', () => { lbImg.src = img.src; lb.classList.add('open'); });
+  });
+  lb.addEventListener('click', e => { if (e.target !== lbImg) lb.classList.remove('open'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+
+  // Year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

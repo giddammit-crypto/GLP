@@ -1,0 +1,124 @@
+# Постоянное давление соседей на Вольную территорию.
+# add_ai_strategy на старте задаёт импульс; этот файл держит фон.
+
+SOV_contain_GLP = {
+	allowed = { original_tag = SOV }
+	enable = {
+		country_exists = GLP
+		GLP = { exists = yes }
+		NOT = { has_war_with = GLP }
+		NOT = { is_in_faction_with = GLP }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = antagonize
+		id = GLP
+		value = 120
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 70
+	}
+}
+
+POL_wary_of_GLP = {
+	allowed = { original_tag = POL }
+	enable = {
+		country_exists = GLP
+		NOT = { is_in_faction_with = GLP }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 40
+	}
+}
+
+GER_watch_GLP = {
+	allowed = { original_tag = GER }
+	enable = {
+		country_exists = GLP
+		NOT = { is_in_faction_with = GLP }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 35
+	}
+}
+
+ROM_watch_GLP = {
+	allowed = { original_tag = ROM }
+	enable = {
+		country_exists = GLP
+		NOT = { is_in_faction_with = GLP }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 45
+	}
+}
+
+TUR_watch_GLP = {
+	allowed = { original_tag = TUR }
+	enable = {
+		country_exists = GLP
+		NOT = { is_in_faction_with = GLP }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 25
+	}
+}
+
+ENG_watch_GLP = {
+	allowed = { original_tag = ENG }
+	enable = {
+		country_exists = GLP
+		NOT = { is_in_faction_with = GLP }
+		GLP = { has_country_flag = GLP_pact_with_ger }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 30
+	}
+}

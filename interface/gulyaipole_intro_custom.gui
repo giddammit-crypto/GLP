@@ -1,0 +1,167 @@
+# Гуляй-Поле — кинематографическая заставка (HOI4 1.19.2)
+#
+# В окне один containerWindowType. Все элементы находятся в единой системе
+# координат окна 900x700, чтобы вложенные окна не переопределяли
+# origin/position и не ломали раскладку.
+#
+# В центральной колонке — история Вольной республики обычным локализованным
+# текстом (GULYAIPOLE_EPIC_INTRO_TEXT, шрифт игры, вертикальная прокрутка);
+# maxWidth/maxHeight не дают тексту выйти за пределы окна. Анимированная
+# лента титров и кнопка-переключатель режимов УДАЛЕНЫ в аудите 26.08.2026:
+# спрайт GFX_intro_text_crawl ломал загрузку остальных спрайтов
+# gulyaipole_intro.gfx (в окне пропадали фон и фото); кнопка и её
+# scripted-localisation (common/scripted_localisation/GLP_intro_loc.txt)
+# удалены вместе с ней.
+#
+# Голос запускается событием glp_cinematic_intro.1 (sound_effect + scoped_play_song),
+# окно отображается через scripted GUI по флагу glp_show_cinematic_intro.
+
+guiTypes = {
+	containerWindowType = {
+		name = "gulyaipole_cinematic_intro_window"
+		position = { x = 0 y = 0 }
+		size = { width = 900 height = 700 }
+		orientation = center
+		origo = center
+		moveable = no
+		click_to_front = no
+		clipping = yes
+
+		# Мрачная фактура состаренной архивной бумаги
+		background = {
+			name = "Background"
+			quadTextureSprite = "GFX_intro_bg"
+		}
+
+		# Золотая инкрустированная кайма по периметру окна
+		iconType = {
+			name = "intro_window_frame"
+			position = { x = 0 y = 0 }
+			size = { width = 900 height = 700 }
+			spriteType = "GFX_gold_inner_border"
+			alwaystransparent = yes
+		}
+
+		# Заголовок и подзаголовок — центральная колонка
+		instantTextBoxType = {
+			name = "intro_title"
+			position = { x = 200 y = 22 }
+			font = "hoi_24header"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_INTRO_TITLE"
+			maxWidth = 340
+			maxHeight = 30
+			fixedsize = yes
+			format = center
+		}
+
+		instantTextBoxType = {
+			name = "intro_subtitle"
+			position = { x = 200 y = 54 }
+			font = "hoi_14mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_INTRO_SUBTITLE"
+			maxWidth = 340
+			maxHeight = 20
+			fixedsize = yes
+			format = center
+		}
+
+		# Портрет Махно: левый верхний угол
+		iconType = {
+			name = "makhno_portrait_frame"
+			position = { x = 25 y = 25 }
+			size = { width = 166 height = 220 }
+			spriteType = "GFX_political_leader_frame_gold"
+			alwaystransparent = yes
+		}
+
+		iconType = {
+			name = "makhno_portrait_intro"
+			position = { x = 30 y = 30 }
+			size = { width = 156 height = 210 }
+			spriteType = "GFX_portrait_nestor_makhno_intro"
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "makhno_caption"
+			position = { x = 25 y = 248 }
+			font = "hoi_12mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_MAKHNO_CAPTION"
+			maxWidth = 166
+			maxHeight = 18
+			fixedsize = yes
+			format = center
+		}
+
+		# История Вольной республики — обычный локализованный текст в
+		# центральной колонке со шрифтом игры и вертикальной прокруткой;
+		# maxWidth/maxHeight удерживают текст в пределах окна.
+		instantTextBoxType = {
+			name = "cinematic_intro_text"
+			position = { x = 210 y = 86 }
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_EPIC_INTRO_TEXT"
+			maxWidth = 320
+			maxHeight = 540
+			format = left
+			scrollbarType = standardtext_slider
+		}
+
+		# Правый блок: сепированная фотокарточка конницы сверху, карта снизу
+		iconType = {
+			name = "cavalry_photo"
+			position = { x = 550 y = 108 }
+			size = { width = 320 height = 160 }
+			spriteType = "GFX_intro_makhno_cavalry"
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "cavalry_caption"
+			position = { x = 550 y = 272 }
+			font = "hoi_12mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_CAVALRY_CAPTION"
+			maxWidth = 320
+			maxHeight = 18
+			fixedsize = yes
+			format = center
+		}
+
+		iconType = {
+			name = "ukraine_military_map"
+			position = { x = 550 y = 302 }
+			size = { width = 320 height = 260 }
+			spriteType = "GFX_intro_ukraine_map"
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "map_caption"
+			position = { x = 550 y = 566 }
+			font = "hoi_12mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_MAP_CAPTION"
+			maxWidth = 320
+			maxHeight = 18
+			fixedsize = yes
+			format = center
+		}
+
+		# Кнопка начала кампании (единственная кнопка окна; центр окна:
+		# x = 450 - 221/2 = 340)
+		buttonType = {
+			name = "start_campaign_button"
+			position = { x = 340 y = 635 }
+			quadTextureSprite = "GFX_button_221x34"
+			buttonFont = "hoi_18mbs"
+			buttonText = "GULYAIPOLE_START_BUTTON"
+			shortcut = "ENTER"
+			clicksound = click_default
+		}
+	}
+}

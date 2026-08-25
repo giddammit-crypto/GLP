@@ -1,0 +1,40 @@
+# Гуляй-Поле — scripted GUI кинематографической заставки (HOI4 1.19.2)
+#
+# Окно из interface/gulyaipole_intro_custom.gui показывается, пока установлен
+# glp_show_cinematic_intro. В центральной колонке — история Вольной республики
+# обычным текстом (GULYAIPOLE_EPIC_INTRO_TEXT, ползунок прокрутки). Режимов
+# переключения нет: анимированная лента титров и кнопка-переключатель удалены
+# в аудите 26.08.2026 (см. интерфейс). Кнопка «Вольному воля!» закрывает окно
+# и снимает флаги, включая старые режимные — для совместимости с сохранениями
+# прошлых итераций.
+
+scripted_gui = {
+	gulyaipole_cinematic_intro = {
+		window_name = "gulyaipole_cinematic_intro_window"
+		context_type = player_context
+
+		visible = {
+			tag = GLP
+			is_ai = no
+			has_country_flag = glp_show_cinematic_intro
+		}
+
+		effects = {
+			start_campaign_button_click = {
+				clr_country_flag = glp_show_cinematic_intro
+				clr_country_flag = glp_intro_crawl_mode
+				clr_country_flag = glp_intro_manual_mode
+				scoped_play_song = GLP_ms_yablochko
+			}
+		}
+
+		triggers = {
+			start_campaign_button_click_enabled = {
+				always = yes
+			}
+			start_campaign_button_visible = {
+				always = yes
+			}
+		}
+	}
+}

@@ -1,0 +1,3823 @@
+focus_tree = {
+	id = GLP_focus_tree
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = GLP
+		}
+	}
+	default = no
+
+	# Блокъ непрерывныхъ фокусовъ расположенъ ПО ЦЕНТРУ ПОДЪ деревомъ.
+	# Дерево занимаетъ x=2..54 и y=0..18. При шагѣ 96x130 px его центръ
+	# находится около x=2770 px; ванильная панель 770x380 px, поэтому её
+	# лѣвый крайъ x=2385. Нижній фокусъ оканчивается около y=2468 px;
+	# панель начинается на y=2600 и оставляетъ безопасный зазоръ 132 px.
+	continuous_focus_position = { x = 2385 y = 2600 }
+
+	# =========================================================================
+	# 1. ВОЕННАЯ ДОКТРИНА И ПАРТИЗАНСКАЯ ВОЙНА (12 фокусов, x = 2..6, y = 0..4)
+	# =========================================================================
+	focus = {
+		id = GLP_insurgent_army_reorganization
+		icon = GFX_goal_generic_army_doctrines
+		x = 4
+		y = 0
+		cost = 5
+		ai_will_do = {
+			factor = 10
+			modifier = { factor = 2 has_war = yes }
+			modifier = { factor = 1.5 threat > 0.25 }
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			army_experience = 25
+			add_ideas = GLP_idea_insurgent_army
+			add_stability = -0.04 # Debuff: Перестройка отрядов ополчения
+		}
+	}
+
+	focus = {
+		id = GLP_underground_armories
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = GLP_insurgent_army_reorganization }
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_underground_armories days = 400 }
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1500 producer = GLP }
+		}
+	}
+
+	focus = {
+		id = GLP_partisan_warfare_doctrine
+		icon = GFX_focus_generic_forest_brothers
+		prerequisite = { focus = GLP_insurgent_army_reorganization }
+		x = 4
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 8
+			modifier = { factor = 2 has_war = yes }
+			modifier = { factor = 1.5 threat > 0.25 }
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_insurgent_army }
+				swap_ideas = {
+					remove_idea = GLP_idea_insurgent_army
+					add_idea = GLP_idea_partisan_doctrine
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_partisan_doctrine
+			}
+			add_command_power = 20
+		}
+	}
+
+	focus = {
+		id = GLP_legendary_tachankas
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = GLP_insurgent_army_reorganization }
+		x = 6
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 9
+			modifier = { factor = 2 has_war = yes }
+			modifier = { factor = 1.5 threat > 0.25 }
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = GLP_idea_legendary_tachankas
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1000 producer = GLP }
+			add_political_power = -25 # Debuff: Реквизиция мастерских
+			news_event = { id = glp_news.3 days = 1 }
+		}
+	}
+
+	focus = {
+		id = GLP_black_banner_vanguard
+		icon = GFX_focus_generic_red_flags
+		prerequisite = { focus = GLP_underground_armories }
+		x = 2
+		y = 2
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			army_experience = 35
+			add_tech_bonus = { name = glp_inf_bonus bonus = 1.0 uses = 2 category = infantry_weapons }
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_steppe_lightning
+		icon = GFX_goal_generic_army_motorized
+		prerequisite = { focus = GLP_partisan_warfare_doctrine }
+		x = 4
+		y = 2
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_steppe_lightning days = 540 }
+		}
+	}
+
+	focus = {
+		id = GLP_anti_tank_cavalry
+		icon = GFX_focus_generic_anti_tank_guns
+		prerequisite = { focus = GLP_legendary_tachankas }
+		x = 6
+		y = 2
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_legendary_tachankas }
+				swap_ideas = {
+					remove_idea = GLP_idea_legendary_tachankas
+					add_idea = GLP_idea_anti_tank_cavalry
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_anti_tank_cavalry
+			}
+			add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 200 producer = GLP }
+		}
+	}
+
+	focus = {
+		id = GLP_armored_train_production
+		icon = GFX_focus_generic_railway_gun
+		prerequisite = { focus = GLP_black_banner_vanguard }
+		x = 2
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = GLP_idea_armored_train_production
+			add_equipment_to_stockpile = { type = train_equipment amount = 5 producer = GLP }
+		}
+	}
+
+	focus = {
+		id = GLP_rapid_rail_deployment
+		icon = GFX_focus_generic_supply_line
+		prerequisite = { focus = GLP_steppe_lightning }
+		x = 4
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_armored_train_production }
+				swap_ideas = {
+					remove_idea = GLP_idea_armored_train_production
+					add_idea = GLP_idea_rapid_rail_deployment
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_rapid_rail_deployment
+			}
+			add_political_power = -25
+		}
+	}
+
+	focus = {
+		id = GLP_cossack_sabre_tactics
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = GLP_anti_tank_cavalry }
+		x = 6
+		y = 3
+		cost = 7
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			army_experience = 35
+			if = {
+				limit = { has_idea = GLP_idea_anti_tank_cavalry }
+				swap_ideas = {
+					remove_idea = GLP_idea_anti_tank_cavalry
+					add_idea = GLP_idea_black_avalanche
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_black_avalanche
+			}
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_steel_ram_tactics
+		icon = GFX_focus_generic_tank_assault
+		prerequisite = { focus = GLP_armored_train_production focus = GLP_rapid_rail_deployment }
+		x = 3
+		y = 4
+		cost = 7
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_rapid_rail_deployment }
+				swap_ideas = {
+					remove_idea = GLP_idea_rapid_rail_deployment
+					add_idea = GLP_idea_steel_ram
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_steel_ram
+			}
+			add_war_support = 0.10
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_invincible_insurgency
+		icon = GFX_goal_generic_defence
+		prerequisite = { focus = GLP_rapid_rail_deployment focus = GLP_cossack_sabre_tactics }
+		x = 5
+		y = 4
+		cost = 10
+		ai_will_do = {
+			factor = 7
+			modifier = { factor = 2 has_war = yes }
+			modifier = { factor = 1.5 threat > 0.25 }
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_partisan_doctrine }
+				swap_ideas = {
+					remove_idea = GLP_idea_partisan_doctrine
+					add_idea = GLP_idea_invincible_insurgency
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_invincible_insurgency
+			}
+			add_political_power = -40
+		}
+	}
+
+	# =========================================================================
+	# 2. ИНДУСТРИАЛИЗАЦИЯ И ВОЛЬНЫЕ СОВЕТЫ (11 фокусов, x = 10..14, y = 0..4)
+	# =========================================================================
+	focus = {
+		id = GLP_syndicate_industrial_planning
+		icon = GFX_focus_generic_workers
+		x = 12
+		y = 0
+		cost = 5
+		ai_will_do = { factor = 10 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.05
+			add_war_support = -0.03
+		}
+	}
+
+	focus = {
+		id = GLP_empower_the_communes
+		icon = GFX_focus_generic_workers_and_farmers_rise
+		prerequisite = { focus = GLP_syndicate_industrial_planning }
+		x = 10
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_communes_empowerment days = 480 }
+			random_owned_controlled_state = {
+				prioritize = { 226 200 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = industrial_complex level = 1 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_donbass_coal_and_steel_collective
+		icon = GFX_focus_generic_coal_mining
+		prerequisite = { focus = GLP_syndicate_industrial_planning }
+		x = 14
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			227 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = industrial_complex level = 1 instant_build = yes }
+				add_building_construction = { type = arms_factory level = 1 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_dnieper_hydroelectric_freedom
+		icon = GFX_focus_generic_hydroelectric_energy
+		prerequisite = { focus = GLP_empower_the_communes }
+		x = 10
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			200 = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = { type = infrastructure level = 2 instant_build = yes }
+			}
+			if = {
+				limit = { has_idea = GLP_idea_communes_empowerment }
+				swap_ideas = {
+					remove_idea = GLP_idea_communes_empowerment
+					add_idea = GLP_idea_dnieper_hydroelectric
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_dnieper_hydroelectric
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_revvoensovet_industry_coordination
+		icon = GFX_focus_generic_military_industry
+		prerequisite = { focus = GLP_syndicate_industrial_planning }
+		x = 12
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 227 226 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = arms_factory level = 2 instant_build = yes }
+			}
+			add_timed_idea = { idea = GLP_idea_revvoensovet_coordination days = 480 }
+		}
+	}
+
+	focus = {
+		id = GLP_decentralized_workshop_network
+		icon = GFX_focus_generic_mass_production
+		prerequisite = { focus = GLP_donbass_coal_and_steel_collective }
+		x = 14
+		y = 2
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_decentralized_workshops days = 480 }
+		}
+	}
+
+	focus = {
+		id = GLP_libertarian_railway_network
+		icon = GFX_focus_generic_railroad
+		prerequisite = { focus = GLP_dnieper_hydroelectric_freedom }
+		x = 10
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = { type = infrastructure level = 2 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_revvoensovet_armored_command
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = GLP_revvoensovet_industry_coordination }
+		x = 12
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_equipment_to_stockpile = { type = train_equipment amount = 10 producer = GLP }
+			add_tech_bonus = { name = glp_armor_bonus bonus = 1.0 uses = 2 category = armor }
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_black_sea_shipyards_refit
+		icon = GFX_focus_generic_refit_civilian_ships
+		prerequisite = { focus = GLP_decentralized_workshop_network }
+		x = 14
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			137 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = dockyard level = 2 instant_build = yes }
+			}
+			navy_experience = 25
+		}
+	}
+
+	focus = {
+		id = GLP_scientific_communes_academies
+		icon = GFX_focus_generic_socialist_science
+		prerequisite = { focus = GLP_libertarian_railway_network focus = GLP_revvoensovet_armored_command }
+		x = 11
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+			add_political_power = -50 # Debuff: Затраты на оснащение лабораторий
+		}
+	}
+
+	focus = {
+		id = GLP_autonomous_industrial_bastion
+		icon = GFX_focus_generic_industry_2
+		prerequisite = { focus = GLP_revvoensovet_armored_command focus = GLP_black_sea_shipyards_refit }
+		x = 13
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_dnieper_hydroelectric }
+				swap_ideas = {
+					remove_idea = GLP_idea_dnieper_hydroelectric
+					add_idea = GLP_idea_autonomous_industrial_bastion
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_autonomous_industrial_bastion
+			}
+		}
+	}
+
+	# =========================================================================
+	# 3. ВНУТРЕННЯЯ БЕЗОПАСНОСТЬ И КОНТРРАЗВЕДКА (9 фокусов, x = 18..22, y = 0..4)
+	# =========================================================================
+	focus = {
+		id = GLP_kontrrazvedka_reorganization
+		icon = GFX_goal_generic_intelligence_exchange
+		x = 20
+		y = 0
+		cost = 5
+		ai_will_do = { factor = 10 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_political_power = 80
+			add_ideas = GLP_idea_kontrrazvedka_surveillance
+		}
+	}
+
+	focus = {
+		id = GLP_purging_white_remnants
+		icon = GFX_focus_generic_strike_at_democracy2
+		prerequisite = { focus = GLP_kontrrazvedka_reorganization }
+		x = 18
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_stability = 0.08
+			add_war_support = 0.05
+			add_manpower = -3000 # Debuff: Ликвидация враждебных элементов
+		}
+	}
+
+	focus = {
+		id = GLP_vigilance_against_cheka_infiltrators
+		icon = GFX_focus_generic_infiltration
+		prerequisite = { focus = GLP_kontrrazvedka_reorganization }
+		x = 22
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_kontrrazvedka_surveillance }
+				swap_ideas = {
+					remove_idea = GLP_idea_kontrrazvedka_surveillance
+					add_idea = GLP_idea_anti_cheka_vigilance
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_anti_cheka_vigilance
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_libertarian_civil_courts
+		icon = GFX_focus_generic_court
+		prerequisite = { focus = GLP_purging_white_remnants focus = GLP_vigilance_against_cheka_infiltrators }
+		mutually_exclusive = { focus = GLP_decree_on_black_terror }
+		x = 18
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 9 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.12
+			if = {
+				limit = { has_idea = GLP_idea_anti_cheka_vigilance }
+				swap_ideas = {
+					remove_idea = GLP_idea_anti_cheka_vigilance
+					add_idea = GLP_idea_libertarian_courts
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_libertarian_courts
+			}
+			country_event = { id = glp_crisis.20 days = 20 }
+		}
+	}
+
+	focus = {
+		id = GLP_decree_on_black_terror
+		icon = GFX_focus_generic_conspiracy
+		prerequisite = { focus = GLP_purging_white_remnants focus = GLP_vigilance_against_cheka_infiltrators }
+		mutually_exclusive = { focus = GLP_libertarian_civil_courts }
+		x = 22
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 4 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_anti_cheka_vigilance }
+				swap_ideas = {
+					remove_idea = GLP_idea_anti_cheka_vigilance
+					add_idea = GLP_idea_black_terror
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_black_terror
+			}
+			country_event = { id = glp_crisis.20 days = 20 }
+			add_manpower = -5000 # Debuff: Жесткие чистки
+		}
+	}
+
+	focus = {
+		id = GLP_zadov_intelligence_network
+		icon = GFX_focus_generic_secret_service_agency
+		prerequisite = { focus = GLP_libertarian_civil_courts }
+		x = 18
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_libertarian_courts }
+				swap_ideas = {
+					remove_idea = GLP_idea_libertarian_courts
+					add_idea = GLP_idea_zadov_network
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_zadov_network
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_expansion_of_iron_fist
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = GLP_decree_on_black_terror }
+		x = 22
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_war_support = 0.10
+			add_political_power = -50
+		}
+	}
+
+	focus = {
+		id = GLP_peoples_militia_patrols
+		icon = GFX_goal_generic_defence
+		prerequisite = { focus = GLP_zadov_intelligence_network }
+		x = 19
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_zadov_network }
+				swap_ideas = {
+					remove_idea = GLP_idea_zadov_network
+					add_idea = GLP_idea_militia_patrols
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_militia_patrols
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_unshakeable_revolutionary_order
+		icon = GFX_focus_generic_national_security
+		prerequisite = { focus = GLP_expansion_of_iron_fist focus = GLP_peoples_militia_patrols }
+		x = 21
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_stability = 0.10
+			add_war_support = 0.10
+		}
+	}
+
+	# =========================================================================
+	# 4. ДИПЛОМАТИЧЕСКИЕ СОЮЗЫ (13 фокусов, x = 26..34, y = 0..4)
+	# =========================================================================
+	focus = {
+		id = GLP_international_diplomacy_crossroads
+		icon = GFX_goal_generic_improve_relations
+		x = 30
+		y = 0
+		cost = 5
+		ai_will_do = { factor = 10 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = GLP_alliance_with_soviet_union
+		icon = GFX_focus_generic_join_comintern
+		prerequisite = { focus = GLP_international_diplomacy_crossroads }
+		mutually_exclusive = { focus = GLP_alliance_with_germany focus = GLP_alliance_with_britain focus = GLP_free_will }
+		x = 26
+		y = 1
+		cost = 5
+		available = {
+			SOV = { exists = yes NOT = { has_war_with = ROOT } }
+			NOT = { has_war_with = SOV }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = SOV }
+				has_war_with = SOV
+			}
+		}
+		ai_will_do = { factor = 10 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_opinion_modifier = { target = SOV modifier = GLP_soviet_military_pact }
+			SOV = { add_opinion_modifier = { target = GLP modifier = GLP_soviet_military_pact } }
+			add_popularity = { ideology = communism popularity = 0.10 }
+			add_stability = -0.05
+			SOV = { country_event = { id = glp_diplo.1 hours = 8 } }
+			news_event = { id = glp_news.5 days = 2 }
+		}
+	}
+
+	focus = {
+		id = GLP_alliance_with_germany
+		icon = GFX_goal_generic_alliance
+		prerequisite = { focus = GLP_international_diplomacy_crossroads }
+		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_britain focus = GLP_free_will }
+		x = 30
+		y = 1
+		cost = 5
+		available = {
+			GER = { exists = yes NOT = { has_war_with = ROOT } }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = GER }
+				has_war_with = GER
+			}
+		}
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_opinion_modifier = { target = GER modifier = GLP_german_military_pact }
+			GER = { add_opinion_modifier = { target = GLP modifier = GLP_german_military_pact } }
+			add_popularity = { ideology = fascism popularity = 0.08 }
+			add_stability = -0.06
+			GER = { country_event = { id = glp_diplo.2 hours = 8 } }
+			news_event = { id = glp_news.5 days = 2 }
+		}
+	}
+
+	focus = {
+		id = GLP_alliance_with_britain
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = GLP_international_diplomacy_crossroads }
+		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_germany focus = GLP_free_will }
+		x = 34
+		y = 1
+		cost = 5
+		available = {
+			ENG = { exists = yes NOT = { has_war_with = ROOT } }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = ENG }
+				has_war_with = ENG
+			}
+		}
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_opinion_modifier = { target = ENG modifier = GLP_british_military_pact }
+			ENG = { add_opinion_modifier = { target = GLP modifier = GLP_british_military_pact } }
+			add_popularity = { ideology = democratic popularity = 0.08 }
+			add_stability = -0.04
+			ENG = { country_event = { id = glp_diplo.3 hours = 8 } }
+			news_event = { id = glp_news.5 days = 2 }
+		}
+	}
+
+	focus = {
+		id = GLP_soviet_armaments_lend_lease
+		icon = GFX_goal_generic_military_deal
+		prerequisite = { focus = GLP_alliance_with_soviet_union }
+		x = 26
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 9 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1200 producer = SOV }
+			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 200 producer = SOV }
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_krupp_arms_shipments
+		icon = GFX_focus_generic_license_production
+		prerequisite = { focus = GLP_alliance_with_germany }
+		x = 30
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1200 producer = GER }
+			add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 120 producer = GER }
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_vickers_armaments_lend_lease
+		icon = GFX_goal_generic_military_deal
+		prerequisite = { focus = GLP_alliance_with_britain }
+		x = 34
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1200 producer = ENG }
+			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 160 producer = ENG }
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_joint_red_black_military_academy
+		icon = GFX_focus_generic_military_academy
+		prerequisite = { focus = GLP_soviet_armaments_lend_lease }
+		x = 26
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			army_experience = 50
+			add_tech_bonus = { name = glp_sov_doctrine_bonus bonus = 1.0 uses = 2 category = land_doctrine }
+		}
+	}
+
+	focus = {
+		id = GLP_wehrmacht_tactical_instructors
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = GLP_krupp_arms_shipments }
+		x = 30
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			army_experience = 50
+			add_timed_idea = { idea = GLP_prussian_drill_discipline days = 730 }
+		}
+	}
+
+	focus = {
+		id = GLP_sevastopol_naval_refit_with_royal_navy
+		icon = GFX_focus_generic_naval_discipline
+		prerequisite = { focus = GLP_vickers_armaments_lend_lease }
+		x = 34
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			137 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = dockyard level = 2 instant_build = yes }
+			}
+			navy_experience = 30
+		}
+	}
+
+	focus = {
+		id = GLP_eurasian_red_black_vanguard
+		icon = GFX_focus_generic_red_flags
+		prerequisite = { focus = GLP_joint_red_black_military_academy }
+		x = 26
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_eurasian_red_black_vanguard days = 730 }
+		}
+	}
+
+	focus = {
+		id = GLP_black_cross_of_the_steppes
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = GLP_wehrmacht_tactical_instructors }
+		x = 30
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_german_axis_synergy days = 730 }
+		}
+	}
+
+	focus = {
+		id = GLP_bastion_of_free_nations
+		icon = GFX_goal_generic_fortify_city
+		prerequisite = { focus = GLP_sevastopol_naval_refit_with_royal_navy }
+		x = 34
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_anglo_free_bastion days = 730 }
+		}
+	}
+
+	# =========================================================================
+	# 4b. ВОЛЬНОМУ ВОЛЯ — независимая анархистская линия (5 фокусов, x = 24..24, y = 1..5)
+	#
+	# Четвёртый вариант развилки союзной дипломатии (взаимоисключается с
+	# союзами с СССР, Германией и Британией). Гуляйполе не встаёт ни под чьи
+	# знамёна: слава Махно гремит по всей Европе, и воюющие страны шлют
+	# добровольцев под чёрное знамя.
+	# =========================================================================
+	focus = {
+		id = GLP_free_will
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = { focus = GLP_international_diplomacy_crossroads }
+		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_germany focus = GLP_alliance_with_britain }
+		x = 24
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 10 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_political_power = 120
+			add_stability = 0.05
+			add_war_support = 0.10
+			add_ideas = GLP_idea_free_will
+			news_event = { id = glp_news.6 days = 1 }
+			SOV = { country_event = { id = glp_diplo.30 hours = 12 } }
+			GER = { country_event = { id = glp_diplo.30 hours = 12 } }
+			ENG = { country_event = { id = glp_diplo.30 hours = 12 } }
+			ROM = { country_event = { id = glp_diplo.30 hours = 12 } }
+			TUR = { country_event = { id = glp_diplo.30 hours = 12 } }
+		}
+	}
+
+	focus = {
+		id = GLP_old_enemies_unite
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = GLP_free_will }
+		x = 24
+		y = 2
+		cost = 5
+		available = {
+			OR = {
+				has_war = yes
+				threat > 0.15
+				date > 1938.1.1
+			}
+		}
+		ai_will_do = { factor = 9 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_stability = -0.15
+			add_political_power = -75
+			add_popularity = { ideology = neutrality popularity = -0.10 }
+			set_country_flag = GLP_allied_white_emigres
+			if = {
+				limit = { NOT = { has_tech = gw_artillery } }
+				set_technology = { gw_artillery = 1 popup = no }
+			}
+			add_timed_idea = { idea = GLP_idea_white_emigre_officers days = 730 }
+			if = {
+				limit = { has_idea = GLP_idea_free_will }
+				swap_ideas = {
+					remove_idea = GLP_idea_free_will
+					add_idea = GLP_idea_white_volunteers
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_white_volunteers
+			}
+			recruit_character = GLP_nikolai_skoblin
+			recruit_character = GLP_anton_turkul
+			recruit_character = GLP_grigory_semyonov
+			load_oob = "GLP_old_enemies"
+			add_manpower = 8000
+			army_experience = 15
+			news_event = { id = glp_news.7 days = 1 }
+			news_event = { id = glp_white.1 days = 45 random_days = 15 }
+			country_event = { id = glp_crisis.40 days = 120 random_days = 30 }
+		}
+	}
+
+	focus = {
+		id = GLP_international_brigades
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = GLP_old_enemies_unite }
+		x = 24
+		y = 3
+		cost = 5
+		ai_will_do = { factor = 9 }
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_white_volunteers }
+				swap_ideas = {
+					remove_idea = GLP_idea_white_volunteers
+					add_idea = GLP_idea_international_brigades
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_international_brigades
+			}
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1500 producer = GLP }
+			add_manpower = 6000
+		}
+	}
+
+	focus = {
+		id = GLP_black_cross_aid
+		icon = GFX_focus_generic_welfare
+		prerequisite = { focus = GLP_international_brigades }
+		x = 24
+		y = 4
+		cost = 7
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_international_brigades }
+				swap_ideas = {
+					remove_idea = GLP_idea_international_brigades
+					add_idea = GLP_idea_black_cross_aid
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_black_cross_aid
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = GLP }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = arms_factory level = 2 instant_build = yes }
+			}
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GLP_makhno_myth
+		icon = GFX_focus_generic_printing_press
+		prerequisite = { focus = GLP_black_cross_aid }
+		x = 24
+		y = 5
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_black_cross_aid }
+				swap_ideas = {
+					remove_idea = GLP_idea_black_cross_aid
+					add_idea = GLP_idea_makhno_myth
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_makhno_myth
+			}
+			add_war_support = 0.15
+			add_stability = 0.10
+		}
+	}
+
+	# =========================================================================
+	# 5. АГРАРНЫЕ И СОЦИАЛЬНЫЕ РЕФОРМЫ (10 фокусов, x = 38..42, y = 0..5)
+	# =========================================================================
+	focus = {
+		id = GLP_peasant_grain_supplies
+		icon = GFX_focus_generic_farmland
+		x = 40
+		y = 0
+		cost = 5
+		ai_will_do = { factor = 10 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.10
+			add_political_power = 60
+			add_war_support = -0.04
+		}
+	}
+
+	focus = {
+		id = GLP_bread_for_cities_and_front
+		icon = GFX_focus_generic_welfare
+		prerequisite = { focus = GLP_peasant_grain_supplies }
+		x = 38
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_ideas = GLP_idea_bread_for_front
+		}
+	}
+
+	focus = {
+		id = GLP_communal_granaries
+		icon = GFX_focus_generic_agricultural_subsidies
+		prerequisite = { focus = GLP_peasant_grain_supplies }
+		x = 42
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_manpower = 15000
+			add_stability = 0.05
+			random_owned_controlled_state = {
+				prioritize = { 200 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = { type = industrial_complex level = 1 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_tractor_stations_for_communes
+		icon = GFX_focus_generic_mechanized
+		prerequisite = { focus = GLP_bread_for_cities_and_front }
+		x = 38
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 200 196 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+			}
+			add_political_power = -40
+		}
+	}
+
+	focus = {
+		id = GLP_land_to_the_tillers_decree
+		icon = GFX_focus_generic_land_reclamation
+		prerequisite = { focus = GLP_communal_granaries }
+		x = 42
+		y = 2
+		cost = 10
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.10
+			add_timed_idea = { idea = GLP_idea_land_to_tillers days = 730 }
+		}
+	}
+
+	focus = {
+		id = GLP_free_libertarian_schools
+		icon = GFX_focus_generic_university_3
+		prerequisite = { focus = GLP_tractor_stations_for_communes }
+		x = 38
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+			add_political_power = -40
+		}
+	}
+
+	focus = {
+		id = GLP_rural_healthcare_network
+		icon = GFX_focus_generic_field_hostpital
+		prerequisite = { focus = GLP_land_to_the_tillers_decree }
+		x = 42
+		y = 3
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_rural_healthcare days = 540 }
+		}
+	}
+
+	focus = {
+		id = GLP_steppes_breadbasket
+		icon = GFX_focus_generic_farmland
+		prerequisite = { focus = GLP_free_libertarian_schools }
+		x = 39
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_bread_for_front }
+				swap_ideas = {
+					remove_idea = GLP_idea_bread_for_front
+					add_idea = GLP_idea_steppes_breadbasket
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_steppes_breadbasket
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_peasant_intellectual_harmony
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_rural_healthcare_network }
+		x = 41
+		y = 4
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.08
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GLP_flourishing_free_countryside
+		icon = GFX_focus_generic_public_works
+		prerequisite = { focus = GLP_steppes_breadbasket focus = GLP_peasant_intellectual_harmony }
+		x = 40
+		y = 5
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_stability = 0.10
+			add_manpower = 20000
+		}
+	}
+
+	# =========================================================================
+	# 6. СУДЬБА ВОЛЬНОЙ ТЕРРИТОРИИ И МИРОВАЯ РЕВОЛЮЦИЯ (10 фокусов, x = 46..51, y = 0..5)
+	# =========================================================================
+	focus = {
+		id = GLP_fourth_congress_of_peasants
+		icon = GFX_focus_generic_workers_and_farmers_rise
+		x = 49
+		y = 0
+		cost = 5
+		ai_will_do = { factor = 10 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_stability = 0.10
+			add_political_power = 100
+			add_war_support = -0.05
+			news_event = { id = glp_news.2 days = 1 }
+		}
+	}
+
+	focus = {
+		id = GLP_federation_of_free_soviets
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = GLP_fourth_congress_of_peasants }
+		mutually_exclusive = { focus = GLP_black_military_dictatorship }
+		x = 47
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 10 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_ideas = GLP_idea_federation_of_free_soviets
+			add_popularity = { ideology = fascism popularity = -0.10 }
+		}
+	}
+
+	focus = {
+		id = GLP_black_military_dictatorship
+		icon = GFX_focus_generic_military_dictatorship
+		prerequisite = { focus = GLP_fourth_congress_of_peasants }
+		mutually_exclusive = { focus = GLP_federation_of_free_soviets }
+		x = 51
+		y = 1
+		cost = 5
+		ai_will_do = { factor = 3 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_ideas = GLP_idea_military_junta
+			add_popularity = { ideology = neutrality popularity = 0.10 }
+			add_stability = -0.10
+			set_country_flag = GLP_ataman_junta
+		}
+	}
+
+	focus = {
+		id = GLP_black_international
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = GLP_federation_of_free_soviets }
+		x = 47
+		y = 2
+		cost = 7
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_federation_of_free_soviets }
+				swap_ideas = {
+					remove_idea = GLP_idea_federation_of_free_soviets
+					add_idea = GLP_idea_black_international
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_black_international
+			}
+			add_political_power = -40
+			news_event = { id = glp_news.4 days = 2 }
+		}
+	}
+
+	focus = {
+		id = GLP_total_militarization_of_communes
+		icon = GFX_focus_generic_full_social_mobilization
+		prerequisite = { focus = GLP_black_military_dictatorship }
+		x = 51
+		y = 2
+		cost = 7
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_military_junta }
+				swap_ideas = {
+					remove_idea = GLP_idea_military_junta
+					add_idea = GLP_idea_total_militarization
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_total_militarization
+			}
+			random_owned_controlled_state = {
+				prioritize = { 227 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = arms_factory level = 2 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_aid_to_spanish_anarchists
+		icon = GFX_focus_generic_invite_republican_spanish_exiles
+		prerequisite = { focus = GLP_black_international }
+		x = 46
+		y = 3
+		cost = 5
+		ai_will_do = { factor = 8 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_equipment = { infantry_equipment > 1999 } }
+				add_equipment_to_stockpile = { type = infantry_equipment amount = -2000 }
+				SPR = { add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 2000 producer = GLP } }
+			}
+			add_political_power = 40
+			army_experience = 20
+		}
+	}
+
+	focus = {
+		id = GLP_black_crescent_of_the_steppes
+		icon = GFX_focus_generic_welfare
+		prerequisite = { focus = GLP_black_international }
+		x = 48
+		y = 3
+		cost = 7
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_black_crescent days = 400 }
+			add_war_support = 0.15
+		}
+	}
+
+	focus = {
+		id = GLP_anti_state_continental_crusade
+		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = GLP_total_militarization_of_communes }
+		x = 51
+		y = 3
+		cost = 5
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			add_war_support = 0.20
+			if = {
+				limit = { has_idea = GLP_idea_total_militarization }
+				swap_ideas = {
+					remove_idea = GLP_idea_total_militarization
+					add_idea = GLP_idea_continental_crusade
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_continental_crusade
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_declaration_of_world_anarchy
+		icon = GFX_focus_generic_strike_at_democracy3
+		prerequisite = { focus = GLP_aid_to_spanish_anarchists focus = GLP_black_crescent_of_the_steppes }
+		x = 47
+		y = 4
+		cost = 5
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_black_international }
+				swap_ideas = {
+					remove_idea = GLP_idea_black_international
+					add_idea = GLP_idea_world_anarchy
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_world_anarchy
+			}
+			add_war_support = 0.20
+			add_stability = -0.08
+		}
+	}
+
+	focus = {
+		id = GLP_triumph_of_free_humanity
+		icon = GFX_focus_generic_the_giant_wakes
+		prerequisite = { focus = GLP_declaration_of_world_anarchy }
+		x = 49
+		y = 5
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_stability = 0.20
+			add_political_power = 200
+			if = {
+				limit = { has_idea = GLP_idea_world_anarchy }
+				swap_ideas = {
+					remove_idea = GLP_idea_world_anarchy
+					add_idea = GLP_idea_triumph_of_liberty
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_triumph_of_liberty
+			}
+		}
+	}
+
+	# =========================================================================
+	# 7. ЧЕРНОМОРСКИЙ ФЛОТ И МОРСКАЯ МОЩЬ (9 фокусов, x = 2..4, y = 6..11)
+	# =========================================================================
+	focus = {
+		id = GLP_sevastopol_naval_base
+		icon = GFX_goal_generic_occupy_states_coastal
+		prerequisite = { focus = GLP_invincible_insurgency }
+		x = 2
+		y = 6
+		cost = 10
+		available = { controls_state = 137 }
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			137 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = dockyard level = 2 instant_build = yes }
+			}
+			navy_experience = 25
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_revolutionary_destroyers
+		icon = GFX_focus_generic_destroyer
+		prerequisite = { focus = GLP_sevastopol_naval_base }
+		x = 2
+		y = 7
+		cost = 7
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_tech_bonus = { name = glp_naval_bonus bonus = 1.0 uses = 2 category = dd_tech }
+			navy_experience = 20
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_submarine_flotilla
+		icon = GFX_goal_generic_navy_submarine
+		prerequisite = { focus = GLP_sevastopol_naval_base }
+		x = 4
+		y = 7
+		cost = 7
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_tech_bonus = { name = glp_sub_bonus bonus = 1.0 uses = 2 category = ss_tech }
+			137 = {
+				add_building_construction = { type = dockyard level = 1 instant_build = yes }
+			}
+			add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = GLP_naval_infantry_marines
+		icon = GFX_focus_generic_naval_invasion
+		prerequisite = { focus = GLP_revolutionary_destroyers }
+		x = 2
+		y = 8
+		cost = 5
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			add_tech_bonus = { name = glp_marines_bonus bonus = 1.0 uses = 1 category = marine_tech }
+			army_experience = 15
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_coastal_defense_batteries
+		icon = GFX_focus_generic_coastal_fort
+		prerequisite = { focus = GLP_submarine_flotilla }
+		x = 4
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			137 = {
+				add_building_construction = { type = coastal_bunker level = 3 instant_build = yes province = 3686 }
+			}
+			196 = {
+				add_building_construction = { type = coastal_bunker level = 2 instant_build = yes province = 9467 }
+			}
+			add_political_power = -25
+		}
+	}
+
+	focus = {
+		id = GLP_black_sea_dominance
+		icon = GFX_focus_generic_black_sea_focus
+		prerequisite = { focus = GLP_naval_infantry_marines }
+		prerequisite = { focus = GLP_coastal_defense_batteries }
+		x = 3
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			add_ideas = GLP_idea_black_sea_dominance
+			navy_experience = 30
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_merchant_raider_fleet
+		icon = GFX_focus_generic_merchant_fleet
+		prerequisite = { focus = GLP_black_sea_dominance }
+		x = 2
+		y = 10
+		cost = 7
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_black_sea_dominance }
+				swap_ideas = {
+					remove_idea = GLP_idea_black_sea_dominance
+					add_idea = GLP_idea_merchant_raiders
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_merchant_raiders
+			}
+			137 = {
+				add_building_construction = { type = dockyard level = 2 instant_build = yes }
+			}
+			add_stability = -0.03
+		}
+	}
+
+	focus = {
+		id = GLP_naval_aviation
+		icon = GFX_goal_generic_air_naval_bomber
+		prerequisite = { focus = GLP_black_sea_dominance }
+		x = 4
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_naval_air bonus = 1.0 uses = 1 category = naval_bomber }
+			137 = {
+				add_building_construction = { type = air_base level = 2 instant_build = yes }
+			}
+			air_experience = 20
+		}
+	}
+
+	focus = {
+		id = GLP_glory_of_the_sea
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = GLP_merchant_raider_fleet }
+		prerequisite = { focus = GLP_naval_aviation }
+		x = 3
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_merchant_raiders }
+				swap_ideas = {
+					remove_idea = GLP_idea_merchant_raiders
+					add_idea = GLP_idea_glory_of_the_sea
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_glory_of_the_sea
+			}
+			navy_experience = 50
+			add_war_support = 0.08
+			add_political_power = -40
+		}
+	}
+
+	# =========================================================================
+	# 8. ВОЗДУШНЫЕ СИЛЫ СТЕПИ (9 фокусов, x = 10..14, y = 6..11)
+	# =========================================================================
+	focus = {
+		id = GLP_steppe_air_corps
+		icon = GFX_goal_generic_build_airforce
+		prerequisite = { focus = GLP_invincible_insurgency focus = GLP_autonomous_industrial_bastion }
+		x = 12
+		y = 6
+		cost = 10
+		available = { controls_state = 227 }
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			air_experience = 25
+			add_tech_bonus = { name = glp_air_bonus bonus = 1.0 uses = 1 category = air_equipment }
+			227 = {
+				add_building_construction = { type = air_base level = 2 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_fighter_squadrons
+		icon = GFX_goal_generic_air_fighter
+		prerequisite = { focus = GLP_steppe_air_corps }
+		x = 10
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_fighter bonus = 1.0 uses = 2 category = light_fighter }
+			air_experience = 20
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_bomber_wings
+		icon = GFX_goal_generic_air_bomber
+		prerequisite = { focus = GLP_steppe_air_corps }
+		x = 14
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_bomber bonus = 1.0 uses = 2 category = tactical_bomber }
+			air_experience = 15
+			add_political_power = -20
+		}
+	}
+
+	focus = {
+		id = GLP_air_reconnaissance
+		icon = GFX_goal_generic_radar
+		prerequisite = { focus = GLP_fighter_squadrons }
+		x = 10
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_air_recon days = 480 }
+			army_experience = 15
+		}
+	}
+
+	focus = {
+		id = GLP_anti_air_defense
+		icon = GFX_focus_generic_air_defense
+		prerequisite = { focus = GLP_bomber_wings }
+		x = 14
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_tech_bonus = { name = glp_aa bonus = 1.0 uses = 1 category = cat_anti_air }
+			227 = {
+				add_building_construction = { type = anti_air_building level = 3 instant_build = yes }
+			}
+			200 = {
+				add_building_construction = { type = anti_air_building level = 2 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_air_superiority_doctrine
+		icon = GFX_goal_generic_air_fighter2
+		prerequisite = { focus = GLP_air_reconnaissance }
+		prerequisite = { focus = GLP_anti_air_defense }
+		x = 12
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_air_doctrine bonus = 1.0 uses = 2 category = air_doctrine }
+			air_experience = 30
+		}
+	}
+
+	focus = {
+		id = GLP_ground_attack_planes
+		icon = GFX_goal_generic_CAS
+		prerequisite = { focus = GLP_air_superiority_doctrine }
+		x = 10
+		y = 10
+		cost = 7
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_tech_bonus = { name = glp_cas bonus = 1.0 uses = 2 category = cas_bomber }
+			air_experience = 20
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_strategic_bombing
+		icon = GFX_goal_generic_air_bomber
+		prerequisite = { focus = GLP_air_superiority_doctrine }
+		x = 14
+		y = 10
+		cost = 7
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_strat_bomber bonus = 1.0 uses = 1 category = cat_strategic_bomber }
+			air_experience = 25
+			add_stability = -0.03
+		}
+	}
+
+	focus = {
+		id = GLP_mastery_of_the_skies
+		icon = GFX_goal_generic_air_doctrine
+		prerequisite = { focus = GLP_ground_attack_planes }
+		prerequisite = { focus = GLP_strategic_bombing }
+		x = 12
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_air_recon }
+				swap_ideas = {
+					remove_idea = GLP_idea_air_recon
+					add_idea = GLP_idea_air_mastery
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_air_mastery
+			}
+			air_experience = 50
+			add_war_support = 0.08
+			add_political_power = -40
+		}
+	}
+
+	# =========================================================================
+	# 9. ТЕХНОЛОГИЧЕСКИЙ ПРОГРЕСС (9 фокусов, x = 18..22, y = 6..11)
+	# =========================================================================
+	focus = {
+		id = GLP_captured_equipment_study
+		icon = GFX_focus_generic_license_production
+		prerequisite = { focus = GLP_unshakeable_revolutionary_order }
+		x = 20
+		y = 6
+		cost = 5
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_tech_bonus = { name = glp_captured bonus = 0.75 uses = 2 category = infantry_weapons }
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 500 producer = GLP }
+			army_experience = 10
+		}
+	}
+
+	focus = {
+		id = GLP_radio_technology
+		icon = GFX_focus_generic_radio_communication
+		prerequisite = { focus = GLP_captured_equipment_study }
+		x = 18
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_radio bonus = 1.0 uses = 2 category = electronics }
+			add_stability = 0.03
+			add_political_power = -20
+		}
+	}
+
+	focus = {
+		id = GLP_improved_weapons
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = GLP_captured_equipment_study }
+		x = 22
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_tech_bonus = { name = glp_weapons bonus = 1.0 uses = 2 category = infantry_weapons }
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_armor_research
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = GLP_radio_technology }
+		x = 18
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_tech_bonus = { name = glp_armor bonus = 1.0 uses = 2 category = armor }
+			army_experience = 15
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_advanced_metallurgy
+		icon = GFX_focus_generic_steel
+		prerequisite = { focus = GLP_improved_weapons }
+		x = 22
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_tech_bonus = { name = glp_metal bonus = 1.0 uses = 1 category = industry }
+			227 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = { type = industrial_complex level = 1 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_rocket_science
+		icon = GFX_focus_rocketry
+		prerequisite = { focus = GLP_armor_research }
+		prerequisite = { focus = GLP_advanced_metallurgy }
+		x = 20
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_tech_bonus = { name = glp_rockets bonus = 1.0 uses = 2 category = rocketry }
+			add_political_power = -50
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_computing_machines
+		icon = GFX_focus_generic_cryptologic_bomb
+		prerequisite = { focus = GLP_rocket_science }
+		x = 18
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_computing bonus = 1.0 uses = 2 category = computing_tech }
+			add_tech_bonus = { name = glp_lab_bonus bonus = 0.50 uses = 1 category = industry }
+			add_political_power = -60
+		}
+	}
+
+	focus = {
+		id = GLP_jet_engines
+		icon = GFX_focus_generic_jet_planes
+		prerequisite = { focus = GLP_rocket_science }
+		x = 22
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 4 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_jets bonus = 1.0 uses = 1 category = jet_technology }
+			air_experience = 25
+			add_political_power = -40
+		}
+	}
+
+	focus = {
+		id = GLP_technological_supremacy
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = GLP_computing_machines }
+		prerequisite = { focus = GLP_jet_engines }
+		x = 20
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_tech_supremacy days = 540 }
+			add_tech_bonus = { name = glp_lab_bonus bonus = 0.50 uses = 1 category = industry }
+			add_political_power = -80
+		}
+	}
+
+	# =========================================================================
+	# 10. КУЛЬТУРНАЯ РЕВОЛЮЦИЯ (9 фокусов, x = 26..30, y = 6..11)
+	# =========================================================================
+	focus = {
+		id = GLP_free_universities
+		icon = GFX_focus_generic_university_1
+		prerequisite = { focus = GLP_triumph_of_free_humanity focus = GLP_unshakeable_revolutionary_order }
+		x = 28
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_tech_bonus = { name = glp_lab_bonus bonus = 0.50 uses = 1 category = industry }
+			add_stability = 0.05
+			add_political_power = -50
+		}
+	}
+
+	focus = {
+		id = GLP_worker_faculties
+		icon = GFX_focus_generic_university_2
+		prerequisite = { focus = GLP_free_universities }
+		x = 26
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_worker_faculties days = 480 }
+			add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_revolutionary_theater
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = GLP_free_universities }
+		x = 30
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.05
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_cinema_propaganda
+		icon = GFX_focus_generic_printing_press
+		prerequisite = { focus = GLP_revolutionary_theater }
+		x = 30
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_worker_faculties }
+				swap_ideas = {
+					remove_idea = GLP_idea_worker_faculties
+					add_idea = GLP_idea_cinema_propaganda
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_cinema_propaganda
+			}
+			add_political_power = 40
+		}
+	}
+
+	focus = {
+		id = GLP_literacy_campaign
+		icon = GFX_focus_generic_printing_press
+		prerequisite = { focus = GLP_worker_faculties }
+		x = 26
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_stability = 0.08
+			add_political_power = 30
+			add_manpower = 10000
+		}
+	}
+
+	focus = {
+		id = GLP_sports_militarization
+		icon = GFX_focus_generic_military_academy
+		prerequisite = { focus = GLP_literacy_campaign }
+		prerequisite = { focus = GLP_cinema_propaganda }
+		x = 28
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_cinema_propaganda }
+				swap_ideas = {
+					remove_idea = GLP_idea_cinema_propaganda
+					add_idea = GLP_idea_sports_militarization
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_sports_militarization
+			}
+			add_war_support = 0.05
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_philosophy_of_freedom
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = { focus = GLP_sports_militarization }
+		x = 26
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.10
+			add_political_power = 80
+			add_popularity = { ideology = neutrality popularity = 0.10 }
+		}
+	}
+
+	focus = {
+		id = GLP_cultural_enlightenment
+		icon = GFX_focus_generic_welfare
+		prerequisite = { focus = GLP_sports_militarization }
+		x = 30
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_sports_militarization }
+				swap_ideas = {
+					remove_idea = GLP_idea_sports_militarization
+					add_idea = GLP_idea_cultural_enlightenment
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_cultural_enlightenment
+			}
+			add_stability = 0.05
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GLP_new_soviet_culture
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = GLP_philosophy_of_freedom }
+		prerequisite = { focus = GLP_cultural_enlightenment }
+		x = 28
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_cultural_enlightenment }
+				swap_ideas = {
+					remove_idea = GLP_idea_cultural_enlightenment
+					add_idea = GLP_idea_new_culture
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_new_culture
+			}
+			add_stability = 0.15
+			add_political_power = 100
+			add_tech_bonus = { name = glp_lab_bonus bonus = 0.50 uses = 1 category = industry }
+		}
+	}
+
+	# =========================================================================
+	# 11. ПОДПОЛЬНАЯ СЕТЬ (9 фокусов, x = 34..38, y = 6..11)
+	# =========================================================================
+	focus = {
+		id = GLP_underground_railway
+		icon = GFX_focus_generic_railroad
+		prerequisite = { focus = GLP_peoples_militia_patrols focus = GLP_unshakeable_revolutionary_order }
+		x = 36
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_underground_railway days = 480 }
+			add_political_power = 30
+		}
+	}
+
+	focus = {
+		id = GLP_safe_houses_network
+		icon = GFX_focus_generic_conspiracy
+		prerequisite = { focus = GLP_underground_railway }
+		x = 34
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 40
+			add_manpower = 3000
+		}
+	}
+
+	focus = {
+		id = GLP_coded_communications
+		icon = GFX_focus_generic_radio_communication
+		prerequisite = { focus = GLP_underground_railway }
+		x = 38
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_coded_comms days = 480 }
+			add_political_power = 20
+		}
+	}
+
+	focus = {
+		id = GLP_sabotage_training
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = GLP_safe_houses_network }
+		x = 34
+		y = 8
+		cost = 5
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			army_experience = 20
+			add_command_power = 30
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_partisan_cells
+		icon = GFX_focus_generic_forest_brothers
+		prerequisite = { focus = GLP_coded_communications }
+		x = 38
+		y = 8
+		cost = 5
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_underground_railway }
+				swap_ideas = {
+					remove_idea = GLP_idea_underground_railway
+					add_idea = GLP_idea_partisan_cells
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_partisan_cells
+			}
+			add_manpower = 8000
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_weapon_caches
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = GLP_sabotage_training }
+		prerequisite = { focus = GLP_partisan_cells }
+		x = 36
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 2000 producer = GLP }
+			add_equipment_to_stockpile = { type = support_equipment amount = 500 producer = GLP }
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_double_agents
+		icon = GFX_focus_generic_whispers
+		prerequisite = { focus = GLP_weapon_caches }
+		x = 34
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_double_agents days = 540 }
+			add_political_power = 50
+			add_stability = -0.03
+		}
+	}
+
+	focus = {
+		id = GLP_resistance_coordination
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = GLP_weapon_caches }
+		x = 38
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_resistance_coordination days = 540 }
+			army_experience = 25
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_underground_state
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_double_agents }
+		prerequisite = { focus = GLP_resistance_coordination }
+		x = 36
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_partisan_cells }
+				swap_ideas = {
+					remove_idea = GLP_idea_partisan_cells
+					add_idea = GLP_idea_underground_state
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_underground_state
+			}
+			add_stability = 0.10
+			add_political_power = 80
+			add_manpower = 15000
+		}
+	}
+
+	# =========================================================================
+	# 12. ЭКОНОМИЧЕСКАЯ АВТАРКИЯ (9 фокусов, x = 42..46, y = 6..11)
+	# =========================================================================
+	focus = {
+		id = GLP_self_sufficient_economy
+		icon = GFX_focus_generic_resource_extraction
+		prerequisite = { focus = GLP_flourishing_free_countryside focus = GLP_autonomous_industrial_bastion }
+		x = 44
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 7 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_ideas = GLP_idea_autarky
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_local_mining_operations
+		icon = GFX_focus_generic_mining_industry
+		prerequisite = { focus = GLP_self_sufficient_economy }
+		x = 42
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			226 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+			}
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_textile_syndicates
+		icon = GFX_focus_generic_mass_production
+		prerequisite = { focus = GLP_self_sufficient_economy }
+		x = 46
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_textile_syndicates days = 480 }
+			add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_food_processing
+		icon = GFX_focus_generic_farmland
+		prerequisite = { focus = GLP_local_mining_operations }
+		x = 42
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_food_processing days = 480 }
+			add_stability = 0.05
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_chemical_industry
+		icon = GFX_focus_generic_rubber
+		prerequisite = { focus = GLP_textile_syndicates }
+		x = 46
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_tech_bonus = { name = glp_chem bonus = 1.0 uses = 1 category = industry }
+			227 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = { type = industrial_complex level = 1 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_steel_production
+		icon = GFX_focus_generic_steel
+		prerequisite = { focus = GLP_food_processing }
+		prerequisite = { focus = GLP_chemical_industry }
+		x = 44
+		y = 9
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			227 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+			}
+			add_stability = 0.03
+			add_political_power = -25
+		}
+	}
+
+	focus = {
+		id = GLP_fuel_synthesis
+		icon = GFX_focus_generic_stockpile_fuel
+		prerequisite = { focus = GLP_steel_production }
+		x = 42
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_tech_bonus = { name = glp_fuel bonus = 1.0 uses = 1 category = synth_resources }
+			227 = {
+				add_building_construction = { type = synthetic_refinery level = 1 instant_build = yes }
+			}
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_economic_independence
+		icon = GFX_goal_generic_trade
+		prerequisite = { focus = GLP_steel_production }
+		x = 46
+		y = 10
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_autarky }
+				swap_ideas = {
+					remove_idea = GLP_idea_autarky
+					add_idea = GLP_idea_economic_independence
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_economic_independence
+			}
+			add_stability = 0.08
+		}
+	}
+
+	focus = {
+		id = GLP_autarkic_paradise
+		icon = GFX_focus_generic_modernize_industry
+		prerequisite = { focus = GLP_fuel_synthesis }
+		prerequisite = { focus = GLP_economic_independence }
+		x = 44
+		y = 11
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_economic_independence }
+				swap_ideas = {
+					remove_idea = GLP_idea_economic_independence
+					add_idea = GLP_idea_autarkic_paradise
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_autarkic_paradise
+			}
+			add_stability = 0.10
+			add_political_power = 80
+		}
+	}
+
+	# =========================================================================
+	# 13. ВОЕННАЯ РАЗВЕДКА И ДИВЕРСИИ (9 фокусов, x = 50..54, y = 6..11)
+	# =========================================================================
+	focus = {
+		id = GLP_signal_intelligence
+		icon = GFX_goal_generic_radar
+		prerequisite = { focus = GLP_peoples_militia_patrols focus = GLP_unshakeable_revolutionary_order }
+		x = 52
+		y = 6
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_radar bonus = 1.0 uses = 2 category = electronics }
+			add_political_power = 20
+		}
+	}
+
+	focus = {
+		id = GLP_cryptanalysis_unit
+		icon = GFX_focus_generic_cryptologic_bomb
+		prerequisite = { focus = GLP_signal_intelligence }
+		x = 50
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_cryptanalysis days = 480 }
+			add_political_power = 40
+		}
+	}
+
+	focus = {
+		id = GLP_frontline_recon
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = GLP_signal_intelligence }
+		x = 54
+		y = 7
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_frontline_recon days = 480 }
+			army_experience = 20
+		}
+	}
+
+	focus = {
+		id = GLP_agent_networks
+		icon = GFX_focus_generic_secret_service_agency
+		prerequisite = { focus = GLP_cryptanalysis_unit }
+		x = 50
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_cryptanalysis }
+				swap_ideas = {
+					remove_idea = GLP_idea_cryptanalysis
+					add_idea = GLP_idea_agent_networks
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_agent_networks
+			}
+			add_political_power = 30
+			add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = GLP_disinformation_campaigns
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = GLP_frontline_recon }
+		x = 54
+		y = 8
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_disinformation days = 365 }
+			add_war_support = 0.05
+			add_political_power = 20
+		}
+	}
+
+	focus = {
+		id = GLP_special_operations
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = GLP_agent_networks }
+		prerequisite = { focus = GLP_disinformation_campaigns }
+		x = 52
+		y = 9
+		cost = 7
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_agent_networks }
+				swap_ideas = {
+					remove_idea = GLP_idea_agent_networks
+					add_idea = GLP_idea_special_ops
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_special_ops
+			}
+			army_experience = 30
+			add_command_power = 40
+		}
+	}
+
+	focus = {
+		id = GLP_commando_raids
+		icon = GFX_focus_generic_self_propelled_gun
+		prerequisite = { focus = GLP_special_operations }
+		x = 50
+		y = 10
+		cost = 5
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_commando_raids days = 365 }
+			army_experience = 20
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_behind_enemy_lines
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		prerequisite = { focus = GLP_special_operations }
+		x = 54
+		y = 10
+		cost = 5
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_behind_lines days = 365 }
+			add_manpower = 5000
+			add_command_power = 30
+		}
+	}
+
+	focus = {
+		id = GLP_shadow_war
+		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = GLP_commando_raids }
+		prerequisite = { focus = GLP_behind_enemy_lines }
+		x = 52
+		y = 11
+		cost = 7
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_special_ops }
+				swap_ideas = {
+					remove_idea = GLP_idea_special_ops
+					add_idea = GLP_idea_shadow_war
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_shadow_war
+			}
+			army_experience = 40
+			add_political_power = 60
+			add_war_support = 0.08
+		}
+	}
+
+	# =========================================================================
+	# 14. ЗДОРОВЬЕ НАРОДА (5 фокусов, x = 2..4, y = 12..15)
+	# =========================================================================
+	focus = {
+		id = GLP_field_hospitals
+		icon = GFX_focus_generic_field_hostpital
+		prerequisite = { focus = GLP_glory_of_the_sea focus = GLP_mastery_of_the_skies }
+		x = 3
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_field_hospitals days = 480 }
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_medical_training
+		icon = GFX_focus_generic_military_academy
+		prerequisite = { focus = GLP_field_hospitals }
+		x = 2
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_tech_bonus = { name = glp_medical bonus = 1.0 uses = 1 category = support_tech }
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_sanitary_battalions
+		icon = GFX_focus_generic_field_hostpital
+		prerequisite = { focus = GLP_field_hospitals }
+		x = 4
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_sanitary_battalions days = 400 }
+			add_manpower = 3000
+		}
+	}
+
+	focus = {
+		id = GLP_hospital_trains
+		icon = GFX_focus_generic_supply_line
+		prerequisite = { focus = GLP_medical_training }
+		prerequisite = { focus = GLP_sanitary_battalions }
+		x = 3
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_field_hospitals }
+				swap_ideas = {
+					remove_idea = GLP_idea_field_hospitals
+					add_idea = GLP_idea_hospital_trains
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_hospital_trains
+			}
+			add_equipment_to_stockpile = { type = train_equipment amount = 5 producer = GLP }
+		}
+	}
+
+	focus = {
+		id = GLP_population_growth
+		icon = GFX_focus_generic_population_growth
+		prerequisite = { focus = GLP_hospital_trains }
+		x = 3
+		y = 15
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_hospital_trains }
+				swap_ideas = {
+					remove_idea = GLP_idea_hospital_trains
+					add_idea = GLP_idea_population_growth
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_population_growth
+			}
+			add_manpower = 20000
+			add_stability = 0.05
+		}
+	}
+
+	# =========================================================================
+	# 15. ТРАНСПОРТНАЯ РЕВОЛЮЦИЯ (4 фокуса, x = 10..14, y = 12..14)
+	# =========================================================================
+	focus = {
+		id = GLP_railway_expansion
+		icon = GFX_focus_generic_railroad
+		prerequisite = { focus = GLP_technological_supremacy }
+		x = 12
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = { type = infrastructure level = 2 instant_build = yes }
+			}
+			random_owned_controlled_state = {
+				add_building_construction = { type = infrastructure level = 2 instant_build = yes }
+			}
+			add_political_power = -25
+		}
+	}
+
+	focus = {
+		id = GLP_motor_transport
+		icon = GFX_focus_generic_truck
+		prerequisite = { focus = GLP_railway_expansion }
+		x = 10
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_tech_bonus = { name = glp_motor bonus = 1.0 uses = 1 category = motorized_equipment }
+			if = {
+				limit = { has_idea = GLP_idea_steel_ram }
+				swap_ideas = {
+					remove_idea = GLP_idea_steel_ram
+					add_idea = GLP_idea_motor_transport
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_motor_transport
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_supply_depot_system
+		icon = GFX_focus_generic_reinforcing_the_supply_network
+		prerequisite = { focus = GLP_railway_expansion }
+		x = 14
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_motor_transport }
+				swap_ideas = {
+					remove_idea = GLP_idea_motor_transport
+					add_idea = GLP_idea_supply_depots
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_supply_depots
+			}
+			random_owned_controlled_state = {
+				add_building_construction = { type = supply_node level = 1 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = GLP_logistics_mastery
+		icon = GFX_focus_generic_supply_line
+		prerequisite = { focus = GLP_motor_transport }
+		prerequisite = { focus = GLP_supply_depot_system }
+		x = 12
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_supply_depots }
+				swap_ideas = {
+					remove_idea = GLP_idea_supply_depots
+					add_idea = GLP_idea_logistics_mastery
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_logistics_mastery
+			}
+			army_experience = 20
+		}
+	}
+
+	# =========================================================================
+	# 16. ОБОРОНИТЕЛЬНЫЕ УКРЕПЛЕНИЯ (4 фокуса, x = 18..22, y = 12..14)
+	# =========================================================================
+	focus = {
+		id = GLP_border_fortifications
+		icon = GFX_focus_generic_coastal_fort
+		prerequisite = { focus = GLP_technological_supremacy }
+		x = 20
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = { type = bunker level = 3 instant_build = yes province = 9729 }
+			}
+			add_political_power = -20
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_anti_tank_defenses
+		icon = GFX_focus_generic_anti_tank_guns
+		prerequisite = { focus = GLP_border_fortifications }
+		x = 18
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_tech_bonus = { name = glp_at bonus = 1.0 uses = 1 category = cat_anti_tank }
+			add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 300 producer = GLP }
+		}
+	}
+
+	focus = {
+		id = GLP_bunker_network
+		icon = GFX_goal_generic_fortify_city
+		prerequisite = { focus = GLP_border_fortifications }
+		x = 22
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			every_owned_state = {
+				add_building_construction = { type = bunker level = 2 instant_build = yes province = 9729 }
+			}
+			add_political_power = -40
+		}
+	}
+
+	focus = {
+		id = GLP_defense_in_depth
+		icon = GFX_focus_generic_defensive_reorganization
+		prerequisite = { focus = GLP_anti_tank_defenses }
+		prerequisite = { focus = GLP_bunker_network }
+		x = 20
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_defense_in_depth days = 540 }
+			add_war_support = 0.05
+		}
+	}
+
+	# =========================================================================
+	# 17. РЕСУРСЫ КРЫМА (4 фокуса, x = 26..30, y = 12..14)
+	# =========================================================================
+	focus = {
+		id = GLP_crimean_development
+		icon = GFX_focus_generic_public_works
+		prerequisite = { focus = GLP_new_soviet_culture }
+		x = 28
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			137 = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = { type = industrial_complex level = 2 instant_build = yes }
+				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+			}
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_crimean_oil_fields
+		icon = GFX_focus_generic_offshore_oil_rig
+		prerequisite = { focus = GLP_crimean_development }
+		x = 26
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			137 = {
+				add_resource = { type = oil amount = 8 }
+			}
+			add_political_power = -20
+		}
+	}
+
+	focus = {
+		id = GLP_shipbuilding_yards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = GLP_crimean_development }
+		x = 30
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			137 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = dockyard level = 2 instant_build = yes }
+			}
+			navy_experience = 15
+		}
+	}
+
+	focus = {
+		id = GLP_strategic_reserves
+		icon = GFX_focus_generic_mass_production
+		prerequisite = { focus = GLP_crimean_oil_fields }
+		prerequisite = { focus = GLP_shipbuilding_yards }
+		x = 28
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_strategic_reserves days = 540 }
+			add_stability = 0.05
+		}
+	}
+
+	# =========================================================================
+	# 18. РАБОЧЕЕ САМОУПРАВЛЕНИЕ (4 фокуса, x = 34..38, y = 12..14)
+	# =========================================================================
+	focus = {
+		id = GLP_factory_committees
+		icon = GFX_focus_generic_workers
+		prerequisite = { focus = GLP_underground_state }
+		x = 36
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_ideas = GLP_idea_factory_committees
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_workplace_democracy
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = GLP_factory_committees }
+		x = 34
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_factory_committees }
+				swap_ideas = {
+					remove_idea = GLP_idea_factory_committees
+					add_idea = GLP_idea_workplace_democracy
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_workplace_democracy
+			}
+			add_stability = 0.08
+			add_political_power = 40
+		}
+	}
+
+	focus = {
+		id = GLP_productivity_bonuses
+		icon = GFX_focus_generic_mass_production
+		prerequisite = { focus = GLP_factory_committees }
+		x = 38
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_productivity_bonuses days = 400 }
+			add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = GLP_syndicalist_paradise
+		icon = GFX_focus_generic_industry_2
+		prerequisite = { focus = GLP_workplace_democracy }
+		prerequisite = { focus = GLP_productivity_bonuses }
+		x = 36
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_factory_committees }
+				swap_ideas = {
+					remove_idea = GLP_idea_factory_committees
+					add_idea = GLP_idea_syndicalist_paradise
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_syndicalist_paradise
+			}
+			add_stability = 0.12
+			add_political_power = 80
+		}
+	}
+
+	# =========================================================================
+	# 19. ЖЕНЩИНЫ РЕВОЛЮЦИИ (4 фокуса, x = 42..46, y = 12..14)
+	# =========================================================================
+	focus = {
+		id = GLP_womens_emancipation
+		icon = GFX_focus_generic_universal_suffrage
+		prerequisite = { focus = GLP_autarkic_paradise }
+		x = 44
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_womens_emancipation days = 540 }
+			add_stability = 0.05
+			add_manpower = 15000
+		}
+	}
+
+	focus = {
+		id = GLP_female_combat_units
+		icon = GFX_focus_generic_women_in_military
+		prerequisite = { focus = GLP_womens_emancipation }
+		x = 42
+		y = 13
+		cost = 5
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_womens_emancipation }
+				swap_ideas = {
+					remove_idea = GLP_idea_womens_emancipation
+					add_idea = GLP_idea_female_combat
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_female_combat
+			}
+			add_manpower = 10000
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_womens_leadership
+		icon = GFX_focus_generic_universal_suffrage
+		prerequisite = { focus = GLP_womens_emancipation }
+		x = 46
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.05
+			add_popularity = { ideology = neutrality popularity = 0.05 }
+		}
+	}
+
+	focus = {
+		id = GLP_gender_equality
+		icon = GFX_focus_generic_universal_suffrage
+		prerequisite = { focus = GLP_female_combat_units }
+		prerequisite = { focus = GLP_womens_leadership }
+		x = 44
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_female_combat }
+				swap_ideas = {
+					remove_idea = GLP_idea_female_combat
+					add_idea = GLP_idea_gender_equality
+				}
+			}
+			else_if = {
+				limit = { has_idea = GLP_idea_womens_emancipation }
+				swap_ideas = {
+					remove_idea = GLP_idea_womens_emancipation
+					add_idea = GLP_idea_gender_equality
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_gender_equality
+			}
+			add_stability = 0.10
+			add_manpower = 20000
+			add_political_power = 50
+		}
+	}
+
+	# =========================================================================
+	# 20. КАЗАЧЬЯ ТРАДИЦИЯ (4 фокуса, x = 50..54, y = 12..14)
+	# =========================================================================
+	focus = {
+		id = GLP_cossack_heritage
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = GLP_shadow_war }
+		x = 52
+		y = 12
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_black_avalanche }
+				swap_ideas = {
+					remove_idea = GLP_idea_black_avalanche
+					add_idea = GLP_idea_cossack_heritage
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_cossack_heritage
+			}
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_horse_breeding
+		icon = GFX_focus_generic_horse_studs
+		prerequisite = { focus = GLP_cossack_heritage }
+		x = 50
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_horse_breeding days = 480 }
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GLP_steppe_warfare_school
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = GLP_cossack_heritage }
+		x = 54
+		y = 13
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_cossack_heritage }
+				swap_ideas = {
+					remove_idea = GLP_idea_cossack_heritage
+					add_idea = GLP_idea_steppe_warfare
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_steppe_warfare
+			}
+			army_experience = 30
+			add_tech_bonus = { name = glp_cav_doctrine bonus = 1.0 uses = 1 category = land_doctrine }
+		}
+	}
+
+	focus = {
+		id = GLP_cossack_glory
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = GLP_horse_breeding }
+		prerequisite = { focus = GLP_steppe_warfare_school }
+		x = 52
+		y = 14
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_steppe_warfare }
+				swap_ideas = {
+					remove_idea = GLP_idea_steppe_warfare
+					add_idea = GLP_idea_cossack_glory
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_cossack_glory
+			}
+			add_war_support = 0.10
+			add_manpower = 15000
+			army_experience = 25
+		}
+	}
+
+	# =========================================================================
+	# 21. РАСШИРЕНИЕ ВОЕННОЙ ДОКТРИНЫ (4 фокуса, x = 2..4, y = 16..18)
+	# =========================================================================
+	focus = {
+		id = GLP_deep_battle_doctrine
+		icon = GFX_focus_generic_army_doctrines_2
+		prerequisite = { focus = GLP_population_growth }
+		x = 3
+		y = 16
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_tech_bonus = { name = glp_deep_battle bonus = 1.5 uses = 2 category = land_doctrine }
+			army_experience = 30
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_mass_assault_tactics
+		icon = GFX_focus_generic_total_war
+		prerequisite = { focus = GLP_deep_battle_doctrine }
+		x = 2
+		y = 17
+		cost = 7
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_mass_assault days = 400 }
+			add_manpower = 15000
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_elite_guard_formations
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = GLP_deep_battle_doctrine }
+		x = 4
+		y = 17
+		cost = 7
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_elite_guard days = 480 }
+			army_experience = 25
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_combined_arms_mastery
+		icon = GFX_focus_generic_combined_arms
+		prerequisite = { focus = GLP_mass_assault_tactics }
+		prerequisite = { focus = GLP_elite_guard_formations }
+		x = 3
+		y = 18
+		mutually_exclusive = { focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
+		cost = 10
+		available = { date > 1938.6.1 }
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_mass_assault }
+				swap_ideas = {
+					remove_idea = GLP_idea_mass_assault
+					add_idea = GLP_idea_combined_arms
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_combined_arms
+			}
+			army_experience = 50
+			add_war_support = 0.08
+		}
+	}
+
+	# =========================================================================
+	# 22. РАСШИРЕНИЕ ИНДУСТРИИ (4 фокуса, x = 10..14, y = 16..18)
+	# =========================================================================
+	focus = {
+		id = GLP_heavy_industry_push
+		icon = GFX_focus_generic_military_industry
+		prerequisite = { focus = GLP_logistics_mastery }
+		x = 12
+		y = 16
+		cost = 10
+		ai_will_do = { factor = 6 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = { type = arms_factory level = 3 instant_build = yes }
+			}
+			add_stability = -0.05
+			add_political_power = -40
+		}
+	}
+
+	focus = {
+		id = GLP_civilian_industry_expansion
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = GLP_heavy_industry_push }
+		x = 10
+		y = 17
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = { type = industrial_complex level = 3 instant_build = yes }
+			}
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_military_production_surge
+		icon = GFX_focus_generic_mass_production
+		prerequisite = { focus = GLP_heavy_industry_push }
+		x = 14
+		y = 17
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = arms_factory level = 2 instant_build = yes }
+			}
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 2000 producer = GLP }
+		}
+	}
+
+	focus = {
+		id = GLP_industrial_powerhouse
+		icon = GFX_focus_generic_industry_3
+		prerequisite = { focus = GLP_civilian_industry_expansion }
+		prerequisite = { focus = GLP_military_production_surge }
+		x = 12
+		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
+		cost = 10
+		available = { date > 1938.6.1 }
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_autonomous_industrial_bastion }
+				swap_ideas = {
+					remove_idea = GLP_idea_autonomous_industrial_bastion
+					add_idea = GLP_idea_industrial_powerhouse
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_industrial_powerhouse
+			}
+			add_stability = 0.05
+		}
+	}
+
+	# =========================================================================
+	# 23. РАСШИРЕНИЕ ДИПЛОМАТИИ (4 фокуса, x = 18..22, y = 16..18)
+	# =========================================================================
+	focus = {
+		id = GLP_balkan_anarchist_federation
+		icon = GFX_focus_generic_balkan_diplomacy
+		prerequisite = { focus = GLP_defense_in_depth }
+		x = 20
+		y = 16
+		cost = 5
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_political_power = 60
+			add_war_support = 0.05
+			add_manpower = 10000
+		}
+	}
+
+	focus = {
+		id = GLP_support_turkish_leftists
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		prerequisite = { focus = GLP_balkan_anarchist_federation }
+		x = 18
+		y = 17
+		cost = 5
+		ai_will_do = { factor = 4 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 40
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = -1000 producer = GLP }
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_persian_revolutionary_aid
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = GLP_balkan_anarchist_federation }
+		x = 22
+		y = 17
+		cost = 5
+		ai_will_do = { factor = 4 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_political_power = 40
+			add_manpower = 5000
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_global_anarchist_network
+		icon = GFX_goal_generic_military_sphere
+		prerequisite = { focus = GLP_support_turkish_leftists }
+		prerequisite = { focus = GLP_persian_revolutionary_aid }
+		x = 20
+		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
+		cost = 5
+		available = { date > 1938.6.1 }
+		ai_will_do = { factor = 4 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_global_network days = 730 }
+			add_political_power = 80
+			add_war_support = 0.08
+		}
+	}
+
+	# =========================================================================
+	# 24. РАСШИРЕНИЕ АГРАРНОЙ ВЕТКИ (4 фокуса, x = 26..30, y = 16..18)
+	# =========================================================================
+	focus = {
+		id = GLP_mechanized_agriculture
+		icon = GFX_focus_generic_mechanized
+		prerequisite = { focus = GLP_strategic_reserves }
+		x = 28
+		y = 16
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_mechanized_agriculture days = 540 }
+			add_stability = 0.05
+			add_manpower = 10000
+		}
+	}
+
+	focus = {
+		id = GLP_collective_farming
+		icon = GFX_focus_generic_agricultural_subsidies
+		prerequisite = { focus = GLP_mechanized_agriculture }
+		x = 26
+		y = 17
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_collective_farming days = 540 }
+			add_stability = 0.05
+			add_political_power = 30
+		}
+	}
+
+	focus = {
+		id = GLP_agricultural_research
+		icon = GFX_focus_generic_socialist_science
+		prerequisite = { focus = GLP_mechanized_agriculture }
+		x = 30
+		y = 17
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_agri bonus = 1.0 uses = 1 category = industry }
+			add_stability = 0.03
+			add_political_power = 20
+		}
+	}
+
+	focus = {
+		id = GLP_breadbasket_of_europe
+		icon = GFX_focus_generic_farmland
+		prerequisite = { focus = GLP_collective_farming }
+		prerequisite = { focus = GLP_agricultural_research }
+		x = 28
+		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
+		cost = 10
+		available = { date > 1938.6.1 }
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_steppes_breadbasket }
+				swap_ideas = {
+					remove_idea = GLP_idea_steppes_breadbasket
+					add_idea = GLP_idea_breadbasket
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_breadbasket
+			}
+			add_stability = 0.10
+			add_manpower = 20000
+			add_political_power = 50
+		}
+	}
+
+	# =========================================================================
+	# 25. РАСШИРЕНИЕ КОНТРРАЗВЕДКИ (4 фокуса, x = 34..38, y = 16..18)
+	# =========================================================================
+	focus = {
+		id = GLP_counter_espionage_network
+		icon = GFX_focus_generic_secret_service_agency
+		prerequisite = { focus = GLP_syndicalist_paradise }
+		x = 36
+		y = 16
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_militia_patrols }
+				swap_ideas = {
+					remove_idea = GLP_idea_militia_patrols
+					add_idea = GLP_idea_counter_espionage
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_counter_espionage
+			}
+			add_political_power = 40
+			add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_border_security
+		icon = GFX_focus_generic_national_security
+		prerequisite = { focus = GLP_counter_espionage_network }
+		x = 34
+		y = 17
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_border_security days = 480 }
+			add_stability = 0.05
+			add_war_support = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_internal_security_directorate
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = GLP_counter_espionage_network }
+		x = 38
+		y = 17
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_internal_security days = 480 }
+			add_political_power = 50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_impregnable_intelligence
+		icon = GFX_focus_generic_cryptologic_bomb
+		prerequisite = { focus = GLP_border_security }
+		prerequisite = { focus = GLP_internal_security_directorate }
+		x = 36
+		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_economic_miracle focus = GLP_cossack_legacy }
+		cost = 10
+		available = { date > 1938.6.1 }
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_counter_espionage }
+				swap_ideas = {
+					remove_idea = GLP_idea_counter_espionage
+					add_idea = GLP_idea_impregnable_intel
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_impregnable_intel
+			}
+			add_political_power = 80
+			add_stability = 0.08
+		}
+	}
+
+	# =========================================================================
+	# 26. РАСШИРЕНИЕ ЭКОНОМИКИ (4 фокуса, x = 42..46, y = 16..18)
+	# =========================================================================
+	focus = {
+		id = GLP_full_employment
+		icon = GFX_focus_generic_full_employment
+		prerequisite = { focus = GLP_gender_equality }
+		x = 44
+		y = 16
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_full_employment days = 540 }
+			add_stability = 0.08
+			add_political_power = 40
+		}
+	}
+
+	focus = {
+		id = GLP_technological_education
+		icon = GFX_focus_generic_university_1
+		prerequisite = { focus = GLP_full_employment }
+		x = 42
+		y = 17
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = { name = glp_lab_bonus bonus = 0.50 uses = 1 category = industry }
+			add_political_power = -50
+			add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = GLP_infrastructure_modernization
+		icon = GFX_focus_generic_improve_roads
+		prerequisite = { focus = GLP_full_employment }
+		x = 46
+		y = 17
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = { type = infrastructure level = 3 instant_build = yes }
+			}
+			random_owned_controlled_state = {
+				add_building_construction = { type = infrastructure level = 3 instant_build = yes }
+			}
+			add_political_power = -30
+		}
+	}
+
+	focus = {
+		id = GLP_economic_miracle
+		icon = GFX_focus_generic_economic_recovery
+		prerequisite = { focus = GLP_technological_education }
+		prerequisite = { focus = GLP_infrastructure_modernization }
+		x = 44
+		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_cossack_legacy }
+		cost = 10
+		available = { date > 1938.6.1 }
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_full_employment }
+				swap_ideas = {
+					remove_idea = GLP_idea_full_employment
+					add_idea = GLP_idea_economic_miracle
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_economic_miracle
+			}
+			add_stability = 0.10
+			add_political_power = 80
+		}
+	}
+
+	# =========================================================================
+	# 27. РАСШИРЕНИЕ КАЗАЧЕСТВА (4 фокуса, x = 50..54, y = 16..18)
+	# =========================================================================
+	focus = {
+		id = GLP_cossack_officer_corps
+		icon = GFX_focus_generic_military_academy
+		prerequisite = { focus = GLP_cossack_glory }
+		x = 52
+		y = 16
+		cost = 7
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_cossack_officers days = 480 }
+			army_experience = 30
+			add_political_power = 20
+		}
+	}
+
+	focus = {
+		id = GLP_cossack_cavalry_divisions
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = GLP_cossack_officer_corps }
+		x = 50
+		y = 17
+		cost = 7
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_cossack_glory }
+				swap_ideas = {
+					remove_idea = GLP_idea_cossack_glory
+					add_idea = GLP_idea_cossack_divisions
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_cossack_divisions
+			}
+			add_manpower = 15000
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_cossack_traditions_preserved
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = GLP_cossack_officer_corps }
+		x = 54
+		y = 17
+		cost = 10
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_timed_idea = { idea = GLP_idea_cossack_traditions days = 480 }
+			add_stability = 0.08
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GLP_cossack_legacy
+		icon = GFX_goal_generic_defence
+		prerequisite = { focus = GLP_cossack_cavalry_divisions }
+		prerequisite = { focus = GLP_cossack_traditions_preserved }
+		x = 52
+		y = 18
+		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle }
+		cost = 10
+		available = { date > 1938.6.1 }
+		ai_will_do = { factor = 5 }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = { has_idea = GLP_idea_cossack_divisions }
+				swap_ideas = {
+					remove_idea = GLP_idea_cossack_divisions
+					add_idea = GLP_idea_cossack_legacy
+				}
+			}
+			else = {
+				add_ideas = GLP_idea_cossack_legacy
+			}
+			add_war_support = 0.10
+			add_manpower = 20000
+			army_experience = 40
+		}
+	}
+}

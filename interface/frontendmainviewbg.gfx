@@ -1,0 +1,46 @@
+spriteTypes = {
+	# =========================================================================
+	#  Главное меню — адаптивный фонъ и анимированный логотипъ
+	# =========================================================================
+
+	# Фонъ заданъ въ эталонномъ разрѣшеніи 1920×1440 (4:3 — референсное
+	# разрѣшеніе интерфейса HOI4), а не 1920×1080. При прежнемъ размѣрѣ
+	# corneredTileSpriteType растягивалъ текстуру по вертикали на экранахъ
+	# съ соотношеніемъ выше 16:9 (16:10, 4:3) — изображеніе «тянулось».
+	# borderSize = 0 отключаетъ неподвижныя кромки, фонъ масштабируется цѣликомъ.
+	corneredTileSpriteType = {
+		name = "GFX_frontend_bg"
+		texturefile = "gfx/interface/frontendmainviewbg.dds"
+		borderSize = { x=0 y=0 }
+		size = { x=1920 y=1440 }
+		tilingCenter = no
+		effectFile = "gfx/FX/buttonstate_nodowneffect.lua"
+	}
+
+	# Логотипъ «выѣзжаетъ» сверху внизъ и замираетъ на послѣднемъ кадрѣ:
+	# 18 кадровъ по 800x200 (лента 14400x200), проигрывается однократно
+	# при появленіи главнаго меню.
+	frameAnimatedSpriteType = {
+		name = "GFX_frontend_game_logo"
+		texturefile = "gfx/interface/logo/game_logo_anim.dds"
+		noOfFrames = 18
+		animation_rate_fps = 24
+		looping = no
+		play_on_show = yes
+		pause_on_loop = 0.0
+	}
+
+	# Статическій вариантъ той же плашки — для мѣстъ, гдѣ анимація не нужна.
+	spriteType = {
+		name = "GFX_frontend_game_logo_static"
+		texturefile = "gfx/interface/logo/game_logo.dds"
+	}
+}
+
+# Пустой спрайт перекрывает ванильный логотип Paradox в frontend.gui.
+spriteTypes = {
+	spriteType = {
+		name = "GFX_frontend_paradox_logo"
+		texturefile = "gfx/interface/logo/blank.dds"
+	}
+}

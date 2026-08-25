@@ -1,0 +1,4 @@
+GLP = {
+	color = rgb { 28 28 30 }
+	color_ui = rgb { 45 45 48 }
+}

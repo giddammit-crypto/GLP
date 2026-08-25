@@ -1,0 +1,43 @@
+GLP_revolutionary_military_ops = {
+	icon = GFX_decision_category_anarchist_rebellion
+	picture = GFX_decision_cat_generic_anarchism
+	allowed = { original_tag = GLP }
+}
+
+GLP_syndicate_industrial_initiatives = {
+	icon = GFX_decision_category_generic_industry
+	picture = GFX_decision_cat_generic_industry
+	allowed = { original_tag = GLP }
+}
+
+GLP_peasant_agrarian_communes = {
+	icon = GFX_decision_category_gre_agricultural_communes
+	picture = GFX_decision_cat_generic_agriculture
+	allowed = { original_tag = GLP }
+}
+
+GLP_kontrrazvedka_and_order = {
+	icon = GFX_decision_category_secret_service
+	picture = GFX_decision_cat_generic_oppression
+	allowed = { original_tag = GLP }
+}
+
+GLP_occupation_soviets = {
+	icon = GFX_decision_category_generic_political_actions
+	picture = GFX_decision_cat_generic_anarchism
+	allowed = { original_tag = GLP }
+	visible = { has_war = yes }
+}
+
+GLP_reconciliation_with_past = {
+	icon = GFX_decision_category_generic_political_actions
+	picture = GFX_decision_cat_generic_political_actions
+	allowed = { original_tag = GLP }
+	visible = { has_country_flag = GLP_allied_white_emigres }
+}
+
+GLP_anarchist_freedom_measures = {
+	icon = GFX_decision_category_anarchist_rebellion
+	picture = GFX_decision_cat_generic_anarchism
+	allowed = { original_tag = GLP }
+}

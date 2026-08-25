@@ -1,0 +1,30 @@
+add_namespace = glp_white
+
+# Разборки в штабе после призыва белых эмигрантов
+news_event = {
+	id = glp_white.1
+	title = glp_white.1.t
+	desc = glp_white.1.d
+	picture = GFX_news_event_GLP_rebirth
+	major = no
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = glp_white.1.a
+		add_stability = -0.05
+		add_war_support = 0.03
+		GLP_nikolai_skoblin = { add_unit_leader_trait = GLP_white_emigre_favored }
+		GLP_anton_turkul = { add_unit_leader_trait = GLP_white_emigre_favored }
+		GLP_grigory_semyonov = { add_unit_leader_trait = GLP_white_emigre_favored }
+		add_political_power = -25
+	}
+	option = {
+		name = glp_white.1.b
+		add_stability = 0.05
+		add_war_support = -0.02
+		GLP_nikolai_skoblin = { add_unit_leader_trait = GLP_white_emigre_sidelined }
+		GLP_anton_turkul = { add_unit_leader_trait = GLP_white_emigre_sidelined }
+		GLP_grigory_semyonov = { add_unit_leader_trait = GLP_white_emigre_sidelined }
+	}
+}

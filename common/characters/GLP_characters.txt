@@ -1,0 +1,571 @@
+### =========================================================================
+###  Гуляйпольская Республика — персонажи (HOI4 1.19.2 character system)
+###
+###  Профили черт соответствуют разделу 1 технического задания.
+###  Никаких жёстко заданных `id = <число>`: движок 1.19.2 раздаёт
+###  идентификаторы сам, а ручные ID — классическая причина конфликта
+###  советников и вылета при загрузке сценария 1936/1939.
+###  Каждый idea_token уникален (проверяется tools/glp_audit.py).
+### =========================================================================
+characters = {
+
+	# ------------------------------------------------------------------
+	#  Нестор Иванович Махно — «Батько», глава государства и главком
+	# ------------------------------------------------------------------
+	GLP_nestor_makhno = {
+		name = GLP_nestor_makhno
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_nestor_makhno"
+				small = "GFX_portrait_GLP_nestor_makhno_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_nestor_makhno_army"
+				small = "GFX_portrait_GLP_nestor_makhno_small"
+			}
+		}
+		country_leader = {
+			ideology = anarchism
+			traits = { batko_makhno GLP_inspirational_leader GLP_panic }
+			expire = "1965.1.1"
+		}
+		field_marshal = {
+			traits = { guerilla_fighter trickster offensive_doctrine GLP_tachanka_commander }
+			skill = 4
+			attack_skill = 5
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 4
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  Виктор Фёдорович Белаш — начальник штаба РПА
+	# ------------------------------------------------------------------
+	GLP_viktor_belash = {
+		name = GLP_viktor_belash
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_viktor_belash"
+				small = "GFX_portrait_GLP_viktor_belash_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_viktor_belash"
+				small = "GFX_portrait_GLP_viktor_belash_small"
+			}
+		}
+		corps_commander = {
+			traits = { organizer trickster cavalry_expert GLP_guerilla_master }
+			skill = 4
+			attack_skill = 4
+			defense_skill = 3
+			planning_skill = 5
+			logistics_skill = 3
+		}
+		advisor = {
+			slot = army_chief
+			idea_token = GLP_viktor_belash_advisor
+			ledger = army
+			cost = 100
+			removal_cost = 10
+			traits = { GLP_operational_planner }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  Семён Никитович Каретник — командующий корпусом
+	# ------------------------------------------------------------------
+	GLP_semen_karetnik = {
+		name = GLP_semen_karetnik
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_semen_karetnik"
+				small = "GFX_portrait_GLP_semen_karetnik_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_semen_karetnik"
+				small = "GFX_portrait_GLP_semen_karetnik_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_expert aggressive_assaulter commando }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 3
+		}
+		advisor = {
+			slot = high_command
+			idea_token = GLP_semen_karetnik_advisor
+			ledger = army
+			cost = 100
+			removal_cost = 10
+			traits = { army_cavalry_2 }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  Феодосий Юстинович Щусь — командующий кавалерией
+	# ------------------------------------------------------------------
+	GLP_feodosiy_shchus = {
+		name = GLP_feodosiy_shchus
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_feodosiy_shchus"
+				small = "GFX_portrait_GLP_feodosiy_shchus_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_feodosiy_shchus"
+				small = "GFX_portrait_GLP_feodosiy_shchus_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_leader fast_planner trait_reckless GLP_steppe_raider }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 3
+			planning_skill = 2
+			logistics_skill = 2
+		}
+		advisor = {
+			slot = high_command
+			idea_token = GLP_feodosiy_shchus_advisor
+			ledger = army
+			cost = 100
+			removal_cost = 10
+			traits = { army_cavalry_speed_2 }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  Лев (Александр) Николаевич Задов-Зиньковский — начальник РЗР
+	# ------------------------------------------------------------------
+	GLP_lev_zadov = {
+		name = GLP_lev_zadov
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_lev_zadov"
+				small = "GFX_portrait_GLP_lev_zadov_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_lev_zadov"
+				small = "GFX_portrait_GLP_lev_zadov_small"
+			}
+		}
+		corps_commander = {
+			traits = { trickster commando GLP_guerilla_master }
+			skill = 2
+			attack_skill = 3
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 2
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = GLP_lev_zadov_advisor
+			cost = 100
+			removal_cost = 10
+			traits = { silent_workhorse counter_intelligence_expert GLP_head_of_intelligence }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  Галина Андреевна Кузьменко — комиссар просвещения
+	# ------------------------------------------------------------------
+	GLP_halyna_kuzmenko = {
+		name = GLP_halyna_kuzmenko
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_halyna_kuzmenko"
+				small = "GFX_portrait_GLP_halyna_kuzmenko_small"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = GLP_halyna_kuzmenko_advisor
+			cost = 100
+			removal_cost = 10
+			traits = { ideological_crusader }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  Всеволод Михайлович Волин (Эйхенбаум) — министр пропаганды
+	# ------------------------------------------------------------------
+	GLP_vsevolod_volin = {
+		name = GLP_vsevolod_volin
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_vsevolod_volin"
+				small = "GFX_portrait_GLP_vsevolod_volin_small"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = GLP_vsevolod_volin_advisor
+			cost = 100
+			removal_cost = 10
+			traits = { ideological_crusader free_soviets_minister }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  Атаман Никифор Григорьев — союзник поневоле
+	# ------------------------------------------------------------------
+	GLP_ataman_grigoriev = {
+		name = GLP_ataman_grigoriev
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_ataman_grigoriev"
+				small = "GFX_portrait_GLP_ataman_grigoriev_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_ataman_grigoriev"
+				small = "GFX_portrait_GLP_ataman_grigoriev_small"
+			}
+		}
+		corps_commander = {
+			traits = { guerilla_fighter harsh_leader trait_reckless }
+			skill = 4
+			attack_skill = 5
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 2
+		}
+		advisor = {
+			slot = high_command
+			idea_token = GLP_ataman_grigoriev_advisor
+			ledger = army
+			cost = 100
+			removal_cost = 10
+			traits = { army_cavalry_speed_2 army_morale_2 }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  СОЮЗНЫЕ ВОЕННЫЕ МИССИИ — становятся доступны ТОЛЬКО после выбора
+	#  соответствующего фокуса союза (СССР / Германия / Британия).
+	#  Пока фокус не взят, персонажей нет в списке советников (visible = no).
+	#  Это исключает ванильных и чужих советников: нанять можно только
+	#  своих (7 своих советников выше) либо союзную миссию выбранной державы.
+	# ------------------------------------------------------------------
+
+	# Советская военная миссия (доступна после фокуса GLP_alliance_with_soviet_union)
+	GLP_soviet_military_mission = {
+		name = GLP_soviet_military_mission
+		portraits = {
+			civilian = { large = "GFX_portrait_GLP_viktor_belash" small = "GFX_portrait_GLP_viktor_belash_small" }
+		}
+		advisor = {
+			slot = theorist
+			idea_token = GLP_soviet_mission_advisor
+			ledger = army
+			cost = 150
+			removal_cost = 10
+			visible = { has_completed_focus = GLP_alliance_with_soviet_union }
+			traits = { GLP_soviet_mission_doctrine }
+		}
+	}
+
+	# Германская военная миссия (доступна после фокуса GLP_alliance_with_germany)
+	GLP_german_military_mission = {
+		name = GLP_german_military_mission
+		portraits = {
+			civilian = { large = "GFX_portrait_GLP_lev_zadov" small = "GFX_portrait_GLP_lev_zadov_small" }
+		}
+		advisor = {
+			slot = army_chief
+			idea_token = GLP_german_mission_advisor
+			ledger = army
+			cost = 150
+			removal_cost = 10
+			visible = { has_completed_focus = GLP_alliance_with_germany }
+			traits = { GLP_german_mission_drill }
+		}
+	}
+
+	# Британская морская миссия (доступна после фокуса GLP_alliance_with_britain)
+	GLP_british_naval_drill = {
+		name = GLP_british_naval_mission
+		portraits = {
+			civilian = { large = "GFX_portrait_GLP_semen_karetnik" small = "GFX_portrait_GLP_semen_karetnik_small" }
+		}
+		advisor = {
+			slot = navy_chief
+			idea_token = GLP_british_naval_advisor
+			ledger = navy
+			cost = 150
+			removal_cost = 10
+			visible = { has_completed_focus = GLP_alliance_with_britain }
+			traits = { GLP_british_naval_drill }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  СТАРЫЕ СОПЕРНИКИ БАТЬКИ ПО ГУЛЯЙ-ПОЛЮ — фиксированные командиры.
+	#  Раньше имена «Дыбец» и «Кожин» игра генерировала случайно из
+	#  common/names/GLP_names.txt (безымянные generic-командиры с ванильными
+	#  портретами). Теперь это постоянные персонажи мода со своими
+	#  фотореалистичными портретами эпохи 1930-х — они всегда в стартовом
+	#  составе (recruit_character в history/countries/GLP - Gulyaypole.txt).
+	# ------------------------------------------------------------------
+
+	# Богдан Дыбец — старый гуляй-польский командир, оппонент Батьки
+	GLP_bogdan_dybets = {
+		name = GLP_bogdan_dybets
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_bogdan_dybets"
+				small = "GFX_portrait_GLP_bogdan_dybets_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_bogdan_dybets"
+				small = "GFX_portrait_GLP_bogdan_dybets_small"
+			}
+		}
+		corps_commander = {
+			traits = { organizer trait_reckless }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
+
+	# Алексей Дыбец — молодой кавалерийский командир
+	GLP_aleksey_dybets = {
+		name = GLP_aleksey_dybets
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_aleksey_dybets"
+				small = "GFX_portrait_GLP_aleksey_dybets_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_aleksey_dybets"
+				small = "GFX_portrait_GLP_aleksey_dybets_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_leader fast_planner }
+			skill = 2
+			attack_skill = 3
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
+
+	# Феодосий Кожин — степной командир старой закалки
+	GLP_feodosiy_kozhin = {
+		name = GLP_feodosiy_kozhin
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_feodosiy_kozhin"
+				small = "GFX_portrait_GLP_feodosiy_kozhin_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_feodosiy_kozhin"
+				small = "GFX_portrait_GLP_feodosiy_kozhin_small"
+			}
+		}
+		corps_commander = {
+			traits = { guerilla_fighter cavalry_expert harsh_leader }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 3
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  КОМАНДИРЫ РПА — исторические полевые командиры Повстанческой армии.
+	#  Всегда в стартовом составе (recruit_character в history/countries).
+	# ------------------------------------------------------------------
+
+	# Трофим Вдовиченко — командир Азовской группы
+	GLP_trofim_vdovychenko = {
+		name = GLP_trofim_vdovychenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_trofim_vdovychenko"
+				small = "GFX_portrait_GLP_trofim_vdovychenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_trofim_vdovychenko"
+				small = "GFX_portrait_GLP_trofim_vdovychenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { organizer skilled_staffer GLP_guerilla_master }
+			skill = 4
+			attack_skill = 4
+			defense_skill = 3
+			planning_skill = 4
+			logistics_skill = 3
+		}
+	}
+
+	# Алексей Марченко — командир конной группы, герой крымского прорыва
+	GLP_aleksey_marchenko = {
+		name = GLP_aleksey_marchenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_aleksey_marchenko"
+				small = "GFX_portrait_GLP_aleksey_marchenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_aleksey_marchenko"
+				small = "GFX_portrait_GLP_aleksey_marchenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_leader cavalry_expert trait_reckless GLP_steppe_raider }
+			skill = 3
+			attack_skill = 5
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 3
+		}
+	}
+
+	# Платон Петренко — командир 3-го Крымского корпуса, штурм Перекопа
+	GLP_platon_petrenko = {
+		name = GLP_platon_petrenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_platon_petrenko"
+				small = "GFX_portrait_GLP_platon_petrenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_platon_petrenko"
+				small = "GFX_portrait_GLP_platon_petrenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { aggressive_assaulter commando GLP_tachanka_commander }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
+
+	# Василий Куриленко — командир Новоспасовской группы, освободитель Мариуполя
+	GLP_vasily_kurylenko = {
+		name = GLP_vasily_kurylenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_vasily_kurylenko"
+				small = "GFX_portrait_GLP_vasily_kurylenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_vasily_kurylenko"
+				small = "GFX_portrait_GLP_vasily_kurylenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { guerilla_fighter defensive_doctrine GLP_guerilla_master }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 4
+			planning_skill = 3
+			logistics_skill = 3
+		}
+	}
+
+	# Пётр Гавриленко — начальник полевого штаба Крымской группы
+	GLP_petr_gavrilenko = {
+		name = GLP_petr_gavrilenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_petr_gavrilenko"
+				small = "GFX_portrait_GLP_petr_gavrilenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_petr_gavrilenko"
+				small = "GFX_portrait_GLP_petr_gavrilenko_small"
+			}
+		}
+		corps_commander = {
+			traits = { organizer fast_planner GLP_guerilla_master }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 3
+			planning_skill = 4
+			logistics_skill = 3
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  Белые эмигранты — рекрутируются ТОЛЬКО фокусом GLP_old_enemies_unite
+	# ------------------------------------------------------------------
+	GLP_nikolai_skoblin = {
+		name = GLP_nikolai_skoblin
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_nikolai_skoblin"
+				small = "GFX_portrait_GLP_nikolai_skoblin_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_nikolai_skoblin"
+				small = "GFX_portrait_GLP_nikolai_skoblin_small"
+			}
+		}
+		corps_commander = {
+			traits = { trait_reckless GLP_white_emigre }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
+
+	GLP_anton_turkul = {
+		name = GLP_anton_turkul
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_anton_turkul"
+				small = "GFX_portrait_GLP_anton_turkul_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_anton_turkul"
+				small = "GFX_portrait_GLP_anton_turkul_small"
+			}
+		}
+		corps_commander = {
+			traits = { trait_reckless GLP_white_emigre }
+			skill = 4
+			attack_skill = 5
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 3
+		}
+	}
+
+	GLP_grigory_semyonov = {
+		name = GLP_grigory_semyonov
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_grigory_semyonov"
+				small = "GFX_portrait_GLP_grigory_semyonov_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_grigory_semyonov"
+				small = "GFX_portrait_GLP_grigory_semyonov_small"
+			}
+		}
+		corps_commander = {
+			traits = { cavalry_leader harsh_leader GLP_white_emigre }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 3
+		}
+	}
+}

@@ -1,0 +1,173 @@
+### =========================================================================
+###  ГУЛЯЙ-ПОЛЕ — игровой плейлистъ
+###
+###  Файл ПЕРЕКРЫВАЕТ ванильный music/_songs.txt: ванильный саундтрекъ
+###  полностью исключёнъ, въ игрѣ звучитъ только подборка Монголъ Шууданъ.
+### =========================================================================
+
+music_station = "base_music"
+
+music = {
+	song = "maintheme"
+	chance = {
+		factor = 1
+		modifier = {
+			factor = 0
+			has_war = yes
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_yablochko"
+	chance = {
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_strelyai"
+	chance = {
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_svoboda"
+	chance = {
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_moskva"
+	chance = {
+		factor = 1.5
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_finka"
+	chance = {
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_privet_batke"
+	chance = {
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_dalnyaya"
+	chance = {
+		factor = 1.5
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_poltsarstva"
+	chance = {
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_granata"
+	chance = {
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}
+
+music = {
+	song = "GLP_ms_sedmoi_patron"
+	chance = {
+		factor = 2
+		modifier = {
+			factor = 2
+			tag = GLP
+		}
+		modifier = {
+			factor = 0
+			has_country_flag = glp_show_cinematic_intro
+		}
+	}
+}

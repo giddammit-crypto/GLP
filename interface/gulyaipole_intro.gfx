@@ -1,0 +1,77 @@
+# =============================================================================
+#  ГУЛЯЙ-ПОЛЕ — кинематографическая заставка (HOI4 v1.19.2)
+#  AAA Photorealistic & PDX Technical Guidelines Compliance
+#  Автор: Амброзиев О.А.
+#
+#  Спрайты для окна gulyaipole_cinematic_intro_window
+#  Текстуры — DDS DXT1/DXT5, без мип-мап, как в ванили
+# =============================================================================
+spriteTypes = {
+    # Тёмная подложка окна — мрачная текстура состаренной бумаги
+    spriteType = {
+        name = "GFX_intro_bg"
+        texturefile = "gfx/interface/intro/gulyaipole_intro_bg.dds"
+    }
+    spriteType = {
+        name = "GFX_tiled_bg_dark"
+        texturefile = "gfx/interface/intro/gulyaipole_intro_bg.dds"
+    }
+    corneredTileSpriteType = {
+        name = "GFX_tiled_bg_dark_tiled"
+        texturefile = "gfx/interface/intro/gulyaipole_intro_bg.dds"
+        borderSize = { x = 0 y = 0 }
+        size = { x = 900 y = 700 }
+        tilingCenter = no
+    }
+
+    # Декоративная золотая кайма — рамка окна 900x700
+    spriteType = {
+        name = "GFX_gold_inner_border"
+        texturefile = "gfx/interface/intro/gulyaipole_gold_inner_border.dds"
+        noOfFrames = 1
+    }
+
+    # Портрет Нестора Махно для интро — ч/б исторический (156x210 large)
+    spriteType = {
+        name = "GFX_portrait_nestor_makhno_intro"
+        texturefile = "gfx/leaders/GLP/Portrait_GLP_Makhno_Intro_large.dds"
+        noOfFrames = 1
+    }
+    spriteType = {
+        name = "GFX_portrait_nestor_makhno_intro_small"
+        texturefile = "gfx/leaders/GLP/Portrait_GLP_Makhno_Intro.dds"
+        noOfFrames = 1
+    }
+
+    # Золотая рамка для портрета (элитная, как у политлидеров)
+    spriteType = {
+        name = "GFX_political_leader_frame_gold"
+        texturefile = "gfx/interface/intro/gulyaipole_portrait_frame_gold.dds"
+    }
+
+    # Историческая военная карта Юга Украины (Екатеринославская губерния)
+    spriteType = {
+        name = "GFX_intro_ukraine_map"
+        texturefile = "gfx/interface/intro/gulyaipole_ukraine_map.dds"
+    }
+
+    # Сепированная фотокарточка махновской конницы на марше
+    spriteType = {
+        name = "GFX_intro_makhno_cavalry"
+        texturefile = "gfx/interface/intro/gulyaipole_cavalry.dds"
+    }
+
+    # Анимированная лента титров (GFX_intro_text_crawl) УДАЛЕНА в аудите
+    # 26.08.2026: спрайт с блоком animation в этом .gfx ломал загрузку
+    # остальных спрайтов файла — в окне заставки пропадали фон и фото
+    # (исчезали GFX_intro_bg / портрет / конница / карта), а текст и
+    # кнопки (ванильные спрайты) оставались. История теперь показывается
+    # обычным локализованным текстовым полем GULYAIPOLE_EPIC_INTRO_TEXT.
+    # Текстуры ленты (gulyaipole_text_{base,mask,crawl}.dds) удалены.
+
+    # Дополнительные вспомогательные спрайты для атмосферы
+    spriteType = {
+        name = "GFX_intro_vignette_dark"
+        texturefile = "gfx/interface/GLP_fallback_texture.dds"
+    }
+}

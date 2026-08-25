@@ -1,0 +1,19 @@
+# Гуляй-Поле — отдельная радио-регистрация заставки (HOI4 1.19.2).
+#
+# base — вес трека при выборе Weighted Shuffle. Большое значение делает
+# заставочную дорожку приоритетной, если станция gulyaipole_intro выбрана.
+# Автоматический запуск при открытии окна выполняет событие через
+# sound_effect и scoped_play_song.
+
+music_station = "gulyaipole_intro"
+
+music = {
+	song = "gulyaipole_intro_voice_music"
+	chance = {
+		base = 100000
+		modifier = {
+			factor = 0
+			NOT = { has_country_flag = glp_show_cinematic_intro }
+		}
+	}
+}

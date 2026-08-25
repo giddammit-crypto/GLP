@@ -1,0 +1,502 @@
+decisions = {
+GLP_revolutionary_military_ops = {
+	# 1. Мобилизация резервов Черной Гвардии
+	GLP_mobilize_black_guard_reserves = {
+		icon = generic_prepare_civil_war
+		cost = 50
+		days_remove = 120
+		available = { has_war = yes }
+		visible = { has_completed_focus = GLP_insurgent_army_reorganization }
+		fire_only_once = yes
+		complete_effect = {
+			add_manpower = 12000
+			add_war_support = 0.05
+			add_stability = -0.05
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	# 2. Кавалерийский рейд по тылам
+	GLP_conduct_cavalry_partisan_raid = {
+		icon = generic_assassination
+		cost = 40
+		days_remove = 60
+		available = { has_war = yes }
+		visible = { has_completed_focus = GLP_partisan_warfare_doctrine }
+		complete_effect = {
+			army_experience = 20
+			add_command_power = 25
+			add_political_power = -20
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 3. Формирование бронепоезда «Свобода или Смерть»
+	GLP_commission_armored_train = {
+		icon = generic_acquire_tanks
+		cost = 60
+		days_remove = 45
+		visible = { has_completed_focus = GLP_armored_train_production }
+		fire_only_once = no
+		complete_effect = {
+			add_equipment_to_stockpile = { type = train_equipment amount = 3 producer = GLP }
+			army_experience = 10
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 4. Отправка добровольцев CNT-FAI
+	GLP_send_brigade_to_cnt_fai = {
+		icon = generic_volunteer_expedition
+		cost = 75
+		available = {
+			SPR = { has_civil_war = yes }
+			has_equipment = { infantry_equipment > 499 }
+			has_manpower > 4000
+		}
+		visible = { has_completed_focus = GLP_aid_to_spanish_anarchists }
+		fire_only_once = yes
+		complete_effect = {
+			add_manpower = -4000
+			add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
+			SPR = { add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 500 producer = GLP } }
+			army_experience = 25
+			add_political_power = 40
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	# 5. Партизанские базы в плавнях Днепра
+	GLP_establish_dnieper_partisan_camps = {
+		icon = generic_fortification
+		cost = 40
+		days_remove = 90
+		visible = { has_completed_focus = GLP_invincible_insurgency }
+		fire_only_once = yes
+		complete_effect = {
+			add_timed_idea = { idea = GLP_idea_partisan_camps_timed days = 180 }
+			add_war_support = 0.03
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 6. Летучие отряды тачанок
+	GLP_form_flying_tachanka_detachments = {
+		icon = generic_morale_bonus
+		cost = 35
+		days_remove = 60
+		visible = { has_completed_focus = GLP_legendary_tachankas }
+		complete_effect = {
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 500 producer = GLP }
+			army_experience = 15
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
+
+GLP_syndicate_industrial_initiatives = {
+	# 7. Стахановский порыв шахтеров Донбасса
+	GLP_donbass_miners_initiative = {
+		icon = generic_production
+		cost = 50
+		days_remove = 120
+		visible = { has_completed_focus = GLP_donbass_coal_and_steel_collective }
+		fire_only_once = yes
+		complete_effect = {
+			227 = { add_building_construction = { type = industrial_complex level = 1 instant_build = yes } }
+			add_political_power = -20
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 8. Электрификация от ДнепроГЭС
+	GLP_dnieper_rural_electrification = {
+		icon = generic_research_bonus
+		cost = 50
+		days_remove = 90
+		visible = { has_completed_focus = GLP_dnieper_hydroelectric_freedom }
+		complete_effect = {
+			200 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
+			add_stability = 0.05
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 9. Оружейные мастерские Екатеринослава
+	GLP_expand_ekaterinoslav_armories = {
+		icon = generic_construct_mil_factory
+		cost = 60
+		days_remove = 90
+		visible = { has_completed_focus = GLP_revvoensovet_industry_coordination }
+		complete_effect = {
+			226 = { add_building_construction = { type = arms_factory level = 1 instant_build = yes } }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 10. Броневые дрезины завода им. Малышева
+	GLP_build_armored_rail_scouts = {
+		icon = generic_tanks
+		cost = 45
+		days_remove = 60
+		visible = { has_completed_focus = GLP_revvoensovet_armored_command }
+		complete_effect = {
+			add_tech_bonus = { name = glp_armor_bonus bonus = 1.0 uses = 1 category = armor }
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
+
+GLP_peasant_agrarian_communes = {
+	# 11. Срочная продовольственная помощь городам
+	GLP_emergency_grain_relief = {
+		icon = generic_agrarian_reform
+		cost = 30
+		days_remove = 120
+		available = { has_completed_focus = GLP_bread_for_cities_and_front }
+		visible = { has_completed_focus = GLP_peasant_grain_supplies }
+		complete_effect = {
+			add_stability = 0.08
+			add_political_power = -25
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 12. Сельские МТС и тракторные бригады
+	GLP_organize_communal_tractor_brigades = {
+		icon = generic_production
+		cost = 40
+		days_remove = 90
+		visible = { has_completed_focus = GLP_tractor_stations_for_communes }
+		complete_effect = {
+			add_stability = 0.05
+			add_manpower = 10000
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 13. Стратегический хлебный фонд степи
+	GLP_establish_strategic_grain_reserve = {
+		icon = generic_consumer_goods
+		cost = 50
+		days_remove = 180
+		visible = { has_completed_focus = GLP_communal_granaries }
+		fire_only_once = yes
+		complete_effect = {
+			add_stability = 0.05
+			add_political_power = -15
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
+
+GLP_kontrrazvedka_and_order = {
+	# 14. Облава на белогвардейских заговорщиков в Крыму
+	GLP_crackdown_on_crimean_white_cells = {
+		icon = generic_secret_police
+		cost = 35
+		days_remove = 60
+		visible = { has_completed_focus = GLP_purging_white_remnants }
+		complete_effect = {
+			137 = { add_compliance = 15 }
+			add_stability = 0.05
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 15. Чистка от провокаторов ЧК
+	GLP_purge_cheka_provocateurs = {
+		icon = generic_intelligence_exchange
+		cost = 40
+		days_remove = 60
+		visible = { has_completed_focus = GLP_vigilance_against_cheka_infiltrators }
+		complete_effect = {
+			add_stability = 0.06
+			add_manpower = -2000
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 16. Народные сходы правосудия
+	GLP_assemble_popular_tribunals = {
+		icon = generic_national_unity
+		cost = 30
+		days_remove = 45
+		visible = { has_completed_focus = GLP_libertarian_civil_courts }
+		complete_effect = {
+			add_political_power = 40
+			add_stability = 0.04
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
+
+GLP_occupation_soviets = {
+	GLP_found_kiev_free_soviet = {
+		icon = generic_national_unity
+		cost = 40
+		days_remove = 60
+		fire_only_once = yes
+		visible = { 202 = { is_controlled_by = ROOT } }
+		available = { 202 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			202 = { add_compliance = 12 add_resistance = -10 }
+			add_timed_idea = { idea = GLP_idea_occupied_kiev_soviet days = 240 }
+			add_political_power = -15
+		}
+		ai_will_do = { factor = 2 }
+	}
+	GLP_found_odessa_port_soviet = {
+		icon = generic_industry
+		cost = 35
+		days_remove = 45
+		fire_only_once = yes
+		visible = { 192 = { is_controlled_by = ROOT } }
+		available = { 192 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			192 = { add_compliance = 10 add_resistance = -8 }
+			add_equipment_to_stockpile = { type = convoy amount = 5 producer = GLP }
+			navy_experience = 10
+		}
+		ai_will_do = { factor = 1 }
+	}
+	GLP_found_rostov_raid_soviet = {
+		icon = generic_cavalry
+		cost = 40
+		days_remove = 45
+		fire_only_once = yes
+		visible = { 218 = { is_controlled_by = ROOT } }
+		available = { 218 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			218 = { add_compliance = 8 add_resistance = -6 }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = 400 producer = GLP }
+			army_experience = 10
+		}
+		ai_will_do = { factor = 1 }
+	}
+	GLP_found_kuban_cossack_soviet = {
+		icon = generic_cavalry
+		cost = 40
+		days_remove = 45
+		fire_only_once = yes
+		visible = { 234 = { is_controlled_by = ROOT } }
+		available = { 234 = { is_controlled_by = ROOT } }
+		complete_effect = {
+			234 = { add_compliance = 10 }
+			add_manpower = 4000
+			add_stability = -0.02
+		}
+		ai_will_do = { factor = 1 }
+	}
+	GLP_steppe_raid_on_border = {
+		icon = generic_assassination
+		cost = 30
+		days_re_enable = 90
+		visible = {
+			has_war = yes
+			has_completed_focus = GLP_partisan_warfare_doctrine
+		}
+		available = {
+			has_war = yes
+			has_manpower > 2000
+		}
+		complete_effect = {
+			add_manpower = -1500
+			army_experience = 15
+			add_command_power = 10
+			random_enemy_country = {
+				add_timed_idea = { idea = GLP_idea_partisan_camps_timed days = 60 }
+			}
+			if = {
+				limit = { random = 35 }
+				add_equipment_to_stockpile = { type = infantry_equipment amount = 200 producer = GLP }
+			}
+			else = {
+				add_stability = -0.02
+			}
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
+
+GLP_reconciliation_with_past = {
+	GLP_equip_volunteer_shock_brigades = {
+		icon = generic_prepare_civil_war
+		cost = 40
+		days_remove = 45
+		visible = { has_country_flag = GLP_allied_white_emigres }
+		available = { has_equipment = { infantry_equipment > 400 } }
+		fire_only_once = no
+		complete_effect = {
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 800 producer = GLP }
+			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 80 producer = GLP }
+			add_stability = -0.02
+			add_political_power = -25
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
+
+GLP_anarchist_freedom_measures = {
+	# 1. Свобода слова и сходов
+	GLP_free_speech_and_assembly = {
+		icon = generic_national_unity
+		cost = 30
+		complete_effect = {
+			add_stability = 0.04
+			add_political_power = 15
+			add_war_support = -0.02
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 2. Рабочий контроль над фабриками
+	GLP_worker_control_of_factories = {
+		icon = generic_production
+		cost = 50
+		days_remove = 90
+		complete_effect = {
+			add_stability = 0.02
+			add_war_support = 0.03
+			army_experience = 5
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 3. Земля — коммунам, без выкупа
+	GLP_seize_estate_land_for_communes = {
+		icon = generic_agrarian_reform
+		cost = 40
+		fire_only_once = yes
+		complete_effect = {
+			add_manpower = 5000
+			add_stability = 0.03
+			add_political_power = -10
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	# 4. Сети взаимопомощи и хлеба
+	GLP_mutual_aid_grain_networks = {
+		icon = generic_consumer_goods
+		cost = 35
+		complete_effect = {
+			add_stability = 0.05
+			add_manpower = 1000
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 5. Школы грамоты Махно
+	GLP_literacy_schools_of_makhno = {
+		icon = generic_research_bonus
+		cost = 45
+		days_remove = 120
+		complete_effect = {
+			add_political_power = 20
+			add_stability = 0.02
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 6. Вольная милиция вместо полиции
+	GLP_volunteer_militia_replaces_police = {
+		icon = generic_secret_police
+		cost = 40
+		complete_effect = {
+			add_war_support = 0.03
+			add_stability = -0.02
+			add_manpower = 2000
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 7. Освободить политических узников
+	GLP_release_political_prisoners = {
+		icon = generic_national_unity
+		cost = 25
+		complete_effect = {
+			add_stability = 0.05
+			add_political_power = 10
+			add_war_support = -0.03
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 8. Отзыв делегатов — против бюрократии
+	GLP_recall_delegates_against_bureaucracy = {
+		icon = generic_political_pressure
+		cost = 30
+		complete_effect = {
+			add_political_power = 25
+			add_stability = -0.02
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 9. Чёрный Крест — медицинская взаимопомощь
+	GLP_black_cross_medical_aid = {
+		icon = generic_morale_bonus
+		cost = 40
+		days_remove = 60
+		complete_effect = {
+			add_manpower = 1500
+			add_stability = 0.03
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 10. Вольные ярмарки степи
+	GLP_free_trade_fairs_of_the_steppe = {
+		icon = generic_consumer_goods
+		cost = 35
+		complete_effect = {
+			add_stability = 0.03
+			add_political_power = 15
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 11. Агиттеатр под чёрным знаменем
+	GLP_agit_troupe_black_flag = {
+		icon = generic_cavalry
+		cost = 30
+		complete_effect = {
+			add_war_support = 0.05
+			add_stability = 0.01
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 12. Ротация вольных дружин
+	GLP_volunteer_militia_rotations = {
+		icon = generic_prepare_civil_war
+		cost = 40
+		days_remove = 60
+		complete_effect = {
+			add_manpower = 3000
+			add_war_support = 0.02
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	# 13. Пересмотреть кинематографическую заставку Гуляй-Поля (AAA нуар)
+	GLP_replay_cinematic_intro = {
+		icon = generic_national_unity
+		cost = 0
+		available = {
+			original_tag = GLP
+		}
+		visible = {
+			original_tag = GLP
+			NOT = { has_country_flag = glp_show_cinematic_intro }
+		}
+		complete_effect = {
+			country_event = { id = glp_cinematic_intro.1 }
+			custom_effect_tooltip = GULYAIPOLE_REPLAY_INTRO_TT
+		}
+		ai_will_do = { factor = 0 }
+	}
+}
+
+}

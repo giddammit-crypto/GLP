@@ -1,0 +1,50 @@
+spriteTypes = {
+	spriteType = {
+		name = "GFX_news_event_GLP_intro"
+		texturefile = "gfx/event_pictures/news_event_glp_intro.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_rebirth"
+		texturefile = "gfx/event_pictures/news_event_GLP_rebirth.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_armored_train"
+		texturefile = "gfx/event_pictures/news_event_glp_armored_train.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_dnieper_electric"
+		texturefile = "gfx/event_pictures/news_event_glp_dnieper_electric.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_cavalry_raid"
+		texturefile = "gfx/event_pictures/news_event_glp_cavalry_raid.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_anarchist_congress"
+		texturefile = "gfx/event_pictures/news_event_glp_anarchist_congress.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_black_guard_march"
+		texturefile = "gfx/event_pictures/news_event_glp_black_guard_march.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_donbass_syndicates"
+		texturefile = "gfx/event_pictures/news_event_glp_donbass_syndicates.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_counter_intel"
+		texturefile = "gfx/event_pictures/news_event_glp_counter_intel.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_peasant_communes"
+		texturefile = "gfx/event_pictures/news_event_glp_peasant_communes.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_radio_tower"
+		texturefile = "gfx/event_pictures/news_event_glp_radio_tower.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_madrid_international"
+		texturefile = "gfx/event_pictures/news_event_glp_madrid_international.dds"
+	}
+}
