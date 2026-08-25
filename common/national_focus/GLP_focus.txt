@@ -903,7 +903,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 7 }
 		completion_reward = {
-			add_research_slot = 1
+			add_tech_bonus = { name = glp_education bonus = 1.0 uses = 2 category = electronics }
 			add_political_power = -40
 		}
 	}
@@ -1524,7 +1524,6 @@ focus_tree = {
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_tech_bonus = { name = glp_computing bonus = 1.0 uses = 2 category = computing_tech }
-			add_research_slot = 1
 			add_political_power = -60
 		}
 	}
@@ -1555,7 +1554,6 @@ focus_tree = {
 		ai_will_do = { factor = 5 }
 		completion_reward = {
 			add_ideas = GLP_idea_tech_supremacy
-			add_research_slot = 1
 			add_political_power = -80
 		}
 	}
@@ -1695,7 +1693,6 @@ focus_tree = {
 			add_ideas = GLP_idea_new_culture
 			add_stability = 0.15
 			add_political_power = 100
-			add_research_slot = 1
 		}
 	}
 
@@ -2942,7 +2939,7 @@ focus_tree = {
 		cost = 10
 		ai_will_do = { factor = 5 }
 		completion_reward = {
-			add_research_slot = 1
+			add_tech_bonus = { name = glp_techedu bonus = 1.0 uses = 2 category = industry }
 			add_political_power = -50
 			add_stability = 0.03
 		}
