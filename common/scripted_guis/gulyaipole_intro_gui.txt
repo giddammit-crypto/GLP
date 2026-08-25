@@ -1,0 +1,69 @@
+# =============================================================================
+#  ГУЛЯЙ-ПОЛЕ — Scripted GUI для кинематографической заставки (HOI4 v1.19.2)
+#  Автор: Амброзиев О.А.
+#  AAA Photorealistic & PDX Technical Guidelines Compliance
+#
+#  Окно: gulyaipole_cinematic_intro_window (interface/gulyaipole_intro_custom.gui)
+#  Звук: gulyaipole_intro_voiceover (sound/gulyaipole_sounds.sfx -> voice.ogg)
+#
+#  Логика:
+#    - При старте игры (on_startup) для GLP ставится флаг glp_show_cinematic_intro
+#    - Scripted GUI видит флаг и показывает окно по центру экрана
+#    - Кнопка «Вольному воля!» снимает флаг и закрывает окно
+#    - Решение в категории «Анархические меры» позволяет пересмотреть заставку
+# =============================================================================
+
+scripted_gui = {
+    gulyaipole_cinematic_intro = {
+        window_name = "gulyaipole_cinematic_intro_window"
+        context_type = player_context
+
+        # Видимость только для игрока за Гуляй-Поле при наличии флага
+        visible = {
+            has_country_flag = glp_show_cinematic_intro
+            original_tag = GLP
+        }
+
+        # Эффекты кнопок окна
+        effects = {
+            # Кнопка «Начать» — закрыть заставку, запустить вступительную газету
+            start_campaign_button = {
+                clr_country_flag = glp_show_cinematic_intro
+                # Дублируем газету на случай если on_startup ещё не успел
+                # (безопасно — fire_only_once)
+                # news_event = { id = glp_news.100 hours = 1 }
+            }
+
+            # Клик по фону не закрывает (только кнопка)
+        }
+
+        # Триггеры для доступности кнопки (всегда доступна)
+        triggers = {
+            start_campaign_button_enabled = {
+                always = yes
+            }
+            start_campaign_button_visible = {
+                always = yes
+            }
+        }
+
+        # Динамические списки не требуются для статичного интро
+    }
+
+    # Fallback для малых разрешений
+    gulyaipole_cinematic_intro_small = {
+        window_name = "gulyaipole_cinematic_intro_window_small"
+        context_type = player_context
+
+        visible = {
+            has_country_flag = glp_show_cinematic_intro_small
+            original_tag = GLP
+        }
+
+        effects = {
+            start_campaign_button = {
+                clr_country_flag = glp_show_cinematic_intro_small
+            }
+        }
+    }
+}

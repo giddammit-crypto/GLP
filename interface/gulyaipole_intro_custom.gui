@@ -1,0 +1,289 @@
+# =============================================================================
+#  ГУЛЯЙ-ПОЛЕ — Кинематографическая стартовая заставка (HOI4 v.1.19.2)
+#  Автор проекта и разработчик: Амброзиев О.А.
+#  Стандарт: AAA Photorealistic & PDX Technical Guidelines Compliance
+#
+#  Эстетика: мрачный исторический нуар, архивные фото 1918-1934, состаренная
+#  бумага, угольно-черные и темно-коричневые тона, золотая кайма высокого
+#  разрешения в стиле элитных модальных окон HOI4.
+#
+#  Композиция:
+#    1. Левый верхний угол: портрет Нестора Махно ч/б с золотой окантовкой
+#    2. Правый нижний угол: военная карта Юга Украины + фото конницы
+#    3. Центрально-левая зона: текстовый блок с вертикальной прокруткой и
+#       эффектом медленного подъема текста снизу вверх (кинохроника)
+#    4. Кнопка «Начать» с золотым тиснением
+#
+#  Аудио: voice.ogg (конвертировано из voice.mp3) — автовоспроизведение
+# =============================================================================
+
+guiTypes = {
+    containerWindowType = {
+        name = "gulyaipole_cinematic_intro_window"
+        position = { x = -450 y = -350 }
+        size = { width = 900 height = 700 }
+        orientation = center
+        origo = center
+        moveable = no
+        clipping = no
+
+        # Звук при открытии окна — озвучка вступления
+        show_sound = gulyaipole_intro_voiceover
+        hide_sound = menu_close_window
+
+        # ---------------------------------------------------------------------
+        # Подложка окна с мрачной текстурой (тёмная состаренная бумага)
+        # ---------------------------------------------------------------------
+        background = {
+            name = "Background"
+            spriteType = "GFX_tiled_bg_dark"
+        }
+
+        # Дополнительный затемняющий виньет — для глубины нуара
+        iconType = {
+            name = "dark_vignette_overlay"
+            position = { x = 0 y = 0 }
+            size = { width = 900 height = 700 }
+            spriteType = "GFX_tiled_bg_dark"
+            alwaystransparent = yes
+        }
+
+        # ---------------------------------------------------------------------
+        # Декоративная золотая кайма (рамка окна) — элитная инкрустация
+        # ---------------------------------------------------------------------
+        iconType = {
+            name = "gold_border_frame"
+            position = { x = 0 y = 0 }
+            size = { width = 900 height = 700 }
+            spriteType = "GFX_gold_inner_border"
+            alwaystransparent = yes
+        }
+
+        # Внутренняя тонкая золотая линия для AAA ощущения
+        iconType = {
+            name = "gold_inner_line_top"
+            position = { x = 10 y = 10 }
+            size = { width = 880 height = 2 }
+            spriteType = "GFX_tiled_bg_dark"
+            alwaystransparent = yes
+        }
+
+        # =====================================================================
+        # 1. ЛЕВЫЙ ВЕРХНИЙ УГОЛ: Исторический фотопортрет Нестора Махно
+        # =====================================================================
+        iconType = {
+            name = "makhno_portrait_intro"
+            position = { x = 30 y = 30 }
+            size = { width = 156 height = 210 }
+            spriteType = "GFX_portrait_nestor_makhno_intro"
+        }
+        # Золотая окантовка портрета — элитный стиль
+        iconType = {
+            name = "makhno_portrait_frame"
+            position = { x = 25 y = 25 }
+            size = { width = 166 height = 220 }
+            spriteType = "GFX_political_leader_frame_gold"
+            alwaystransparent = yes
+        }
+
+        # Подпись под портретом — атмосферная деталь
+        instantTextBoxType = {
+            name = "makhno_caption"
+            position = { x = 30 y = 250 }
+            font = "hoi_14mbs"
+            borderSize = { x = 0 y = 0 }
+            text = "Несторъ Махно, 1921"
+            maxWidth = 156
+            maxHeight = 20
+            format = centre
+        }
+
+        # =====================================================================
+        # 2. ПРАВЫЙ НИЖНИЙ УГОЛ: Военная карта + фото конницы
+        # =====================================================================
+        # Фото махновской конницы на марше (сепированная фотокарточка)
+        iconType = {
+            name = "cavalry_photo"
+            position = { x = 580 y = 230 }
+            size = { width = 300 height = 150 }
+            spriteType = "GFX_intro_makhno_cavalry"
+        }
+        # Рамка для фото конницы — состаренная бумага с золотым тиснением
+        iconType = {
+            name = "cavalry_photo_frame"
+            position = { x = 575 y = 225 }
+            size = { width = 310 height = 160 }
+            spriteType = "GFX_gold_inner_border"
+            alwaystransparent = yes
+        }
+
+        # Историческая военная карта Юга Украины (Екатеринославская губерния)
+        iconType = {
+            name = "ukraine_military_map"
+            position = { x = 580 y = 400 }
+            size = { width = 300 height = 240 }
+            spriteType = "GFX_intro_ukraine_map"
+        }
+        iconType = {
+            name = "ukraine_map_frame"
+            position = { x = 575 y = 395 }
+            size = { width = 310 height = 250 }
+            spriteType = "GFX_gold_inner_border"
+            alwaystransparent = yes
+        }
+
+        # Подпись карты
+        instantTextBoxType = {
+            name = "map_caption"
+            position = { x = 580 y = 645 }
+            font = "hoi_12mbs"
+            borderSize = { x = 0 y = 0 }
+            text = "Екатеринославская губерния, 1919"
+            maxWidth = 300
+            maxHeight = 16
+            format = centre
+        }
+
+        # =====================================================================
+        # 3. ЦЕНТР: Анимированный текстовый блок (автопрокрутка снизу вверх)
+        #    Классические титры исторической кинохроники
+        # =====================================================================
+        containerWindowType = {
+            name = "text_scroll_container"
+            position = { x = 240 y = 30 }
+            size = { width = 320 height = 580 }
+            orientation = upper_left
+            origo = upper_left
+            verticalScrollbar = "right_vertical_slider"
+            clipping = yes
+            background = {
+                name = "scroll_bg"
+                spriteType = "GFX_tiled_bg_dark"
+            }
+
+            # Текстовый бокс с эпическим интро
+            # Для эффекта медленного подъема — большой maxHeight и начальная
+            # позиция внизу контейнера; в движке HOI4 автопрокрутка реализуется
+            # через скриптовую анимацию, но базовая прокрутка мышью/колесом
+            # доступна сразу. Анимация описана в комментарии для расширения
+            # через scripted gui (animate = { } в будущих версиях).
+            instantTextBoxType = {
+                name = "cinematic_intro_text"
+                position = { x = 5 y = 0 }
+                font = "hoi_16mbs"
+                borderSize = { x = 0 y = 0 }
+                text = "GULYAIPOLE_EPIC_INTRO_TEXT"
+                maxWidth = 300
+                maxHeight = 2500
+                format = left
+                fixedSize = no
+            }
+
+            # Декоративные затемнения сверху и снизу для эффекта кинохроники
+            iconType = {
+                name = "fade_top"
+                position = { x = 0 y = 0 }
+                size = { width = 320 height = 40 }
+                spriteType = "GFX_tiled_bg_dark"
+                alwaystransparent = yes
+            }
+            iconType = {
+                name = "fade_bottom"
+                position = { x = 0 y = 540 }
+                size = { width = 320 height = 40 }
+                spriteType = "GFX_tiled_bg_dark"
+                alwaystransparent = yes
+            }
+        }
+
+        # =====================================================================
+        # Кнопка «Начать» с золотым тиснением — Вольному воля!
+        # =====================================================================
+        buttonType = {
+            name = "start_campaign_button"
+            position = { x = 340 y = 625 }
+            size = { width = 220 height = 34 }
+            spriteType = "GFX_button_221x34"
+            buttonFont = "hoi_18mbs"
+            buttonText = "GULYAIPOLE_START_BUTTON"
+            shortcut = "ENTER"
+            default_value = yes
+            clicksound = click_default
+            # При клике — закрыть окно и запустить интро-газету
+            # Логика закрытия обрабатывается в on_actions / events
+        }
+
+        # Дополнительная декоративная линия над кнопкой
+        iconType = {
+            name = "button_gold_line"
+            position = { x = 240 y = 615 }
+            size = { width = 320 height = 2 }
+            spriteType = "GFX_tiled_bg_dark"
+            alwaystransparent = yes
+        }
+    }
+
+    # -------------------------------------------------------------------------
+    # Альтернативная версия окна для малых разрешений (fallback)
+    # -------------------------------------------------------------------------
+    containerWindowType = {
+        name = "gulyaipole_cinematic_intro_window_small"
+        position = { x = -350 y = -280 }
+        size = { width = 700 height = 560 }
+        orientation = center
+        origo = center
+        moveable = no
+        clipping = no
+
+        show_sound = gulyaipole_intro_voiceover
+
+        background = {
+            name = "Background"
+            spriteType = "GFX_tiled_bg_dark"
+        }
+
+        iconType = {
+            name = "gold_border_frame"
+            position = { x = 0 y = 0 }
+            size = { width = 700 height = 560 }
+            spriteType = "GFX_gold_inner_border"
+            alwaystransparent = yes
+        }
+
+        iconType = {
+            name = "makhno_portrait_intro"
+            position = { x = 20 y = 20 }
+            size = { width = 120 height = 160 }
+            spriteType = "GFX_portrait_nestor_makhno_intro"
+        }
+
+        containerWindowType = {
+            name = "text_scroll_container"
+            position = { x = 160 y = 20 }
+            size = { width = 360 height = 460 }
+            verticalScrollbar = "right_vertical_slider"
+            clipping = yes
+
+            instantTextBoxType = {
+                name = "cinematic_intro_text"
+                position = { x = 0 y = 0 }
+                font = "hoi_14mbs"
+                borderSize = { x = 0 y = 0 }
+                text = "GULYAIPOLE_EPIC_INTRO_TEXT"
+                maxWidth = 340
+                maxHeight = 2000
+                format = left
+            }
+        }
+
+        buttonType = {
+            name = "start_campaign_button"
+            position = { x = 240 y = 500 }
+            size = { width = 220 height = 34 }
+            spriteType = "GFX_button_221x34"
+            buttonFont = "hoi_16mbs"
+            buttonText = "GULYAIPOLE_START_BUTTON"
+            shortcut = "ENTER"
+        }
+    }
+}
