@@ -35,8 +35,18 @@ country_event = {
 		}
 		GLP = {
 			set_country_flag = GLP_pact_with_sov
+			if = {
+				limit = { has_idea = GLP_hostile_encirclement }
+				swap_ideas = {
+					remove_idea = GLP_hostile_encirclement
+					add_idea = GLP_idea_recognized_border
+				}
+			}
 			country_event = { id = glp_diplo.11 hours = 4 }
 		}
+		GER = { country_event = { id = glp_diplo.21 hours = 12 } }
+		ROM = { country_event = { id = glp_diplo.22 hours = 12 } }
+		ENG = { country_event = { id = glp_diplo.23 hours = 12 } }
 	}
 	option = {
 		name = glp_diplo.1.b
@@ -82,8 +92,17 @@ country_event = {
 		}
 		GLP = {
 			set_country_flag = GLP_pact_with_ger
+			if = {
+				limit = { has_idea = GLP_hostile_encirclement }
+				swap_ideas = {
+					remove_idea = GLP_hostile_encirclement
+					add_idea = GLP_idea_recognized_border
+				}
+			}
 			country_event = { id = glp_diplo.11 hours = 4 }
 		}
+		SOV = { country_event = { id = glp_diplo.24 hours = 12 } }
+		ENG = { country_event = { id = glp_diplo.25 hours = 12 } }
 	}
 	option = {
 		name = glp_diplo.2.b
@@ -125,8 +144,17 @@ country_event = {
 		}
 		GLP = {
 			set_country_flag = GLP_pact_with_eng
+			if = {
+				limit = { has_idea = GLP_hostile_encirclement }
+				swap_ideas = {
+					remove_idea = GLP_hostile_encirclement
+					add_idea = GLP_idea_recognized_border
+				}
+			}
 			country_event = { id = glp_diplo.11 hours = 4 }
 		}
+		GER = { country_event = { id = glp_diplo.26 hours = 12 } }
+		SOV = { country_event = { id = glp_diplo.24 hours = 16 } }
 	}
 	option = {
 		name = glp_diplo.3.b
@@ -175,7 +203,11 @@ country_event = {
 		add_timed_idea = { idea = GLP_idea_moscow_grain_tribute days = 365 }
 		add_stability = -0.06
 		add_political_power = -40
-		SOV = { add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed } }
+		SOV = {
+			add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed }
+			add_ai_strategy = { type = conquer id = "GLP" value = -40 }
+			add_ai_strategy = { type = antagonize id = "GLP" value = -30 }
+		}
 		set_country_flag = GLP_paid_moscow_tribute
 	}
 	option = {
@@ -330,5 +362,103 @@ country_event = {
 		add_war_support = -0.05
 		add_political_power = 15
 		GLP_grigory_semyonov = { add_unit_leader_trait = GLP_white_emigre_favored }
+	}
+}
+
+# Реакции соседей на пакты
+country_event = {
+	id = glp_diplo.21
+	title = glp_diplo.21.t
+	desc = glp_diplo.21.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = yes
+	option = {
+		name = glp_diplo.21.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
+		add_opinion_modifier = { target = SOV modifier = GLP_pact_alarm }
+		add_ai_strategy = { type = contain id = "GLP" value = 60 }
+		add_ai_strategy = { type = antagonize id = "GLP" value = 40 }
+	}
+}
+
+country_event = {
+	id = glp_diplo.22
+	title = glp_diplo.22.t
+	desc = glp_diplo.22.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = yes
+	option = {
+		name = glp_diplo.22.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
+		add_ai_strategy = { type = contain id = "GLP" value = 50 }
+	}
+}
+
+country_event = {
+	id = glp_diplo.23
+	title = glp_diplo.23.t
+	desc = glp_diplo.23.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = yes
+	option = {
+		name = glp_diplo.23.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }
+		add_political_power = -10
+	}
+}
+
+country_event = {
+	id = glp_diplo.24
+	title = glp_diplo.24.t
+	desc = glp_diplo.24.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = yes
+	option = {
+		name = glp_diplo.24.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
+		add_ai_strategy = { type = antagonize id = "GLP" value = 80 }
+		add_ai_strategy = { type = conquer id = "GLP" value = 50 }
+		add_war_support = 0.03
+	}
+}
+
+country_event = {
+	id = glp_diplo.25
+	title = glp_diplo.25.t
+	desc = glp_diplo.25.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = yes
+	option = {
+		name = glp_diplo.25.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
+		add_opinion_modifier = { target = GER modifier = GLP_pact_alarm }
+		add_ai_strategy = { type = contain id = "GLP" value = 40 }
+	}
+}
+
+country_event = {
+	id = glp_diplo.26
+	title = glp_diplo.26.t
+	desc = glp_diplo.26.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = yes
+	option = {
+		name = glp_diplo.26.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
+		add_ai_strategy = { type = contain id = "GLP" value = 50 }
+		add_ai_strategy = { type = antagonize id = "ENG" value = 20 }
+	}
+}
+
+country_event = {
+	id = glp_diplo.30
+	title = glp_diplo.30.t
+	desc = glp_diplo.30.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = yes
+	option = {
+		name = glp_diplo.30.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }
+		add_ai_strategy = { type = contain id = "GLP" value = 30 }
 	}
 }

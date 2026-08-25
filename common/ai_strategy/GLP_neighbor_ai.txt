@@ -45,3 +45,80 @@ POL_wary_of_GLP = {
 		value = 40
 	}
 }
+
+GER_watch_GLP = {
+	allowed = { original_tag = GER }
+	enable = {
+		country_exists = GLP
+		NOT = { is_in_faction_with = GLP }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 35
+	}
+}
+
+ROM_watch_GLP = {
+	allowed = { original_tag = ROM }
+	enable = {
+		country_exists = GLP
+		NOT = { is_in_faction_with = GLP }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 45
+	}
+}
+
+TUR_watch_GLP = {
+	allowed = { original_tag = TUR }
+	enable = {
+		country_exists = GLP
+		NOT = { is_in_faction_with = GLP }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 25
+	}
+}
+
+ENG_watch_GLP = {
+	allowed = { original_tag = ENG }
+	enable = {
+		country_exists = GLP
+		NOT = { is_in_faction_with = GLP }
+		GLP = { has_country_flag = GLP_pact_with_ger }
+	}
+	abort = {
+		OR = {
+			NOT = { country_exists = GLP }
+			is_in_faction_with = GLP
+		}
+	}
+	ai_strategy = {
+		type = contain
+		id = GLP
+		value = 30
+	}
+}

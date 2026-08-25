@@ -1373,5 +1373,17 @@ ideas = {
 				consumer_goods_factor = 0.02
 			}
 		}
+
+		GLP_idea_recognized_border = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_hostile_encirclement
+			modifier = {
+				political_power_factor = -0.05
+				trade_opinion_factor = -0.10
+				stability_factor = 0.03
+				drift_defence_factor = 0.10
+			}
+		}
 	}
 }
