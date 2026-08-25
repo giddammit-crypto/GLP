@@ -35,3 +35,29 @@
 
 Наличие материалов не означает поддержки или одобрения проекта авторами
 Rise of Russia либо Wolferos.
+
+---
+
+## GFX-шаблоны и подложки (Ultimate-HOI4-GFX)
+
+Для иконок министров/советников и национальных духов использованы шаблоны из
+репозитория **Globvs/Ultimate-HOI4-GFX**
+(<https://github.com/Globvs/Ultimate-HOI4-GFX>):
+
+- `Portrait Templates/Minister Base.png` и
+  `Portrait Templates/Minister Background.png` — ванильная рамка министра
+  (65×67, тот же уголъ и размѣръ, что въ базовой игрѣ). Хранятся как
+  `tools/_gfx_src/Minister_Base.png` / `Minister_Background.png`; сборка —
+  `tools/build_portraits.sh`.
+- `National Spirit Backgrounds/*.png` (Army, Shield, Soviet, Fire, Sun, Naval,
+  Bars, Stop Sign, Intrigue, Military Police, Upgrade, Tiles, Pentagon, Ring,
+  Circle) — тематические подложки духов 60×68. Хранятся как
+  `tools/_gfx_src/bg_*.png`; сборка — `tools/build_spirit_icons.sh`.
+
+Согласно `CREDITS.txt` репозитория, материалы предоставлены «all with consent,
+and all free to use». Атрибуция — авторам Ultimate-HOI4-GFX и перечисленным в
+их CREDITS.txt контрибуторам (HOI4 GFX Modding Database, ThePinkPanzer,
+Pacifica, Deathlinger, Edouard_Saladier и др.).
+
+Наличие материалов не означает поддержки или одобрения проекта авторами
+Ultimate-HOI4-GFX.

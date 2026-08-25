@@ -25,6 +25,14 @@ Checks performed:
      cloning vanilla cavalry entities.
  10. Character traits that are neither vanilla nor defined by the mod.
  11. Anti-pattern `check_variable = { random ... }` in common/events/history.
+ 12. Every focus carries generic `search_filters` matching
+     tools/focus_search_filters.tsv, so the whole tree stays visible in the
+     in-game focus search/filter panel.
+ 13. Branch banner comments in GLP_focus.txt state the real focus count and
+     the real x/y envelope (tools/sync_focus_headers.py keeps them honest).
+ 14. Idea modifier keys are spelled with real 1.19 static-modifier names
+     (an unknown key is silently ignored by the engine, so the buff just
+     never happens).
 
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
@@ -1276,15 +1284,13 @@ def _im_alpha_min(path):
 
 
 def check_dds_transparency():
-    """Иконки национальных идей (духов) обязаны иметь реальные
-    прозрачные пиксели (наличие альфа-канала само по себе ничего не
-    доказывает -- проверяем минимум альфы по факту).
-    Портреты советников (людей) обязаны быть полнокадровыми непрозрачными."""
+    """Все иконки идей (и духи 60x68, и советники 65x67) обязаны иметь
+    реальные прозрачные пиксели по углам (наличие альфа-канала само по себе
+    ничего не доказывает -- проверяем минимум альфы по факту).
+    Духи стоят на тематической подложке, советники -- в ванильной рамке
+    министра; и там и там углы прозрачны, иначе иконка закроет слот
+    непрозрачным квадратом."""
     for p in sorted(walk('gfx/interface/ideas', ('.dds',))):
-        base = os.path.basename(p)
-        # Пропускаем малые портреты персонажей (начинаются с заглавной буквы после idea_GLP_)
-        if re.match(r'^idea_GLP_[A-Z]', base):
-            continue
         mn = _im_alpha_min(p)
         if mn is None:
             warn("ImageMagick недоступен -- пиксельная проверка прозрачности пропущена")
@@ -1292,6 +1298,251 @@ def check_dds_transparency():
         if mn >= 32.0:
             err(f"{rel(p)}: нет реальной прозрачности (min alpha = {mn:.0f}, "
                 f"нужно < 32) -- иконка закроет слот непрозрачным квадратом")
+
+
+def check_advisor_frames():
+    """Совѣтники обязаны быть въ ванильной рамкѣ министра (тотъ же уголъ и
+    размѣръ, что въ базовой игрѣ). Шаблоны -- изъ Ultimate-HOI4-GFX (Globvs):
+    Minister_Base.png (рамка + карточка) и Minister_Background.png (наклонная
+    подложка, задающая уголъ). Проверяем, что шаблоны на мѣстѣ (сборка
+    воспроизводима: tools/build_portraits.sh) и что иконки совѣтниковъ
+    обрѣзаны по наклонной маскѣ, а не сплошные."""
+    for need in ('tools/_gfx_src/Minister_Base.png',
+                 'tools/_gfx_src/Minister_Background.png'):
+        if not os.path.exists(os.path.join(ROOT, need)):
+            err(f"{need} отсутствует -- сборка рамок совѣтниковъ невоспроизводима")
+    for p in sorted(walk('gfx/interface/ideas', ('.dds',))):
+        base = os.path.basename(p)
+        if not re.match(r'^idea_GLP_[A-Z]', base):
+            continue
+        info = dds_info(p)
+        if info and (info[0], info[1]) != (65, 67):
+            err(f"{rel(p)}: рамка совѣтника {info[0]}x{info[1]}, ваниль 65x67")
+
+
+# ------------------------------------------------- 12. focus search filters
+GENERIC_FOCUS_FILTERS = {
+    'FOCUS_FILTER_POLITICAL', 'FOCUS_FILTER_RESEARCH', 'FOCUS_FILTER_INDUSTRY',
+    'FOCUS_FILTER_STABILITY', 'FOCUS_FILTER_WAR_SUPPORT', 'FOCUS_FILTER_MANPOWER',
+    'FOCUS_FILTER_ANNEXATION',
+}
+
+
+def _focus_blocks(path):
+    """(focus_id, body) for every `focus = { ... }` in a focus-tree file."""
+    text = strip_comments(read(path))
+    out = []
+    for m in re.finditer(r'\n\tfocus = \{', text):
+        start, depth, j = m.end(), 1, m.end()
+        while depth > 0 and j < len(text):
+            if text[j] == '{':
+                depth += 1
+            elif text[j] == '}':
+                depth -= 1
+            j += 1
+        body = text[start:j - 1]
+        fid = re.search(r'^\s*id\s*=\s*(\S+)', body, re.M)
+        if fid:
+            out.append((fid.group(1), body))
+    return out
+
+
+def check_focus_search_filters():
+    """Каждый фокус обязан быть видимым в поиске/фильтре окна фокусов.
+
+    С 1.9 в окне национальных фокусов есть строка поиска и чипы-фильтры.
+    Фокус попадает в выдачу только если у него объявлен
+    `search_filters = { FOCUS_FILTER_* }`; в ванили эта строка есть у каждого
+    фокуса. Без неё всё дерево невидимо для поиска -- чисто полировочный, но
+    видимый игроком дефект. Допускаются только семь GENERIC-токенов:
+    страновые/DLC-токены (CHI_INFLATION, USA_CONGRESS, TFV_AUTONOMY, MEX_*,
+    SPA_*, FRA_*) дали бы бессмысленный чип в панели Гуляйполя.
+    Соответствие tools/focus_search_filters.tsv обязательно.
+    """
+    tsv_path = os.path.join(ROOT, 'tools', 'focus_search_filters.tsv')
+    table = {}
+    if os.path.exists(tsv_path):
+        with open(tsv_path, encoding='utf-8') as fh:
+            for line in fh:
+                if line.startswith('#') or not line.strip():
+                    continue
+                parts = line.rstrip('\n').split('\t')
+                if len(parts) >= 2:
+                    table[parts[0]] = set(parts[1].split())
+    else:
+        err("tools/focus_search_filters.tsv отсутствует -- не с чем сверять "
+            "search_filters (tools/assign_focus_filters.py --write-tsv)")
+
+    seen = 0
+    for p in walk('common/national_focus', ('.txt',)):
+        for fid, body in _focus_blocks(p):
+            seen += 1
+            m = re.search(r'^\s*search_filters\s*=\s*\{([^\n]*)\}', body, re.M)
+            tokens = m.group(1).split() if m else []
+            if not tokens:
+                err(f"{rel(p)}: фокус '{fid}' без search_filters -- он не "
+                    f"попадёт в поиск/фильтр окна фокусов")
+                continue
+            for tok in tokens:
+                if tok not in GENERIC_FOCUS_FILTERS:
+                    err(f"{rel(p)}: фокус '{fid}' использует не-generic токен "
+                        f"фильтра '{tok}'")
+            if fid in table and set(tokens) != table[fid]:
+                err(f"{rel(p)}: фокус '{fid}' — search_filters {sorted(tokens)} "
+                    f"не совпадает с tools/focus_search_filters.tsv "
+                    f"{sorted(table[fid])}")
+    STATS['focus_search_filters'] = seen
+
+
+# ------------------------------------------------- 13. branch banner honesty
+BRANCH_BANNER = re.compile(
+    r'^\t# (?P<n>\d+)(?P<suffix>[a-z]?)\. (?P<name>.+?) '
+    r'\((?P<count>\d+) фокус\w*, (?P<rest>[^)]*)\)\s*$')
+
+
+def check_focus_branch_headers():
+    """Баннеры веток в GLP_focus.txt обязаны говорить правду.
+
+    Дерево разбито на 28 документированных веток; баннер каждой заявляет
+    количество фокусов и диапазон координат. Эти числа разъезжались с
+    реальностью (в сумме заявлялось 233 фокуса при 190 фактических, 21 счётчик
+    и несколько диапазонов x/y были неверны) -- дизайнер, читающий шапку,
+    планировал бы работу против несуществующего дерева.
+    """
+    for p in walk('common/national_focus', ('.txt',)):
+        text = read(p)
+        lines = text.split('\n')
+        coords = {fid: (
+            int(re.search(r'^\s*x\s*=\s*(-?\d+)', b, re.M).group(1)),
+            int(re.search(r'^\s*y\s*=\s*(-?\d+)', b, re.M).group(1)))
+            for fid, b in _focus_blocks(p)
+            if re.search(r'^\s*x\s*=\s*-?\d+', b, re.M)
+            and re.search(r'^\s*y\s*=\s*-?\d+', b, re.M)}
+
+        branches, cur = [], None
+        pending = False
+        for i, ln in enumerate(lines):
+            m = BRANCH_BANNER.match(ln)
+            if m:
+                cur = {'i': i, 'm': m, 'focuses': []}
+                branches.append(cur)
+                continue
+            if ln.startswith('\tfocus = {') and cur is not None:
+                cur['focuses'].append(None)
+                pending = True
+                continue
+            if pending and cur is not None:
+                mid = re.match(r'^\t\tid = (\S+)', ln)
+                if mid:
+                    cur['focuses'][-1] = mid.group(1)
+                    pending = False
+        if not branches:
+            continue
+
+        accounted = 0
+        for br in branches:
+            ids = [f for f in br['focuses'] if f]
+            accounted += len(ids)
+            declared = int(br['m'].group('count'))
+            if declared != len(ids):
+                err(f"{rel(p)}:{br['i'] + 1}: баннер ветки "
+                    f"'{br['m'].group('n')}{br['m'].group('suffix')}' заявляет "
+                    f"{declared} фокусов, фактически {len(ids)} "
+                    f"(tools/sync_focus_headers.py --apply)")
+            xs = [coords[f][0] for f in ids if f in coords]
+            ys = [coords[f][1] for f in ids if f in coords]
+            if xs and ys:
+                want = 'x = %d..%d, y = %d..%d' % (min(xs), max(xs),
+                                                  min(ys), max(ys))
+                if br['m'].group('rest').strip() != want:
+                    err(f"{rel(p)}:{br['i'] + 1}: баннер ветки "
+                        f"'{br['m'].group('n')}{br['m'].group('suffix')}' "
+                        f"заявляет диапазон '{br['m'].group('rest')}', "
+                        f"фактически '{want}'")
+        total = text.count('\n\tfocus = {')
+        if accounted != total:
+            err(f"{rel(p)}: баннеры покрывают {accounted} фокусов из {total} -- "
+                f"часть фокусов лежит вне всех веток")
+        STATS['focus_branches'] = (len(branches), accounted, total)
+        if len(branches) < 6:
+            warn(f"{rel(p)}: только {len(branches)} веток -- целевой стандарт "
+                 f"DLC 6+")
+
+
+# ------------------------------------------------- 14. idea modifier spelling
+KNOWN_IDEA_MODIFIERS = {
+    'air_cas_present_factor', 'air_naval_strike_attack_factor',
+    'air_superiority_efficiency', 'army_armor_attack_factor',
+    'army_attack_factor', 'army_core_attack_factor', 'army_core_defence_factor',
+    'army_defence_factor', 'army_infantry_attack_factor', 'army_morale_factor',
+    'army_org_factor', 'army_speed_factor', 'attrition', 'breakthrough_factor',
+    'casualty_trickleback', 'cavalry_attack_factor', 'cavalry_defence_factor',
+    'cavalry_speed_factor', 'compliance_growth', 'conscription_factor',
+    'consumer_goods_factor', 'convoy_raiding_efficiency_factor',
+    'decryption_factor', 'dig_in_speed_factor', 'drift_defence_factor',
+    'encryption_factor', 'enemy_operative_detection_chance_factor',
+    'enemy_partisan_effect', 'equipment_capture_factor',
+    'experience_gain_army_factor', 'experience_gain_navy_factor',
+    'foreign_subversive_activites', 'generate_wargoal_tension',
+    'industrial_capacity_dockyard', 'industrial_capacity_factory',
+    'industry_repair_factor', 'intel_network_gain_factor',
+    'justify_war_goal_time', 'land_reinforce_rate', 'license_purchase_cost',
+    'max_dig_in', 'max_planning', 'mobilization_speed', 'monthly_population',
+    'naval_coordination', 'naval_hit_chance', 'navy_capital_ship_attack_factor',
+    'navy_max_range_factor', 'navy_org_factor', 'navy_screen_attack_factor',
+    'navy_submarine_attack_factor', 'neutrality_drift', 'operative_slot',
+    'org_loss_when_moving', 'out_of_supply_factor', 'planning_speed',
+    'political_power_cost', 'political_power_factor', 'political_power_gain',
+    'production_factory_efficiency_gain_factor',
+    'production_factory_max_efficiency_factor',
+    'production_lack_of_resource_penalty_factor',
+    'production_speed_arms_factory_factor',
+    'production_speed_industrial_complex_factor',
+    'production_speed_rail_way_factor', 'production_speed_supply_node_factor',
+    'railway_gun_bombardment_factor', 'recon_factor', 'research_speed_factor',
+    'resistance_damage_to_garrison', 'resistance_growth',
+    'resistance_growth_on_our_occupied_states', 'resistance_target',
+    'send_volunteer_divisions_required', 'send_volunteer_size',
+    'send_volunteers_tension', 'special_forces_attack_factor',
+    'special_forces_cap', 'special_forces_defence_factor', 'stability_factor',
+    'subversive_activites_upkeep', 'supply_consumption_factor', 'supply_factor',
+    'supply_node_range', 'trade_laws_cost_factor', 'trade_opinion_factor',
+    'training_time_factor', 'war_support_factor',
+}
+
+
+def check_idea_modifier_keys():
+    """Опечатка в ключе модификатора идеи молча ничего не даёт игроку.
+
+    Движок не роняет ошибку на неизвестном ключе статического модификатора --
+    он просто игнорирует его, поэтому «+10% к чему-то» может бесследно
+    исчезнуть. Все 88 ключей, используемых GLP, сверены со списком
+    статических модификаторов 1.19; неизвестный ключ = предупреждение.
+    """
+    used = set()
+    for p, body in all_script_text('common/ideas').items():
+        i = 0
+        while True:
+            m = re.search(r'\bmodifier = \{', body[i:])
+            if not m:
+                break
+            start, depth, j = i + m.end(), 1, i + m.end()
+            while depth > 0 and j < len(body):
+                if body[j] == '{':
+                    depth += 1
+                elif body[j] == '}':
+                    depth -= 1
+                j += 1
+            inner = body[start:j - 1]
+            for key in re.findall(
+                    r'^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*-?[\d.]+\s*$',
+                    inner, re.M):
+                used.add(key)
+                if key not in KNOWN_IDEA_MODIFIERS:
+                    warn(f"{rel(p)}: неизвестный ключ модификатора '{key}' -- "
+                         f"движок его молча проигнорирует")
+            i = j
+    STATS['idea_modifier_keys'] = len(used)
 
 
 def main():
@@ -1323,6 +1574,10 @@ def main():
     check_no_stray_art()
     check_loc_tech_names(loc)
     check_dds_transparency()
+    check_focus_search_filters()
+    check_focus_branch_headers()
+    check_idea_modifier_keys()
+    check_advisor_frames()
 
     print("=" * 72)
     print(f" GLP AUDIT  --  {len(ERRORS)} error(s), {len(WARNINGS)} warning(s)")
