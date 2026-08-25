@@ -137,26 +137,8 @@ echo ">> фонъ главнаго меню (1920x1440 — эталонное 4:
 MENU_MASTER="tools/_gfx_src/frontend_menu_imperial_noir.png"
 [ -f "$MENU_MASTER" ] || MENU_MASTER="$LS/_src_menu_bg.jpg"
 if [ -f "$MENU_MASTER" ]; then
-	hero="$TMP/menu_hero.png"
-	blur="$TMP/menu_blur.png"
-	mask="$TMP/menu_mask.png"
-	png="$TMP/menu.png"
-	grade "$MENU_MASTER" "$hero"                                # исходный главный фон
-	# Спокойное заполнение 4:3: размытая копия кадра с резким оригиналом по центру.
-	convert "$hero" -resize 1920x1440^ -gravity center -extent 1920x1440 \
-		-blur 0x55 -modulate 74,95,100 "$blur"
-	convert "$blur" "$hero" -gravity center -compose over -composite "$png"
-	q="${QUOTE[menu_bg]}"
-	convert "$png" \
-		-gravity center \
-		-font "$FONT_QUOTE" -pointsize 30 \
-		-fill '#000000aa' -annotate +2+18 "«${q%%|*}»" \
-		-fill '#e2dccb' -annotate +0+16 "«${q%%|*}»" \
-		-font "$FONT_TEXT" -pointsize 22 \
-		-fill '#000000aa' -annotate +2+58 "— ${q##*|}" \
-		-fill '#b3ab98' -annotate +0+56 "— ${q##*|}" \
-		"$png"
-	convert "$png" -alpha off -define dds:compression=dxt1 -define dds:mipmaps=0 \
+	convert "$MENU_MASTER" -resize 1920x1440! -alpha off \
+		-define dds:compression=dxt1 -define dds:mipmaps=0 \
 		"DDS:gfx/interface/frontendmainviewbg.dds"
 	echo "   gfx/interface/frontendmainviewbg.dds (1920x1440)"
 fi

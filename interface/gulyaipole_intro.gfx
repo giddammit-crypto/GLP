@@ -9,13 +9,19 @@
 spriteTypes = {
     # Тёмная подложка окна — мрачная текстура состаренной бумаги
     spriteType = {
-        name = "GFX_tiled_bg_dark"
-        texturefile = "gfx/interface/intro/gulyaipole_tiled_bg_dark.dds"
+        name = "GFX_intro_bg"
+        texturefile = "gfx/interface/intro/gulyaipole_intro_bg.dds"
     }
-    tiledSpriteType = {
+    spriteType = {
+        name = "GFX_tiled_bg_dark"
+        texturefile = "gfx/interface/intro/gulyaipole_intro_bg.dds"
+    }
+    corneredTileSpriteType = {
         name = "GFX_tiled_bg_dark_tiled"
-        texturefile = "gfx/interface/intro/gulyaipole_tiled_bg_dark.dds"
-        size = { x = 512 y = 512 }
+        texturefile = "gfx/interface/intro/gulyaipole_intro_bg.dds"
+        borderSize = { x = 0 y = 0 }
+        size = { x = 900 y = 700 }
+        tilingCenter = no
     }
 
     # Декоративная золотая кайма — рамка окна 900x700
