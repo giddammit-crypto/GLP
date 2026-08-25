@@ -18,11 +18,12 @@ guiTypes = {
 		click_to_front = no
 		clipping = yes
 
-		# Безопасный ванильный tiled background. Он масштабируется движком и
-		# не рисует чёрный прямоугольник поверх карты.
+		# Мрачная фактура состаренной бумаги из макета. tiledSpriteType даёт
+		# цельную подложку любого масштаба без растяжения и без чёрного блока
+		# поверх иллюстраций.
 		background = {
 			name = "Background"
-			quadTextureSprite = "GFX_tiled_window_1_bg"
+			quadTextureSprite = "GFX_tiled_bg_dark_tiled"
 		}
 
 		# Декоративная рамка имеет прозрачный центр и не участвует в раскладке.
