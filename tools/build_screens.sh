@@ -116,13 +116,17 @@ if [ "${#SCREENS[@]}" -eq 0 ]; then
 	exit 1
 fi
 
-echo ">> перекрытіе ванильныхъ экрановъ (load_1..load_16)"
+echo ">> перекрытіе ванильныхъ и DLC экрановъ (load_1..load_32 + DLC)"
 i=0
-for n in $(seq 1 16); do
+for n in $(seq 1 32); do
 	cp "${SCREENS[$(( i % ${#SCREENS[@]} ))]}" "$LS/load_$n.dds"
 	i=$(( i + 1 ))
 done
-echo "   load_1.dds .. load_16.dds"
+for dlc in tfv dod tiger mtg lar bfb bftb nsb bba aat toa got gtd turkey_1; do
+	cp "${SCREENS[$(( i % ${#SCREENS[@]} ))]}" "$LS/load_${dlc}.dds"
+	i=$(( i + 1 ))
+done
+echo "   load_1.dds .. load_32.dds, load_tfv.dds, load_dod.dds, load_tiger.dds, load_mtg.dds, load_lar.dds, load_nsb.dds, etc."
 
 echo ">> фонъ главнаго меню (1920x1440 — эталонное 4:3 разрѣшеніе UI HOI4)"
 # Эталонное разрѣшеніе интерфейса HOI4 — 1920x1440 (4:3). Прежній фонъ

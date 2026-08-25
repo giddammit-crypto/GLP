@@ -18,3 +18,4 @@ picture="thumbnail.png"
 #  затрагивается replace_path (подтверждено вики по моддингу HOI4).
 # ============================================================================
 replace_path="gfx/loadingscreens"
+replace_path="music"

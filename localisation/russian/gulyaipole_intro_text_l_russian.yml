@@ -33,3 +33,4 @@
  GULYAIPOLE_REPLAY_INTRO_TT:0 "Откроется окно §Ygulyaipole_cinematic_intro_window§! с текстовым полем, вертикальной прокруткой и озвучкой §Yvoice.ogg§!."
  gulyaipole_intro:0 "Гуляй-Поле - заставка"
  gulyaipole_intro_voice:0 "Гуляй-Поле - голос заставки"
+ GULYAIPOLE_TOGGLE_MODE_BTN:0 "Текст / Автоскролл"

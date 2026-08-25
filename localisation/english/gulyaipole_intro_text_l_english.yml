@@ -33,3 +33,4 @@ The world sinks into darkness, but in the very heart of the steppe burns a fire 
  GULYAIPOLE_REPLAY_INTRO_TT:0 "Opens §Ygulyaipole_cinematic_intro_window§! with scrollable text and §Yvoice.ogg§! voiceover."
  gulyaipole_intro:0 "Gulyaypole - Intro"
  gulyaipole_intro_voice:0 "Gulyaypole - Intro Voice"
+ GULYAIPOLE_TOGGLE_MODE_BTN:0 "Text / Auto-Scroll"

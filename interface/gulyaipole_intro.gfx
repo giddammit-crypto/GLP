@@ -61,6 +61,25 @@ spriteTypes = {
         texturefile = "gfx/interface/intro/gulyaipole_cavalry.dds"
     }
 
+    # Кинематографический автоскролл текста снизу вверх (как в кино)
+    spriteType = {
+        name = "GFX_intro_text_crawl"
+        texturefile = "gfx/interface/intro/gulyaipole_text_base.dds"
+        effectFile = "gfx/FX/buttonstate.lua"
+        animation = {
+            animationmaskfile = "gfx/interface/intro/gulyaipole_text_mask.dds"
+            animationtexturefile = "gfx/interface/intro/gulyaipole_text_crawl.dds"
+            animationrotation = -90.0
+            animationlooping = no
+            animationtime = 155.0
+            animationdelay = 0.0
+            animationblendmode = "add"
+            animationtype = "scrolling"
+            animationrotationoffset = { x = 0.0 y = 0.0 }
+            animationtexturescale = { x = 1.0 y = 1.0 }
+        }
+    }
+
     # Дополнительные вспомогательные спрайты для атмосферы
     spriteType = {
         name = "GFX_intro_vignette_dark"

@@ -152,7 +152,9 @@ LOC_LINE = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*\d*\s*"')
 def load_loc():
     langs = {}
     for p in walk('localisation', ('.yml',)):
-        lang = os.path.basename(os.path.dirname(p))
+        parts = rel(p).split(os.sep)
+        lang = parts[1] if len(parts) > 1 and parts[1] in ('russian', 'english') else os.path.basename(os.path.dirname(p))
+        is_replace = 'replace' in parts
         with open(p, 'rb') as fh:
             raw = fh.read()
         if not raw.startswith(b'\xef\xbb\xbf'):
@@ -167,7 +169,7 @@ def load_loc():
             if not m:
                 continue
             k = m.group(1)
-            if k in seen:
+            if k in seen and not is_replace:
                 err(f"{rel(p)}:{i}: duplicate localisation key '{k}' "
                     f"(first at line {seen[k]})")
             seen[k] = i

@@ -18,7 +18,7 @@ guiTypes = {
 		click_to_front = no
 		clipping = yes
 
-		# Мрачная фактура состаренной архивной бумаги высокого разрешения.
+		# Мрачная фактура состаренной архивной бумаги высокого разрешения
 		background = {
 			name = "Background"
 			quadTextureSprite = "GFX_intro_bg"
@@ -87,7 +87,16 @@ guiTypes = {
 			format = center
 		}
 
-		# Центральный текстовый блок с плавной вертикальной прокруткой
+		# Кинематографический автоскролл текста (эффект фильма / кино-заставка снизу вверх)
+		iconType = {
+			name = "intro_text_crawl_anim"
+			position = { x = 215 y = 90 }
+			size = { width = 310 height = 525 }
+			spriteType = "GFX_intro_text_crawl"
+			alwaystransparent = yes
+		}
+
+		# Текстовый блок ручного чтения (с вертикальной прокруткой)
 		instantTextBoxType = {
 			name = "cinematic_intro_text"
 			position = { x = 215 y = 90 }
@@ -139,6 +148,16 @@ guiTypes = {
 			maxHeight = 18
 			fixedsize = yes
 			format = center
+		}
+
+		# Переключение: кино-автоскролл / ручное чтение
+		buttonType = {
+			name = "toggle_reading_mode_button"
+			position = { x = 165 y = 635 }
+			quadTextureSprite = "GFX_button_148x34"
+			buttonFont = "hoi_14mbs"
+			buttonText = "GULYAIPOLE_TOGGLE_MODE_BTN"
+			clicksound = click_default
 		}
 
 		# Интерактивная кнопка начала кампании
