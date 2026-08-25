@@ -135,6 +135,15 @@ def check_syntax():
             if '\ufffd' in body:
                 warn(f"{rel(p)}: contains invalid UTF-8 bytes")
 
+            # Clausewitz не всегда сообщает понятную ошибку для опечатки
+            # вроде `position = { y = 1s }`: окно просто получает неверную
+            # геометрию. Координаты и размеры допускают число, процент или
+            # выражение, но не число с буквенным суффиксом.
+            for i, line in enumerate(body.split('\n'), 1):
+                if ('position' in line or 'size' in line) and re.search(
+                        r'\b[xy]\s*=\s*-?\d+(?:\.\d+)?[A-Za-z_]+\b', line):
+                    err(f"{rel(p)}:{i}: malformed UI coordinate or size value")
+
 
 # --------------------------------------------------------- 2/3. localisation
 LOC_LINE = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*\d*\s*"')
