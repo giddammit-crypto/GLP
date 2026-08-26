@@ -79,22 +79,16 @@ make_medium() {
 		-define dds:compression=dxt5 -define dds:mipmaps=0 "DDS:$2"
 }
 
-# Малый портрет совѣтника: 65x67, DXT5 — но ТЕПЕРЬ въ ванильной рамкѣ
-# министра (тотъ же уголъ и размѣръ, что въ базовой игрѣ).
-# Шаблоны — изъ Ultimate-HOI4-GFX (Globvs), см. tools/_gfx_src/:
-#   Minister_Background.png — наклонная «фото»-подложка (задаётъ уголъ),
-#   Minister_Base.png       — рамка + бумажная карточка поверхъ.
-# Портретъ обрѣзается маской подложки (углы остаются прозрачными), затѣмъ
-# поверхъ кладётся рамка. Итогъ — какъ ванильная иконка министра.
-make_small_framed() {  # $1 master, $2 out.dds
-	local SRC="$1" OUT="$2" T="tools/_gfx_src"
-	colorgrade "$SRC" "$TMP/s.png" 65 67 north
-	# Обрѣзать портретъ по альфѣ наклонной подложки (CopyOpacity -- не DstIn,
-	# который въ IM6 маску не примѣняетъ), поверхъ -- рамка министра.
-	convert "$TMP/s.png" \( "$T/Minister_Background.png" -alpha extract \) \
-		-compose CopyOpacity -composite "$TMP/sc.png"
-	convert "$TMP/sc.png" "$T/Minister_Base.png" -compose over -composite \
-		-define dds:compression=dxt5 -define dds:mipmaps=0 "DDS:$OUT"
+# Малый портрет совѣтника: 65x67, DXT5 — ЧИСТЫЙ портретъ.
+# По ТЗ «безъ бумажки и иконки специализаціи»: министерскіе шаблоны
+# (рамка-карточка + наклонная подложка изъ Ultimate-HOI4-GFX) БОЛЬШЕ
+# не используются.
+# Ванильный подоходъ: иконка совѣтника = простой квадратный кадръ портрета,
+# полностью непрозрачный; рамку и значокъ роли рисуетъ самъ слотъ движка.
+make_small() {  # $1 master, $2 out.dds
+	colorgrade "$1" "$TMP/s.png" 65 67 north
+	convert "$TMP/s.png" -alpha set -channel A -evaluate set 100% +channel \
+		-define dds:compression=dxt5 -define dds:mipmaps=0 "DDS:$2"
 }
 
 for slug in "${!PEOPLE[@]}"; do
@@ -111,8 +105,8 @@ for slug in "${!PEOPLE[@]}"; do
 	fi
 	make_large  "$src" "$TMP/l.dds" && mv "$TMP/l.dds" "$LEADERS/Portrait_GLP_${name}_large.dds"
 	make_medium "$src" "$TMP/m.dds" && mv "$TMP/m.dds" "$LEADERS/Portrait_GLP_${name}.dds"
-	make_small_framed "$src" "$TMP/s.dds" && mv "$TMP/s.dds" "$IDEAS/idea_GLP_${name}.dds"
-	echo "   $name: large 156x210 ARGB8888 + medium 88x119 DXT5 + advisor 65x67 DXT5 (framed)"
+	make_small       "$src" "$TMP/s.dds" && mv "$TMP/s.dds" "$IDEAS/idea_GLP_${name}.dds"
+	echo "   $name: large 156x210 ARGB8888 + medium 88x119 DXT5 + advisor 65x67 DXT5 (clean portrait)"
 done
 
 echo "готово."

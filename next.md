@@ -160,10 +160,9 @@
     = «Вольному воля!», shortcut ENTER.
   - Заголовок/субзаголовок и toggle-кнопка «режима чтения» УДАЛЕНЫ
     (на эталонном скриншоте их нет).
-- Текстуры пересобраны под 1024×768: `gfx/interface/intro/gulyaipole_intro_bg.dds`
-  (DXT1), `gulyaipole_gold_inner_border.dds` (DXT5); мастера —
-  `tools/_gfx_src/intro_bg_1024.png` / `gold_inner_border_1024.png`
-  (реbuild: `convert <мастер> -compress DXT1|DXT5 DDS:...`, см. итерацию 18).
+- Текстуры — арт PR #31 (барочная кайма `gfx/interface/_src_gold_inner_border.png`,
+  бумага `gfx/interface/_src_tiled_bg_dark.png`), пересобраны под окно 1024×768
+  после мержа (в `tools/build_intro.sh` размеры 900×700 → 1024×768 внесены).
 - **Озвучка не тронута** (цепочка, покрыта аудитом
   `check_cinematic_intro_voice`): `on_startup` (GLP) → скрытое событие
   `glp_cinematic_intro.1` (`events/GulyaipoleCinematicIntro.txt`) →
@@ -193,11 +192,25 @@
 | Окно не по центру / тянется | несовпадение размеров | окно GUI = 1024×768 = размеры текстур фона/каймы; координаты элементов — раздел 4.1 |
 | Кайма/фон «плавают» | `alwaystransparent = yes` на кайме; `clipping = yes` в окне | не снимать без необходимости |
 
-Быстрая пересборка текстур заставки из мастеров (ImageMagick):
+Пересборка текстур заставки вручную (ImageMagick, без Pillow):
 ```
-convert tools/_gfx_src/intro_bg_1024.png          -compress DXT1 DDS:gfx/interface/intro/gulyaipole_intro_bg.dds
-convert tools/_gfx_src/gold_inner_border_1024.png -compress DXT5 DDS:gfx/interface/intro/gulyaipole_gold_inner_border.dds
+# 1) альфа каймы: flood-fill центра и углов (фальшивая шахматка + чёрный фон)
+convert gfx/interface/_src_gold_inner_border.png -alpha set -fuzz 12% \
+  -fill "rgba(0,0,0,0)" -draw "color 584,456 floodfill" \
+  -draw "color 1,1 floodfill" -draw "color 1166,1 floodfill" \
+  -draw "color 1,910 floodfill" -draw "color 1166,910 floodfill" /tmp/border_alpha.png
+# 2) resize 1024x768! + fade-маска (plateau 32px -> градиент до 82px от края)
+#    и DXT5 — см. полный рецепт в tools/build_intro.sh (секции 1-2)
+# 3) фон: бумага, modulate 160,102,108, 1024x768, DXT1
+convert gfx/interface/_src_tiled_bg_dark.png -resize "1024x768^" -gravity center \
+  -extent 1024x768 -colorspace sRGB -modulate 160,102,108 -alpha off \
+  -define dds:compression=dxt1 -define dds:mipmaps=0 DDS:gfx/interface/intro/gulyaipole_intro_bg.dds
+cp gfx/interface/intro/gulyaipole_intro_bg.dds gfx/interface/intro/gulyaipole_tiled_bg_dark.dds
 ```
+ЛОВУШКИ ImageMagick 6.9 (попраны при мерже): `-draw "rectangle x0,y0 x1,y1"`
+без `stroke none` рисует КОНТУР, а не заливку; объединение полос fade-маски —
+`-compose Lighten` (минимум — `Darken`; операторов `Minimum`/`minimum_composite`
+в 6.9 НЕТ); `-fuzz` для flood-fill — процент, не абсолютный допуск.
 
 ---
 
@@ -255,8 +268,10 @@ on_actions) → «Испанский маршрут» (3 контрабандн�
 - Портреты по стандартам (пайплайн `tools/build_portraits.sh`, идемпотентен):
   `gfx/leaders/GLP/Portrait_GLP_Oleg_Potemkin_large.dds` (156×210 ARGB),
   `Portrait_GLP_Oleg_Potemkin.dds` (88×119 DXT5),
-  `gfx/interface/ideas/idea_GLP_Oleg_Potemkin.dds` (65×67 DXT5, ванильная
-  рамка министра). Спрайты — в `interface/GLP_portraits.gfx`.
+  `gfx/interface/ideas/idea_GLP_Oleg_Potemkin.dds` (65×67 DXT5, ЧИСТЫЙ
+  портрет без рамки — после мержа действует новое ТЗ PR #31 «без бумажки
+  и иконки специализации», `build_portraits.sh` собирает make_small).
+  Спрайты — в `interface/GLP_portraits.gfx`.
 - Локализация — в `GLP_characters_l_*.yml` (имя + черты + описания, RU/EN).
 - **Важно:** оригинальное фото Потёмкина не сохранилось на диске — мастер
   `gfx/leaders/GLP/_src_oleg_potemkin.jpg` **регенерирован генератором по
