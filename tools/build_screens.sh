@@ -138,7 +138,7 @@ echo ">> фонъ главнаго меню (1920x1440 — эталонное 4:
 # Отдельный мастер главного меню хранится в tools/_gfx_src: у него уже
 # предусмотрена тёмная свободная правая половина под кнопки меню. Если мастер
 # отсутствует, сохраняем совместимый fallback на старый loading-screen source.
-MENU_MASTER="tools/_gfx_src/frontend_menu_imperial_noir.png"
+MENU_MASTER="tools/_gfx_src/menu_bg_option_2_flag.jpg"
 [ -f "$MENU_MASTER" ] || MENU_MASTER="$LS/_src_menu_bg.jpg"
 if [ -f "$MENU_MASTER" ]; then
 	convert "$MENU_MASTER" -resize 1920x1440! -alpha off \

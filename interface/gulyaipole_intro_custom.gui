@@ -26,14 +26,14 @@ guiTypes = {
 		# Мрачная фактура состаренной архивной бумаги
 		background = {
 			name = "Background"
-			quadTextureSprite = "GFX_intro_bg"
+			quadTextureSprite = "GFX_tiled_bg_dark_tiled"
 		}
 
 		# Золотая инкрустированная кайма по периметру окна
 		iconType = {
 			name = "intro_window_frame"
 			position = { x = 0 y = 0 }
-			size = { width = 900 height = 700 }
+			
 			spriteType = "GFX_gold_inner_border"
 			alwaystransparent = yes
 		}
@@ -67,7 +67,7 @@ guiTypes = {
 		iconType = {
 			name = "makhno_portrait_frame"
 			position = { x = 25 y = 25 }
-			size = { width = 166 height = 220 }
+			
 			spriteType = "GFX_political_leader_frame_gold"
 			alwaystransparent = yes
 		}
@@ -75,7 +75,7 @@ guiTypes = {
 		iconType = {
 			name = "makhno_portrait_intro"
 			position = { x = 30 y = 30 }
-			size = { width = 156 height = 210 }
+			
 			spriteType = "GFX_portrait_nestor_makhno_intro"
 			alwaystransparent = yes
 		}
@@ -111,7 +111,7 @@ guiTypes = {
 		iconType = {
 			name = "cavalry_photo"
 			position = { x = 550 y = 108 }
-			size = { width = 320 height = 160 }
+			
 			spriteType = "GFX_intro_makhno_cavalry"
 			alwaystransparent = yes
 		}
@@ -131,7 +131,7 @@ guiTypes = {
 		iconType = {
 			name = "ukraine_military_map"
 			position = { x = 550 y = 302 }
-			size = { width = 320 height = 260 }
+			
 			spriteType = "GFX_intro_ukraine_map"
 			alwaystransparent = yes
 		}

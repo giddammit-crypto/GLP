@@ -29,6 +29,12 @@ guiTypes = {
 		Orientation = "UPPER_LEFT"
 
 		iconType = {
+			name ="bg_load_screen"
+			spriteType = "GFX_loading_background"
+			position = { x= 0 y = 0 }
+		}
+
+		iconType = {
 			name = "bg_clausewitz_logo"
 			spriteType = "GFX_clausewitz_logo"
 			position = { x = 23 y = -152 }
