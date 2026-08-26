@@ -1,0 +1,77 @@
+﻿l_english:
+ # ================================================================
+ #  Module "Iberian Fire and the Black International"
+ # ================================================================
+
+ # --- "Iberian Fire" event (July 1936) ---
+ glp_spain.1.t:0 "§WIBERIAN FIRE§!"
+ glp_spain.1.d:0 "§WGULYAI-POLE§!. Word comes from Barcelona: Catalonia has risen, the syndicates have risen, and over Iberia burns a fire that may yet be our own. The Nabat sounds in every station: the brothers are calling. The RPA units already whisper of a far expedition — over seas and mountains, toward the fire.§!"
+ glp_spain.1.a:0 "The brothers call! All for Catalonia!"
+ glp_spain.1.b:0 "We will help in secret"
+ glp_spain.1.c:0 "Our borders matter more"
+
+ # --- The May Days in Barcelona (May 1937) ---
+ glp_barcelona.1.t:0 "§WTHE MAY DAYS IN BARCELONA§!"
+ glp_barcelona.1.d:0 "§WBARCELONA§!. The factory meetings have turned to firefights, the firefights to street battles. On one side the free syndicates of CNT-FAI, on the other the NKVD commissars and the agents of PCE — and who wins will be decided in these days. Our contacts await the signal.§!"
+ glp_barcelona.1.a:0 "The Black International strikes first"
+ glp_barcelona.1.b:0 "We move quietly"
+ glp_barcelona.1.c:0 "Let the front decide"
+ glp_barcelona.1.w:0 "We watch from the shadows"
+
+ # --- News: the outcome of the May Days ---
+ glp_barcelona.2.t:0 "§WTHE POWER OF THE SYNDICATES§!"
+ glp_barcelona.2.d:0 "§WBARCELONA§!. The KRO special group neutralised the NKVD agents before they could reach the train. The factories of Catalonia and Aragon are declared free, the militia holds the streets, and over Barcelona for the first time rises the black flag with the two acorns.§!"
+ glp_barcelona.2.a:0 "Freedom or death!"
+ glp_barcelona.3.t:0 "§WTHE STRONGER WORD — THE REGIMENTAL COMMISSAR§!"
+ glp_barcelona.3.d:0 "§WBARCELONA§!. Our men pulled the agents out of the city ahead of schedule, but no open stroke was made: the RGHT survived, and CNT-FAI gained only a breather. The contacts report: the matter is not over, but the window narrows.§!"
+ glp_barcelona.3.a:0 "The matter is not over"
+ glp_barcelona.4.t:0 "§WORDER BY A FOREIGN HAND§!"
+ glp_barcelona.4.d:0 "§WMOSCOW§!. Without our hand, Barcelona is given up: the May Days are crushed, the free militias dispersed, and the streets are filled with commissars. The ties with Gulyaipole are cut: the 'Makhnovist programs' are wound down, and the free press no longer writes of them.§!"
+ glp_barcelona.4.a:0 "So it turned out"
+ glp_barcelona.5.t:0 "§WBARCELONA FALLS QUIET§!"
+ glp_barcelona.5.d:0 "§WBARCELONA§!. The firefights die down before anyone could beat the alarm. The front remains a front, and Barcelona a city where the market trades again. But all know: the question of whose power is freer is not deferred forever.§!"
+ glp_barcelona.5.a:0 "We wait"
+
+ # --- The Black Sea–Iberian Pact ---
+ glp_bi.1.t:0 "§WTHE BLACK SEA–IBERIAN PACT§!"
+ glp_bi.1.d:0 "§WGULYAI-POLE§!. On neutral waters of the Black Sea the pact is signed: the Free Territory and the free syndicates of Iberia join forces. The 'Black International' is proclaimed: the coal of the Donbass and the bread of the steppe for the wolfram of Catalonia and the syndicalist workshops. From Gulyaipole to Barcelona — one free artery.§!"
+ glp_bi.1.a:0 "Free to the free!"
+
+ # --- Faction name ---
+ GLP_black_international_faction:0 "The Black International"
+
+ # --- Category and decisions "The Spanish Route" ---
+ GLP_spain_smuggling_routes:0 "The Spanish Route"
+ GLP_spain_black_sea_run:0 "Black Sea Breakthrough"
+ GLP_spain_black_sea_run_desc:0 "A convoy of 1500 rifles runs the Bosphorus. Chance of success — 65%. If the Regia Marina intercepts it, the convoy is lost and Rome delivers a note of protest."
+ GLP_spain_balkan_underground_traffic:0 "Balkan Underground Traffic"
+ GLP_spain_balkan_underground_traffic_desc:0 "Hidden delivery in small batches by train through Romania and Yugoslavia. Chance — 85%."
+ GLP_spain_french_syndicate_smuggling:0 "French Syndicalist Smuggling"
+ GLP_spain_french_syndicate_smuggling_desc:0 "The freight is carried over the Pyrenees by the French syndicalists over their own lines. Chance — 95%, plus warmer relations with the French left."
+ GLP_spain_send_kro_group:0 "Send the KRO Special Group"
+ GLP_spain_send_kro_group_desc:0 "Lev Zadov's group moves to Barcelona: to take out the NKVD and PCE agents before the May Days. Without this stroke the anarchists will not hold."
+ GLP_spain_brigade_homecoming:0 "Homecoming of the Brigade"
+ GLP_spain_brigade_homecoming_desc:0 "The volunteers of the RPAU brigade return from the Iberian front. Belash and Karetinik receive the trait 'Spanish Hardening'."
+ GLP_spain_black_international_pact:0 "Black Sea–Iberian Pact"
+ GLP_spain_black_international_pact_desc:0 "Found the faction 'The Black International' with Spain and grant mutual economic national spirits. Available after successful May Days, from 1938."
+
+ # --- National spirits ---
+ GLP_idea_spanish_brigade:0 "RPAU Volunteer Brigade"
+ GLP_idea_spanish_brigade_desc:0 "The RPA units went to the Iberian front: volunteers enlist more readily, and the experience of street fighting stays with the regiments."
+ GLP_idea_nabat_disloyal:0 "The Nabat Fell Silent"
+ GLP_idea_nabat_disloyal_desc:0 "The Nabat network of contacts is disappointed by the refusal: rumor replaces testimony, and testimony replaces rumor. For 365 days."
+ GLP_idea_catalan_wolfram_syndicate_workshops:0 "Catalan Wolfram and Syndicalist Workshops"
+ GLP_idea_catalan_wolfram_syndicate_workshops_desc:0 "The wolfram of the Pyrenees and the workshops of Barcelona go to armaments: the arms factories work faster and research bolder. (In 1.19 a national spirit cannot grant resources — accounted by production bonuses.)"
+ GLP_idea_ukrainian_coal_and_grain:0 "Ukrainian Coal and Grain"
+ GLP_idea_ukrainian_coal_and_grain_desc:0 "The coal of the Donbass and the bread of the steppe go to Iberia: factories are built faster, but less is left for the home market. (In 1.19 a national spirit cannot grant resources — accounted by production bonuses.)"
+
+ # --- Unit leader trait ---
+ GLP_spanish_tempering:0 "Spanish Hardening"
+ GLP_spanish_tempering_desc:0 "Returned from the Iberian front: street fighting, cavalry through the mountain passes. Organisation and reconnaissance — as in the May Days."
+
+ # --- Opinion modifiers ---
+ GLP_italian_protest_note:0 "Note of protest (convoy intercepted)"
+ GLP_french_syndicalist_warmth:0 "French syndicalists carry our freight"
+ GLP_spanish_syndicate_alliance:0 "Free Spain of the Syndicates"
+ GLP_spanish_soviet_cold:0 "Soviet-line Barcelona"
+ GLP_soviet_anarchy_resentment:0 "Resentment of anarchist interventionism"

@@ -453,3 +453,9 @@
  GLP_agit_troupe_black_flag_desc:0 "The revolution's players sing of the free steppe - and the villages rise."
  GLP_volunteer_militia_rotations:0 "Rotation of Volunteer Militias"
  GLP_volunteer_militia_rotations_desc:0 "Militias rotate between the villages: no one grows into power at the point of a bayonet."
+
+ # Sprint 2 (phase B): diplomatic decisions
+ GLP_receive_lend_lease:0 "Accept Lend-Lease Aid"
+ GLP_receive_lend_lease_desc:0 "Our pact partner sends a modest convoy of small arms and equipment once a year. Free for the treasury - but we stay in their debt."
+ GLP_white_volunteer_wave:0 "Wave of White Emigre Volunteers"
+ GLP_white_volunteer_wave_desc:0 "Former White Army officers and men cross into the Free Territory to fight for the land of their youth. Up to three waves, each at a cost to internal stability."

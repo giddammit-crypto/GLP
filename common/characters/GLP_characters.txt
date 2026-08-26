@@ -568,4 +568,30 @@ characters = {
 			logistics_skill = 3
 		}
 	}
+
+	# ------------------------------------------------------------------
+	#  Олег Степанович Потёмкин — Атаман, корпусный командир РПА.
+	#  Главный приверженец Батька Махно, мастер пехотных боёв.
+	# ------------------------------------------------------------------
+	GLP_oleg_potemkin = {
+		name = GLP_oleg_potemkin
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_oleg_potemkin"
+				small = "GFX_portrait_GLP_oleg_potemkin_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_oleg_potemkin"
+				small = "GFX_portrait_GLP_oleg_potemkin_small"
+			}
+		}
+		corps_commander = {
+			traits = { infantry_expert aggressive_assaulter GLP_potemkin_infantry_master GLP_potemkin_black_fidele }
+			skill = 3
+			attack_skill = 4
+			defense_skill = 3
+			planning_skill = 3
+			logistics_skill = 2
+		}
+	}
 }

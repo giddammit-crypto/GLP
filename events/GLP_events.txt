@@ -100,7 +100,7 @@ news_event = {
 		name = glp_news.3.a
 		trigger = { tag = GLP }
 		add_equipment_to_stockpile = {
-			type = infantry_equipment_1
+			type = small_arms_equipment_1
 			amount = 1000
 			producer = GLP
 		}
@@ -273,7 +273,7 @@ country_event = {
 	option = {
 		name = glp.11.b
 		add_equipment_to_stockpile = {
-			type = infantry_equipment_1
+			type = small_arms_equipment_1
 			amount = 600
 			producer = GLP
 		}
@@ -563,7 +563,7 @@ country_event = {
 	option = {
 		name = glp.21.b
 		add_equipment_to_stockpile = {
-			type = infantry_equipment_1
+			type = small_arms_equipment_1
 			amount = 800
 			producer = GLP
 		}
@@ -682,4 +682,37 @@ country_event = {
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
 	option = { name = glp.3.a add_manpower = 15000 }
+}
+
+add_namespace = glp_raid
+add_namespace = glp_spanish
+
+# Провал рейда: конница замечена в открытом поле (риск 30% у решения
+# GLP_conduct_cavalry_partisan_raid).
+country_event = {
+	id = glp_raid.1
+	title = glp_raid.1.t
+	desc = glp_raid.1.d
+	picture = GFX_news_event_GLP_black_guard_march
+	is_triggered_only = yes
+
+	option = {
+		name = glp_raid.1.a
+		add_manpower = -2500
+		add_stability = -0.02
+		add_war_support = 0.03
+	}
+}
+
+# Испанская газета видит бригаду Гуляйполя на фронте (решение
+# GLP_send_brigade_to_cnt_fai).
+news_event = {
+	id = glp_spanish.1
+	title = glp_spanish.1.t
+	desc = glp_spanish.1.d
+	picture = GFX_news_event_GLP_rebirth
+	major = no
+	is_triggered_only = yes
+
+	option = { name = glp_spanish.1.a }
 }

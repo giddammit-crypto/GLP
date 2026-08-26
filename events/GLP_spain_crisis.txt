@@ -1,0 +1,95 @@
+add_namespace = glp_spain
+
+# =============================================================================
+#  ИСПАНСКИЙ КРИЗИС (модуль «Иберийский пожар и Чёрный Интернационал»)
+#
+#  Запуск события — по флагу glp_spain_war_active, который ставится в
+#  common/on_actions/GLP_on_actions.txt:
+#    * on_civil_war_start (в скоупе SPR) при начале гражданской войны;
+#    * on_day 1936.7.20 (+5 дней) как страховка стандартного таймлайна.
+#  Постоянных mean_time_to_happen-проверок нет: событие одноразовое
+#  (флаг glp_spain_choice_made), MTTH = 2 дня.
+# =============================================================================
+
+# ------------------------------------------------------------------
+# 1. «Иберийский пожар» (июль 1936) — три взаимоисключающих выбора
+# ------------------------------------------------------------------
+country_event = {
+	id = glp_spain.1
+	title = glp_spain.1.t
+	desc = glp_spain.1.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = no
+
+	trigger = {
+		tag = GLP
+		has_country_flag = glp_spain_war_active
+		NOT = { has_country_flag = glp_spain_choice_made }
+	}
+	mean_time_to_happen = {
+		days = 2
+	}
+
+	# 1. «Братья зовут! Всё для Каталонии!» — полный курс на помощь:
+	#    списывает пехотное снаряжение и командировочный резерв, выдаёт
+	#    нацдух добровольческой бригады и открывает ветку решений
+	#    «Испанский маршрут» (полный доступ к контрабандным коридорам).
+	option = {
+		name = glp_spain.1.a
+		ai_chance = {
+			factor = 70
+			modifier = {
+				factor = 1.5
+				has_idea = GLP_idea_black_international
+			}
+		}
+		set_country_flag = glp_spain_choice_made
+		set_country_flag = glp_spain_open_route
+		add_ideas = GLP_idea_spanish_brigade
+		add_manpower = -12000
+		add_command_power = -20
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -800 }
+		add_stability = -0.03
+		add_war_support = 0.05
+		# Бригада формируется (create_unit-паттерн трофеев: на
+		# контролируемой территории; locked-шаблон в GLP_1936.txt).
+		# Игра-абстракция: в HOI4 юниты нельзя передать другой стране,
+		# «маршрут в Испанию» отражают флаг маршрута и решения
+		# контрабандных коридоров, «возвращение» — решение
+		# GLP_spain_brigade_homecoming (черта «Испанский закал»).
+		if = {
+			limit = { NOT = { has_template = "Бригада РПАУ добровольцев" } }
+			random_owned_state = {
+				limit = { is_controlled_by = GLP }
+				create_unit = {
+					division = "division_template = \"Бригада РПАУ добровольцев\" start_manpower_factor = 0.8 start_experience_factor = 0.4"
+					owner = GLP
+				}
+			}
+		}
+	}
+
+	# 2. «Поможем тайно» — умеренные затраты, ограниченный доступ к
+	#    решениям: категория «Испанский маршрут» видна, но громкий
+	#    Черноморский прорыв (полный курс) остаётся закрытым.
+	option = {
+		name = glp_spain.1.b
+		ai_chance = { factor = 25 }
+		set_country_flag = glp_spain_choice_made
+		set_country_flag = glp_spain_secret_route
+		add_manpower = -5000
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -300 }
+		add_stability = -0.02
+	}
+
+	# 3. «Наши рубежи важнее» — отказ: потеря лояльности «Набата»
+	#    (временный дух-дебафф на 365 дней) и штраф стабильности -15%.
+	option = {
+		name = glp_spain.1.c
+		ai_chance = { factor = 5 }
+		set_country_flag = glp_spain_choice_made
+		set_country_flag = glp_spain_refused
+		add_timed_idea = { idea = GLP_idea_nabat_disloyal days = 365 }
+		add_stability = -0.15
+	}
+}

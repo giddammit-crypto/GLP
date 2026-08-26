@@ -151,7 +151,7 @@ news_event = {
 		army_experience = 30
 		add_war_support = 0.08
 		add_equipment_to_stockpile = {
-			type = infantry_equipment_1
+			type = small_arms_equipment_1
 			amount = 800
 			producer = GLP
 		}
@@ -380,7 +380,7 @@ news_event = {
 	option = {
 		name = glp_press.7.b
 		add_equipment_to_stockpile = {
-			type = infantry_equipment_1
+			type = small_arms_equipment_1
 			amount = 500
 			producer = GLP
 		}
@@ -529,7 +529,7 @@ news_event = {
 		add_political_power = 60
 		add_war_support = 0.08
 		add_equipment_to_stockpile = {
-			type = infantry_equipment_1
+			type = small_arms_equipment_1
 			amount = -1500
 			producer = GLP
 		}

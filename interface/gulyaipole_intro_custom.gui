@@ -1,29 +1,30 @@
 # Гуляй-Поле — кинематографическая заставка (HOI4 1.19.2)
 #
-# В окне один containerWindowType. Все элементы находятся в единой системе
-# координат окна 900x700, чтобы вложенные окна не переопределяли
-# origin/position и не ломали раскладку.
+# РАСКЛАДКА 1:1 ПО ЭТАЛОННОМУ СКИНШУ (1024x768):
+#   (30,30)   портрет Махно в золотой раме + подпись
+#   (240,30)  текстовая панель (310x620) с вертикальной прокруткой
+#   (580,230) фотокарточка конницы (320x150) + подпись
+#   (580,400) военная карта (320x260) + подпись
+#   (402,700) кнопка «Вольному воля!» 220x34, shortcut ENTER
 #
-# По умолчанию в центральной колонке идёт кинематографический скролл текста
-# снизу вверх (GFX_intro_text_crawl, плавное появление из-за маски). Кнопка
-# «Читать текст» переключает режим на обычное локализованное текстовое поле
-# с вертикальной прокруткой (GULYAIPOLE_EPIC_INTRO_TEXT).
-#
-# Голос запускается событием glp_cinematic_intro.1 (sound_effect + scoped_play_song),
-# окно отображается через scripted GUI по флагу glp_show_cinematic_intro.
+# Один containerWindowType; все элементы в единой системе координат окна,
+# чтобы вложенные окна не переопределяли origin/position.
+# Голос запускается событием glp_cinematic_intro.1 (sound_effect +
+# scoped_play_song), окно показывается scripted GUI по флагу
+# glp_show_cinematic_intro.
 
 guiTypes = {
 	containerWindowType = {
 		name = "gulyaipole_cinematic_intro_window"
 		position = { x = 0 y = 0 }
-		size = { width = 900 height = 700 }
+		size = { width = 1024 height = 768 }
 		orientation = center
 		origo = center
 		moveable = no
 		click_to_front = no
 		clipping = yes
 
-		# Мрачная фактура состаренной архивной бумаги
+		# Мрачная фактура состаренной архивной бумаги (1024x768)
 		background = {
 			name = "Background"
 			quadTextureSprite = "GFX_intro_bg"
@@ -33,37 +34,12 @@ guiTypes = {
 		iconType = {
 			name = "intro_window_frame"
 			position = { x = 0 y = 0 }
-			size = { width = 900 height = 700 }
+			size = { width = 1024 height = 768 }
 			spriteType = "GFX_gold_inner_border"
 			alwaystransparent = yes
 		}
 
-		# Заголовок и подзаголовок — центральная колонка
-		instantTextBoxType = {
-			name = "intro_title"
-			position = { x = 200 y = 22 }
-			font = "hoi_24header"
-			borderSize = { x = 0 y = 0 }
-			text = "GULYAIPOLE_INTRO_TITLE"
-			maxWidth = 340
-			maxHeight = 30
-			fixedsize = yes
-			format = center
-		}
-
-		instantTextBoxType = {
-			name = "intro_subtitle"
-			position = { x = 200 y = 54 }
-			font = "hoi_14mbs"
-			borderSize = { x = 0 y = 0 }
-			text = "GULYAIPOLE_INTRO_SUBTITLE"
-			maxWidth = 340
-			maxHeight = 20
-			fixedsize = yes
-			format = center
-		}
-
-		# Портрет Махно: левый верхний угол
+		# Портрет Махно: левый верхний угол (30,30)
 		iconType = {
 			name = "makhno_portrait_frame"
 			position = { x = 25 y = 25 }
@@ -92,52 +68,43 @@ guiTypes = {
 			format = center
 		}
 
-		# Кинематографический скролл текста снизу вверх (режим по умолчанию)
-		iconType = {
-			name = "intro_text_crawl_anim"
-			position = { x = 210 y = 86 }
-			size = { width = 320 height = 540 }
-			spriteType = "GFX_intro_text_crawl"
-			alwaystransparent = yes
-		}
-
-		# Локализованное текстовое поле ручного чтения (включается кнопкой)
+		# Текстовая панель (240,30): история с вертикальной прокруткой
 		instantTextBoxType = {
 			name = "cinematic_intro_text"
-			position = { x = 210 y = 86 }
+			position = { x = 240 y = 30 }
 			font = "hoi_16mbs"
 			borderSize = { x = 0 y = 0 }
 			text = "GULYAIPOLE_EPIC_INTRO_TEXT"
-			maxWidth = 320
-			maxHeight = 540
+			maxWidth = 310
+			maxHeight = 620
 			format = left
 			scrollbarType = standardtext_slider
 		}
 
-		# Правый блок: сепированная фотокарточка конницы сверху, карта снизу
+		# Правый блок: фотокарточка конницы (580,230), подпись, карта (580,400)
 		iconType = {
 			name = "cavalry_photo"
-			position = { x = 550 y = 108 }
-			size = { width = 320 height = 160 }
+			position = { x = 580 y = 230 }
+			size = { width = 320 height = 150 }
 			spriteType = "GFX_intro_makhno_cavalry"
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "cavalry_caption"
-			position = { x = 550 y = 272 }
+			position = { x = 580 y = 386 }
 			font = "hoi_12mbs"
 			borderSize = { x = 0 y = 0 }
 			text = "GULYAIPOLE_CAVALRY_CAPTION"
 			maxWidth = 320
-			maxHeight = 18
+			maxHeight = 14
 			fixedsize = yes
 			format = center
 		}
 
 		iconType = {
 			name = "ukraine_military_map"
-			position = { x = 550 y = 302 }
+			position = { x = 580 y = 400 }
 			size = { width = 320 height = 260 }
 			spriteType = "GFX_intro_ukraine_map"
 			alwaystransparent = yes
@@ -145,30 +112,20 @@ guiTypes = {
 
 		instantTextBoxType = {
 			name = "map_caption"
-			position = { x = 550 y = 566 }
+			position = { x = 580 y = 664 }
 			font = "hoi_12mbs"
 			borderSize = { x = 0 y = 0 }
 			text = "GULYAIPOLE_MAP_CAPTION"
 			maxWidth = 320
-			maxHeight = 18
+			maxHeight = 14
 			fixedsize = yes
 			format = center
 		}
 
-		# Переключение: кино-заставка / ручное чтение
-		buttonType = {
-			name = "toggle_reading_mode_button"
-			position = { x = 160 y = 635 }
-			quadTextureSprite = "GFX_button_148x34"
-			buttonFont = "hoi_14mbs"
-			buttonText = "GULYAIPOLE_TOGGLE_MODE_DYNAMIC"
-			clicksound = click_default
-		}
-
-		# Кнопка начала кампании
+		# Кнопка начала кампании: 220x34, центр низа (402,700)
 		buttonType = {
 			name = "start_campaign_button"
-			position = { x = 340 y = 635 }
+			position = { x = 402 y = 700 }
 			quadTextureSprite = "GFX_button_221x34"
 			buttonFont = "hoi_18mbs"
 			buttonText = "GULYAIPOLE_START_BUTTON"

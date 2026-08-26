@@ -1,0 +1,164 @@
+add_namespace = glp_barcelona
+
+# =============================================================================
+#  МАЙСКИЕ ДНИ В БАРСЕЛОНЕ (май 1937) — кульминация модуля.
+#
+#  Развилка:
+#    * С АКТИВНОЙ СЕТЬЮ КРО (flag glp_kro_barcelona, решение
+#      GLP_spain_send_kro_group): нейтрализация агентов НКВД/PCE —
+#      CNT-FAI перехватывает инициативу, путь Чёрного Интернационала
+#      открыт (flag glp_black_international_path -> пакт с 1938.1.1).
+#    * БЕЗ КРО / невмешательство: подавление CNT-FAI, победа
+#      просоветской фракции, сворачивание махновских программ помощи
+#      (flag glp_spanish_programs_shut скрывает «Испанский маршрут»).
+# =============================================================================
+
+country_event = {
+	id = glp_barcelona.1
+	title = glp_barcelona.1.t
+	desc = glp_barcelona.1.d
+	picture = GFX_news_event_GLP_rebirth
+	is_triggered_only = no
+
+	trigger = {
+		tag = GLP
+		date > 1937.5.31
+		SPR = {
+			exists = yes
+			has_civil_war = yes
+		}
+		NOT = { has_country_flag = glp_barcelona_resolved }
+		OR = {
+			has_country_flag = glp_spain_open_route
+			has_country_flag = glp_spain_secret_route
+		}
+	}
+	mean_time_to_happen = {
+		days = 3
+	}
+
+	# --- С КРО: Чёрный Интернационал бьёт первым ---
+	option = {
+		name = glp_barcelona.1.a
+		trigger = { has_country_flag = glp_kro_barcelona }
+		ai_chance = { factor = 60 }
+		set_country_flag = glp_barcelona_resolved
+		set_country_flag = glp_black_international_path
+		add_stability = 0.03
+		add_war_support = 0.05
+		# CNT-FAI перехватывает власть в республике: «Свободная
+		# Испания синдикатов» (игра-абстракция: смена политики SPR).
+		# Полновесный отдельный анархистский тег с автономиями
+		# Каталонии и Арагона выходит за рамки модуля.
+		SPR = {
+			set_politics = {
+				ruling_party = neutrality
+				last_election = "1937.5.3"
+				elections_allowed = no
+			}
+			set_popularities = {
+				neutrality = 85
+				communism = 8
+				democratic = 5
+				fascism = 2
+			}
+			add_opinion_modifier = { target = GLP modifier = GLP_spanish_syndicate_alliance }
+		}
+		SOV = { add_opinion_modifier = { target = GLP modifier = GLP_soviet_anarchy_resentment } }
+		news_event = { id = glp_barcelona.2 hours = 6 }
+	}
+
+	# --- С КРО: тихий ход — CNT усиливается, но РГТ остаётся ---
+	option = {
+		name = glp_barcelona.1.b
+		trigger = { has_country_flag = glp_kro_barcelona }
+		ai_chance = { factor = 40 }
+		set_country_flag = glp_barcelona_resolved
+		set_country_flag = glp_black_international_path
+		add_stability = 0.01
+		SPR = {
+			set_popularities = {
+				neutrality = 45
+				communism = 35
+				democratic = 15
+				fascism = 5
+			}
+		}
+		SOV = { add_opinion_modifier = { target = GLP modifier = GLP_soviet_anarchy_resentment } }
+		news_event = { id = glp_barcelona.3 hours = 6 }
+	}
+
+	# --- БЕЗ КРО: просоветская фракция подавляет анархию ---
+	option = {
+		name = glp_barcelona.1.c
+		trigger = { NOT = { has_country_flag = glp_kro_barcelona } }
+		ai_chance = { factor = 70 }
+		set_country_flag = glp_barcelona_resolved
+		# Сворачивание махновских программ помощи
+		set_country_flag = glp_spanish_programs_shut
+		add_stability = -0.05
+		SPR = {
+			set_popularities = {
+				neutrality = 10
+				communism = 50
+				democratic = 30
+				fascism = 10
+			}
+			add_opinion_modifier = { target = GLP modifier = GLP_spanish_soviet_cold }
+		}
+		news_event = { id = glp_barcelona.4 hours = 6 }
+	}
+
+	# --- БЕЗ КРО: майские дни проходят — статус-кво с потерями ---
+	option = {
+		name = glp_barcelona.1.w
+		trigger = { NOT = { has_country_flag = glp_kro_barcelona } }
+		ai_chance = { factor = 30 }
+		set_country_flag = glp_barcelona_resolved
+		add_stability = -0.02
+		news_event = { id = glp_barcelona.5 hours = 6 }
+	}
+}
+
+# ------------------------------------------------------------------
+# Новости: исход майских дней
+# ------------------------------------------------------------------
+news_event = {
+	id = glp_barcelona.2
+	title = glp_barcelona.2.t
+	desc = glp_barcelona.2.d
+	picture = GFX_news_event_GLP_rebirth
+	major = yes
+	is_triggered_only = yes
+	option = { name = glp_barcelona.2.a }
+}
+
+news_event = {
+	id = glp_barcelona.3
+	title = glp_barcelona.3.t
+	desc = glp_barcelona.3.d
+	picture = GFX_news_event_GLP_rebirth
+	major = no
+	is_triggered_only = yes
+	option = { name = glp_barcelona.3.a }
+}
+
+news_event = {
+	id = glp_barcelona.4
+	title = glp_barcelona.4.t
+	desc = glp_barcelona.4.d
+	picture = GFX_news_event_GLP_rebirth
+	major = yes
+	is_triggered_only = yes
+	option = { name = glp_barcelona.4.a }
+}
+
+news_event = {
+	id = glp_barcelona.5
+	title = glp_barcelona.5.t
+	desc = glp_barcelona.5.d
+	picture = GFX_news_event_GLP_rebirth
+	major = no
+	is_triggered_only = yes
+	option = { name = glp_barcelona.5.a }
+}
