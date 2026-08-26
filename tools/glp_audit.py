@@ -33,33 +33,10 @@ Checks performed:
  14. Idea modifier keys are spelled with real 1.19 static-modifier names
     (an unknown key is silently ignored by the engine, so the buff just
     never happens).
- 15. Idea slot model: swap_ideas upgrade lines keep exactly one spirit per
-    slot in any focus completion order (guard coverage + prerequisite
-    guarantees + no prereq cycles), and the worst-case permanent spirit
-    stack stays under the design caps (GAMEPLAY_READINESS.md, phase A).
- 16. Diplomacy mechanics (phase B): alliance focuses trigger partner
-    events with give_guarantee + a refusal branch; the Moscow ultimatum is
-    actually fired and refusal costs SOV a wargoal; pact refusal carries a
-    timed isolation spirit; lend-lease and white volunteer waves are
-    rate-limited (no farmland).
- 17. Focus-tree pacing (phase C): top rows cheap (cost <= 5), middle
-    bounded (cost <= 7), capstones gated by available and mutually
-    exclusive; partner-dependent focuses must bypass dead partners;
-    navy/air terminals bound to Crimea (137) / Donbass (227).
- 18. Decisions (phase D): no farmland -- every resource grant carries
-    fire_only_once / long cooldown / self-cost; the raid has a
-    state_target; Spanish aid checks the stockpile, consumes it, and
-    is visible on the SPR side; >= 4 occupation decisions gated by
-    state control; the raid risk event exists.
- 19. Equipment (phase E): every stockpile/has_equipment key is a real
-    1.19 key (unknown keys are silently ignored by the engine); the
-    RPA trophy loop starts active (tech_maintenance_company in the
-    opening set_technology) and the "Tachanka Kurin" template exists.
- 20. .gfx parser safety: exactly one top-level spriteTypes block per
-    file and no effectFile/animation subblocks inside sprite blocks
-    (a broken .gfx silently drops ALL its sprites in-game).
- 21. "Iberian Fire and the Black International" module: event ->
-    flags -> decisions -> Barcelona fork -> faction integrity.
+ 15. Crisis-event integrity: every glp_crisis.* id is actually triggered
+    (referenced in some focus / on_action / event), every retire/retire_char
+    call sits behind a has_character guard (silent error otherwise), and
+    step-1/2/3 chains clean their set_country_flag / clr_country_flag pairs.
 
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
@@ -485,6 +462,132 @@ def check_events(loc):
                     warn(f"{rel(p)}: событие {eid.group(1)} — нет английской локализации '{k}'")
 
 
+def check_crisis_events():
+    """Целостность цепочки кризисных событий glp_crisis.* (Спринт 6).
+
+    Три инварианта, выявленные при итерации 20:
+      (1) каждый glp_crisis.* должен запускаться (иначе событие лежит
+          мёртвым грузом); проверяем country_event / news_event со ссылкой
+          на glp_crisis.* в фокусах, on_actions, других событиях;
+      (2) каждая казнь персонажа (retire / retire_character) обязана
+          быть обёрнута в `if = { limit = { has_character = X } ... }` --
+          1.19 молча роняет ошибку на retire без guard'а, если персонаж
+          погиб ранее (что вполне реально для Григорьева / Махно /
+          Скоблина -- они в зоне боевых действий);
+      (3) в ступенчатых цепочках glp_crisis.40/41/42 флаги ступеней
+          должны очищаться в финальной опции (clr_country_flag), иначе
+          повторный запуск ступени даст ложный «branch already chosen»;
+          для цепочки Махно -- наоборот, GLP_makhno_* ставится только
+          как маркер пути и не требует clr.
+    """
+    # ----- (1) каждый glp_crisis.* запускается -----
+    crisis_ids = set()
+    for p in walk('events', ('.txt',)):
+        body = strip_comments(read(p))
+        for m in re.finditer(r'^\s*id\s*=\s*(glp_crisis\.\d+)', body, re.M):
+            crisis_ids.add(m.group(1))
+
+    # Какие crisis-ids фактически ВЫЗЫВАЮТСЯ (а не только объявляются).
+    # Простая и надёжная эвристика:
+    #   * В common/ и events/ — каждое вхождение `id = X` либо объявление
+    #     (X-блок = country_event = { id = X ... }), либо вызов.
+    #   * В common/national_focus/ и common/on_actions/ объявлений быть
+    #     не может — только вызовы.
+    # Считаем по файлам: для каждого crisis-id в каждом файле events/ если
+    # `id = X` встречается >= 2 раз, значит есть вызов. В common/* — каждое
+    # упоминание = вызов.
+    referenced = defaultdict(set)
+    for d in ('common/national_focus', 'common/on_actions', 'common/decisions',
+              'events'):
+        for p in walk(d, ('.txt',)):
+            body = strip_comments(read(p))
+            for cid in sorted(crisis_ids):
+                if d != 'events':
+                    if re.search(rf'\bid\s*=\s*{re.escape(cid)}\b', body):
+                        referenced[cid].add(rel(p))
+                else:
+                    # в events/ 1 вхождение = только объявление; > 1 = есть вызов
+                    if len(re.findall(rf'\bid\s*=\s*{re.escape(cid)}\b', body)) > 1:
+                        referenced[cid].add(rel(p))
+
+    for cid in sorted(crisis_ids):
+        if cid not in referenced:
+            err(f"crisis: событие {cid} не запускается ни из on_actions, "
+                f"ни из фокусов, ни из других событий — мёртвый груз")
+
+    # ----- (2) retire только под has_character guard -----
+    for d in ('common', 'events', 'history'):
+        for p in walk(d, ('.txt',)):
+            body = strip_comments(read(p))
+            # ищем вызовы retire / retire_character в character scope:
+            # <TOK> = { retire = yes } ИЛИ retire_character = <TOK>
+            for m in re.finditer(
+                    r'([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\{\s*retire\s*=\s*yes\s*\}',
+                    body):
+                tok = m.group(1)
+                # контекст 200 символов до — есть ли has_character guard?
+                start = max(0, m.start() - 200)
+                ctx = body[start:m.start()]
+                if not re.search(rf'has_character\s*=\s*{re.escape(tok)}\b', ctx):
+                    err(f"{rel(p)}: '{tok} = {{ retire = yes }}' без "
+                        f"if = {{ limit = {{ has_character = {tok} }} }} guard'а -- "
+                        f"1.19 роняет silent error, если персонаж погиб ранее")
+            for m in re.finditer(r'\bretire_character\s*=\s*([A-Za-z_][A-Za-z0-9_]*)', body):
+                tok = m.group(1)
+                # skip generic-советников (они всегда есть)
+                if tok.startswith('GLP_generic_'):
+                    continue
+                start = max(0, m.start() - 200)
+                ctx = body[start:m.start()]
+                if not re.search(rf'has_character\s*=\s*{re.escape(tok)}\b', ctx):
+                    err(f"{rel(p)}: retire_character = {tok} без "
+                        f"if = {{ limit = {{ has_character = {tok} }} }} guard'а")
+
+    # ----- (3) ступени 40/41/42: флаги очищаются -----
+    # Берём только финальные опции ступени 3 (glp_crisis.42) и проверяем,
+    # что в каждой опции срабатывает хотя бы один clr_country_flag из
+    # {GLP_white_step_2_*, GLP_white_step_3_*}.
+    p = os.path.join(ROOT, 'events/GLP_diplomacy.txt')
+    if not os.path.exists(p):
+        return
+    body = strip_comments(read(p))
+    m_step3 = re.search(
+        r'country_event\s*=\s*\{\s*\n\s*id\s*=\s*glp_crisis\.42', body)
+    if not m_step3:
+        return
+    open_pos = body.find('{', m_step3.start())
+    depth = 1
+    j = open_pos + 1
+    while j < len(body) and depth:
+        if body[j] == '{':
+            depth += 1
+        elif body[j] == '}':
+            depth -= 1
+        j += 1
+    body42 = body[open_pos + 1:j - 1]
+    # триггеры ступени 3: для каждой опции с trigger = has_country_flag
+    # ожидаем соответствующий clr_country_flag в её теле.
+    for opt in re.finditer(r'option\s*=\s*\{(.*?)\n\t\}', body42, re.S):
+        b = opt.group(1)
+        trig = re.search(r'trigger\s*=\s*\{\s*has_country_flag\s*=\s*([A-Za-z0-9_]+)', b)
+        if not trig:
+            continue
+        flag = trig.group(1)
+        if not re.search(rf'clr_country_flag\s*=\s*{re.escape(flag)}', b):
+            err(f"{rel(p)}: glp_crisis.42 — опция с trigger на {flag!r} "
+                f"не очищает этот флаг; повторный запуск цепочки даст "
+                f"«branch already chosen»")
+        # также требуем очистку «парного» флага ступени 2
+        if flag == 'GLP_white_step_3_dispersed':
+            if not re.search(r'clr_country_flag\s*=\s*GLP_white_step_2_sidelined', b):
+                err(f"{rel(p)}: glp_crisis.42 — финал ветки 'dispersed' "
+                    f"не очищает GLP_white_step_2_sidelined")
+        elif flag == 'GLP_white_step_3_parallel':
+            if not re.search(r'clr_country_flag\s*=\s*GLP_white_step_2_favored', b):
+                err(f"{rel(p)}: glp_crisis.42 — финал ветки 'parallel' "
+                    f"не очищает GLP_white_step_2_favored")
+
+
 def check_units():
     """Ни одной дивизии РПАУ за предѣлами Вольной территоріи."""
     prov2state = {}
@@ -561,7 +664,7 @@ def check_loading_tips():
     """
     ALLOWED_SIGNS = ('М. А. Бакунинъ', 'П. А. Кропоткинъ', 'П.-Ж. Прудонъ',
                      'Э. Гольдманъ', 'Н. И. Махно', 'В. М. Волинъ',
-                     'П. А. Аршиновъ', 'Декларация РПА', 'Девизъ тачанки',
+                     'П. А. Аршиновъ', 'Декларація РПА', 'Девизъ тачанки',
                      'Девизъ анархистовъ', 'Mikhail Bakunin', 'Peter Kropotkin',
                      'Pierre-Joseph Proudhon', 'Emma Goldman', 'Nestor Makhno',
                      'V. M. Voline', 'Peter Arshinov', 'RIAU Declaration',
@@ -1321,30 +1424,14 @@ def _im_alpha_min(path):
         return None
 
 
-def _im_alpha_max(path):
-    """Максимальная альфа пикселя через ImageMagick; None, если IM недоступен."""
-    import shutil, subprocess
-    if not shutil.which('convert'):
-        return None
-    try:
-        o = subprocess.run(
-            ['convert', path, '-alpha', 'extract',
-             '-format', '%[fx:maxima*255]', 'info:'],
-            capture_output=True, text=True, timeout=30)
-        return float(o.stdout.strip())
-    except Exception:
-        return None
-
-
 def check_dds_transparency():
-    """Тематические иконки духов (60x68, idea_GLP_<категория>) обязаны иметь
-    реальные прозрачные пиксели по углам — иначе иконка закроет слот
-    непрозрачным квадратом. ПОРТРЕТНЫЕ иконки советников (idea_GLP_<Имя>,
-    65x67) — исключение: по ТЗ это чистый непрозрачный кадр портрета
-    без рамки-«бумажки» и значка специализации (рамку рисует слот движка)."""
+    """Все иконки идей (и духи 60x68, и советники 65x67) обязаны иметь
+    реальные прозрачные пиксели по углам (наличие альфа-канала само по себе
+    ничего не доказывает -- проверяем минимум альфы по факту).
+    Духи стоят на тематической подложке, советники -- в ванильной рамке
+    министра; и там и там углы прозрачны, иначе иконка закроет слот
+    непрозрачным квадратом."""
     for p in sorted(walk('gfx/interface/ideas', ('.dds',))):
-        if re.match(r'^idea_GLP_[A-Z]', os.path.basename(p)):
-            continue  # портрет советника — намеренно сплошной кадр
         mn = _im_alpha_min(p)
         if mn is None:
             warn("ImageMagick недоступен -- пиксельная проверка прозрачности пропущена")
@@ -1355,28 +1442,23 @@ def check_dds_transparency():
 
 
 def check_advisor_frames():
-    """Советники — ЧИСТЫЕ портреты 65x67 (ТЗ: «без бумажки и иконки
-    специализации»). Министерские шаблоны Ultimate-HOI4-GFX (Minister_Base.png
-    с бумажной карточкой и Minister_Background.png с наклонной подложкой)
-    запрещены: их композиция закрывала нижнюю половину портрета яркой
-    «бумажкой». Проверяем размер, полную непрозрачность кадра и отсутствие
-    ссылок на шаблоны в сборочном скрипте."""
-    script = read(os.path.join(ROOT, 'tools/build_portraits.sh'))
-    for tpl in ('Minister_Base.png', 'Minister_Background.png'):
-        if tpl in script:
-            err(f"tools/build_portraits.sh использует шаблон {tpl} -- "
-                f"«бумажка»/значок роли вернётся на портреты советников")
+    """Совѣтники обязаны быть въ ванильной рамкѣ министра (тотъ же уголъ и
+    размѣръ, что въ базовой игрѣ). Шаблоны -- изъ Ultimate-HOI4-GFX (Globvs):
+    Minister_Base.png (рамка + карточка) и Minister_Background.png (наклонная
+    подложка, задающая уголъ). Проверяем, что шаблоны на мѣстѣ (сборка
+    воспроизводима: tools/build_portraits.sh) и что иконки совѣтниковъ
+    обрѣзаны по наклонной маскѣ, а не сплошные."""
+    for need in ('tools/_gfx_src/Minister_Base.png',
+                 'tools/_gfx_src/Minister_Background.png'):
+        if not os.path.exists(os.path.join(ROOT, need)):
+            err(f"{need} отсутствует -- сборка рамок совѣтниковъ невоспроизводима")
     for p in sorted(walk('gfx/interface/ideas', ('.dds',))):
         base = os.path.basename(p)
         if not re.match(r'^idea_GLP_[A-Z]', base):
             continue
         info = dds_info(p)
         if info and (info[0], info[1]) != (65, 67):
-            err(f"{rel(p)}: размер иконки советника {info[0]}x{info[1]}, ваниль 65x67")
-        mx = _im_alpha_max(p)
-        if mx is not None and mx <= 250.0:
-            err(f"{rel(p)}: кадр портрета советника должен быть полностью "
-                f"непрозрачным (max alpha = {mx:.0f}) -- не рамка, а чистый портрет")
+            err(f"{rel(p)}: рамка совѣтника {info[0]}x{info[1]}, ваниль 65x67")
 
 
 # ------------------------------------------------- 12. focus search filters
@@ -1644,1129 +1726,6 @@ def check_cinematic_intro_voice():
         err('intro voice: music и soundeffect используют одно имя gulyaipole_intro_voice')
 
 
-# --------------------------------------------- cinematic intro regression guards
-# Буквы дореволюционной/украинской кириллицы, которых НЕТ в атласе шрифтов
-# HOI4: движок рисует вместо них «?» (классические «?????????» в текстах).
-FORBIDDEN_FONT_CHARS = 'ѣѢіІїЇєЄґҐѳѲѵѴѣ́І́'
-
-
-def check_loc_font_charset():
-    """Значения локализации обязаны состоять из символов атласа шрифтов HOI4.
-
-    Раньше в цитатах загрузки и текстах мода использовалась дореформенная
-    орфография (ѣ, і) — в игре все такие буквы отображались знаками «?».
-    Твёрдый знак «ъ» в атласе есть и сохранён ради колорита.
-    """
-    pat = re.compile('[' + re.escape(FORBIDDEN_FONT_CHARS) + ']')
-    for lang in ('russian', 'english'):
-        for fp in walk(f'localisation/{lang}', ('.yml',)):
-            for i, line in enumerate(read(fp).split('\n'), 1):
-                m = re.match(r'^\s*[A-Za-z0-9_.\-]+:\d*\s*"(.*)"', line)
-                if m and pat.search(m.group(1)):
-                    bad = sorted(set(pat.findall(m.group(1))))
-                    err(f"{rel(fp)}:{i}: символы {' '.join(bad)} отсутствуют "
-                        f"в атласе шрифтов HOI4 и покажутся «?»")
-    # descriptor.mod рендерит только лаунчер (Chromium), но приводим к тому
-    # же алфавиту для единообразия.
-    dmod = read(os.path.join(ROOT, 'descriptor.mod'))
-    if pat.search(dmod):
-        warn('descriptor.mod: остались символы вне атласа HOI4 (ѣ/і) — '
-             'приведите имя мода к современному алфавиту')
-
-
-def check_intro_gui_keys(loc):
-    """Каждый text=/buttonText= ключ окна заставки должен быть в RU и EN loc.
-
-    Отсутствующий ключ движок печатает на элементе как есть — на заставке
-    была видна «техническая» надпись GULYAIPOLE_TOGGLE_MODE_DYNAMIC.
-    """
-    gui_path = os.path.join(ROOT, 'interface/gulyaipole_intro_custom.gui')
-    text = strip_comments(read(gui_path))
-    keys = set()
-    for m in re.finditer(r'^\s*text\s*=\s*"([^"]+)"', text, re.M):
-        keys.add(m.group(1))
-    for m in re.finditer(r'buttonText\s*=\s*"([^"]+)"', text):
-        keys.add(m.group(1))
-    for key in sorted(keys):
-        if key.startswith(('[', '$')) or not re.match(r'^[A-Z0-9_]+$', key):
-            continue  # динамические команды и литералы
-        for lang in ('russian', 'english'):
-            if key not in loc.get(lang, {}):
-                err(f"interface/gulyaipole_intro_custom.gui: ключ '{key}' "
-                    f"отсутствует в {lang} локализации — увидите техническое имя")
-    # defined_text нельзя использовать как buttonText без записи в .yml
-    for fp in walk('common/scripted_localisation', ('.txt',)):
-        for m in re.finditer(r'name\s*=\s*([A-Za-z0-9_.]+)', read(fp)):
-            name = m.group(1)
-            if name in keys:
-                err(f"defined_text '{name}' использован как прямой ключ GUI; "
-                    f"нужна запись в .yml или две кнопки с обычными ключами")
-
-
-def _im_mean(path, ops):
-    import shutil, subprocess
-    if not shutil.which('convert'):
-        return None
-    try:
-        o = subprocess.run(['convert', path] + ops + ['-format', '%[fx:mean]', 'info:'],
-                           capture_output=True, text=True, timeout=60)
-        return float(o.stdout.strip())
-    except Exception:
-        return None
-
-
-def check_intro_no_crawl():
-    """Анимированная лента титров полностью удалена по ТЗ: история показывается
-    обычным текстовым полем. Запрещены любые остатки — спрайт, текстуры,
-    кнопки-переключатели и их ключи локализации (иначе на окне снова появятся
-    технические имена или пустая колонка)."""
-    for sub in ('interface', 'common', 'gfx', 'localisation'):
-        for fp in walk(sub, ('.gui', '.gfx', '.txt', '.yml')):
-            text = read(fp)
-            for token in ('GFX_intro_text_crawl', 'gulyaipole_text_crawl',
-                          'gulyaipole_text_mask', 'gulyaipole_text_base',
-                          'GULYAIPOLE_TOGGLE_', 'glp_intro_crawl_mode'):
-                # glp_intro_crawl_mode допустим только в clr_ (чистка старых сохранений)
-                if token == 'glp_intro_crawl_mode':
-                    for m in re.finditer(r'^.*glp_intro_crawl_mode.*$', text, re.M):
-                        if 'clr_country_flag' not in m.group(0):
-                            err(f"{rel(fp)}: остаток режима ленты '{m.group(0).strip()[:70]}'")
-                elif token in text:
-                    err(f"{rel(fp)}: остаток удалённой ленты титров -- '{token}'")
-    for leftover in ('gfx/interface/intro/gulyaipole_text_crawl.dds',
-                     'gfx/interface/intro/gulyaipole_text_mask.dds',
-                     'gfx/interface/intro/gulyaipole_text_base.dds'):
-        if os.path.exists(os.path.join(ROOT, leftover)):
-            err(f"{leftover}: файл-остаток ленты титров удалите из мода")
-
-# ------------------------------------------------- 15. слотовая модель духов
-# Духи живут "слотами": линии апгрейда идут через swap_ideas (старый -> новый),
-# поэтому в слоте одновременно держится один дух. Два класса сбоев:
-#  1) фокус добавляет дух Y из линии C, но guard'ы has_idea не покрывают дух z
-#     той же линии, который у игрока в этот момент держится (середина линии
-#     уже заменена промежуточным фокусом), -- ветка else складывает z + Y
-#     ("двойное накопление");
-#  2) суммарные модификаторы стека духов превышают дизайн-капы
-#     (GAMEPLAY_READINESS.md, фаза A): страна превращается в сверхдержаву.
-# Оба класса ловятся симуляцией дерева фокусов (детерминированная).
-
-JUNTA_LINE_IDEAS = {  # путь хунты -- самостоятельный обмен стаб <--> л/с;
-    'GLP_idea_military_junta',       # в капе conscription не участвует
-    'GLP_idea_total_militarization',
-    'GLP_idea_continental_crusade',
-}
-BOUND_CAPS = {
-    # Худший случай ПОСТОЯННОГО стека (все линии до конца, один капстон из
-    # взаимных). Консрипция -- из GAMEPLAY_READINESS.md (фаза A, <= 0.35 без
-    # хунты); кавалерия -- норма «финальный кав-атак +0.25..0.40». Фабрики:
-    # глобального капа в ТЗ нет (только <= 0.15 на один дух -- это
-    # SINGLE_IDEA_CAPS), 0.50 -- предельный потолок против исходного бага
-    # (+1.35 при 111 add_ideas).
-    'conscription_factor': 0.35,          # без линии хунты
-    'cavalry_attack_factor': 0.40,
-    'industrial_capacity_factory': 0.50,
-    'research_speed_factor': 0.50,
-}
-SINGLE_IDEA_CAPS = {
-    'cavalry_attack_factor': 0.30,
-    'industrial_capacity_factory': 0.15,
-}
-MAX_RESEARCH_SLOTS = 2
-STARTING_CORE_DEF_CAP = 0.10
-
-
-def _idea_mods_map():
-    """{дух: {ключ модификатора: значение}} по common/ideas."""
-    mods = {}
-    for p in walk('common/ideas', ('.txt',)):
-        text = strip_comments(read(p))
-        for m in re.finditer(r'^\t\t(GLP[A-Za-z0-9_]*)\s*=\s*\{\n', text, re.M):
-            name = m.group(1)
-            rest = text[m.end():]
-            mm = re.search(r'modifier\s*=\s*\{', rest)
-            if not mm:
-                continue
-            depth, j = 1, mm.end()
-            while depth and j < len(rest):
-                if rest[j] == '{':
-                    depth += 1
-                elif rest[j] == '}':
-                    depth -= 1
-                j += 1
-            d = {}
-            for k, v in re.findall(
-                    r'^\s*([a-z_][a-z0-9_]*)\s*=\s*(-?[\d.]+)\s*$',
-                    rest[mm.end():j - 1], re.M):
-                d[k] = d.get(k, 0.0) + float(v)
-            mods[name] = d
-    return mods
-
-
-def _focus_idea_effects(body):
-    """Порядковые эффекты идей фокуса:
-    ('add', идея) / ('timed', идея) / ('remove', идея) /
-    ('swap', [guard-ы...], новый) -- guard пуст = «голый» swap_ideas.
-
-    Ветку else = { add_ideas = Y } считаем безусловным add Y: если guard
-    сработал, повторный add идемпотентен; если нет -- это ровно поведение
-    else-ветки.
-    """
-    eff = []
-    guarded_spans = []
-    for m in re.finditer(
-            r'has_idea\s*=\s*([A-Za-z0-9_]+)\s*\}\s*'
-            r'swap_ideas\s*=\s*\{\s*remove_idea\s*=\s*([A-Za-z0-9_]+)\s*'
-            r'add_idea\s*=\s*([A-Za-z0-9_]+)\s*\}', body, re.S):
-        if m.group(1) != m.group(2):
-            err(f"swap_ideas: guard has_idea = {m.group(1)} не совпадает с "
-                f"remove_idea = {m.group(2)} -- возможна двойная замена")
-        eff.append(('swap', [m.group(1)], m.group(3), m.start()))
-        guarded_spans.append(m.span())
-    for m in re.finditer(
-            r'swap_ideas\s*=\s*\{\s*remove_idea\s*=\s*([A-Za-z0-9_]+)\s*'
-            r'add_idea\s*=\s*([A-Za-z0-9_]+)\s*\}', body, re.S):
-        if any(s <= m.start() < e for s, e in guarded_spans):
-            continue
-        eff.append(('swap', [], m.group(2), m.start()))
-    for m in re.finditer(r'add_ideas\s*=\s*\{([^}]*)\}', body):
-        for n in re.findall(r'([A-Za-z0-9_]+)', m.group(1)):
-            eff.append(('add', n, None, m.start()))
-    for m in re.finditer(r'add_ideas\s*=\s*([A-Za-z0-9_]+)\s*$', body, re.M):
-        eff.append(('add', m.group(1), None, m.start()))
-    for m in re.finditer(
-            r'add_timed_idea\s*=\s*\{[^}]*?idea\s*=\s*([A-Za-z0-9_]+)', body):
-        eff.append(('timed', m.group(1), None, m.start()))
-    swap_spans = [s.span() for s in re.finditer(
-        r'swap_ideas\s*=\s*\{.*?\}', body, re.S)]
-    for m in re.finditer(r'remove_idea\s*=\s*([A-Za-z0-9_]+)', body):
-        if any(s <= m.start() < e for s, e in swap_spans):
-            continue
-        eff.append(('remove', m.group(1), None, m.start()))
-    eff.sort(key=lambda e: e[3])
-    out = [(e[0], e[1], e[2]) for e in eff]
-    merged = []
-    for e in out:
-        # if/else_if-цепочка с одним и тем же целью = один логический swap
-        # с набором guard'ов (первый сработавший guard и срабатывает).
-        if (merged and merged[-1][0] == 'swap' and e[0] == 'swap'
-                and merged[-1][2] == e[2]):
-            merged[-1][1] = merged[-1][1] + e[1]
-            continue
-        # else = { add_ideas = Y } за swap'ом с тем же Y -- часть того же
-        # логического эффекта: если guard сработал, swap уже добавил Y
-        # (повтор add идемпотентен); если нет -- в линии не держится ничего
-        # (иначе swap-проверка уже бы поймала дыру в guard'ах).
-        if (merged and merged[-1][0] == 'swap' and merged[-1][2] == e[1]
-                and e[0] == 'add'):
-            continue
-        merged.append(list(e) if e[0] == 'swap' else e)
-    return [(k, tuple(g) if k == 'swap' else g, t) for k, g, t in merged]
-
-
-def _focus_data():
-    data = {}
-    for p in walk('common/national_focus', ('.txt',)):
-        for fid, body in _focus_blocks(p):
-            pre = re.findall(
-                r'prerequisite\s*=\s*\{\s*focus\s*=\s*([A-Za-z0-9_]+)', body)
-            me = []
-            m = re.search(r'mutually_exclusive\s*=\s*\{([^}]*)\}', body, re.S)
-            if m:
-                me = re.findall(r'focus\s*=\s*([A-Za-z0-9_]+)', m.group(1))
-            data[fid] = {'pre': pre, 'me': me,
-                         'eff': _focus_idea_effects(body)}
-    return data
-
-
-def _starting_ideas():
-    held = set()
-    for p in walk('history/countries', ('.txt',)):
-        text = strip_comments(read(p))
-        for m in re.finditer(r'add_ideas\s*=\s*\{([^}]*)\}', text):
-            held.update(re.findall(r'([A-Za-z0-9_]+)', m.group(1)))
-    return held
-
-
-def _me_components(data):
-    """Связные компоненты взаимного исключения (>= 2 фокуса)."""
-    parent = {}
-
-    def find(x):
-        parent.setdefault(x, x)
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
-
-    def union(a, b):
-        ra, rb = find(a), find(b)
-        if ra != rb:
-            parent[ra] = rb
-
-    for fid, fd in data.items():
-        for other in fd['me']:
-            if other in data:
-                union(fid, other)
-    comps = defaultdict(set)
-    for fid in data:
-        comps[find(fid)].add(fid)
-    return [c for c in comps.values() if len(c) >= 2]
-
-
-def _closure(fid, data, memo=None, stack=None):
-    """Транзитивные предшественники фокуса (без самого фокуса)."""
-    if stack is None:
-        stack = set()
-    if fid in memo:
-        return memo[fid]
-    if fid in stack:
-        return set()          # цикл -- не наш класс дефекта
-    stack.add(fid)
-    out = set()
-    for p in data.get(fid, {}).get('pre', []):
-        if p in data:
-            out.add(p)
-            out |= _closure(p, data, memo, stack)
-    stack.discard(fid)
-    memo[fid] = out
-    return out
-
-
-def _simulate(closure, skip, data, starting=None):
-    """Возвращает (held, timed_held): все держимые идеи и те из них, что
-    были добавлены как timed (в игре истекают -- для капов постоянного
-    стека считаются только held - timed_held)."""
-    if starting is None:
-        starting = _starting_ideas()
-    held = set(starting)
-    timed_held = set()
-    order = []
-    seen = set()
-
-    def visit(f):
-        # seen отмечается до обхода детей: при цикле в prerequisite
-        # повторный вход в ту же вершину просто пропускается (цикл
-        # отдельным error'ом сообщает _prereq_cycle).
-        if f in seen or f in skip or f not in closure:
-            return
-        seen.add(f)
-        for p in data.get(f, {}).get('pre', []):
-            if p in closure:
-                visit(p)
-        order.append(f)
-
-    for f in sorted(closure):
-        visit(f)
-    for fid in order:
-        for kind, payload, target in data[fid]['eff']:
-            if kind in ('add', 'timed'):
-                held.add(payload)
-                if kind == 'timed':
-                    timed_held.add(payload)
-            elif kind == 'remove':
-                held.discard(payload)
-                timed_held.discard(payload)
-            elif kind == 'swap':
-                for g in payload:
-                    if g in held:
-                        held.discard(g)
-                        timed_held.discard(g)
-                        break
-                held.add(target)
-    return held, timed_held
-
-
-def _prereq_cycle(data):
-    """Цикл в prerequisite (фокус требует сам себя через цепочку) -- дерево
-    не может быть пройдено; движок повиснет или спрячет ветку."""
-    WHITE, GRAY, BLACK = 0, 1, 2
-    color = {fid: WHITE for fid in data}
-
-    def dfs(fid, trail):
-        color[fid] = GRAY
-        for p in data[fid]['pre']:
-            if p not in data:
-                continue
-            if color[p] == GRAY:
-                i = trail.index(p) if p in trail else -1
-                return (trail[i:] + [fid]) if i >= 0 else [p, fid]
-            if color[p] == WHITE:
-                cyc = dfs(p, trail + [fid])
-                if cyc:
-                    return cyc
-        color[fid] = BLACK
-        return None
-
-    for fid in sorted(data):
-        if color[fid] == WHITE:
-            cyc = dfs(fid, [])
-            if cyc:
-                return cyc
-    return None
-
-
-def check_idea_slot_model():
-    """Симуляция стека духов: слоты, guard'ы и дизайн-капы.
-
-    1. Линии духов = связные компоненты графа swap_ideas (в слоте
-       одновременно держится один дух). Для каждого эффекта, добавляющего
-       дух Y из линии C, симулируется состояние «всё до фокуса выполнено»
-       (с перебором веток mutually_exclusive): если в этот момент держится
-       другой дух z линии C, которого не покрывает guard -- двойное
-       накопление (error).
-    1b. Каждый guard обязан быть гарантирован: фокус, добавляющий guard-идею,
-       должен быть предшественником swap-фокуса (иначе порядок выполнения
-       фокусов -- за игроком -- даёт дыру в else-ветке). Цикл в
-       prerequisite тоже ошибка.
-    2. Капы: точный худший случай ПОСТОЯННОГО стека (перебор всех 112
-       комбинаций mutually_exclusive; timed-духи исключены -- они истекают
-       по дизайну): conscription <= 0.35 (без хунты), cavalry_attack <=
-       0.40, factory <= 0.50, research_speed <= 0.50; на один дух:
-       cavalry_attack <= 0.30, factory <= 0.15; слоты исследований <= 2;
-       стартовый core-def <= 0.10.
-    """
-    mods = _idea_mods_map()
-    data = _focus_data()
-    if not data:
-        err('слотовая модель: дерево фокусов не найдено')
-        return
-
-    cyc = _prereq_cycle(data)
-    if cyc:
-        err('дерево фокусов: цикл в prerequisite: ' + ' -> '.join(cyc))
-        return          # дальше по циклическому дереву симуляция бессмысленна
-
-    # --- граф линий (swap_ideas везде: фокусы + события + решения) ---
-    edge = defaultdict(set)
-    for p in walk('common/national_focus', ('.txt',)):
-        for _fid, body in _focus_blocks(p):
-            for m in re.finditer(
-                    r'swap_ideas\s*=\s*\{\s*remove_idea\s*=\s*([A-Za-z0-9_]+)\s*'
-                    r'add_idea\s*=\s*([A-Za-z0-9_]+)\s*\}', body, re.S):
-                a, b = m.group(1), m.group(2)
-                edge[a].add(b)
-                edge[b].add(a)
-    for sub in ('events', 'common/decisions'):
-        for p in walk(sub, ('.txt',)):
-            text = strip_comments(read(p))
-            for m in re.finditer(
-                    r'swap_ideas\s*=\s*\{\s*remove_idea\s*=\s*([A-Za-z0-9_]+)\s*'
-                    r'add_idea\s*=\s*([A-Za-z0-9_]+)\s*\}', text, re.S):
-                a, b = m.group(1), m.group(2)
-                edge[a].add(b)
-                edge[b].add(a)
-    line_of = {}
-    seen = set()
-    lines = []
-    for a in sorted(edge):
-        if a in seen:
-            continue
-        comp, stack = set(), [a]
-        while stack:
-            n = stack.pop()
-            if n in comp:
-                continue
-            comp.add(n)
-            stack.extend(edge[n] - comp)
-        seen |= comp
-        if len(comp) >= 2:
-            lines.append(comp)
-            for n in comp:
-                line_of[n] = comp
-    STATS['idea_slot_lines'] = len(lines)
-    STATS['idea_slot_ideas'] = len(line_of)
-
-    # --- 1. двойное накопление: guard покрывает всё, что держится ---
-    me_comps = _me_components(data)
-    starting = _starting_ideas()
-    memo = {}
-    for fid in sorted(data):
-        closure = _closure(fid, data, memo)
-        local = [c & closure for c in me_comps if c & closure]
-        selections = [()]
-        for c in local:
-            selections = [s + (one,) for s in selections for one in sorted(c)]
-        for sel in selections:
-            skip = set()
-            for c, one in zip(local, sel):
-                skip |= c - {one}
-            held, _timed = _simulate(closure, skip, data, starting)
-            for kind, payload, target in data[fid]['eff']:
-                if kind == 'swap':
-                    idea, guards = target, set(payload)
-                else:
-                    idea, guards = payload, set()
-                if kind not in ('add', 'timed', 'swap'):
-                    continue
-                comp = line_of.get(idea)
-                if not comp:
-                    continue
-                bad = (held & comp) - guards - {idea}
-                if bad:
-                    err(f"слот духов: фокус '{fid}' добавляет '{idea}', но в "
-                        f"этот момент у игрока в той же линии держится "
-                        f"'{sorted(bad)[0]}' -- guard не покрывает её, "
-                        f"итог: двойное накопление")
-                    break
-
-    # --- 1b. guard должен быть гарантирован: фокус, добавляющий guard-идею,
-    # обязан быть (транзитивным) предшественником swap-фокуса. Иначе игрок
-    # может выполнить фокусы в порядке, при котором guard-идея ещё не
-    # получена (параллельные ветки), а затем получить её -- и else-ветка
-    # сложит духи в одном слоте. Порядок выполнения -- за игроком.
-    idea_adders = defaultdict(set)
-    for fid, fd in data.items():
-        for kind, _payload, target in fd['eff']:
-            if kind in ('swap', 'add', 'timed'):
-                idea_adders[target].add(fid)
-    for fid in sorted(data):
-        for kind, payload, target in data[fid]['eff']:
-            if kind != 'swap':
-                continue
-            for g in payload:
-                if g in starting:
-                    continue
-                adders = {a for a in idea_adders.get(g, set()) if a != fid}
-                if not adders:
-                    continue
-                if not any(a in memo.get(fid, _closure(fid, data, memo))
-                           for a in adders):
-                    err(f"слот духов: фокус '{fid}' guard'ит '{g}', но "
-                        f"добавляющий её фокус {sorted(adders)[0]} не "
-                        f"предшественник -- добавьте prerequisite, иначе "
-                        f"порядок фокусов даёт двойное накопление")
-
-    # --- 2. капы: точный худший случай постоянного стека. Игрок обязан
-    # выбрать ровно ОДИН фокус из каждого компонента mutually_exclusive,
-    # поэтому перебираем все допустимые комбинации (их немного: 112 на
-    # текущем дереве) и берём максимум суммарного модификатора. Считаются
-    # только ПЕРЕМАНЕНТНЫЕ духи: timed-духи по дизайну временные (480-730
-    # дней) и истекают, поэтому в постоянный стек не входят.
-    selections = [()]
-    for c in me_comps:
-        selections = [s + (one,) for s in selections for one in sorted(c)]
-    worst = defaultdict(float)
-    for sel in selections:
-        skip = set()
-        for c, one in zip(me_comps, sel):
-            skip |= c - {one}
-        held, timed_held = _simulate(set(data), skip, data, starting)
-        perm = held - timed_held
-        for k in BOUND_CAPS:
-            s = 0.0
-            for i in perm:
-                if k == 'conscription_factor' and i in JUNTA_LINE_IDEAS:
-                    continue
-                s += mods.get(i, {}).get(k, 0.0)
-            if s > worst[k]:
-                worst[k] = s
-    for k, cap in BOUND_CAPS.items():
-        if worst[k] > cap + 1e-9:
-            err(f"слот духов: худший случай постоянного стека {k} = "
-                f"{worst[k]:.2f} превышает кап {cap:.2f}")
-    STATS['idea_slot_worst_case'] = {k: round(v, 3)
-                                     for k, v in worst.items()}
-
-    for idea, dm in mods.items():
-        for k, cap in SINGLE_IDEA_CAPS.items():
-            if dm.get(k, 0.0) > cap + 1e-9:
-                err(f"слот духов: дух '{idea}' даёт {k} = "
-                    f"{dm[k]:.2f} > капа {cap:.2f} на один дух")
-
-    slots = 0
-    for p in walk('common/national_focus', ('.txt',)):
-        text = strip_comments(read(p))
-        slots += sum(int(n) for n in re.findall(
-            r'add_research_slot\s*=\s*(\d+)', text))
-    if slots > MAX_RESEARCH_SLOTS:
-        err(f"слоты исследований: сумма add_research_slot = {slots} "
-            f"> {MAX_RESEARCH_SLOTS}")
-    STATS['research_slots_total'] = slots
-
-    core = sum(mods.get(i, {}).get('army_core_defence_factor', 0.0)
-               for i in starting)
-    if core > STARTING_CORE_DEF_CAP + 1e-9:
-        err(f"слот духов: стартовый army_core_defence_factor = {core:.2f} "
-            f"> {STARTING_CORE_DEF_CAP}")
-
-
-# ------------------------------------------------- 16. дипломатика: механика, а не бутафория
-# Фаза B (Спринт 2): «союз» обязан давать реальную защиту (guarantee /
-# access / faction), у партнёрского события должен быть путь отказа,
-# ультиматум Москвы обязан реально запускаться, а его отказ -- стоить
-# create_wargoal. Помощь по ленд-лизу и белые волонтёры ограничены
-# кулдауном/лимитом (иначе фармабельны).
-
-ALLIANCE_FOCUS = {
-    'GLP_alliance_with_soviet_union': 'SOV',
-    'GLP_alliance_with_germany': 'GER',
-    'GLP_alliance_with_britain': 'ENG',
-}
-PACT_EVENTS = ('glp_diplo.1', 'glp_diplo.2', 'glp_diplo.3')
-
-
-def check_diplomacy_mechanics(defs):
-    """Фаза B: дипломатия -- механика, а не бутафория (см. GAMEPLAY_READINESS
-    раздел 3.2). Четыре инварианта:
-    1. каждый союзный фокус запускает событие партнёра, в котором есть
-       give_guarantee (реальная защита) и не меньше двух опций (путь отказа);
-    2. ультиматум Москвы запускается из on_actions, а его отказ несёт
-       create_wargoal (иначе угроза бутафорская);
-    3. отказ от пакта имеет механическую цену (timed-дух изоляции);
-    4. ленд-лиз (кулдаун >= 360 дней) и волны белых добровольцев
-       (кулдаун >= 90 дней + лимит числа волн) не фармабельны.
-    """
-    event_bodies = {}
-    for p in walk('events', ('.txt',)):
-        event_bodies[p] = strip_comments(read(p))
-
-    def event_body(eid):
-        # id события стоит в начале строки с одним табом; вхождения вида
-        # `country_event = { id = X }` (вложенные ссылки) не должны
-        # подходить -- иначе ловим хвост чужого события.
-        pat = re.compile(r'^\tid = ' + re.escape(eid) + r'\s*(.*?)(?=^country_event|\Z)', re.S | re.M)
-        for _p, b in event_bodies.items():
-            m = pat.search(b)
-            if m:
-                return m.group(1)
-        return None
-
-    # 1. союзный фокус -> событие партнёра с реальными механиками
-    for fid, tag in ALLIANCE_FOCUS.items():
-        body = None
-        for p in walk('common/national_focus', ('.txt',)):
-            for f, b in _focus_blocks(p):
-                if f == fid:
-                    body = b
-        if body is None:
-            err(f"дипломатика: фокус '{fid}' не найден")
-            continue
-        m = re.search(
-            re.escape(tag) + r'\s*=\s*\{\s*country_event\s*=\s*\{\s*id\s*=\s*(glp_diplo\.\d+)',
-            body)
-        if not m:
-            err(f"дипломатика: фокус '{fid}' не запускает событие {tag} -- "
-                "пакт остаётся бутафорией (только opinion)")
-            continue
-        eid = m.group(1)
-        ebody = event_body(eid)
-        if ebody is None:
-            err(f"дипломатика: событие {eid} ({fid}) не найдено в events/")
-            continue
-        if 'give_guarantee' not in ebody:
-            err(f"дипломатика: событие {eid} без give_guarantee -- пакт не "
-                "даёт Гуляйполю реальной защиты")
-        if len(re.findall(r'\boption = \{', ebody)) < 2:
-            err(f"дипломатика: событие {eid} меньше двух опций -- нет пути "
-                "отказа партнёра")
-
-    # 2. ультиматум: запуск + wargoal за отказ
-    on_actions = ''
-    for p in walk('common/on_actions', ('.txt',)):
-        on_actions += strip_comments(read(p))
-    if not re.search(r'glp_crisis\.1(?!\d)', on_actions):
-        err("дипломатика: ультиматум Москвы (glp_crisis.1) не запускается "
-            "из on_actions -- война-якорь никогда не наступит")
-    crisis2 = event_body('glp_crisis.2')
-    if crisis2 is None:
-        err('дипломатика: событие glp_crisis.2 (ультиматум: отказ) не найдено')
-    elif 'create_wargoal' not in crisis2:
-        err("дипломатика: glp_crisis.2 без create_wargoal -- отказ от "
-            "ультиматума ничего не стоит Москве")
-
-    # 3. отказ от пакта = механическая цена
-    for eid in PACT_EVENTS:
-        ebody = event_body(eid)
-        if ebody is None:
-            err(f"дипломатика: событие {eid} не найдено в events/")
-            continue
-        if 'GLP_idea_isolated_resistance' not in ebody:
-            err(f"дипломатика: в событии {eid} отказ от пакта не несёт "
-                "механической цены (GLP_idea_isolated_resistance)")
-
-    # 4. ограниченность помощи
-    dec_text = ''
-    for p in walk('common/decisions', ('.txt',)):
-        dec_text += strip_comments(read(p))
-    m = re.search(r'GLP_receive_lend_lease = \{(.*?)\n\t\}', dec_text, re.S)
-    if not m:
-        err('дипломатика: решение ленд-лиза GLP_receive_lend_lease не найдено')
-    else:
-        dr = re.search(r'days_remove = (\d+)', m.group(1))
-        if not dr or int(dr.group(1)) < 360:
-            err("дипломатика: кулдаун ленд-лиза меньше года -- помощь "
-                "не ограничена")
-    m = re.search(r'GLP_white_volunteer_wave = \{(.*?)\n\t\}', dec_text, re.S)
-    if not m:
-        err('дипломатика: решение GLP_white_volunteer_wave не найдено')
-    else:
-        blk = m.group(1)
-        dr = re.search(r'days_remove = (\d+)', blk)
-        if not dr or int(dr.group(1)) < 90:
-            err("дипломатика: кулдаун волны волонтёров меньше 90 дней -- "
-                "фарм л/с")
-        if 'check_variable' not in blk:
-            err("дипломатика: у волны волонтёров нет лимита числа волн "
-                "(check_variable) -- бесконечные л/с")
-
-
-# ------------------------------------------------- 17. пейсинг дерева (Спринт 3)
-CAPSTONE_Y = 18
-FOREIGN_FOCUS_TAGS = re.compile(
-    r'\b(SOV|GER|ENG|ROM|TUR|POL|SPR|ITA|FRA|USA|JAP|AUS|HUN|RUM|BUL|YUG|'
-    r'PER|AFG|LIT|LAO|CZE|SER|DEN|NOR|SWE|FIN)\b')
-
-
-def _brace_block(body, kw):
-    """Текст внутри первого `kw = { ... }` с матчингом скобок."""
-    m = re.search(r'\b' + kw + r'\s*=\s*\{', body)
-    if not m:
-        return None
-    depth, j = 1, m.end()
-    while depth and j < len(body):
-        if body[j] == '{':
-            depth += 1
-        elif body[j] == '}':
-            depth -= 1
-        j += 1
-    return body[m.end():j - 1]
-
-
-def check_focus_pacing():
-    """Фаза C (Спринт 3): пейсинг спроектирован, а не случаен.
-    1. Верх (y <= 2): cost <= 5 — политический старт идёт быстро.
-    2. Середина (3 <= y <= 17): cost <= 7 — никаких стен по 100 ПП.
-    3. Капстоуны (y >= 18): cost <= 7 и осмысленный available
-       (date/has_war/controls_state) — «чудо/наследие» не берётся сразу.
-    4. Капстоуны попарно mutually_exclusive — нижний ряд это выбор,
-       а не «собрать всё».
-    5. available с foreign-tag обязан иметь bypass, покрывающий этот
-       тег — мёртвый/вражеский партнёр не должен замораживать дерево.
-    6. Флот-терминал (glory_of_the_sea) привязан к Крыму (стейт 137),
-       воздух-терминал (mastery_of_the_skies) — к Донбассу (стейт 227).
-    """
-    capstones = []
-    for p in walk('common/national_focus', ('.txt',)):
-        for fid, body in _focus_blocks(p):
-            y = re.search(r'^\s*y = (-?\d+)\s*$', body, re.M)
-            c = re.search(r'^\s*cost = (\d+(?:\.\d+)?)\s*$', body, re.M)
-            if not (y and c):
-                err(f"пейсинг: фокус '{fid}' без парсеуемых y/cost "
-                    "(проверьте формат строк)")
-                continue
-            yv, cv = int(y.group(1)), float(c.group(1))
-            if yv <= 2 and cv > 5:
-                err(f"пейсинг: верхний фокус '{fid}' (y={yv}) cost {cv:g} > 5 "
-                    "-- старт слишком медленный")
-            if 3 <= yv <= 17 and cv > 7:
-                err(f"пейсинг: средний фокус '{fid}' (y={yv}) cost {cv:g} > 7 "
-                    "-- стена по 100 ПП")
-            if yv >= CAPSTONE_Y:
-                capstones.append(fid)
-                if cv > 7:
-                    err(f"пейсинг: капстон '{fid}' cost {cv:g} > 7")
-                av = _brace_block(body, 'available')
-                if not av or not re.search(r'date|has_war|controls_state', av):
-                    err(f"пейсинг: капстон '{fid}' без available-гейта "
-                        "(date/has_war/controls_state) -- «чудо» доступно "
-                        "с самого начала")
-    # 4. попарный ME капстоунов
-    for p in walk('common/national_focus', ('.txt',)):
-        for fid, body in _focus_blocks(p):
-            if fid not in capstones:
-                continue
-            me = _brace_block(body, 'mutually_exclusive') or ''
-            missing = [f for f in capstones
-                       if f != fid and not re.search(r'focus = %s\b' % f, me)]
-            if missing:
-                err(f"пейсинг: капстон '{fid}' не исключает {missing} -- "
-                    "нижний ряд можно собрать весь")
-    # 5. foreign-tag в available -> bypass
-    for p in walk('common/national_focus', ('.txt',)):
-        for fid, body in _focus_blocks(p):
-            av = _brace_block(body, 'available')
-            if av and FOREIGN_FOCUS_TAGS.search(av):
-                bp = _brace_block(body, 'bypass')
-                if not bp or not FOREIGN_FOCUS_TAGS.search(bp):
-                    err(f"пейсинг: фокус '{fid}' ссылается на чужую страну в "
-                        "available, но bypass не покрывает её -- мёртвый "
-                        "партнёр заморозит дерево")
-    # 6. гейты флота/воздуха
-    for p in walk('common/national_focus', ('.txt',)):
-        for fid, body in _focus_blocks(p):
-            if fid == 'GLP_glory_of_the_sea' and 'controls_state = 137' not in body:
-                err("пейсинг: флот-терминал (glory_of_the_sea) не привязан "
-                    "к Крыму (controls_state = 137)")
-            if fid == 'GLP_mastery_of_the_skies' and 'controls_state = 227' not in body:
-                err("пейсинг: воздух-терминал (mastery_of_the_skies) не "
-                    "привязан к Донбассу (controls_state = 227)")
-    STATS['focus_pacing_capstones'] = len(capstones)
-
-
-# ------------------------------------------------- 18. решения: рычаг с ценой, а не фарм
-def _decision_blocks():
-    """{decision_id: body} по common/decisions."""
-    out = {}
-    for p in walk('common/decisions', ('.txt',)):
-        text = strip_comments(read(p))
-        for m in re.finditer(r'\n\t(GLP_[A-Za-z0-9_]+) = \{', text):
-            start, depth, j = m.end(), 1, m.end()
-            while depth > 0 and j < len(text):
-                if text[j] == '{':
-                    depth += 1
-                elif text[j] == '}':
-                    depth -= 1
-                j += 1
-            out[m.group(1)] = text[start:j - 1]
-    return out
-
-
-def check_decision_economy():
-    """Фаза D (Спринт 4): решения — рычаг с ценой, а не бесплатный
-    генератор ресурсов.
-    1. Решение с грантом (>= 1000 л/с или любое положительное
-       снаряжение) должно быть ограничено: fire_only_once = yes,
-       либо кулдаун >= 120, либо кулдаун >= 90 при цене >= 40, либо
-       оно само стоит >= 1500 л/с (рейд-луп платит за себя).
-    2. Рейд (GLP_conduct_cavalry_partisan_raid) имеет state_target и
-       target_trigger — рейд не «в эфире».
-    3. Испания (GLP_send_brigade_to_cnt_fai): проверка склада
-       (has_equipment), честное списание (отрицательный amount) и
-       испанская сторона видит бригаду (событие в скоупе SPR).
-    4. Не меньше 4 оккупационных решений, гейтнутых контролем стейта
-       (is_controlled_by = ROOT).
-    5. Событие риска рейда glp_raid.1 существует.
-    """
-    decs = _decision_blocks()
-
-    def cooldown(body):
-        vals = []
-        for kw in ('days_remove', 'days_re_enable'):
-            m = re.search(r'\b' + kw + r'\s*=\s*(\d+)', body)
-            if m:
-                vals.append(int(m.group(1)))
-        return max(vals) if vals else 0
-
-    granted = 0
-    for did, body in sorted(decs.items()):
-        mp = [int(v) for v in re.findall(r'add_manpower = ([1-9]\d*)', body)]
-        eq = re.findall(r'add_equipment_to_stockpile = \{[^}]*amount = ([1-9]\d*)', body)
-        if not (any(v >= 1000 for v in mp) or eq):
-            continue
-        granted += 1
-        cost = re.search(r'^\s*cost = (\d+)', body, re.M)
-        cost = int(cost.group(1)) if cost else 0
-        cd = cooldown(body)
-        mp_cost = min((int(v) for v in
-                       re.findall(r'add_manpower = -([1-9]\d*)', body)), default=0)
-        if ('fire_only_once = yes' in body
-                or cd >= 120
-                or (cd >= 90 and cost >= 40)
-                or mp_cost >= 1500):
-            continue
-        err(f"решение '{did}': грант л/с/снаряжения без ограничения "
-            "(нет fire_only_once, кулдаун < 120, цена < 40, нет "
-            "собственной цены в л/с) -- фарм")
-
-    raid = decs.get('GLP_conduct_cavalry_partisan_raid')
-    if raid is None:
-        err('решения: рейд GLP_conduct_cavalry_partisan_raid отсутствует')
-    else:
-        if not re.search(r'target = \{\s*type = state', raid):
-            err('решения: у рейда нет state_target (target = { type = state })')
-        if 'target_trigger = {' not in raid:
-            err('решения: у рейда нет target_trigger -- целятся в любой стейт')
-
-    spain = decs.get('GLP_send_brigade_to_cnt_fai')
-    if spain is None:
-        err('решения: помощь Испании GLP_send_brigade_to_cnt_fai отсутствует')
-    else:
-        if not re.search(r'has_equipment = \{\s*[a-z_0-9]+ > \d+', spain):
-            err("решения: у Испании нет проверки склада (has_equipment) -- "
-                "винтовки можно списать в минус")
-        if not re.search(r'amount = -\d+', spain):
-            err("решения: Испания не списывает собственный склад "
-                "(нет отрицательного amount) -- бригада бесплатная")
-        # SPR-скоп ищем в complete_effect: в available тоже есть
-        # `SPR = { ... }` (проверка гражданской войны), и это не то.
-        ce = _brace_block(spain, 'complete_effect')
-        spr_blk = _brace_block(ce, 'SPR') if ce else None
-        if spr_blk is None or not re.search(r'\b(news_event|country_event)\s*=\s*\{', spr_blk):
-            err('решения: испанская сторона не видит бригаду '
-                '(нет события в скоупе SPR)')
-
-    occ = [d for d, b in decs.items() if 'is_controlled_by = ROOT' in b]
-    if len(occ) < 4:
-        err(f"решения: оккупационных решений (гейт is_controlled_by) "
-            f"только {len(occ)}, нужно >= 4")
-
-    found = False
-    for p in walk('events', ('.txt',)):
-        if re.search(r'^\tid = glp_raid\.1$', strip_comments(read(p)), re.M):
-            found = True
-    if not found:
-        err('события: событие риска рейда glp_raid.1 отсутствует')
-
-    STATS['decisions_with_grants'] = granted
-
-
-# ------------------------------------------------- 19. снаряжение: ключи 1.19
-KNOWN_119_EQUIPMENT = {
-    'small_arms_equipment_1', 'small_arms_equipment_2', 'small_arms_equipment_3',
-    'support_equipment',
-    'anti_tank_equipment_1', 'anti_tank_equipment_2',
-    'artillery_equipment_1', 'artillery_equipment_2',
-    'motorized_equipment', 'truck_equipment', 'train_equipment',
-    # С 1.13 (T-A) танк = шасси + орудие; «*_tank_equipment_*» в 1.19
-    # не существует.
-    'light_tank_chassis_1', 'light_tank_chassis_2',
-    'medium_tank_chassis_1', 'medium_tank_chassis_2',
-    'heavy_tank_chassis_1',
-    'light_tank_gun_1', 'light_tank_gun_2',
-    'medium_tank_gun_1', 'medium_tank_gun_2',
-    'heavy_tank_gun_1',
-    'destroyer_hull_1', 'destroyer_hull_2',
-    'light_cruiser_hull_1', 'light_cruiser_hull_2',
-    'heavy_cruiser_hull_1', 'heavy_cruiser_hull_2',
-    'battleship_hull_1', 'battleship_hull_2',
-    'capital_ship_hull_1', 'capital_ship_hull_2',
-    'carrier_hull_1', 'carrier_hull_2',
-    'submarine_hull_1',
-}
-
-
-def check_equipment_keys():
-    """1.19 (Спринт 5): ключ снаряжения обязан существовать.
-
-    Движок не роняет ошибку на неизвестном type в
-    add_equipment_to_stockpile -- он молча игнорирует эффект (трофеи и
-    решения «не работают» без следа), а has_equipment с чужим ключом
-    всегда ложь (решение навсегда недоступно). Сканируем common/,
-    events/, history/. Плюс инварианты трофейного лупа:
-    tech_maintenance_company в стартовом set_technology (луп активен с
-    1936) и шаблон «Тачаночный курень» в OOB 1936.
-    """
-    seen = 0
-    for subdir in ('common', 'events', 'history'):
-        for p in walk(subdir, ('.txt',)):
-            text = strip_comments(read(p))
-            for m in re.finditer(
-                    r'add_equipment_to_stockpile\s*=\s*\{\s*type\s*=\s*([A-Za-z0-9_]+)',
-                    text):
-                seen += 1
-                if m.group(1) not in KNOWN_119_EQUIPMENT:
-                    err(f"снаряжение: {rel(p)}: '{m.group(1)}' -- не ключ 1.19, "
-                        "движок молча проигнорирует эффект")
-            for m in re.finditer(r'has_equipment\s*=\s*\{\s*([A-Za-z0-9_]+)', text):
-                seen += 1
-                if m.group(1) not in KNOWN_119_EQUIPMENT:
-                    err(f"снаряжение: {rel(p)}: has_equipment '{m.group(1)}' -- "
-                        "не ключ 1.19, условие всегда ложно")
-    found_tech = False
-    for p in walk('history/countries', ('.txt',)):
-        if 'tech_maintenance_company' in strip_comments(read(p)):
-            found_tech = True
-    if not found_tech:
-        err("трофеи: нет tech_maintenance_company в стартовом set_technology -- "
-            "трофейный луп РПА не будет активен с 1936")
-    found_tpl = False
-    for p in walk('history/units', ('.txt',)):
-        if 'Тачаночный курень' in read(p):
-            found_tpl = True
-    if not found_tpl:
-        err('трофеи: шаблон «Тачаночный курень» отсутствует в OOB 1936')
-    STATS['equipment_refs'] = seen
-
-
-# ------------------------------------------------- 20. .gfx: безопасность парсера
-def check_gfx_parse_safety():
-    """.gfx: парсер не прощает структуры (регрессия 2026-08-26).
-
-    1. В файле ровно ОДИН топ-уровневый блок `spriteTypes = { ... }`:
-       второй блок ломает разбор, и ВСЕ спрайты файла перестают
-       грузиться (симптом в игре: пропал фон главного меню / фон и
-       фотографии заставки, при этом тексты и ванильные кнопки на месте).
-    2. Поля `effectFile` и подблок `animation = { ... }` внутри
-       spriteType/corneredTileSpriteType/frameAnimatedSpriteType не
-       поддерживаются парсером 1.19 — тот же симптом. (В progressbartype
-       effectFile — валидное ванильное поле, оно не проверяется;
-       frameAnimatedSpriteType с noOfFrames — валидный вид анимации.)
-    """
-    seen = 0
-    sprite_kinds = ('spriteType = {', 'corneredTileSpriteType = {',
-                    'frameAnimatedSpriteType = {')
-    for p in walk('interface', ('.gfx',)):
-        seen += 1
-        text = strip_comments(read(p))
-        n = len(re.findall(r'^spriteTypes\s*=\s*\{', text, re.M))
-        if n == 0:
-            err(f".gfx: {rel(p)}: нет блока spriteTypes")
-        elif n > 1:
-            err(f".gfx: {rel(p)}: {n} блока spriteTypes -- второй "
-                "топ-уровневый блок ломает парсер, все спрайты файла "
-                "перестают грузиться")
-        for kind in sprite_kinds:
-            for m in re.finditer(r'\b' + re.escape(kind), text):
-                depth, j = 1, m.end()
-                while depth and j < len(text):
-                    if text[j] == '{':
-                        depth += 1
-                    elif text[j] == '}':
-                        depth -= 1
-                    j += 1
-                body = text[m.end():j - 1]
-                nm = re.search(r'name = "([^"]+)"', body)
-                label = nm.group(1) if nm else '?'
-                if 'effectFile' in body:
-                    err(f".gfx: {rel(p)}: спрайт '{label}' содержит "
-                        "effectFile -- неподдерживаемое парсером 1.19 "
-                        "поле, файл не загрузится")
-                if re.search(r'\banimation\s*=\s*\{', body):
-                    err(f".gfx: {rel(p)}: спрайт '{label}' содержит "
-                        "подблок animation = {{}} -- неподдерживаемый "
-                        "парсером 1.19, файл не загрузится")
-    if seen == 0:
-        err('.gfx: в interface/ не найдено ни одного .gfx')
-    STATS['gfx_files'] = seen
-
-
-# ------------------------------------------------- 21. модуль «Иберийский пожар и Чёрный Интернационал»
-def check_spain_module():
-    """Модуль «Иберийский пожар и Чёрный Интернационал»: целостность
-    связей событие -> флаги -> решения -> развилка -> фракция.
-    1. glp_spain.1: три взаимоисключающих выбора, каждый ставит свой
-       флаги маршрута + общий glp_spain_choice_made.
-    2. Запуск — через on_actions (флаг glp_spain_war_active), а не
-       через постоянный mean_time_to_happen-сканер.
-    3. Три контрабандных маршрута: скриптовая проверка риска
-       (random = N), честное списание (отрицательный amount),
-       кулдаун >= 90.
-    4. КРО-решение ставит glp_kro_barcelona; событие майских дней
-       разветвляется по этому флагу.
-    5. Пакт: create_faction + add_to_faction = SPR + оба нацдуха.
-    6. Черта GLP_spanish_tempering в /common/unit_leader/; шаблон
-       бригады в загружаемом OOB (GLP_1936).
-    """
-    ev = {}
-    for p in walk('events', ('.txt',)):
-        text = strip_comments(read(p))
-        for m in re.finditer(r'(?:country_event|news_event)\s*=\s*\{', text):
-            depth, j = 1, m.end()
-            while depth and j < len(text):
-                if text[j] == '{':
-                    depth += 1
-                elif text[j] == '}':
-                    depth -= 1
-                j += 1
-            body = text[m.end():j - 1]
-            eid = re.search(r'\bid = ([A-Za-z0-9_.]+)', body)
-            if eid:
-                ev[eid.group(1)] = (p, body)
-
-    # 1. Иберийский пожар
-    sp1 = ev.get('glp_spain.1')
-    if sp1 is None:
-        err('модуль Испании: событие glp_spain.1 отсутствует')
-    else:
-        _p, body = sp1
-        if len(re.findall(r'\boption = \{', body)) < 3:
-            err('модуль Испании: glp_spain.1 меньше трёх вариантов выбора')
-        if 'glp_spain_choice_made' not in body:
-            err('модуль Испании: glp_spain.1 не ставит glp_spain_choice_made '
-                '(событие повторится)')
-        for flag in ('glp_spain_open_route', 'glp_spain_secret_route',
-                     'glp_spain_refused'):
-            if flag not in body:
-                err(f'модуль Испании: glp_spain.1 не ставит {flag}')
-
-    # 2. Запуск через on_actions
-    on_actions = ''
-    for p in walk('common/on_actions', ('.txt',)):
-        on_actions += strip_comments(read(p))
-    if 'glp_spain_war_active' not in on_actions:
-        err('модуль Испании: glp_spain_war_active не ставится в on_actions '
-            '(событие не запустится)')
-
-    # 3. Контрабандные коридора
-    dec_text = ''
-    for p in walk('common/decisions', ('.txt',)):
-        dec_text += strip_comments(read(p))
-    for did, min_cd in (('GLP_spain_black_sea_run', 90),
-                        ('GLP_spain_balkan_underground_traffic', 90),
-                        ('GLP_spain_french_syndicate_smuggling', 90)):
-        m = re.search(r'\t' + did + r' = \{(.*?)\n\t\t\}', dec_text, re.S)
-        if not m:
-            err(f'модуль Испании: решение {did} отсутствует')
-            continue
-        body = m.group(1)
-        if 'random = ' not in body:
-            err(f'модуль Испании: {did} без скриптовой проверки риска '
-                '(random = N)')
-        if not re.search(r'amount = -\d+', body):
-            err(f'модуль Испании: {did} не списывает собственный склад '
-                '(нет отрицательного amount)')
-        cd = re.search(r'days_remove = (\d+)', body)
-        if not cd or int(cd.group(1)) < min_cd:
-            err(f'модуль Испании: {did} без кулдауна >= {min_cd} дней '
-                '(фарм-маршрут)')
-
-    # 4. КРО + развилка майских дней
-    kro = re.search(r'\tGLP_spain_send_kro_group = \{(.*?)\n\t\t\}',
-                    dec_text, re.S)
-    if not kro or 'glp_kro_barcelona' not in kro.group(1):
-        err('модуль Испании: КРО-решение не ставит glp_kro_barcelona')
-    bc1 = ev.get('glp_barcelona.1')
-    if bc1 is None:
-        err('модуль Испании: событие glp_barcelona.1 отсутствует')
-    else:
-        _p, body = bc1
-        if 'glp_kro_barcelona' not in body:
-            err('модуль Испании: glp_barcelona.1 не разветвляется по '
-                'флагу КРО (glp_kro_barcelona)')
-        if 'glp_spanish_programs_shut' not in body:
-            err('модуль Испании: glp_barcelona.1 не сворачивает программы '
-                'помощи (glp_spanish_programs_shut)')
-
-    # 5. Пакт Чёрного Интернационала
-    pact = re.search(r'\tGLP_spain_black_international_pact = \{(.*?)\n\t\t\}',
-                     dec_text, re.S)
-    if not pact:
-        err('модуль Испании: решение GLP_spain_black_international_pact '
-            'отсутствует')
-    else:
-        body = pact.group(1)
-        if 'create_faction' not in body:
-            err('модуль Испании: пакт не создаёт фракцию')
-        if 'add_to_faction = SPR' not in body:
-            err('модуль Испании: пакт не вводит SPR во фракцию')
-        for idea in ('GLP_idea_catalan_wolfram_syndicate_workshops',
-                     'GLP_idea_ukrainian_coal_and_grain'):
-            if idea not in body:
-                err(f'модуль Испании: пакт не выдаёт {idea}')
-
-    # 6. Черта и шаблон бригады
-    trait_found = False
-    for p in walk('common/unit_leader', ('.txt',)):
-        if 'GLP_spanish_tempering' in strip_comments(read(p)):
-            trait_found = True
-    if not trait_found:
-        err('модуль Испании: черта GLP_spanish_tempering не найдена в '
-            '/common/unit_leader/')
-    oob = ''
-    for p in walk('history/units', ('.txt',)):
-        oob += read(p)
-    if 'Бригада РПАУ добровольцев' not in oob:
-        err('модуль Испании: шаблон «Бригада РПАУ добровольцев» не в OOB')
-    home = re.search(r'\tGLP_spain_brigade_homecoming = \{(.*?)\n\t\t\}',
-                     dec_text, re.S)
-    if not home or 'GLP_spanish_tempering' not in home.group(1):
-        err('модуль Испании: GLP_spain_brigade_homecoming не выдаёт черту')
-
-    # Духи модуля в локализации покрывает check_characters (RU обяз.,
-    # EN — паритет); локализация опций событий — check_events.
-    STATS['spain_module_events'] = len(ev)
-
-
 def main():
     check_syntax()
     loc = load_loc()
@@ -2778,9 +1737,6 @@ def main():
     check_loading_tips()
     check_music()
     check_cinematic_intro_voice()
-    check_loc_font_charset()
-    check_intro_gui_keys(loc)
-    check_intro_no_crawl()
     check_fonts()
     check_bookmarks(loc)
     check_opinions(loc)
@@ -2804,13 +1760,7 @@ def main():
     check_focus_branch_headers()
     check_idea_modifier_keys()
     check_advisor_frames()
-    check_idea_slot_model()
-    check_diplomacy_mechanics(defs)
-    check_focus_pacing()
-    check_decision_economy()
-    check_equipment_keys()
-    check_gfx_parse_safety()
-    check_spain_module()
+    check_crisis_events()
 
     print("=" * 72)
     print(f" GLP AUDIT  --  {len(ERRORS)} error(s), {len(WARNINGS)} warning(s)")

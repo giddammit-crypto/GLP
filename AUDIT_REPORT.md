@@ -1168,3 +1168,70 @@ BOM сохранён). Снятие слота с фокусов, где уже 
 - Фраза «Внимание! Говорит Гуляй-Поле!» в озвучке отсутствует: она звучала только в демо-прослушиваниях кандидатов голоса, в нарратив не входила и в него не добавляется.
 - Промежуточные дубли `tools/_voice/` удалены; правка `.gitignore` оставлена на случай будущих перезаписей.
 - Окно заставки и локализация (обычный текст в пределах окна) — без изменений из итерации 7.
+
+## Итерация 13: Спринт 6 — fork Григорьева, престолонаследие Махно, белые эмигранты и три новых инварианта аудита
+
+### Что сделано
+
+#### `glp_crisis.10` — fork Григорьева (4 опции)
+
+Каждая опция выводит уникальный country-флаг и переписывает стаб/ВС/ПП/манпауэр под реалистичную сетку стимулов; казнь атамана (`glp_crisis.10.c`) обнуляет `GLP_ataman_grigoriev` под guard `if = { limit = { has_character = ... } }` (1.19 silent error иначе). Опции `b` (мятеж) и `w` (примирение) используют `transfer_state 226 → SOV` (исторически корректно) и `add_manpower −2500` — `set_oob` намеренно не используется, чтобы не затереть армию. Флаги: `GLP_grigoriev_loyally` / `mutiny` / `executed` / `reconciled`.
+
+#### `glp_crisis.20` — третий триггер от Задова
+
+Фокус `GLP_zadov_intelligence_network` теперь дополнительно подбрасывает `country_event = { id = glp_crisis.20 days = 30 }` (раньше событие запускалось только двумя фокусами — `GLP_libertarian_civil_courts` и `GLP_decree_on_black_terror`); `completion_reward` обогащён на треть. Флаги `GLP_zadov_ascendant` / `GLP_volin_ascendant` не очищаются — это маркеры пути, а не временные ступени.
+
+#### `glp_crisis.30` → `glp_crisis.31` — престолонаследие Махно без Потёмкина
+
+- `glp_crisis.30`: четыре опции (лазарет, в седле, Совет Атаманов, Вольница без Батьки); Махно уходит (`retire = yes`) только под guard `has_character = GLP_nestor_makhno`; опция «Совет Атаманов» запускает `country_event = { id = glp_crisis.31 days = 7 }` — **без Потёмкина**, как заявлено в `next.md`.
+- `glp_crisis.31` (новое событие): три кандидата — **Трофим Вдовиченко** (партизанский вождь), **Виктор Белаш** (начальник штаба), **Всеволод Волин** (идеолог). Используют `add_country_leader_role = { promote_leader = yes country_leader = { ideology = anarchism expire = "1965.1.1.1" traits = { ... } } }` — это ванильный путь 1.19.2 для наделения существующего командира ролью лидера страны. `promote_character` напрямую здесь **не** годится: у этих персонажей нет блока `country_leader = {}`, и движок молча отказывает. Флаги: `GLP_successor_vdovychenko` / `belash` / `volin`. Каждая опция с `if = { limit = { has_character = X } }` (наследник мог погибнуть в бою).
+
+#### `glp_crisis.40` → `glp_crisis.41` → `glp_crisis.42` — цепочка белых эмигрантов в три ступени
+
+- `glp_crisis.40`: исходное событие (бунт Семёнова) расширено двумя опциями — `.a` (разоружить, → `GLP_white_step_2_sidelined`) и `.b` (дать корпус, → `GLP_white_step_2_favored`); каждая опция запускает ступень 2 через `country_event = { id = glp_crisis.41 days = 90 random_days = 30 }`.
+- `glp_crisis.41` (новое): две опции с `trigger = { has_country_flag = GLP_white_step_2_* }`; ветка «sidelined» ставит флаг `GLP_white_step_3_dispersed`, ветка «favored» — `GLP_white_step_3_parallel`; обе запускают `glp_crisis.42` через 120 ± 30 дней.
+- `glp_crisis.42` (новое): три опции — `.a` (после эмиграции: страна выдыхает), `.b` (после «параллельного штаба»: уступить Скоблину), `.c` (Скоблин уходит). Все три обязательно содержат `clr_country_flag` для обоих парных флагов ступени 2/3 (см. инвариант ниже).
+
+### Локализация (RU + EN)
+
+Добавлено 18 новых ключей в `localisation/russian/GLP_events_l_russian.yml` и `localisation/english/GLP_events_l_english.yml` (все с UTF-8 BOM, заголовком `l_russian:` / `l_english:` и без технических имён `GLP_*` в текстах):
+
+- `glp_crisis.10.c`, `glp_crisis.10.w` (казнь / примирение)
+- `glp_crisis.30.c`, `glp_crisis.30.w` (Совет Атаманов / Вольница без Батьки)
+- `glp_crisis.31.t`, `glp_crisis.31.d`, `glp_crisis.31.a/b/c` (выбор наследника)
+- `glp_crisis.41.t`, `glp_crisis.41.d`, `glp_crisis.41.a/b` (эмиграция / «параллельный штаб»)
+- `glp_crisis.42.t`, `glp_crisis.42.d`, `glp_crisis.42.a/b/c` (развязка в степи)
+
+### Новые инварианты аудита — `check_crisis_events()`
+
+В `tools/glp_audit.py` добавлена функция `check_crisis_events()` (вызывается в `main()`) с тремя инвариантами. Каждый инвариант проверен негативным тестом, который инжектирует ломающую правку и убеждается, что аудит её ловит (после чего правка откатывается).
+
+**Инвариант 1 — каждое `glp_crisis.*` запускается.**
+Считаем вхождения `id = X` в `common/national_focus/`, `common/on_actions/`, `common/decisions/`, `events/`. В `common/*` объявлений быть не может, поэтому каждое упоминание = вызов. В `events/` одно вхождение = только объявление; > 1 — есть вызов. Каждый id должен быть «referenced» хотя бы одним файлом.
+
+*Негативный тест*: добавляем `country_event = { id = glp_crisis.99 ... }` с локализацией. Аудит печатает `crisis: событие glp_crisis.99 не запускается ни из on_actions, ни из фокусов, ни из других событий — мёртвый груз`. После восстановления — 0 ошибок.
+
+*Промежуточный фикс*: первая версия использовала regex `(?:country_event|news_event)\s*=\s*\{[^}]*?id\s*=\s*(glp_crisis\.\d+)`, который ловил **объявление** события (потому что `id` идёт первым аргументом блока) наравне с **вызовом**. Заменено на счётчик вхождений `id = X` в файле: 1 = только объявление, > 1 = есть вызов. В `common/*` всегда вызов.
+
+**Инвариант 2 — `retire`/`retire_character` под guard `has_character`.**
+Ищем обе формы: `GLP_X = { retire = yes }` и `retire_character = GLP_X`. Проверяем, что в 200 символах контекста до `retire` есть `has_character = GLP_X`. Без guard'а движок 1.19.2 роняет silent error, если персонаж погиб ранее (что вполне реально для Григорьева, Махно, Скоблина в зоне боевых действий).
+
+*Негативный тест*: снимаем `if = { limit = { has_character = GLP_ataman_grigoriev } }` вокруг `GLP_ataman_grigoriev = { retire = yes }` в `glp_crisis.10.c`. Аудит печатает `events/GLP_diplomacy.txt: 'GLP_ataman_grigoriev = { retire = yes }' без if = { limit = { has_character = GLP_ataman_grigoriev } } guard'а -- 1.19 роняет silent error, если персонаж погиб ранее`. После восстановления — 0 ошибок.
+
+**Инвариант 3 — флаги ступеней 40/41/42 очищаются.**
+В финальной опции ступени 3 (`glp_crisis.42`) с `trigger = { has_country_flag = GLP_white_step_3_* }` обязан быть `clr_country_flag` того же флага И парного ступени-2 (`GLP_white_step_2_sidelined` для ветки dispersed, `GLP_white_step_2_favored` для parallel). Иначе повторный запуск цепочки даст «branch already chosen» и опция перестанет срабатывать.
+
+*Негативный тест*: удаляем `clr_country_flag = GLP_white_step_2_sidelined` из опции `.a` ступени 3. Аудит печатает `events/GLP_diplomacy.txt: glp_crisis.42 — финал ветки 'dispersed' не очищает GLP_white_step_2_sidelined`. После восстановления — 0 ошибок.
+
+*Промежуточный фикс*: первая версия искала `id = glp_crisis.42` через жадный regex `id\s*=\s*glp_crisis\.42[^{]*\{` — он матчил **вызов** `country_event = { id = glp_crisis.42 days = 120 random_days = 30 }` в `glp_crisis.41` (нет `{`), и далее `body.find('{', m.start())` находил `{` от **объявления** ниже по тексту — но регулярно давал ложные срабатывания и пустой `body42`. Заменено на строгий `country_event\s*=\s*\{\s*\n\s*id\s*=\s*glp_crisis\.42`, после чего `body42` корректно ограничен сбалансированным brace-обходом.
+
+### Конвенция, использованная в негативных тестах
+
+Перед инъекцией `events/GLP_diplomacy.txt` копируется в `/tmp/GLP_diplomacy.txt.bak`; после прогона аудита — `cp /tmp/GLP_diplomacy.txt.bak events/GLP_diplomacy.txt`. Локализация `.yml` — отдельно через git checkout + восстановление 18 ключей программно (BOM + якорь `glp_crisis.40.b`). Раньше использовался `git checkout -- localisation/...`, но он молча затирал наши 18 ключей вместе с оригиналом; сейчас восстановление делается явно.
+
+### Итог
+
+- `python3 tools/glp_audit.py` — **0 errors, 1 warning** (пред-существующее предупреждение о music-плейсхолдерах).
+- Все три негативных теста ловят соответствующее нарушение.
+- 14 новых опций/событий/флагов прошиты RU+EN, без `GLP_*` в текстах, без `set_oob` (который затирает армию), без `promote_character` напрямую (не работает для персонажей без `country_leader`).
+- Аудит версии **15** (новый чек #15 «crisis-event integrity») готов блокировать регрессии в цепочках `glp_crisis.*`.
