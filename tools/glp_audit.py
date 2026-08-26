@@ -31,8 +31,12 @@ Checks performed:
  13. Branch banner comments in GLP_focus.txt state the real focus count and
      the real x/y envelope (tools/sync_focus_headers.py keeps them honest).
  14. Idea modifier keys are spelled with real 1.19 static-modifier names
-     (an unknown key is silently ignored by the engine, so the buff just
-     never happens).
+    (an unknown key is silently ignored by the engine, so the buff just
+    never happens).
+ 15. Crisis-event integrity: every glp_crisis.* id is actually triggered
+    (referenced in some focus / on_action / event), every retire/retire_char
+    call sits behind a has_character guard (silent error otherwise), and
+    step-1/2/3 chains clean their set_country_flag / clr_country_flag pairs.
 
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
@@ -456,6 +460,132 @@ def check_events(loc):
                     err(f"{rel(p)}: событие {eid.group(1)} — нет русской локализации '{k}'")
                 elif k not in en:
                     warn(f"{rel(p)}: событие {eid.group(1)} — нет английской локализации '{k}'")
+
+
+def check_crisis_events():
+    """Целостность цепочки кризисных событий glp_crisis.* (Спринт 6).
+
+    Три инварианта, выявленные при итерации 20:
+      (1) каждый glp_crisis.* должен запускаться (иначе событие лежит
+          мёртвым грузом); проверяем country_event / news_event со ссылкой
+          на glp_crisis.* в фокусах, on_actions, других событиях;
+      (2) каждая казнь персонажа (retire / retire_character) обязана
+          быть обёрнута в `if = { limit = { has_character = X } ... }` --
+          1.19 молча роняет ошибку на retire без guard'а, если персонаж
+          погиб ранее (что вполне реально для Григорьева / Махно /
+          Скоблина -- они в зоне боевых действий);
+      (3) в ступенчатых цепочках glp_crisis.40/41/42 флаги ступеней
+          должны очищаться в финальной опции (clr_country_flag), иначе
+          повторный запуск ступени даст ложный «branch already chosen»;
+          для цепочки Махно -- наоборот, GLP_makhno_* ставится только
+          как маркер пути и не требует clr.
+    """
+    # ----- (1) каждый glp_crisis.* запускается -----
+    crisis_ids = set()
+    for p in walk('events', ('.txt',)):
+        body = strip_comments(read(p))
+        for m in re.finditer(r'^\s*id\s*=\s*(glp_crisis\.\d+)', body, re.M):
+            crisis_ids.add(m.group(1))
+
+    # Какие crisis-ids фактически ВЫЗЫВАЮТСЯ (а не только объявляются).
+    # Простая и надёжная эвристика:
+    #   * В common/ и events/ — каждое вхождение `id = X` либо объявление
+    #     (X-блок = country_event = { id = X ... }), либо вызов.
+    #   * В common/national_focus/ и common/on_actions/ объявлений быть
+    #     не может — только вызовы.
+    # Считаем по файлам: для каждого crisis-id в каждом файле events/ если
+    # `id = X` встречается >= 2 раз, значит есть вызов. В common/* — каждое
+    # упоминание = вызов.
+    referenced = defaultdict(set)
+    for d in ('common/national_focus', 'common/on_actions', 'common/decisions',
+              'events'):
+        for p in walk(d, ('.txt',)):
+            body = strip_comments(read(p))
+            for cid in sorted(crisis_ids):
+                if d != 'events':
+                    if re.search(rf'\bid\s*=\s*{re.escape(cid)}\b', body):
+                        referenced[cid].add(rel(p))
+                else:
+                    # в events/ 1 вхождение = только объявление; > 1 = есть вызов
+                    if len(re.findall(rf'\bid\s*=\s*{re.escape(cid)}\b', body)) > 1:
+                        referenced[cid].add(rel(p))
+
+    for cid in sorted(crisis_ids):
+        if cid not in referenced:
+            err(f"crisis: событие {cid} не запускается ни из on_actions, "
+                f"ни из фокусов, ни из других событий — мёртвый груз")
+
+    # ----- (2) retire только под has_character guard -----
+    for d in ('common', 'events', 'history'):
+        for p in walk(d, ('.txt',)):
+            body = strip_comments(read(p))
+            # ищем вызовы retire / retire_character в character scope:
+            # <TOK> = { retire = yes } ИЛИ retire_character = <TOK>
+            for m in re.finditer(
+                    r'([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\{\s*retire\s*=\s*yes\s*\}',
+                    body):
+                tok = m.group(1)
+                # контекст 200 символов до — есть ли has_character guard?
+                start = max(0, m.start() - 200)
+                ctx = body[start:m.start()]
+                if not re.search(rf'has_character\s*=\s*{re.escape(tok)}\b', ctx):
+                    err(f"{rel(p)}: '{tok} = {{ retire = yes }}' без "
+                        f"if = {{ limit = {{ has_character = {tok} }} }} guard'а -- "
+                        f"1.19 роняет silent error, если персонаж погиб ранее")
+            for m in re.finditer(r'\bretire_character\s*=\s*([A-Za-z_][A-Za-z0-9_]*)', body):
+                tok = m.group(1)
+                # skip generic-советников (они всегда есть)
+                if tok.startswith('GLP_generic_'):
+                    continue
+                start = max(0, m.start() - 200)
+                ctx = body[start:m.start()]
+                if not re.search(rf'has_character\s*=\s*{re.escape(tok)}\b', ctx):
+                    err(f"{rel(p)}: retire_character = {tok} без "
+                        f"if = {{ limit = {{ has_character = {tok} }} }} guard'а")
+
+    # ----- (3) ступени 40/41/42: флаги очищаются -----
+    # Берём только финальные опции ступени 3 (glp_crisis.42) и проверяем,
+    # что в каждой опции срабатывает хотя бы один clr_country_flag из
+    # {GLP_white_step_2_*, GLP_white_step_3_*}.
+    p = os.path.join(ROOT, 'events/GLP_diplomacy.txt')
+    if not os.path.exists(p):
+        return
+    body = strip_comments(read(p))
+    m_step3 = re.search(
+        r'country_event\s*=\s*\{\s*\n\s*id\s*=\s*glp_crisis\.42', body)
+    if not m_step3:
+        return
+    open_pos = body.find('{', m_step3.start())
+    depth = 1
+    j = open_pos + 1
+    while j < len(body) and depth:
+        if body[j] == '{':
+            depth += 1
+        elif body[j] == '}':
+            depth -= 1
+        j += 1
+    body42 = body[open_pos + 1:j - 1]
+    # триггеры ступени 3: для каждой опции с trigger = has_country_flag
+    # ожидаем соответствующий clr_country_flag в её теле.
+    for opt in re.finditer(r'option\s*=\s*\{(.*?)\n\t\}', body42, re.S):
+        b = opt.group(1)
+        trig = re.search(r'trigger\s*=\s*\{\s*has_country_flag\s*=\s*([A-Za-z0-9_]+)', b)
+        if not trig:
+            continue
+        flag = trig.group(1)
+        if not re.search(rf'clr_country_flag\s*=\s*{re.escape(flag)}', b):
+            err(f"{rel(p)}: glp_crisis.42 — опция с trigger на {flag!r} "
+                f"не очищает этот флаг; повторный запуск цепочки даст "
+                f"«branch already chosen»")
+        # также требуем очистку «парного» флага ступени 2
+        if flag == 'GLP_white_step_3_dispersed':
+            if not re.search(r'clr_country_flag\s*=\s*GLP_white_step_2_sidelined', b):
+                err(f"{rel(p)}: glp_crisis.42 — финал ветки 'dispersed' "
+                    f"не очищает GLP_white_step_2_sidelined")
+        elif flag == 'GLP_white_step_3_parallel':
+            if not re.search(r'clr_country_flag\s*=\s*GLP_white_step_2_favored', b):
+                err(f"{rel(p)}: glp_crisis.42 — финал ветки 'parallel' "
+                    f"не очищает GLP_white_step_2_favored")
 
 
 def check_units():
@@ -1630,6 +1760,7 @@ def main():
     check_focus_branch_headers()
     check_idea_modifier_keys()
     check_advisor_frames()
+    check_crisis_events()
 
     print("=" * 72)
     print(f" GLP AUDIT  --  {len(ERRORS)} error(s), {len(WARNINGS)} warning(s)")

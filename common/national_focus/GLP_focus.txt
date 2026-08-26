@@ -604,6 +604,12 @@ focus_tree = {
 			else = {
 				add_ideas = GLP_idea_zadov_network
 			}
+			# Сеть Задова разворачивается — раскол в штабе обостряется.
+			# Событие glp_crisis.20 (Задов vs Волин) уже запускается из
+			# GLP_libertarian_civil_courts / GLP_decree_on_black_terror;
+			# здесь — третий триггер (через 30 дней), чтобы событие
+			# приходило и при позднем прохождении сети.
+			country_event = { id = glp_crisis.20 days = 30 }
 		}
 	}
 
