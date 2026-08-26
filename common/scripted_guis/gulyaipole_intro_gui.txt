@@ -1,16 +1,10 @@
 # Гуляй-Поле — scripted GUI кинематографической заставки (HOI4 1.19.2)
 #
 # Окно из interface/gulyaipole_intro_custom.gui показывается, пока установлен
-# glp_show_cinematic_intro.
-#
-# Режимы центральной колонки:
-#   * по умолчанию (без флагов) — локализованный текст GULYAIPOLE_EPIC_INTRO_TEXT
-#     с прокруткой: рендерится шрифтом игры и виден гарантированно;
-#   * флаг glp_intro_crawl_mode — кинематографическая лента титров
-#     (GFX_intro_text_crawl, маска gulyaipole_text_mask.dds).
-# Кнопки-переключатели меняют режим; кнопка старта сбрасывает оба флага,
-# чтобы повторный показ (решение «Пересмотреть вступление») открывался
-# в читаемом режиме.
+# glp_show_cinematic_intro. В центральной колонке — история Вольной республики
+# обычным текстом (GULYAIPOLE_EPIC_INTRO_TEXT), без режимов и переключений.
+# Кнопка «Вольному воля!» закрывает окно и снимает флаги (включая старые
+# режимные — для совместимости с сохранениями прошлых итераций).
 
 scripted_gui = {
 	gulyaipole_cinematic_intro = {
@@ -30,12 +24,6 @@ scripted_gui = {
 				clr_country_flag = glp_intro_manual_mode
 				scoped_play_song = GLP_ms_yablochko
 			}
-			toggle_to_crawl_button_click = {
-				set_country_flag = glp_intro_crawl_mode
-			}
-			toggle_to_text_button_click = {
-				clr_country_flag = glp_intro_crawl_mode
-			}
 		}
 
 		triggers = {
@@ -43,27 +31,6 @@ scripted_gui = {
 				always = yes
 			}
 			start_campaign_button_visible = {
-				always = yes
-			}
-			# Текст читается по умолчанию и после повторного открытия
-			cinematic_intro_text_visible = {
-				NOT = { has_country_flag = glp_intro_crawl_mode }
-			}
-			# Лента титров — только по явному запросу игрока
-			intro_text_crawl_anim_visible = {
-				has_country_flag = glp_intro_crawl_mode
-			}
-			# В читаемом режиме кнопка предлагает кино; в кино — текст
-			toggle_to_crawl_button_visible = {
-				NOT = { has_country_flag = glp_intro_crawl_mode }
-			}
-			toggle_to_text_button_visible = {
-				has_country_flag = glp_intro_crawl_mode
-			}
-			toggle_to_crawl_button_click_enabled = {
-				always = yes
-			}
-			toggle_to_text_button_click_enabled = {
 				always = yes
 			}
 		}

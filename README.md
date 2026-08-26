@@ -45,7 +45,7 @@
 - `tools/build_thumbnail.sh` — карточка мода для лаунчера Paradox / Steam Workshop (`thumbnail.png`, 512×512, <1 МБ; ссылка `picture="thumbnail.png"` в `descriptor.mod`).
 - `mod_page/` — стильная HTML-страница мода с описанием, предисторией и галереей (ассеты из мода).
 - `tools/build_screens.sh` — сборка экранов загрузки (1920×1080 DXT1, титры без цитат).
-- `tools/render_intro_crawl.py` — лента титров и белая RGB-маска кинематографической заставки: текст берётся прямо из локализации `GULYAIPOLE_EPIC_INTRO_TEXT` (источники `tools/_gfx_src/*_v3.png`).
+- `tools/build_portraits.sh` — портреты: large 156×210 / medium 88×119 и **чистые иконки советников 65×67 без рамки-«бумажки» и значка специализации** (ТЗ).
 - `tools/build_event_pictures.sh` — картинки событий (397×153).
 
 ## Трофейные команды РПА

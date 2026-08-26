@@ -1294,14 +1294,30 @@ def _im_alpha_min(path):
         return None
 
 
+def _im_alpha_max(path):
+    """Максимальная альфа пикселя через ImageMagick; None, если IM недоступен."""
+    import shutil, subprocess
+    if not shutil.which('convert'):
+        return None
+    try:
+        o = subprocess.run(
+            ['convert', path, '-alpha', 'extract',
+             '-format', '%[fx:maxima*255]', 'info:'],
+            capture_output=True, text=True, timeout=30)
+        return float(o.stdout.strip())
+    except Exception:
+        return None
+
+
 def check_dds_transparency():
-    """Все иконки идей (и духи 60x68, и советники 65x67) обязаны иметь
-    реальные прозрачные пиксели по углам (наличие альфа-канала само по себе
-    ничего не доказывает -- проверяем минимум альфы по факту).
-    Духи стоят на тематической подложке, советники -- в ванильной рамке
-    министра; и там и там углы прозрачны, иначе иконка закроет слот
-    непрозрачным квадратом."""
+    """Тематические иконки духов (60x68, idea_GLP_<категория>) обязаны иметь
+    реальные прозрачные пиксели по углам — иначе иконка закроет слот
+    непрозрачным квадратом. ПОРТРЕТНЫЕ иконки советников (idea_GLP_<Имя>,
+    65x67) — исключение: по ТЗ это чистый непрозрачный кадр портрета
+    без рамки-«бумажки» и значка специализации (рамку рисует слот движка)."""
     for p in sorted(walk('gfx/interface/ideas', ('.dds',))):
+        if re.match(r'^idea_GLP_[A-Z]', os.path.basename(p)):
+            continue  # портрет советника — намеренно сплошной кадр
         mn = _im_alpha_min(p)
         if mn is None:
             warn("ImageMagick недоступен -- пиксельная проверка прозрачности пропущена")
@@ -1312,23 +1328,28 @@ def check_dds_transparency():
 
 
 def check_advisor_frames():
-    """Совѣтники обязаны быть въ ванильной рамкѣ министра (тотъ же уголъ и
-    размѣръ, что въ базовой игрѣ). Шаблоны -- изъ Ultimate-HOI4-GFX (Globvs):
-    Minister_Base.png (рамка + карточка) и Minister_Background.png (наклонная
-    подложка, задающая уголъ). Проверяем, что шаблоны на мѣстѣ (сборка
-    воспроизводима: tools/build_portraits.sh) и что иконки совѣтниковъ
-    обрѣзаны по наклонной маскѣ, а не сплошные."""
-    for need in ('tools/_gfx_src/Minister_Base.png',
-                 'tools/_gfx_src/Minister_Background.png'):
-        if not os.path.exists(os.path.join(ROOT, need)):
-            err(f"{need} отсутствует -- сборка рамок совѣтниковъ невоспроизводима")
+    """Советники — ЧИСТЫЕ портреты 65x67 (ТЗ: «без бумажки и иконки
+    специализации»). Министерские шаблоны Ultimate-HOI4-GFX (Minister_Base.png
+    с бумажной карточкой и Minister_Background.png с наклонной подложкой)
+    запрещены: их композиция закрывала нижнюю половину портрета яркой
+    «бумажкой». Проверяем размер, полную непрозрачность кадра и отсутствие
+    ссылок на шаблоны в сборочном скрипте."""
+    script = read(os.path.join(ROOT, 'tools/build_portraits.sh'))
+    for tpl in ('Minister_Base.png', 'Minister_Background.png'):
+        if tpl in script:
+            err(f"tools/build_portraits.sh использует шаблон {tpl} -- "
+                f"«бумажка»/значок роли вернётся на портреты советников")
     for p in sorted(walk('gfx/interface/ideas', ('.dds',))):
         base = os.path.basename(p)
         if not re.match(r'^idea_GLP_[A-Z]', base):
             continue
         info = dds_info(p)
         if info and (info[0], info[1]) != (65, 67):
-            err(f"{rel(p)}: рамка совѣтника {info[0]}x{info[1]}, ваниль 65x67")
+            err(f"{rel(p)}: размер иконки советника {info[0]}x{info[1]}, ваниль 65x67")
+        mx = _im_alpha_max(p)
+        if mx is not None and mx <= 250.0:
+            err(f"{rel(p)}: кадр портрета советника должен быть полностью "
+                f"непрозрачным (max alpha = {mx:.0f}) -- не рамка, а чистый портрет")
 
 
 # ------------------------------------------------- 12. focus search filters
@@ -1667,49 +1688,29 @@ def _im_mean(path, ops):
         return None
 
 
-def check_intro_crawl_textures():
-    """Текстуры кинематографической ленты титров обязаны быть рабочими.
-
-    1. Маска должна быть БЕЛОЙ по яркости RGB: движок Clausewitz маскирует
-       анимацию по RGB, альфу маски он не читает. Чёрная маска (градиент
-       только в альфе) полностью скрывала титры.
-    2. Лента 310x4096 должна нести текст и в верхней, и в нижней четверти:
-       раньше текст начинался с y~1900, и половина прохода анимации окно
-       стояло пустым («нет кинематографического текста»).
-    """
-    intro = 'gfx/interface/intro'
-    crawl = os.path.join(ROOT, intro, 'gulyaipole_text_crawl.dds')
-    mask = os.path.join(ROOT, intro, 'gulyaipole_text_mask.dds')
-    for p, want in ((crawl, (310, 4096)), (mask, (310, 525))):
-        info = dds_info(p)
-        if not info:
-            err(f"{rel(p)}: не читается DDS-заголовок")
-        elif (info[0], info[1]) != want:
-            err(f"{rel(p)}: размер {info[0]}x{info[1]}, ожидается {want[0]}x{want[1]}")
-
-    m = _im_mean(mask, ['-alpha', 'off', '-colorspace', 'Gray'])
-    if m is None:
-        warn('ImageMagick недоступен — проверка маски ленты пропущена')
-    elif m < 0.5:
-        err(f"{rel(mask)}: маска тёмная (яркость {m:.2f}) — движок маскирует "
-            f"по RGB, титры будут невидимы; нужна белая маска (tools/render_intro_crawl.py)")
-
-    for label, crop in (('верхней', '310x1024+0+0'), ('нижней', '310x1024+0+3072')):
-        v = _im_mean(crawl, ['-crop', crop, '+repage', '-alpha', 'extract',
-                             '-threshold', '50%'])
-        if v is None:
-            warn('ImageMagick недоступен — проверка ленты пропущена')
-            break
-        elif v < 0.005:
-            err(f"{rel(crawl)}: в {label} четверти ленты нет текста — окно "
-                f"часть цикла прокрутки будет пустым")
-
-    for need in ('tools/render_intro_crawl.py',
-                 'tools/_gfx_src/gulyaipole_text_crawl_v3.png',
-                 'tools/_gfx_src/gulyaipole_text_mask_v3.png'):
-        if not os.path.exists(os.path.join(ROOT, need)):
-            err(f"{need} отсутствует — пересборка ленты невоспроизводима")
-
+def check_intro_no_crawl():
+    """Анимированная лента титров полностью удалена по ТЗ: история показывается
+    обычным текстовым полем. Запрещены любые остатки — спрайт, текстуры,
+    кнопки-переключатели и их ключи локализации (иначе на окне снова появятся
+    технические имена или пустая колонка)."""
+    for sub in ('interface', 'common', 'gfx', 'localisation'):
+        for fp in walk(sub, ('.gui', '.gfx', '.txt', '.yml')):
+            text = read(fp)
+            for token in ('GFX_intro_text_crawl', 'gulyaipole_text_crawl',
+                          'gulyaipole_text_mask', 'gulyaipole_text_base',
+                          'GULYAIPOLE_TOGGLE_', 'glp_intro_crawl_mode'):
+                # glp_intro_crawl_mode допустим только в clr_ (чистка старых сохранений)
+                if token == 'glp_intro_crawl_mode':
+                    for m in re.finditer(r'^.*glp_intro_crawl_mode.*$', text, re.M):
+                        if 'clr_country_flag' not in m.group(0):
+                            err(f"{rel(fp)}: остаток режима ленты '{m.group(0).strip()[:70]}'")
+                elif token in text:
+                    err(f"{rel(fp)}: остаток удалённой ленты титров -- '{token}'")
+    for leftover in ('gfx/interface/intro/gulyaipole_text_crawl.dds',
+                     'gfx/interface/intro/gulyaipole_text_mask.dds',
+                     'gfx/interface/intro/gulyaipole_text_base.dds'):
+        if os.path.exists(os.path.join(ROOT, leftover)):
+            err(f"{leftover}: файл-остаток ленты титров удалите из мода")
 
 def main():
     check_syntax()
@@ -1724,7 +1725,7 @@ def main():
     check_cinematic_intro_voice()
     check_loc_font_charset()
     check_intro_gui_keys(loc)
-    check_intro_crawl_textures()
+    check_intro_no_crawl()
     check_fonts()
     check_bookmarks(loc)
     check_opinions(loc)

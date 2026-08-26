@@ -1,4 +1,4 @@
-# =============================================================================
+﻿# =============================================================================
 #  ГУЛЯЙ-ПОЛЕ — кинематографическая заставка (HOI4 v1.19.2)
 #  AAA Photorealistic & PDX Technical Guidelines Compliance
 #  Автор: Амброзиев О.А.
@@ -61,38 +61,9 @@ spriteTypes = {
         texturefile = "gfx/interface/intro/gulyaipole_cavalry.dds"
     }
 
-    # Кинематографический автоскролл текста снизу вверх (титры).
-    # base  — полностью прозрачная подложка 310x525 (DXT5), чтобы под иконой
-    #         просвечивала архивная фактура окна, а не белый квадрат.
-    # mask  — БЕЛЫЙ вертикальный градиент в RGB-каналах (DXT5, альфа=255).
-    #         Движок Clausewitz маскирует анимацию по яркости RGB, альфа
-    #         маски игнорируется: чёрная маска (как была здесь раньше)
-    #         полностью скрывала титры — «нет кинематографического текста».
-    # crawl — лента 310x4096 с кремовым текстом (DXT5), заполненная от
-    #         верхнего края (генератор tools/render_intro_crawl.py берёт
-    #         текст прямо из локализации GULYAIPOLE_EPIC_INTRO_TEXT).
-    # animationrotation = 0.0 — глифы строго вертикально (не повёрнуты);
-    # animationlooping = yes — титры идут по кругу: окно можно открыть
-    #         повторно (решение «Пересмотреть вступление») и текст всегда
-    #         виден, а не застывает пустым кадром после первого прохода.
-    spriteType = {
-        name = "GFX_intro_text_crawl"
-        texturefile = "gfx/interface/intro/gulyaipole_text_base.dds"
-        effectFile = "gfx/FX/buttonstate.lua"
-        animation = {
-            animationmaskfile = "gfx/interface/intro/gulyaipole_text_mask.dds"
-            animationtexturefile = "gfx/interface/intro/gulyaipole_text_crawl.dds"
-            animationrotation = 0.0
-            animationlooping = yes
-            animationtime = 165.0
-            animationdelay = 0.0
-            animationblendmode = "add"
-            animationtype = "scrolling"
-            animationrotationoffset = { x = 0.0 y = 0.0 }
-            animationtexturescale = { x = 1.0 y = 1.0 }
-        }
-        legacy_lazy_load = no
-    }
+    # Анимированная лента титров удалена по ТЗ: история показывается
+    # обычным текстовым полем окна заставки (GULYAIPOLE_EPIC_INTRO_TEXT).
+
 
     # Дополнительные вспомогательные спрайты для атмосферы
     spriteType = {

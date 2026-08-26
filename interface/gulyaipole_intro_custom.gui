@@ -4,10 +4,10 @@
 # координат окна 900x700, чтобы вложенные окна не переопределяли
 # origin/position и не ломали раскладку.
 #
-# По умолчанию в центральной колонке идёт кинематографический скролл текста
-# снизу вверх (GFX_intro_text_crawl, плавное появление из-за маски). Кнопка
-# «Читать текст» переключает режим на обычное локализованное текстовое поле
-# с вертикальной прокруткой (GULYAIPOLE_EPIC_INTRO_TEXT).
+# В центральной колонке — история Вольной республики обычным текстом
+# (GULYAIPOLE_EPIC_INTRO_TEXT, шрифт игры, ползунок прокрутки). Текст
+# ограничен maxWidth/maxHeight и не выходит за пределы окна. Анимированная
+# лента титров удалена по ТЗ.
 #
 # Голос запускается событием glp_cinematic_intro.1 (sound_effect + scoped_play_song),
 # окно отображается через scripted GUI по флагу glp_show_cinematic_intro.
@@ -92,20 +92,9 @@ guiTypes = {
 			format = center
 		}
 
-		# Кинематографический скролл текста снизу вверх.
-		# Размер 310x525 строго совпадает с base/mask текстурами (без растяжения).
-		# Виден только в режиме «Кино-заставка» (флаг glp_intro_crawl_mode).
-		iconType = {
-			name = "intro_text_crawl_anim"
-			position = { x = 210 y = 86 }
-			size = { width = 310 height = 525 }
-			spriteType = "GFX_intro_text_crawl"
-			alwaystransparent = yes
-		}
-
-		# Локализованное текстовое поле ручного чтения — режим ПО УМОЛЧАНИЮ:
-		# обычный текст игры рендерится шрифтом HOI4 и виден всегда,
-		# поэтому эпический пролог гарантированно показывается с первого кадра.
+		# История Вольной республики — обычный текст внутри окна (ТЗ):
+		# локализованное поле со шрифтом игры и вертикальной прокруткой;
+		# maxWidth/maxHeight не дают тексту выйти за пределы колонки.
 		instantTextBoxType = {
 			name = "cinematic_intro_text"
 			position = { x = 210 y = 86 }
@@ -159,31 +148,7 @@ guiTypes = {
 			format = center
 		}
 
-		# Переключение: кино-заставка / ручное чтение.
-		# Две перекрывающиеся кнопки с обычными локализованными ключами:
-		# видна та, что соответствует текущему режиму (триггеры *_visible в
-		# scripted_gui). Ранее здесь была одна кнопка с buttonText =
-		# GULYAIPOLE_TOGGLE_MODE_DYNAMIC (defined_text без записи в .yml) —
-		# движок показывал на кнопке техническое имя ключа.
-		buttonType = {
-			name = "toggle_to_crawl_button"
-			position = { x = 160 y = 635 }
-			quadTextureSprite = "GFX_button_148x34"
-			buttonFont = "hoi_14mbs"
-			buttonText = "GULYAIPOLE_TOGGLE_TO_CRAWL"
-			clicksound = click_default
-		}
-
-		buttonType = {
-			name = "toggle_to_text_button"
-			position = { x = 160 y = 635 }
-			quadTextureSprite = "GFX_button_148x34"
-			buttonFont = "hoi_14mbs"
-			buttonText = "GULYAIPOLE_TOGGLE_TO_TEXT"
-			clicksound = click_default
-		}
-
-		# Кнопка начала кампании
+		# Кнопка начала кампании (единственная кнопка окна: режимов больше нет)
 		buttonType = {
 			name = "start_campaign_button"
 			position = { x = 340 y = 635 }
