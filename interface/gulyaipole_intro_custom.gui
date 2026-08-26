@@ -4,10 +4,10 @@
 # координат окна 900x700, чтобы вложенные окна не переопределяли
 # origin/position и не ломали раскладку.
 #
-# По умолчанию в центральной колонке идёт кинематографический скролл текста
-# снизу вверх (GFX_intro_text_crawl, плавное появление из-за маски). Кнопка
-# «Читать текст» переключает режим на обычное локализованное текстовое поле
-# с вертикальной прокруткой (GULYAIPOLE_EPIC_INTRO_TEXT).
+# В центральной колонке — история Вольной республики обычным текстом
+# (GULYAIPOLE_EPIC_INTRO_TEXT, шрифт игры, ползунок прокрутки). Текст
+# ограничен maxWidth/maxHeight и не выходит за пределы окна. Анимированная
+# лента титров удалена по ТЗ.
 #
 # Голос запускается событием glp_cinematic_intro.1 (sound_effect + scoped_play_song),
 # окно отображается через scripted GUI по флагу glp_show_cinematic_intro.
@@ -92,16 +92,9 @@ guiTypes = {
 			format = center
 		}
 
-		# Кинематографический скролл текста снизу вверх (режим по умолчанию)
-		iconType = {
-			name = "intro_text_crawl_anim"
-			position = { x = 210 y = 86 }
-			size = { width = 320 height = 540 }
-			spriteType = "GFX_intro_text_crawl"
-			alwaystransparent = yes
-		}
-
-		# Локализованное текстовое поле ручного чтения (включается кнопкой)
+		# История Вольной республики — обычный текст внутри окна (ТЗ):
+		# локализованное поле со шрифтом игры и вертикальной прокруткой;
+		# maxWidth/maxHeight не дают тексту выйти за пределы колонки.
 		instantTextBoxType = {
 			name = "cinematic_intro_text"
 			position = { x = 210 y = 86 }
@@ -155,17 +148,7 @@ guiTypes = {
 			format = center
 		}
 
-		# Переключение: кино-заставка / ручное чтение
-		buttonType = {
-			name = "toggle_reading_mode_button"
-			position = { x = 160 y = 635 }
-			quadTextureSprite = "GFX_button_148x34"
-			buttonFont = "hoi_14mbs"
-			buttonText = "GULYAIPOLE_TOGGLE_MODE_DYNAMIC"
-			clicksound = click_default
-		}
-
-		# Кнопка начала кампании
+		# Кнопка начала кампании (единственная кнопка окна: режимов больше нет)
 		buttonType = {
 			name = "start_campaign_button"
 			position = { x = 340 y = 635 }
