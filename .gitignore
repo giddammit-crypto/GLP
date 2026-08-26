@@ -4,3 +4,4 @@ tools/_preview_*.png
 # Legacy pre-rework narration kept only for local reference
 tools/_legacy_voice/
 gfx/interface/frontendmainviewbg.previous.dds
+tools/_voice/
