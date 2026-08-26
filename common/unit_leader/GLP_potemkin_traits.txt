@@ -1,0 +1,50 @@
+# =============================================================================
+#  ГУЛЯЙПОЛЕ — уникальные черты командира Атамана Олега Потёмкина
+#  (главный фидель Батька Махно, мастер пехотных боёв).
+#  Формат идентичен GLP_unit_leader_traits.txt: черты генералов лежат в
+#  /common/unit_leader/ (иначе движок 1.19 молча их игнорирует).
+# =============================================================================
+leader_traits = {
+	# Мастер пехотных боёв: пехота под его командой бьёт и держится
+	# лучше, прорывается крепче и меньше деморализуется.
+	GLP_potemkin_infantry_master = {
+		type = { land }
+		trait_type = personality_trait
+		gui_row = 4
+		gui_column = 0
+
+		modifier = {
+			army_infantry_attack_factor = 0.10
+			army_infantry_defence_factor = 0.10
+			breakthrough_factor = 0.05
+			army_morale_factor = 0.05
+		}
+
+		trait_xp_factor = {
+			infantry_officer = 0.25
+			infantry_leader = 0.25
+			infantry_expert = 0.25
+		}
+	}
+
+	# Фидель Атамана: преданность Махно держит часть в строю дольше,
+	# бойцы быстрее набирают опыт и меньше теряют организацию в движении.
+	GLP_potemkin_black_fidele = {
+		type = { land }
+		trait_type = personality_trait
+		gui_row = 4
+		gui_column = 1
+
+		modifier = {
+			army_morale_factor = 0.05
+			experience_gain_army_factor = 0.05
+			org_loss_when_moving = -0.05
+		}
+
+		trait_xp_factor = {
+			aggressive_assaulter = 0.15
+			infantry_leader = 0.10
+			organizer = 0.10
+		}
+	}
+}

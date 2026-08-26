@@ -17,16 +17,41 @@ GLP_revolutionary_military_ops = {
 	}
 
 	# 2. Кавалерийский рейд по тылам
+	# 2. Кавалерийский партизанский рейд по тылам врага (state_target).
+	#    Рейд платит л/с, приносит трофеи, вешает врагу временный дебафф
+	#    и несёт 30% риск потери конницы в открытом поле (glp_raid.1).
 	GLP_conduct_cavalry_partisan_raid = {
 		icon = generic_assassination
 		cost = 40
-		days_remove = 60
+		days_remove = 45
 		available = { has_war = yes }
 		visible = { has_completed_focus = GLP_partisan_warfare_doctrine }
+		target = {
+			type = state
+		}
+		target_trigger = {
+			target.state = {
+				is_owned = no
+				owner = {
+					has_war_with = GLP
+				}
+			}
+		}
 		complete_effect = {
-			army_experience = 20
-			add_command_power = 25
-			add_political_power = -20
+			add_manpower = -2000
+			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 150 producer = GLP }
+			add_equipment_to_stockpile = { type = support_equipment amount = 40 producer = GLP }
+			army_experience = 10
+			target.state = {
+				owner = {
+					add_stability = -0.02
+					add_war_support = -0.02
+				}
+			}
+			if = {
+				limit = { random = 30 }
+				country_event = { id = glp_raid.1 hours = 6 }
+			}
 		}
 		ai_will_do = { factor = 1 }
 	}
@@ -35,7 +60,8 @@ GLP_revolutionary_military_ops = {
 	GLP_commission_armored_train = {
 		icon = generic_acquire_tanks
 		cost = 60
-		days_remove = 45
+		# Флот бронепоездов строится не за 45 дней: кулдаун 120.
+		days_remove = 120
 		visible = { has_completed_focus = GLP_armored_train_production }
 		fire_only_once = no
 		complete_effect = {
@@ -51,15 +77,19 @@ GLP_revolutionary_military_ops = {
 		cost = 75
 		available = {
 			SPR = { has_civil_war = yes }
-			has_equipment = { infantry_equipment > 499 }
+			has_equipment = { small_arms_equipment_1 > 499 }
 			has_manpower > 4000
 		}
 		visible = { has_completed_focus = GLP_aid_to_spanish_anarchists }
 		fire_only_once = yes
 		complete_effect = {
 			add_manpower = -4000
-			add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
-			SPR = { add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 500 producer = GLP } }
+			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -500 }
+			SPR = {
+				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 500 producer = GLP }
+				# Бригада прибывает на фронт: испанская газета это видит.
+				news_event = { id = glp_spanish.1 hours = 12 }
+			}
 			army_experience = 25
 			add_political_power = 40
 		}
@@ -86,8 +116,11 @@ GLP_revolutionary_military_ops = {
 		cost = 35
 		days_remove = 60
 		visible = { has_completed_focus = GLP_legendary_tachankas }
+		# Летучие отряды формируются один раз (иначе 500 винтовок
+		# в подарок каждые 60 дней -- чистый фарм).
+		fire_only_once = yes
 		complete_effect = {
-			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 500 producer = GLP }
+			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 500 producer = GLP }
 			army_experience = 15
 		}
 		ai_will_do = { factor = 1 }
@@ -255,7 +288,7 @@ GLP_occupation_soviets = {
 		available = { 192 = { is_controlled_by = ROOT } }
 		complete_effect = {
 			192 = { add_compliance = 10 add_resistance = -8 }
-			add_equipment_to_stockpile = { type = convoy amount = 5 producer = GLP }
+			add_equipment_to_stockpile = { type = destroyer_hull_1 amount = 5 producer = GLP }
 			navy_experience = 10
 		}
 		ai_will_do = { factor = 1 }
@@ -269,7 +302,7 @@ GLP_occupation_soviets = {
 		available = { 218 = { is_controlled_by = ROOT } }
 		complete_effect = {
 			218 = { add_compliance = 8 add_resistance = -6 }
-			add_equipment_to_stockpile = { type = infantry_equipment amount = 400 producer = GLP }
+			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 400 producer = GLP }
 			army_experience = 10
 		}
 		ai_will_do = { factor = 1 }
@@ -309,7 +342,7 @@ GLP_occupation_soviets = {
 			}
 			if = {
 				limit = { random = 35 }
-				add_equipment_to_stockpile = { type = infantry_equipment amount = 200 producer = GLP }
+				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 200 producer = GLP }
 			}
 			else = {
 				add_stability = -0.02
@@ -323,17 +356,70 @@ GLP_reconciliation_with_past = {
 	GLP_equip_volunteer_shock_brigades = {
 		icon = generic_prepare_civil_war
 		cost = 40
-		days_remove = 45
+		# Перевооружение бригады занимает сезон, а не 45 дней.
+		days_remove = 90
 		visible = { has_country_flag = GLP_allied_white_emigres }
-		available = { has_equipment = { infantry_equipment > 400 } }
+		available = { has_equipment = { small_arms_equipment_1 > 400 } }
 		fire_only_once = no
 		complete_effect = {
-			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 800 producer = GLP }
+			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 800 producer = GLP }
 			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 80 producer = GLP }
 			add_stability = -0.02
 			add_political_power = -25
 		}
 		ai_will_do = { factor = 1 }
+	}
+
+	# Волна белых добровольцев (Спринт 2, фаза B): петля «Вольному воля» —
+	# до трёх волн с кулдауном 180 дней, л/с ценой стабильности.
+	GLP_white_volunteer_wave = {
+		icon = generic_prepare_civil_war
+		cost = 25
+		days_remove = 180
+		visible = { has_country_flag = GLP_allied_white_emigres }
+		available = {
+			OR = {
+				NOT = { has_variable = glp_white_volunteer_waves }
+				check_variable = { variable = glp_white_volunteer_waves value < 3 }
+			}
+		}
+		complete_effect = {
+			add_manpower = 6000
+			add_stability = -0.05
+			add_war_support = 0.02
+			if = {
+				limit = { NOT = { has_variable = glp_white_volunteer_waves } }
+				set_variable = { variable = glp_white_volunteer_waves value = 1 }
+			}
+			else = {
+				add_to_variable = { variable = glp_white_volunteer_waves value = 1 }
+			}
+		}
+		ai_will_do = { factor = 4 }
+	}
+}
+
+# Иностранные субсидии (Спринт 2, фаза B): ограниченный ленд-лиз от
+# партнёра по пакту -- скромный конвой раз в год ценой ПП, а не
+# «2500 винтовок бесплатно».
+GLP_foreign_aid = {
+	GLP_receive_lend_lease = {
+		icon = generic_economic_aid
+		cost = 50
+		days_remove = 365
+		visible = {
+			OR = {
+				has_country_flag = GLP_pact_with_sov
+				has_country_flag = GLP_pact_with_ger
+				has_country_flag = GLP_pact_with_eng
+			}
+		}
+		complete_effect = {
+			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 500 producer = GLP }
+			add_equipment_to_stockpile = { type = support_equipment amount = 150 producer = GLP }
+			add_political_power = -20
+		}
+		ai_will_do = { factor = 3 }
 	}
 }
 
@@ -380,6 +466,9 @@ GLP_anarchist_freedom_measures = {
 	GLP_mutual_aid_grain_networks = {
 		icon = generic_consumer_goods
 		cost = 35
+		# Сети взаимопомощи не строятся за день: кулдаун 120
+		# (без него это +1000 л/с каждый день -- чистый фарм).
+		days_re_enable = 120
 		complete_effect = {
 			add_stability = 0.05
 			add_manpower = 1000
@@ -403,6 +492,8 @@ GLP_anarchist_freedom_measures = {
 	GLP_volunteer_militia_replaces_police = {
 		icon = generic_secret_police
 		cost = 40
+		# Институциональная замена полиции дружиной -- однократно.
+		fire_only_once = yes
 		complete_effect = {
 			add_war_support = 0.03
 			add_stability = -0.02
@@ -438,7 +529,8 @@ GLP_anarchist_freedom_measures = {
 	GLP_black_cross_medical_aid = {
 		icon = generic_morale_bonus
 		cost = 40
-		days_remove = 60
+		# Медицинская помощь собирается не за 60, а за 120 дней.
+		days_remove = 120
 		complete_effect = {
 			add_manpower = 1500
 			add_stability = 0.03
@@ -473,6 +565,9 @@ GLP_anarchist_freedom_measures = {
 		icon = generic_prepare_civil_war
 		cost = 40
 		days_remove = 60
+		# Ротация дружин по селам -- разовая организационная мера
+		# (иначе 3000 л/с в 60-дневном цикле -- фарм).
+		fire_only_once = yes
 		complete_effect = {
 			add_manpower = 3000
 			add_war_support = 0.02

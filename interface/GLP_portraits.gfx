@@ -200,4 +200,14 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_petr_gavrilenko_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Petr_Gavrilenko.dds"
 	}
+
+	# ---------------------------- Олег Потёмкин ----------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_oleg_potemkin"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Oleg_Potemkin_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_oleg_potemkin_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Oleg_Potemkin.dds"
+	}
 }

@@ -5,7 +5,7 @@
 #  Пересобирает ТОЛЬКО сломанные в аудите 26.08.2026 текстуры окна
 #  gulyaipole_cinematic_intro_window из ПРАВИЛЬНЫХ исходников:
 #
-#   * gfx/interface/intro/gulyaipole_gold_inner_border.dds (900x700, DXT5)
+#   * gfx/interface/intro/gulyaipole_gold_inner_border.dds (1024x768, DXT5)
 #       <- gfx/interface/_src_gold_inner_border.png (1168x912, барочная
 #          золотая рамка). Раньше строился из деградированного
 #          tools/_gfx_src/gold_inner_border_clean.png (тонкая линия, 94,8 %
@@ -23,7 +23,7 @@
 #          tools/_gfx_src/portrait_frame_gold_final.png (тонкая линия, 89,7 %
 #          прозрачных) — рамка портрета была невидима.
 #
-#   * gfx/interface/intro/gulyaipole_intro_bg.dds (900x700, DXT1)
+#   * gfx/interface/intro/gulyaipole_intro_bg.dds (1024x768, DXT1)
 #       <- gfx/interface/_src_tiled_bg_dark.png (1024x1024, состаренная
 #          бумага, grain, noir) с подъёмом яркости (modulate 138). Раньше
 #          строился из почти чёрного intro_bg_clean.png (средняя яркость
@@ -108,15 +108,15 @@ print('   рамка %dx%d: прозрачно %d px (%.1f %%)'
 PY
 
 # ---------------------------------------------------------------------------
-# 2. Кайма окна 900x700 DXT5: масштаб + затухание к центру
+# 2. Кайма окна 1024x768 DXT5: масштаб + затухание к центру
 # ---------------------------------------------------------------------------
-echo ">> кайма окна 900x700 DXT5 (затухание 28->72 px от края)"
+echo ">> кайма окна 1024x768 DXT5 (затухание 32->82 px от края)"
 python3 - "$TMP/border_alpha.png" "$TMP/border_900.png" <<'PY'
 import sys
 from PIL import Image
 
 src, out = sys.argv[1], sys.argv[2]
-im = Image.open(src).convert('RGBA').resize((900, 700), Image.LANCZOS)
+im = Image.open(src).convert('RGBA').resize((1024, 768), Image.LANCZOS)
 W, H = im.size
 r, g, b, a = im.split()
 # d = расстояние до ближайшего края; f(d)=1 при d<=28, 0 при d>=72.
@@ -126,12 +126,12 @@ for y in range(H):
     base = y * W
     for x in range(W):
         d = min(x, W - 1 - x, dy)
-        if d <= 28:
+        if d <= 32:
             f = 1.0
-        elif d >= 72:
+        elif d >= 82:
             f = 0.0
         else:
-            f = (72.0 - d) / 44.0
+            f = (82.0 - d) / 50.0
         data[base + x] = int(data[base + x] * f)
 a2 = Image.frombytes('L', (W, H), bytes(data))
 im.putalpha(a2)
@@ -170,13 +170,13 @@ convert "$TMP/frame_166.png" -alpha set \
     "DDS:$INTRO/gulyaipole_portrait_frame_gold.dds"
 
 # ---------------------------------------------------------------------------
-# 4. Фон окна 900x700 DXT1: состаренная бумага с подъёмом яркости
+# 4. Фон окна 1024x768 DXT1: состаренная бумага с подъёмом яркости
 # ---------------------------------------------------------------------------
-echo ">> фон окна 900x700 DXT1 (состаренная бумага, modulate 160)"
+echo ">> фон окна 1024x768 DXT1 (состаренная бумага, modulate 160)"
 # ВАЖНО: -tint/-fill в ImageMagick 6.9 на низкой насыщенности резко
 # затемняет картинку — не использовать; только подъём яркости/тёплый сдвиг.
 convert "$SRC_BG" \
-    -resize "900x700^" -gravity center -extent 900x700 \
+    -resize "1024x768^" -gravity center -extent 1024x768 \
     -colorspace sRGB -modulate 160,102,108 \
     -alpha off \
     -define dds:compression=dxt1 -define dds:mipmaps=0 \
@@ -210,9 +210,9 @@ def avg_rgba(p):
     return r // n, g // n, b // n, a // n
 
 expect = {
-    'gulyaipole_gold_inner_border.dds': (900, 700, b'DXT5'),
+    'gulyaipole_gold_inner_border.dds': (1024, 768, b'DXT5'),
     'gulyaipole_portrait_frame_gold.dds': (166, 220, b'DXT5'),
-    'gulyaipole_intro_bg.dds': (900, 700, b'DXT1'),
+    'gulyaipole_intro_bg.dds': (1024, 768, b'DXT1'),
 }
 ok = True
 for name, (ew, eh, ecc) in expect.items():

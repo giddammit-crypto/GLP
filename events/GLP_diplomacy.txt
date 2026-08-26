@@ -54,6 +54,9 @@ country_event = {
 		GLP = {
 			add_stability = -0.04
 			add_political_power = -25
+			# Отвергнутый пакт = год изоляционного сопротивления:
+			# крепче оборона и война, но дороже хлеб и медленнее ПП.
+			add_timed_idea = { idea = GLP_idea_isolated_resistance days = 365 }
 			country_event = { id = glp_diplo.12 hours = 4 }
 		}
 	}
@@ -110,6 +113,7 @@ country_event = {
 		GLP = {
 			add_stability = -0.05
 			add_political_power = -25
+			add_timed_idea = { idea = GLP_idea_isolated_resistance days = 365 }
 			country_event = { id = glp_diplo.12 hours = 4 }
 		}
 	}
@@ -162,6 +166,7 @@ country_event = {
 		GLP = {
 			add_stability = -0.04
 			add_political_power = -25
+			add_timed_idea = { idea = GLP_idea_isolated_resistance days = 365 }
 			country_event = { id = glp_diplo.12 hours = 4 }
 		}
 	}

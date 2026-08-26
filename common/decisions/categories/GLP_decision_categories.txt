@@ -36,6 +36,20 @@ GLP_reconciliation_with_past = {
 	visible = { has_country_flag = GLP_allied_white_emigres }
 }
 
+# Иностранные субсидии (Спринт 2): видна, когда подписан хотя бы один пакт.
+GLP_foreign_aid = {
+	icon = GFX_decision_category_generic_political_actions
+	picture = GFX_decision_cat_generic_political_actions
+	allowed = { original_tag = GLP }
+	visible = {
+		OR = {
+			has_country_flag = GLP_pact_with_sov
+			has_country_flag = GLP_pact_with_ger
+			has_country_flag = GLP_pact_with_eng
+		}
+	}
+}
+
 GLP_anarchist_freedom_measures = {
 	icon = GFX_decision_category_anarchist_rebellion
 	picture = GFX_decision_cat_generic_anarchism

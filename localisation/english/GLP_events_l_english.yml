@@ -240,3 +240,11 @@
  glp_diplo.30.t:0 "To Each Their Own Freedom"
  glp_diplo.30.d:0 "Makhno has refused every banner. No surety — so each neighbour watches his own frontier."
  glp_diplo.30.a:0 "Let them sit on the steppe"
+
+ # Sprint 4 (phase D): raid and Spanish aid events
+ glp_raid.1.t:0 "§WThe Raid Has Failed§!"
+ glp_raid.1.d:0 "§WCAVALRY COLUMN SPOTTED IN THE OPEN FIELD§!. The pursuers caught up before the tachankas vanished into the ravines: the riders had to dismount and scatter into the gullies with their rifles. We lost the wounded, the killed, and a number of horses to the enemy. Their rear guard, however, was not amused by any of it.§!"
+ glp_raid.1.a:0 "Blood for blood"
+ glp_spanish.1.t:0 "§WGulyaypole Brigade at the Front§!"
+ glp_spanish.1.d:0 "§WMADRID§!. Volunteers of the Free Territory have joined the CNT-FAI columns. Small arms from the Don steppe are already equipping the militias: Father Makhno has sent his greetings to the Republic.§!"
+ glp_spanish.1.a:0 "Freedom or death!"
