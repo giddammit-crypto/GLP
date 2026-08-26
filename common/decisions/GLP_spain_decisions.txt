@@ -1,0 +1,227 @@
+# =============================================================================
+#  ГУЛЯЙПОЛЕ — решения «Испанский маршрут» (модуль «Иберийский пожар
+#  и Чёрный Интернационал»).
+#
+#  Блок 2. Контрабандные коридора: три маршрута со скриптовыми проверками
+#  риска. ВАЖНО (HOI4 1.19): эффекта random_list в движке НЕТ —
+#  взвешенный исход реализуется стандартным паттерном
+#  `if = { limit = { random = N } ...успех... } else = { ...провал... }`
+#  (random = процент). Кулдауны days_remove = 90 — контролируемые
+#  таймеры перезарядки (по ТЗ, вместо mean_time_to_happen).
+#
+#  Блок 4. Отправка спецгруппы КРО Льва Задова — отдельное
+#  предварительное решение (флаг glp_kro_barcelona меняет развилку
+#  «Майских дней в Барселоне»).
+#
+#  Блок 5. Черноморско-Иберийский пакт (Чёрный Интернационал) —
+#  фракция + взаимные экономические нацдухи.
+# =============================================================================
+decisions = {
+	GLP_spain_smuggling_routes = {
+		# --------------------------------------------------------------
+		# 1. ЧЕРНОМОРСКИЙ ПРОРЫВ (через Босфор морем, конвой)
+		#    50 ПП, 1500 винтовок, шанс успеха 65%. Провал: перехват
+		#    Regia Marina — конвой потерян, нота протеста от Италии.
+		#    Самый громкий маршрут — только при полном курсе помощи.
+		# --------------------------------------------------------------
+		GLP_spain_black_sea_run = {
+			icon = generic_acquire_ship_ca
+			cost = 50
+			days_remove = 90
+			visible = {
+				has_country_flag = glp_spain_open_route
+			}
+			available = {
+				has_equipment = { small_arms_equipment_1 > 1499 }
+			}
+			complete_effect = {
+				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -1500 }
+				if = {
+					limit = { random = 65 }
+					# Конвой дошёл: потери в пути ~10%
+					SPR = { add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1350 producer = GLP } }
+					add_stability = 0.01
+					add_war_support = 0.02
+				}
+				else = {
+					# Перехват Regia Marina: 1500 винтовок в Средиземном море
+					ITA = { add_opinion_modifier = { target = GLP modifier = GLP_italian_protest_note } }
+					add_stability = -0.02
+					add_war_support = -0.01
+				}
+			}
+			ai_will_do = { factor = 2 }
+		}
+
+		# --------------------------------------------------------------
+		# 2. БАЛКАНСКИЙ ПОДПОЛЬНЫЙ ТРАФИК (поезда через Румынию/Югославию)
+		#    75 ПП, шанс 85%. Скрытая доставка малыми партиями.
+		# --------------------------------------------------------------
+		GLP_spain_balkan_underground_traffic = {
+			icon = generic_production
+			cost = 75
+			days_remove = 90
+			visible = {
+				OR = {
+					has_country_flag = glp_spain_secret_route
+					has_country_flag = glp_spain_open_route
+				}
+			}
+			available = {
+				has_equipment = { small_arms_equipment_1 > 299 }
+			}
+			complete_effect = {
+				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -300 }
+				add_equipment_to_stockpile = { type = support_equipment amount = -100 }
+				if = {
+					limit = { random = 85 }
+					SPR = {
+						add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 270 producer = GLP }
+						add_equipment_to_stockpile = { type = support_equipment amount = 90 producer = GLP }
+					}
+					add_war_support = 0.01
+				}
+				else = {
+					# Партия сгорела в румынском порту
+					add_stability = -0.01
+				}
+			}
+			ai_will_do = { factor = 2 }
+		}
+
+		# --------------------------------------------------------------
+		# 3. ФРАНЦУЗСКАЯ СИНДИКАЛИСТСКАЯ КОНТРАБАНДА (через Пиренеи)
+		#    100 ПП, шанс 95%, улучшение отношений с левыми во Франции.
+		# --------------------------------------------------------------
+		GLP_spain_french_syndicate_smuggling = {
+			icon = generic_national_unity
+			cost = 100
+			days_remove = 90
+			visible = {
+				OR = {
+					has_country_flag = glp_spain_secret_route
+					has_country_flag = glp_spain_open_route
+				}
+			}
+			available = {
+				has_equipment = { small_arms_equipment_1 > 499 }
+			}
+			complete_effect = {
+				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -500 }
+				if = {
+					limit = { random = 95 }
+					SPR = {
+						add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 450 producer = GLP }
+						add_equipment_to_stockpile = { type = support_equipment amount = 135 producer = GLP }
+					}
+					# Синдикалисты Франции ведут наш груз по своим линиям
+					FRA = { add_opinion_modifier = { target = GLP modifier = GLP_french_syndicalist_warmth } }
+					add_war_support = 0.01
+				}
+				else = {
+					# Караван перехвачен на перевале
+					add_stability = -0.01
+				}
+			}
+			ai_will_do = { factor = 2 }
+		}
+
+		# --------------------------------------------------------------
+		# 4. СПЕЦГРУППА КРО (Лев Задов) — предварительное решение
+		#    Блока 4: именно наличие этого флага меняет исход «Майских
+		#    дней в Барселоне» (нейтрализация агентов НКВД/PCE вместо
+		#    подавления CNT-FAI).
+		# --------------------------------------------------------------
+		GLP_spain_send_kro_group = {
+			icon = generic_secret_police
+			cost = 60
+			fire_only_once = yes
+			visible = {
+				has_country_flag = glp_spain_open_route
+			}
+			available = {
+				has_character = GLP_lev_zadov
+			}
+			complete_effect = {
+				set_country_flag = glp_kro_barcelona
+				add_political_power = -20
+				add_stability = -0.01
+			}
+			ai_will_do = {
+				factor = 3
+				modifier = {
+					factor = 0
+					NOT = { has_character = GLP_lev_zadov }
+				}
+			}
+		}
+
+		# --------------------------------------------------------------
+		# 5. ВОЗВРАЩЕНИЕ БРИГАДЫ (Блок 3) — «Испанский закал»:
+		#    черта командира для Белаша и Каретника после возвращения
+		#    добровольцев из Испании (не раньше 1937.1.1).
+		# --------------------------------------------------------------
+		GLP_spain_brigade_homecoming = {
+			icon = generic_volunteer_expedition
+			cost = 40
+			fire_only_once = yes
+			visible = {
+				has_country_flag = glp_spain_open_route
+				date > 1937.1.1
+			}
+			complete_effect = {
+				if = {
+					limit = { has_character = GLP_viktor_belash }
+					GLP_viktor_belash = { add_unit_leader_trait = GLP_spanish_tempering }
+				}
+				if = {
+					limit = { has_character = GLP_semen_karetnik }
+					GLP_semen_karetnik = { add_unit_leader_trait = GLP_spanish_tempering }
+				}
+				army_experience = 10
+				add_war_support = 0.02
+			}
+			ai_will_do = { factor = 3 }
+		}
+
+		# --------------------------------------------------------------
+		# 6. ЧЕРНОМОРСКО-ИБЕРИЙСКИЙ ПАКТ (Блок 5) — образование фракции
+		#    «Чёрный Интернационал» с Испанией и взаимные экономические
+		#    нацдухи. Доступен после успешных «Майских дней»
+		#    (flag glp_black_international_path) с 1938.1.1.
+		# --------------------------------------------------------------
+		GLP_spain_black_international_pact = {
+			icon = generic_national_unity
+			cost = 100
+			fire_only_once = yes
+			visible = {
+				has_country_flag = glp_black_international_path
+				date > 1938.1.1
+			}
+			available = {
+				SPR = { exists = yes }
+			}
+			complete_effect = {
+				if = {
+					limit = { is_in_faction = no }
+					create_faction = {
+						name = "GLP_black_international_faction"
+					}
+				}
+				add_to_faction = SPR
+				# Взаимные экономические нацдухи
+				add_ideas = GLP_idea_catalan_wolfram_syndicate_workshops
+				SPR = { add_ideas = GLP_idea_ukrainian_coal_and_grain }
+				set_country_flag = glp_black_international_founded
+				news_event = { id = glp_bi.1 hours = 6 }
+			}
+			ai_will_do = {
+				factor = 5
+				modifier = {
+					factor = 0
+					SPR = { NOT = { exists = yes } }
+				}
+			}
+		}
+	}
+}

@@ -8,13 +8,22 @@ spriteTypes = {
 	# corneredTileSpriteType растягивалъ текстуру по вертикали на экранахъ
 	# съ соотношеніемъ выше 16:9 (16:10, 4:3) — изображеніе «тянулось».
 	# borderSize = 0 отключаетъ неподвижныя кромки, фонъ масштабируется цѣликомъ.
+	# Двойное имя спрайта — на случай разныx версий фронта: ваниль может
+	# обращаться къ «GFX_frontend_bg» или «GFX_frontendmainviewbg»; оба
+	# имена указываютъ на одну и ту же текстуру.
 	corneredTileSpriteType = {
 		name = "GFX_frontend_bg"
 		texturefile = "gfx/interface/frontendmainviewbg.dds"
 		borderSize = { x=0 y=0 }
 		size = { x=1920 y=1440 }
 		tilingCenter = no
-		effectFile = "gfx/FX/buttonstate_nodowneffect.lua"
+	}
+	corneredTileSpriteType = {
+		name = "GFX_frontendmainviewbg"
+		texturefile = "gfx/interface/frontendmainviewbg.dds"
+		borderSize = { x=0 y=0 }
+		size = { x=1920 y=1440 }
+		tilingCenter = no
 	}
 
 	# Логотипъ «выѣзжаетъ» сверху внизъ и замираетъ на послѣднемъ кадрѣ:
@@ -35,10 +44,10 @@ spriteTypes = {
 		name = "GFX_frontend_game_logo_static"
 		texturefile = "gfx/interface/logo/game_logo.dds"
 	}
-}
 
-# Пустой спрайт перекрывает ванильный логотип Paradox в frontend.gui.
-spriteTypes = {
+	# Пустой спрайт перекрывает ванильный логотип Paradox в frontend.gui.
+	# ВАЖНО: внутри того же блока spriteTypes — второй топ-уровневый блок
+	# в этом файле ломает парсер, и весь фон меню перестает грузиться.
 	spriteType = {
 		name = "GFX_frontend_paradox_logo"
 		texturefile = "gfx/interface/logo/blank.dds"

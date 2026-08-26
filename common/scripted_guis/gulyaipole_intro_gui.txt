@@ -1,7 +1,10 @@
 # Гуляй-Поле — scripted GUI кинематографической заставки (HOI4 1.19.2)
 #
-# Одно окно из interface/gulyaipole_intro_custom.gui показывается, пока
-# установлен glp_show_cinematic_intro.
+# Окно из interface/gulyaipole_intro_custom.gui показывается, пока установлен
+# glp_show_cinematic_intro. В центральной колонке — история Вольной республики
+# обычным текстом (GULYAIPOLE_EPIC_INTRO_TEXT), без режимов и переключений.
+# Кнопка «Вольному воля!» закрывает окно и снимает флаги (включая старые
+# режимные — для совместимости с сохранениями прошлых итераций).
 
 scripted_gui = {
 	gulyaipole_cinematic_intro = {
@@ -17,17 +20,9 @@ scripted_gui = {
 		effects = {
 			start_campaign_button_click = {
 				clr_country_flag = glp_show_cinematic_intro
+				clr_country_flag = glp_intro_crawl_mode
 				clr_country_flag = glp_intro_manual_mode
 				scoped_play_song = GLP_ms_yablochko
-			}
-			toggle_reading_mode_button_click = {
-				if = {
-					limit = { has_country_flag = glp_intro_manual_mode }
-					clr_country_flag = glp_intro_manual_mode
-				}
-				else = {
-					set_country_flag = glp_intro_manual_mode
-				}
 			}
 		}
 
@@ -36,18 +31,6 @@ scripted_gui = {
 				always = yes
 			}
 			start_campaign_button_visible = {
-				always = yes
-			}
-			intro_text_crawl_anim_visible = {
-				NOT = { has_country_flag = glp_intro_manual_mode }
-			}
-			cinematic_intro_text_visible = {
-				has_country_flag = glp_intro_manual_mode
-			}
-			toggle_reading_mode_button_visible = {
-				always = yes
-			}
-			toggle_reading_mode_button_click_enabled = {
 				always = yes
 			}
 		}

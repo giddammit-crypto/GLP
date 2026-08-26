@@ -86,3 +86,10 @@
  GLP_white_emigre_favored_desc:0 "Batko backed the White commanders — their field authority grew, the communes mutter."
  GLP_white_emigre_sidelined:0 "Watched by Makhnovists"
  GLP_white_emigre_sidelined_desc:0 "The emigres have been clipped. The staff is calmer; the blow is weaker."
+
+ # ---------------- Oleg Potemkin (Ataman, RPA corps commander) ----------------
+ GLP_oleg_potemkin:0 "Oleg Potemkin"
+ GLP_potemkin_infantry_master:0 "Master of Infantry Battles"
+ GLP_potemkin_infantry_master_desc:0 "The Free Territory's most hardened infantryman: his battalions strike head-on, hold ground to the last, and break out of encirclements through the enemy's center."
+ GLP_potemkin_black_fidele:0 "Fidele of the Ataman"
+ GLP_potemkin_black_fidele_desc:0 "The Ataman Makhno's foremost devotee: his loyalty keeps the formation in the line where others no longer have the strength."
