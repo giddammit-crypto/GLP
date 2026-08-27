@@ -150,7 +150,10 @@ def check_syntax():
 
 
 # --------------------------------------------------------- 2/3. localisation
-LOC_LINE = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*\d*\s*"')
+LOC_LINE = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*\d+\s*"')
+# Похоже на ключ локализации, но БЕЗ номера версии («key: "..."» вместо
+# «key:0 "..."») — HOI4 такие строки молча игнорирует, в игре будет ???????.
+LOC_NOVER = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*(?!\d)(?!=)\s*"')
 
 
 def load_loc():
@@ -169,6 +172,10 @@ def load_loc():
             err(f"{rel(p)}: first line must be 'l_{lang}:'")
         seen = {}
         for i, line in enumerate(lines, 1):
+            if LOC_NOVER.match(line):
+                err(f"{rel(p)}:{i}: строка локализации без номера версии "
+                    f"(HOI4 её не загрузит, в игре будет ???????): {line.strip()[:60]}")
+                continue
             m = LOC_LINE.match(line)
             if not m:
                 continue
@@ -1020,10 +1027,20 @@ def check_gui_overrides():
     p = os.path.join(ROOT, 'interface/eventwindow.gui')
     if os.path.exists(p):
         body = read(p)
-        for token in ('"EventWindow"', '"EventWindow_leader"', '"EventWindow_News"',
-                      '"event_option_entry"'):
+        for token in ('"EventWindow"', '"EventWindow_Operative"', '"EventWindow_leader"',
+                      '"EventWindow_News"', '"event_option_entry"'):
             if token not in body:
                 err(f"interface/eventwindow.gui: отсутствует ванильное окно {token}")
+        # Шрифты окна событий обязаны быть ванильными: cg_24b в HOI4 НЕ существует
+        # (движок берёт шрифт по умолчанию без кириллицы -> «???????» чёрным),
+        # cg_16b — тултиповый белый. Ваниль: hoi4_typewriter22/16 + hoi_20bs.
+        for bad_font in re.findall(r'font\s*=\s*"(cg_[^"]*)"', body):
+            err(f"interface/eventwindow.gui: не-ванильный шрифт {bad_font} "
+                "-- несуществующий в HOI4 / тултиповый; верните hoi4_typewriter22/16")
+        for want_font in ('hoi4_typewriter22', 'hoi4_typewriter16', 'hoi_20bs'):
+            if f'font = "{want_font}"' not in body:
+                err(f"interface/eventwindow.gui: нет ванильного шрифта {want_font} "
+                    "-- стандартные окна событий должны использовать ваниль")
         # Окно новостей стоит на тёмном фоне GLP_event_news_bg_wide, поэтому
         # заголовок и описание обязаны использовать «инверсные» (белые) шрифты;
         # обычные (чёрные) в этом окне = текст нечитаем.
