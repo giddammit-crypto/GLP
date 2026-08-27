@@ -1,15 +1,11 @@
 # ============================================================================
-#  ГУЛЯЙ-ПОЛЕ — override окна событий.
+#  ГУЛЯЙ-ПОЛЕ — Окна событий и новостей (Vanilla Parchment/Newspaper Layout)
 #
-#  База — ванильный interface/eventwindow.gui АКТУАЛЬНОЙ версии игры.
-#  ВСЕ окна (EventWindow, EventWindow_Operative, EventWindow_leader,
-#  EventWindow_News) используют БЕЛЫЕ «инверсные» шрифты:
-#    hoi4_typewriter22_inverted (заголовки) + hoi4_typewriter16_inverted (текст).
-#  Кнопки выборов — hoi_20bs (ванильный).
-#  Окно EventWindow_News: ширина удвоена (528 -> 1056),
-#  фон — широкий тёмный GFX_event_news_bg_wide (interface/GLP_eventwindow.gfx).
+#  Используются аутентичные ванильные газетные и телеграфные бэкграунды
+#  (GFX_event_news_bg, GFX_event_report_*) со стандартным четким черным шрифтом
+#  печатной машинки (hoi4_typewriter22 / hoi4_typewriter16) и кнопками hoi_20bs.
+#  Добавлен standardtext_slider для плавной прокрутки длинных русских текстов.
 # ============================================================================
-
 
 guiTypes = {
 
@@ -49,7 +45,7 @@ guiTypes = {
 			instantTextBoxType = {
 				name = "Title"
 				position = { x = 14 y = 70 }
-				font = "hoi4_typewriter22_inverted"
+				font = "hoi4_typewriter22"
 				borderSize = {x = 0 y = 0}
 				text = "Title text here!"
 				maxWidth = 551
@@ -82,7 +78,7 @@ guiTypes = {
 			instantTextBoxType = {
 				name = "Description"
 				position = { x = 31 y = 0 }
-				font = "hoi4_typewriter16_inverted"
+				font = "hoi4_typewriter16"
 				borderSize = {x = 0 y = 0}
 				text = "Long text here!"
 				maxWidth = 512
@@ -99,11 +95,6 @@ guiTypes = {
 			moveable = yes
 			clipping = no
 			Orientation = UPPER_LEFT
-
-#			background = {
-#				name = "Background"
-#				spriteType ="GFX_event_report_tileable_bottom_section"
-#			}
 
 			background = {
 				name = "Background"
@@ -135,19 +126,6 @@ guiTypes = {
 				format = "UPPER_LEFT"
 			}
 		}
-
-#		containerWindowType = {
-#			name = "bottom_window_end"
-#			position = { x=0 y=-100 }
-#			size = { width = 581 height = 59 }
-#			moveable = yes
-#			Orientation = UPPER_LEFT
-#
-#			background = {
-#				name = "Background"
-#				spriteType ="GFX_event_report_bottom_win_end"
-#			}
-#		}
 	}
 
  ##  ###  ### ###   ##  ### ### #   # ###     ### #   # ### #  # ###  ##
@@ -165,7 +143,6 @@ guiTypes = {
 		Orientation = CENTER
 
 		show_sound = event_popup
-		#hide_sound = menu_close_window
 
 		background = {
 			name = "Background"
@@ -181,23 +158,10 @@ guiTypes = {
 			fade_type = linear
 			fade_time = @fade_time
 
-			#background = {
-			#	name = "Background"
-			#	spriteType ="GFX_event_report_top_win"
-			#}
-
-			#iconType = {
-			#	name ="event_picture"
-			#	spriteType = "GFX_tiled_window_transparent"
-			#	position = { x = 50 y = 90 }
-			#	Orientation = "UPPER_LEFT"
-			#	alwaystransparent = yes
-			#}
-
 			instantTextBoxType = {
 				name = "Title"
 				position = { x = 180 y = 170 }
-				font = "hoi4_typewriter22_inverted"
+				font = "hoi4_typewriter22"
 				borderSize = {x = 0 y = 0}
 				text = "Title text here!"
 				maxWidth = 320
@@ -259,7 +223,7 @@ guiTypes = {
 				instantTextBoxType = {
 					name = "leader_fullname"
 					position = { x = 20 y = 0 }
-					font = "hoi4_typewriter16_inverted"
+					font = "hoi4_typewriter16"
 					borderSize = {x = 0 y = 0}
 					text = "Operative Name Here"
 					maxWidth = 512
@@ -270,7 +234,7 @@ guiTypes = {
 				instantTextBoxType = {
 					name = "leader_codename"
 					position = { x = 20 y = 15 }
-					font = "hoi4_typewriter16_inverted"
+					font = "hoi4_typewriter16"
 					borderSize = {x = 0 y = 0}
 					text = "Codename Here"
 					maxWidth = 512
@@ -282,7 +246,7 @@ guiTypes = {
 			instantTextBoxType = {
 				name = "Description"
 				position = { x = 70 y = 150 }
-				font = "hoi4_typewriter16_inverted"
+				font = "hoi4_typewriter16"
 				borderSize = {x = 0 y = 0}
 				text = "Long text here!"
 				maxWidth = 400
@@ -299,8 +263,6 @@ guiTypes = {
 			moveable = no
 			clipping = no
 			Orientation = UPPER_LEFT
-			#fade_type = accelerated
-			#fade_time = 5000
 
 			background = {
 				name = "Background"
@@ -323,8 +285,6 @@ guiTypes = {
 			size = { width = 581 height = 59 }
 			moveable = yes
 			Orientation = UPPER_LEFT
-			#fade_type = linear
-			#fade_time = 5000
 
 			background = {
 				name = "Background"
@@ -369,7 +329,7 @@ guiTypes = {
 			instantTextBoxType = {
 				name = "Title"
 				position = { x = 14 y = 70 }
-				font = "hoi4_typewriter22_inverted"
+				font = "hoi4_typewriter22"
 				borderSize = {x = 0 y = 0}
 				text = "Title text here!"
 				maxWidth = 551
@@ -422,7 +382,7 @@ guiTypes = {
 			instantTextBoxType = {
 				name = "Description"
 				position = { x = 198 y = 0 }
-				font = "hoi4_typewriter16_inverted"
+				font = "hoi4_typewriter16"
 				borderSize = {x = 0 y = 0}
 				text = "Long text here!"
 				maxWidth = 350
@@ -477,8 +437,8 @@ guiTypes = {
 
 	containerWindowType = {
 		name = "EventWindow_News"
-		position = { x=-528 y=-310 }
-		size = { width = 1056 height = 595 }
+		position = { x=-282 y=-310 }
+		size = { width = 530 height = 520 }
 		moveable = yes
 		Orientation = CENTER
 		show_sound = world_news_effect
@@ -486,20 +446,19 @@ guiTypes = {
 
 		background = {
 			name = "Background"
-			spriteType ="GFX_event_news_bg_wide"
+			spriteType ="GFX_event_news_bg"
 		}
 
 		containerWindowType = {
 			name = "top_Window"
 			position = { x=0 y=0 }
-			size = { width = 1162 height = 121 }
+			size = { width = 581 height =121 }
 			Orientation = UPPER_LEFT
 
-			iconType =
-			{
+			iconType = {
 				name ="event_picture"
 				spriteType = "GFX_news_event_001"
-				position = { x = 330 y = 91 }
+				position = { x = 59 y = 91 }
 				Orientation = "UPPER_LEFT"
 				alwaystransparent = yes
 			}
@@ -507,25 +466,25 @@ guiTypes = {
 			iconType = {
 				name ="event_picture_overlay"
 				spriteType = "GFX_event_news_pic_overlay"
-				position = { x = 330 y = 91 }
+				position = { x = 59 y = 91 }
 				Orientation = "UPPER_LEFT"
 				alwaystransparent = yes
 			}
 
 			instantTextBoxType = {
 				name = "Title"
-				position = { x = 58 y = 253 }
-				font = "hoi4_typewriter22_inverted"
+				position = { x = 30 y = 260 }
+				font = "hoi4_typewriter22"
 				borderSize = {x = 0 y = 0}
 				text = "Title text here!"
-				maxWidth = 940
+				maxWidth = 460
 				maxHeight = 32
 				format = centre
 			}
 
 			buttonType = {
 				name = "btn_minimize"
-				position = {x=52 y=25}
+				position = {x=10 y=15}
 				spriteType = "GFX_event_button_minimize"
 				clicksound = click_default
 			}
@@ -534,27 +493,17 @@ guiTypes = {
 		containerWindowType = {
 			name = "midsection"
 			position = { x=0 y=121 }
-			size = { width = 1160 height = 385 }
+			size = { width = 580 height = 385 }
 			Orientation = UPPER_LEFT
-			verticalScrollbar = "right_vertical_slider"
-			margin = { top = 1 bottom = 0 }
-
-			gridBoxType = {
-				name = "news_event_grid"
-				position = { x = 0 y = 0 }
-				size = { width = 940 height = 240 }
-				slotsize = { width = 930 height = 230 }
-				format = "UPPER_LEFT"
-			}
 
 			instantTextBoxType = {
 				name = "Description"
-				position = { x = 58 y = 175 }
-				font = "hoi4_typewriter16_inverted"
+				position = { x = 39 y = 170 }
+				font = "hoi4_typewriter16"
 				borderSize = {x = 0 y = 0}
 				text = "Long text here!"
-				maxWidth = 940
-				maxHeight = 210
+				maxWidth = 460
+				maxHeight = 180
 				format = left
 				scrollbarType = standardtext_slider
 			}
@@ -563,13 +512,13 @@ guiTypes = {
 		containerWindowType = {
 			name = "bottom_Window"
 			position = { x=0 y=221 }
-			size = { width = 1162 height = 405 }
+			size = { width = 581 height = 405 }
 			Orientation = UPPER_LEFT
 
 			gridBoxType = {
 				name = "options_grid"
-				position = { x = 378 y = -1 }
-				size = { width = 300 height = 30 }
+				position = { x = 115 y = 60 }
+				size = { width = 300 height = 0 }
 				slotsize = { width = 300 height = 47 }
 				max_slots_horizontal = 1
 				format = "UPPER_LEFT"

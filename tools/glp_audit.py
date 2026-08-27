@@ -1031,20 +1031,15 @@ def check_gui_overrides():
                       '"EventWindow_News"', '"event_option_entry"'):
             if token not in body:
                 err(f"interface/eventwindow.gui: отсутствует ванильное окно {token}")
-        # Шрифты окон событий обязаны быть ванильными инверсными (белыми):
-        # hoi4_typewriter22_inverted (заголовки), hoi4_typewriter16_inverted (описания),
-        # hoi_20bs (кнопки выборов).
+        # Шрифты окон событий обязаны быть ванильными: hoi4_typewriter22 (заголовки),
+        # hoi4_typewriter16 (описания), hoi_20bs (кнопки выборов).
         for bad_font in re.findall(r'font\s*=\s*"(cg_[^"]*)"', body):
             err(f"interface/eventwindow.gui: не-ванильный шрифт {bad_font} "
-                "-- несуществующий в HOI4 / тултиповый; используйте hoi4_typewriter22/16_inverted")
-        for want_font in ('hoi4_typewriter22_inverted', 'hoi4_typewriter16_inverted', 'hoi_20bs'):
+                "-- несуществующий в HOI4 / тултиповый; используйте hoi4_typewriter22/16")
+        for want_font in ('hoi4_typewriter22', 'hoi4_typewriter16', 'hoi_20bs'):
             if f'font = "{want_font}"' not in body:
-                err(f"interface/eventwindow.gui: нет белого шрифта {want_font} "
-                    "-- окна событий должны использовать белый шрифт")
-        for bad in ('font = "hoi4_typewriter22"', 'font = "hoi4_typewriter16"'):
-            if re.search(re.escape(bad) + r'(?![_A-Za-z])', body):
-                err(f"interface/eventwindow.gui: в окнах событий остался {bad} "
-                    "-- чёрный текст на тёмном фоне; замените на _inverted")
+                err(f"interface/eventwindow.gui: нет ванильного шрифта {want_font} "
+                    "-- окна событий должны использовать стандартные шрифты")
 
     # ------------------------------------------------------------------
     #  Оверрайды «чистых портретов»: из списков командиров и карточек
