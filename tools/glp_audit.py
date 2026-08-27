@@ -1108,6 +1108,29 @@ def check_gui_overrides():
                 "-- полоска черт рисуется у штабного портрета")
 
 
+def check_event_window_stress_and_adaptiveness():
+    """Стресс-тест и проверка адаптивности окон новостей и ивентов (русский текст, скроллбары, современные окна)."""
+    p = os.path.join(ROOT, 'interface/eventwindow.gui')
+    if os.path.exists(p):
+        body = read(p)
+        # Проверяем, что все типы окон событий имеют скроллбары для длинного текста (адаптивность под русский язык)
+        windows = ['EventWindow', 'EventWindow_Operative', 'EventWindow_leader', 'EventWindow_News']
+        for w in windows:
+            if w not in body:
+                err(f"interface/eventwindow.gui: окно {w} отсутствует")
+        
+        # Проверяем наличие standardtext_slider для адаптивного скролла описаний
+        if body.count('scrollbarType = standardtext_slider') < 2:
+            err("interface/eventwindow.gui: описания событий должны поддерживать скролл (standardtext_slider) для адаптивности длинных текстов")
+
+    # Убеждаемся, что окно загрузки (О несторе махно в начале игры) НЕ затронуто и не изменено
+    load_gui = os.path.join(ROOT, 'interface/load_screen.gui')
+    if os.path.exists(load_gui):
+        lbody = strip_comments(read(load_gui))
+        if 'tip' not in lbody or 'loadscreen_tip' not in lbody:
+            err("interface/load_screen.gui: окно загрузки (нестор махно) не должно повреждаться")
+
+
 def check_advisor_portraits(defs):
     """Каждый персонаж с ролью advisor обязан иметь portraits."""
     sprites = set(defs['sprite'])
@@ -1772,6 +1795,7 @@ def main():
     check_event_pictures()
     check_idea_icon_geometry()
     check_gui_overrides()
+    check_event_window_stress_and_adaptiveness()
     check_advisor_portraits(defs)
     check_unit_models()
     check_entity_graph()
