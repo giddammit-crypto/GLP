@@ -1,0 +1,494 @@
+add_namespace = glp_spain2
+
+# ACT 1 - The Durruti Column
+country_event = {
+    id = glp_spain2.1
+    title = glp_spain2.1.t
+    desc = glp_spain2.1.d
+    picture = GFX_news_event_GLP_durruti_column
+    
+    trigger = {
+        tag = GLP
+        has_country_flag = glp_spain_open_route
+        date > 1936.8.1
+        NOT = { has_country_flag = glp_durruti_contacted }
+    }
+    
+    mean_time_to_happen = {
+        days = 15
+    }
+    
+    option = {
+        name = glp_spain2.1.a
+        ai_chance = { factor = 70 }
+        add_command_power = -40
+        army_experience = 20
+        set_country_flag = glp_durruti_contacted
+        set_country_flag = glp_durruti_advisors_sent
+    }
+    option = {
+        name = glp_spain2.1.b
+        ai_chance = { factor = 30 }
+        add_political_power = 20
+        set_country_flag = glp_durruti_contacted
+    }
+}
+
+country_event = {
+    id = glp_spain2.2
+    title = glp_spain2.2.t
+    desc = glp_spain2.2.d
+    picture = GFX_news_event_GLP_anarchist_congress
+    
+    trigger = {
+        tag = GLP
+        has_country_flag = glp_durruti_advisors_sent
+        NOT = { has_country_flag = glp_durruti_philosophy_known }
+    }
+    
+    mean_time_to_happen = {
+        days = 30
+    }
+    
+    option = {
+        name = glp_spain2.2.a
+        ai_chance = { factor = 80 }
+        set_country_flag = glp_durruti_philosophy_known
+        set_country_flag = glp_black_international_path
+        set_country_flag = black_international_path
+        add_political_power = 50
+    }
+    option = {
+        name = glp_spain2.2.b
+        ai_chance = { factor = 20 }
+        set_country_flag = glp_durruti_philosophy_known
+        add_stability = 0.05
+    }
+}
+
+country_event = {
+    id = glp_spain2.3
+    title = glp_spain2.3.t
+    desc = glp_spain2.3.d
+    picture = GFX_news_event_GLP_durruti_death
+    
+    trigger = {
+        tag = GLP
+        has_country_flag = glp_durruti_contacted
+        date > 1936.11.20
+        NOT = { has_country_flag = glp_durruti_death_seen }
+    }
+    
+    mean_time_to_happen = {
+        days = 2
+    }
+    
+    option = {
+        name = glp_spain2.3.a
+        ai_chance = { factor = 40 }
+        set_country_flag = glp_durruti_death_seen
+        add_political_power = -50
+        add_war_support = 0.1
+        SPR = { add_opinion_modifier = { target = GLP modifier = GLP_durruti_fallen } }
+    }
+    option = {
+        name = glp_spain2.3.b
+        ai_chance = { factor = 40 }
+        set_country_flag = glp_durruti_death_seen
+        add_stability = -0.05
+        add_war_support = 0.05
+    }
+    option = {
+        name = glp_spain2.3.c
+        ai_chance = { factor = 20 }
+        set_country_flag = glp_durruti_death_seen
+        add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -1000 }
+        SPR = { add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1000 } }
+    }
+}
+
+country_event = {
+    id = glp_spain2.4
+    title = glp_spain2.4.t
+    desc = glp_spain2.4.d
+    picture = GFX_news_event_GLP_steppe_harvest
+    
+    trigger = {
+        tag = GLP
+        OR = {
+            has_country_flag = glp_black_international_path
+            has_country_flag = black_international_path
+        }
+        NOT = { has_country_flag = glp_aragon_collective_seen }
+    }
+    
+    mean_time_to_happen = {
+        days = 45
+    }
+    
+    option = {
+        name = glp_spain2.4.a
+        ai_chance = { factor = 100 }
+        set_country_flag = glp_aragon_collective_seen
+        add_ideas = GLP_aragon_collective_model
+    }
+}
+
+# ACT 2 - The Weapons Routes
+country_event = {
+    id = glp_spain2.5
+    title = glp_spain2.5.t
+    desc = glp_spain2.5.d
+    picture = GFX_news_event_GLP_black_guard_march
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = glp_spain2.5.a
+        add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1000 }
+        add_war_support = 0.05
+    }
+}
+
+country_event = {
+    id = glp_spain2.6
+    title = glp_spain2.6.t
+    desc = glp_spain2.6.d
+    picture = GFX_news_event_GLP_cavalry_raid
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = glp_spain2.6.a
+        ITA = { add_opinion_modifier = { target = GLP modifier = GLP_black_sea_provocateurs } }
+        add_political_power = -50
+    }
+}
+
+country_event = {
+    id = glp_spain2.7
+    title = glp_spain2.7.t
+    desc = glp_spain2.7.d
+    picture = GFX_news_event_GLP_black_guard_march
+    
+    trigger = {
+        tag = GLP
+        has_country_flag = glp_balkan_route_active
+        NOT = { has_country_flag = glp_romanian_suspicion }
+    }
+    
+    mean_time_to_happen = {
+        days = 60
+    }
+    
+    option = {
+        name = glp_spain2.7.a
+        ai_chance = { factor = 60 }
+        add_political_power = -30
+        set_country_flag = glp_romanian_suspicion
+    }
+    option = {
+        name = glp_spain2.7.b
+        ai_chance = { factor = 40 }
+        add_command_power = -30
+        set_country_flag = glp_romanian_suspicion
+    }
+}
+
+country_event = {
+    id = glp_spain2.8
+    title = glp_spain2.8.t
+    desc = glp_spain2.8.d
+    picture = GFX_news_event_GLP_barcelona_may
+    
+    trigger = {
+        tag = GLP
+        has_country_flag = french_syndicate_smuggling
+        NOT = { has_country_flag = glp_french_syndicate_contacted }
+    }
+    
+    mean_time_to_happen = {
+        days = 30
+    }
+    
+    option = {
+        name = glp_spain2.8.a
+        ai_chance = { factor = 100 }
+        set_country_flag = glp_french_syndicate_contacted
+        FRA = { add_opinion_modifier = { target = GLP modifier = GLP_iberian_brotherhood } }
+    }
+}
+
+# ACT 3 - Andres Nin and POUM
+country_event = {
+    id = glp_spain2.9
+    title = glp_spain2.9.t
+    desc = glp_spain2.9.d
+    picture = GFX_news_event_GLP_nin_rescue
+    
+    trigger = {
+        tag = GLP
+        date > 1937.5.1
+        date < 1937.6.30
+        NOT = { has_country_flag = glp_nin_event_fired }
+    }
+    
+    mean_time_to_happen = {
+        days = 10
+    }
+    
+    option = {
+        name = glp_spain2.9.a
+        ai_chance = { factor = 70 }
+        set_country_flag = glp_nin_event_fired
+        add_command_power = -50
+        add_political_power = -50
+        country_event = { id = glp_spain2.10 days = 14 }
+    }
+    option = {
+        name = glp_spain2.9.b
+        ai_chance = { factor = 30 }
+        set_country_flag = glp_nin_event_fired
+        country_event = { id = glp_spain2.11 days = 21 }
+    }
+}
+
+country_event = {
+    id = glp_spain2.10
+    title = glp_spain2.10.t
+    desc = glp_spain2.10.d
+    picture = GFX_news_event_GLP_nin_rescue
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = glp_spain2.10.a
+        add_ideas = GLP_voice_of_aragon
+        SPR = { add_opinion_modifier = { target = GLP modifier = GLP_anarchist_protectors } }
+        add_stability = 0.05
+    }
+}
+
+country_event = {
+    id = glp_spain2.11
+    title = glp_spain2.11.t
+    desc = glp_spain2.11.d
+    picture = GFX_news_event_GLP_durruti_death
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = glp_spain2.11.a
+        add_stability = -0.1
+        SPR = { add_opinion_modifier = { target = GLP modifier = GLP_nin_abandoned } }
+    }
+}
+
+# ACT 4 - After the May Days
+country_event = {
+    id = glp_spain2.12
+    title = glp_spain2.12.t
+    desc = glp_spain2.12.d
+    picture = GFX_news_event_GLP_anarchist_congress
+    
+    trigger = {
+        tag = GLP
+        OR = {
+            has_country_flag = glp_black_international_path
+            has_country_flag = black_international_path
+        }
+        date > 1937.6.1
+        NOT = { has_country_flag = glp_fai_consolidation }
+    }
+    
+    mean_time_to_happen = {
+        days = 30
+    }
+    
+    option = {
+        name = glp_spain2.12.a
+        ai_chance = { factor = 80 }
+        set_country_flag = glp_fai_consolidation
+        add_political_power = 100
+        add_war_support = 0.05
+    }
+    option = {
+        name = glp_spain2.12.b
+        ai_chance = { factor = 20 }
+        set_country_flag = glp_fai_consolidation
+        add_political_power = 20
+    }
+}
+
+country_event = {
+    id = glp_spain2.13
+    title = glp_spain2.13.t
+    desc = glp_spain2.13.d
+    picture = GFX_news_event_GLP_black_flag_raised
+    
+    trigger = {
+        tag = GLP
+        has_country_flag = glp_fai_consolidation
+        NOT = { has_country_flag = glp_soviet_rift }
+    }
+    
+    mean_time_to_happen = {
+        days = 20
+    }
+    
+    option = {
+        name = glp_spain2.13.a
+        ai_chance = { factor = 100 }
+        set_country_flag = glp_soviet_rift
+        SOV = { add_opinion_modifier = { target = GLP modifier = GLP_black_sea_provocateurs } }
+    }
+}
+
+country_event = {
+    id = glp_spain2.14
+    title = glp_spain2.14.t
+    desc = glp_spain2.14.d
+    picture = GFX_news_event_GLP_emma_goldman
+    
+    trigger = {
+        tag = GLP
+        OR = {
+            has_country_flag = glp_black_international_path
+            has_country_flag = black_international_path
+        }
+        date > 1937.8.1
+        NOT = { has_country_flag = glp_emma_goldman_visit }
+    }
+    
+    mean_time_to_happen = {
+        days = 40
+    }
+    
+    option = {
+        name = glp_spain2.14.a
+        ai_chance = { factor = 100 }
+        set_country_flag = glp_emma_goldman_visit
+        add_stability = 0.1
+        add_ideas = GLP_international_support
+    }
+}
+
+# ACT 5 - Endgame
+country_event = {
+    id = glp_spain2.15
+    title = glp_spain2.15.t
+    desc = glp_spain2.15.d
+    picture = GFX_news_event_GLP_black_intl_congress
+    
+    trigger = {
+        tag = GLP
+        OR = {
+            has_country_flag = glp_black_international_path
+            has_country_flag = black_international_path
+        }
+        date > 1938.1.1
+        NOT = { has_country_flag = glp_black_intl_congress }
+    }
+    
+    mean_time_to_happen = {
+        days = 60
+    }
+    
+    option = {
+        name = glp_spain2.15.a
+        ai_chance = { factor = 100 }
+        set_country_flag = glp_black_intl_congress
+        add_ideas = GLP_black_international_member
+        add_political_power = 150
+        FRA = { add_opinion_modifier = { target = GLP modifier = GLP_iberian_brotherhood } }
+        SPR = { add_opinion_modifier = { target = GLP modifier = GLP_iberian_brotherhood } }
+    }
+}
+
+country_event = {
+    id = glp_spain2.16
+    title = glp_spain2.16.t
+    desc = glp_spain2.16.d
+    picture = GFX_news_event_GLP_franco_gates
+    
+    trigger = {
+        tag = GLP
+        SPR = {
+            has_war = yes
+            surrender_progress > 0.7
+        }
+        NOT = { has_country_flag = glp_franco_at_gates }
+    }
+    
+    mean_time_to_happen = {
+        days = 5
+    }
+    
+    option = {
+        name = glp_spain2.16.a
+        ai_chance = { factor = 50 }
+        set_country_flag = glp_franco_at_gates
+        add_command_power = -50
+        add_manpower = -10000
+        SPR = { add_manpower = 10000 }
+    }
+    option = {
+        name = glp_spain2.16.b
+        ai_chance = { factor = 50 }
+        set_country_flag = glp_franco_at_gates
+        add_stability = -0.05
+    }
+}
+
+country_event = {
+    id = glp_spain2.17
+    title = glp_spain2.17.t
+    desc = glp_spain2.17.d
+    picture = GFX_news_event_GLP_spanish_refugees
+    
+    trigger = {
+        tag = GLP
+        has_country_flag = glp_franco_at_gates
+        SPR = { has_capitulated = yes }
+        NOT = { has_country_flag = glp_spanish_refugees }
+    }
+    
+    mean_time_to_happen = {
+        days = 15
+    }
+    
+    option = {
+        name = glp_spain2.17.a
+        ai_chance = { factor = 100 }
+        set_country_flag = glp_spanish_refugees
+        add_ideas = GLP_spanish_veterans
+        add_manpower = 20000
+        army_experience = 50
+    }
+}
+
+country_event = {
+    id = glp_spain2.18
+    title = glp_spain2.18.t
+    desc = glp_spain2.18.d
+    picture = GFX_news_event_GLP_white_collapse
+    
+    trigger = {
+        tag = GLP
+        has_country_flag = glp_spanish_refugees
+        date > 1939.1.1
+        NOT = { has_country_flag = glp_spain_lessons }
+    }
+    
+    mean_time_to_happen = {
+        days = 30
+    }
+    
+    option = {
+        name = glp_spain2.18.a
+        ai_chance = { factor = 100 }
+        set_country_flag = glp_spain_lessons
+        add_political_power = 50
+        add_stability = 0.05
+    }
+}

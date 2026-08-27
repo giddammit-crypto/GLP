@@ -48,3 +48,53 @@ spriteTypes = {
 		texturefile = "gfx/event_pictures/news_event_glp_madrid_international.dds"
 	}
 }
+
+	# ── Испанский сценарий ────────────────────────────────────────────────────
+	spriteType = {
+		name = "GFX_news_event_GLP_durruti_column"
+		texturefile = "gfx/event_pictures/news_event_glp_durruti_column.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_durruti_death"
+		texturefile = "gfx/event_pictures/news_event_glp_durruti_death.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_barcelona_may"
+		texturefile = "gfx/event_pictures/news_event_glp_barcelona_may.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_nin_rescue"
+		texturefile = "gfx/event_pictures/news_event_glp_nin_rescue.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_emma_goldman"
+		texturefile = "gfx/event_pictures/news_event_glp_emma_goldman.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_black_intl_congress"
+		texturefile = "gfx/event_pictures/news_event_glp_black_intl_congress.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_spanish_refugees"
+		texturefile = "gfx/event_pictures/news_event_glp_spanish_refugees.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_franco_gates"
+		texturefile = "gfx/event_pictures/news_event_glp_franco_gates.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_steppe_harvest"
+		texturefile = "gfx/event_pictures/news_event_glp_steppe_harvest.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_tachanka_charge"
+		texturefile = "gfx/event_pictures/news_event_glp_tachanka_charge.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_black_flag_raised"
+		texturefile = "gfx/event_pictures/news_event_glp_black_flag_raised.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_white_collapse"
+		texturefile = "gfx/event_pictures/news_event_glp_white_collapse.dds"
+	}

@@ -28,11 +28,8 @@ guiTypes = {
 		fullScreen = yes
 		Orientation = "UPPER_LEFT"
 
-		iconType = {
-			name ="bg_load_screen"
-			spriteType = "GFX_loading_background"
-			position = { x= 0 y = 0 }
-		}
+		# iconType bg_load_screen removed — native Clausewitz engine draws loading screens from gfx/loadingscreens/
+
 
 		iconType = {
 			name = "bg_clausewitz_logo"

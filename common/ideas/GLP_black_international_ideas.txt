@@ -1,20 +1,9 @@
 # =============================================================================
 #  ГУЛЯЙПОЛЕ — нацдухи модуля «Иберийский пожар и Чёрный Интернационал»
-#
-#  Блок 1: GLP_idea_spanish_brigade — дух добровольческой бригады
-#  (вариант «Братья зовут!» события glp_spain.1): бонус к добровольцам
-#  и опыту, открывает ветку решений «Испанский маршрут».
-#          GLP_idea_nabat_disloyal — цена отказа (вариант 3): потеря
-#  лояльности сети «Набат» на 365 дней (выдаётся как timed-дух).
-#
-#  Блок 5: взаимные экономические нацдухи Черноморско-Иберийского пакта.
-#  Примечание по ТЗ: в 1.19 нацдух НЕ может выдавать ресурсы
-#  (wolfram/уголь/хлеб) — реализовано документированной заменой:
-#  бонусы к производству вооружений/заводов для обеих сторон.
 # =============================================================================
 ideas = {
 	country = {
-		# Добровольческая бригада РПАУ в Испании
+		# Добровольческая бригада РПА в Испании
 		GLP_idea_spanish_brigade = {
 			allowed = { always = yes }
 			removal_cost = -1
@@ -57,6 +46,136 @@ ideas = {
 			modifier = {
 				industrial_capacity_factory = 0.05
 				production_speed_industrial_complex_factor = 0.05
+				consumer_goods_factor = -0.03
+			}
+		}
+
+		# Голос Арагона — Нин в Гуляйполе (получается через спасение Нина в glp_spain2.10)
+		GLP_voice_of_aragon = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_insurgent_army
+			modifier = {
+				research_speed_factor = 0.05
+				political_power_gain = 0.10
+			}
+		}
+
+		# Международная поддержка — визит Эммы Гольдман (glp_spain2.14)
+		GLP_international_support = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_black_guard_legacy
+			modifier = {
+				stability_factor = 0.05
+				war_support_factor = 0.05
+			}
+		}
+
+		# Член Чёрного Интернационала — конгресс (glp_spain2.15)
+		GLP_black_international_member = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_black_guard_legacy
+			modifier = {
+				political_power_gain = 0.15
+				send_volunteer_size = 5.0
+				send_volunteer_divisions_required = -2.0
+				justify_war_goal_time = -0.10
+			}
+		}
+
+		# Испанские ветераны — кадры НКТ-ФАИ после падения Испании (glp_spain2.17)
+		GLP_spanish_veterans = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_insurgent_army
+			modifier = {
+				army_core_attack_factor = 0.05
+				army_core_defence_factor = 0.05
+				experience_gain_army_factor = 0.15
+				recon_factor = 0.10
+			}
+		}
+
+		# Арагонский коллектив — пример успешной анархо-экономики (glp_spain2.4)
+		GLP_aragon_collective_model = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_free_syndicates_and_soviets
+			modifier = {
+				production_speed_industrial_complex_factor = 0.05
+				production_speed_arms_factory_factor = 0.05
+				stability_factor = 0.03
+			}
+		}
+
+		# Равноправный советско-махновский пакт (СССР)
+		GLP_equal_soviet_partnership = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_insurgent_army
+			modifier = {
+				army_org_factor = 0.10
+				political_power_gain = 0.10
+				war_support_factor = 0.10
+			}
+		}
+
+		# Советская индустриальная поддержка (СССР)
+		GLP_soviet_heavy_industry_support = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_industry
+			modifier = {
+				industrial_capacity_factory = 0.10
+				production_speed_industrial_complex_factor = 0.10
+				stability_factor = -0.05
+			}
+		}
+
+		# Оружейный арсенал Круппа (Германия)
+		GLP_krupp_rearmament = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_military
+			modifier = {
+				army_core_attack_factor = 0.05
+				production_speed_arms_factory_factor = 0.10
+			}
+		}
+
+		# Немецкие кадры ФАУД и антифашисты (Германия)
+		GLP_german_anarchist_cadres = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_black_guard_legacy
+			modifier = {
+				research_speed_factor = 0.05
+				planning_speed = 0.15
+				conscription_factor = 0.05
+			}
+		}
+
+		# Черноморское синдикальное адмиралтейство (Британия)
+		GLP_black_sea_admiralty = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_navy
+			modifier = {
+				navy_max_range_factor = 0.20
+				navy_screen_attack_factor = 0.10
+			}
+		}
+
+		# Солидарность британских тред-юнионов (Британия)
+		GLP_british_trade_union_solidarity = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = GFX_idea_GLP_free_syndicates_and_soviets
+			modifier = {
+				stability_factor = 0.08
+				political_power_gain = 0.15
 				consumer_goods_factor = -0.03
 			}
 		}

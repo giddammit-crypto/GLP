@@ -50,7 +50,7 @@ division_template = {
 }
 
 division_template = {
-	name = "Бригада РПАУ добровольцев"
+	name = "Бригада РПА добровольцев"
 	division_names_group = GLP_INF_HISTORICAL
 	# Модуль «Иберийский пожар»: бригада формируется решением/событием
 	# (create_unit, паттерн трофеев) после выбора «Братья зовут!» в

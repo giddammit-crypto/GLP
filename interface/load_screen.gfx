@@ -1,9 +1,4 @@
-spriteTypes = {	
-
-	spriteType = {
-		name = "GFX_nullobject"
-		texturefile = "gfx//interface//thisisdog.dds"
-	}
+spriteTypes = {
 
 	spriteType = {
 		name = "GFX_frontend_dev_logo_s"
@@ -49,5 +44,12 @@ spriteTypes = {
 	spriteType = {
 		name = "GFX_default_fallback_texture"
 		texturefile = "gfx/interface/GLP_fallback_texture.dds"
+	}
+
+	# GFX_loading_background — используется в load_screen.gui (iconType "bg_load_screen").
+	# Без этого определения движок рисует чёрный прямоугольник в левом верхнем углу.
+	spriteType = {
+		name = "GFX_loading_background"
+		texturefile = "gfx/loadingscreens/load_glp_cavalry_charge.dds"
 	}
 }

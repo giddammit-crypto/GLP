@@ -1,0 +1,64 @@
+
+opinion_modifiers = {
+    GLP_durruti_fallen = {
+        value = 20
+        decay = 1
+        days = 365
+    }
+    GLP_anarchist_protectors = {
+        value = 30
+        decay = 1
+        days = 730
+    }
+    GLP_nin_abandoned = {
+        value = -50
+        decay = 1
+        days = 365
+    }
+    GLP_black_sea_provocateurs = {
+        value = -30
+        decay = 1
+        days = 365
+    }
+    GLP_iberian_brotherhood = {
+        value = 50
+        decay = 0.5
+        days = 1000
+    }
+    GLP_french_syndicalist_warmth = {
+        value = 25
+        decay = 0.5
+        days = 730
+    }
+    GLP_soviet_anarchy_resentment = {
+        value = -40
+        decay = 1
+        days = 365
+    }
+    GLP_spanish_syndicate_alliance = {
+        value = 40
+        decay = 0.5
+        days = 1000
+    }
+    GLP_spanish_soviet_cold = {
+        value = -25
+        decay = 1
+        days = 365
+    }
+    GLP_pact_watch = {
+        value = -15
+        decay = 0.5
+        days = 365
+    }
+    GLP_pact_alarm = {
+        value = -35
+        decay = 1
+        days = 365
+    }
+    GLP_kharkov_pact_signed = {
+        value = 30
+        decay = 0.5
+        days = 730
+    }
+
+}

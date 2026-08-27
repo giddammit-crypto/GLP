@@ -36,6 +36,9 @@
  GLP_german_military_pact:0 "Германо-махновский пакт о ненападении"
  GLP_british_military_pact:0 "Британско-махновское военное соглашение"
  GLP_kharkov_pact_signed:0 "Харьковское военно-политическое соглашение"
-
+ glp_doctrine_bonus:0 "Военно-теоретический обмен"
+ glp_artillery_bonus:0 "Тяжёлая артиллерия и баллистика"
+ glp_electronics_bonus:0 "Радиотехника и электроника"
+ glp_naval_doctrine_bonus:0 "Морская доктрина черноморцев"
  GLP_pact_alarm:0 "Тревога из-за степного пакта"
  GLP_pact_watch:0 "Наблюдение за Вольной территорией"

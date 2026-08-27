@@ -18,7 +18,7 @@ spriteTypes = {
 	}
 	spriteType = {
 		name = "GFX_tiled_bg_dark"
-		texturefile = "gfx/interface/intro/gulyaipole_intro_bg.dds"
+		texturefile = "gfx/interface/intro/gulyaipole_tiled_bg_dark.dds"
 	}
 	corneredTileSpriteType = {
 		name = "GFX_tiled_bg_dark_tiled"
@@ -65,8 +65,10 @@ spriteTypes = {
 		texturefile = "gfx/interface/intro/gulyaipole_cavalry.dds"
 	}
 
-	# Анимированная лента титров УДАЛЕНА (эффект-поля effectFile/animation
-	# не поддерживаются spriteType 1.19 и ломали загрузку всего .gfx):
-	# история показывается обычным текстовым полем окна заставки
-	# (GULYAIPOLE_EPIC_INTRO_TEXT) с вертикальной прокруткой.
+	# Кнопка закрытия / начала кампании (3 кадра: normal, hover, pressed)
+	spriteType = {
+		name = "GFX_intro_start_button"
+		texturefile = "gfx/interface/intro/gulyaipole_button_start.dds"
+		noOfFrames = 3
+	}
 }

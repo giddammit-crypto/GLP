@@ -36,6 +36,10 @@
  GLP_german_military_pact:0 "German-Makhnovist Non-Aggression Pact"
  GLP_british_military_pact:0 "British-Makhnovist Military Agreement"
  GLP_kharkov_pact_signed:0 "Kharkov Military-Political Agreement"
+ glp_doctrine_bonus:0 "Military-theoretical exchange"
+ glp_artillery_bonus:0 "Heavy artillery and ballistics"
+ glp_electronics_bonus:0 "Radio and electronic technologies"
+ glp_naval_doctrine_bonus:0 "Black Sea naval doctrine"
 
  GLP_pact_alarm:0 "Alarm at a Steppe Pact"
  GLP_pact_watch:0 "Watching the Free Territory"

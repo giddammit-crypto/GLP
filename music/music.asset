@@ -1,33 +1,46 @@
 ### =========================================================================
-###  ГУЛЯЙ-ПОЛЕ — звуковое оформленіе
-###
-###  Этот файл ПЕРЕКРЫВАЕТ ванильный music/music.asset, поэтому ни одна
-###  композиция базовой игры не регистрируется.
-###
-###  ПЛЕЙЛИСТЪ МОНГОЛЪ ШУУДАНЪ (11 композицій):
-###     1. maintheme — «Батька Атаманъ» (главное меню и загрузка)
-###     2. GLP_ms_yablochko       — «Яблочко»
-###     3. GLP_ms_strelyai        — «Стрѣляй, атаманъ!»
-###     4. GLP_ms_svoboda         — «Свобода»
-###     5. GLP_ms_moskva          — «Москва» (на стихи С. Есенина)
-###     6. GLP_ms_finka           — «Финскій ножъ»
-###     7. GLP_ms_privet_batke    — «Привѣт Батькѣ! (Рожденіе)»
-###     8. GLP_ms_dalnyaya        — «Дальняя дорога»
-###     9. GLP_ms_poltsarstva     — «Полцарства за коня»
-###    10. GLP_ms_granata         — «Граната»
-###    11. GLP_ms_sedmoi_patron   — «Седьмой патронъ»
-###
-###  ⚠ ВАЖНО: сейчасъ всѣ 11 файловъ music/mongol_shuudan_*.ogg — ОДИНЪ И
-###  ТОТЪ ЖЕ файлъ-заглушка (одинаковый md5), т.е. словами это полный плейлистъ,
-###  а по факту во всѣхъ слотахъ звучитъ одна и та же дорожка.
-###  Замѣните ихъ настоящими OGG Vorbis-файлами Монголъ Шууданъ именно съ
-###  этими именами (названія въ music.asset соответствуют файламъ 1:1).
-###  Проверка: tools/glp_audit.py предупреждаетъ, пока все .ogg идентичны.
+###  ГУЛЯЙ-ПОЛЕ — звуковое оформление (Плейлист «Монгол Шуудан»)
 ### =========================================================================
 
 music = {
 	name = "maintheme"
 	file = "mongol_shuudan_batka_ataman.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_bei"
+	file = "mongol_shuudan_bei.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_lyubo"
+	file = "mongol_shuudan_lyubo.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_konflikt"
+	file = "mongol_shuudan_konflikt.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_ne_moya_zabota"
+	file = "mongol_shuudan_ne_moya_zabota.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_sedmoi_patron"
+	file = "mongol_shuudan_sedmoi_patron.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_finsky_nozh"
+	file = "mongol_shuudan_finsky_nozh.ogg"
 	volume = 0.75
 }
 
@@ -84,9 +97,9 @@ music = {
 	file = "mongol_shuudan_granata.ogg"
 	volume = 0.70
 }
-
 music = {
-	name = "GLP_ms_sedmoi_patron"
-	file = "mongol_shuudan_sedmoi_patron.ogg"
-	volume = 0.70
+	name = "gulyaipole_intro_voice_music"
+	file = "voice.ogg"
+	volume = 1.0
 }
+

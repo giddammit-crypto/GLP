@@ -1,0 +1,52 @@
+﻿l_english:
+ # ── USSR Branch ────────────────────────────────────────────────────────────
+ glp_powers.1.t:0 "Telegram from the Kremlin: Kharkov Pact II"
+ glp_powers.1.d:0 "An encrypted dispatch from Moscow has arrived at the Insurgent Army headquarters in Gulyaipole. The Soviet Politburo, recognizing the rising threat of the Nazi Reich, proposes 'Kharkov Pact II' — a treaty of mutual military aid and joint defence coordination.
+
+However, Moscow insists on conditions: admitting Soviet military commissars into anarchist staffs and establishing joint supervision over rail networks. The Military Revolutionary Council awaits Batko's decision."
+ glp_powers.1.a:0 "Accept Moscow's terms: heavy industry outweighs disputes over commissars"
+ glp_powers.1.b:0 "Steppe Condition: only an equal military alliance without Cheka or commissars!"
+ glp_powers.1.c:0 "KRO's Secret Game: agree in words, but infiltrate Zadov's agents into the GRU"
+
+ glp_powers.2.t:0 "Armoured Trains from Kharkov"
+ glp_powers.2.d:0 "Under the cover of night, the first heavy rail echelons from Kharkov Factory No. 183 have arrived in Gulyaipole. Dozens of BT-7 fast tanks, heavy artillery tractors, and thousands of rifles are unloaded by the Black Guard.
+
+Armour Commander Viktor Belash proposes two plans: form a dedicated armoured shock brigade or distribute the motors across mobile tachanka regiments."
+ glp_powers.2.a:0 "Form the dedicated 'Batko Makhno' Mechanised Brigade"
+ glp_powers.2.b:0 "Distribute armoured vehicles and guns across tachanka battalions"
+
+ glp_powers.3.t:0 "Incident at the Red-Black Maneuvers"
+ glp_powers.3.d:0 "The first-ever joint military maneuvers between the Red Army and the Insurgent Army have commenced in the steppes. Red Army commanders and Semen Karetnik oversee the exercise. When insurgents hoisted black anarchist banners beside red flags, political commissars protested, but the boldness of insurgent cavalry maneuvers silenced all critics."
+ glp_powers.3.a:0 "Adopt a unified doctrine of deep mobile breakthrough"
+ glp_powers.3.b:0 "Preserve the unique autonomous guerrilla doctrine of the Insurgent Army"
+
+ # ── Germany Branch ─────────────────────────────────────────────────────────
+ glp_powers.10.t:0 "Emissaries from Berlin: Abwehr Proposal"
+ glp_powers.10.d:0 "Through neutral trade attaches in Istanbul, representatives of the German Abwehr have contacted Gulyaipole. Berlin, seeking access to Krivoy Rog iron and Donbass coal, offers a pragmatic agreement: deliveries of heavy Pak 36 anti-tank guns and Krupp machinery in exchange for favored trade status.
+
+For many insurgent veterans, dealing with fascists is treason, but KRO commanders note: 'The enemy's weapons will serve their own destruction when the hour comes.'"
+ glp_powers.10.a:0 "Cold Pragmatism: take German arms and prepare for the inevitable clash"
+ glp_powers.10.b:0 "Syndicalist Demarche: purchase equipment only via neutral Swiss syndicates"
+ glp_powers.10.c:0 "Operation 'Black Wedge': use diplomatic channels to rescue the FAUD underground"
+
+ glp_powers.11.t:0 "Krupp Echelons at Pology Station"
+ glp_powers.11.d:0 "The first trains from Krupp factories have pulled into the Pology railway junction. Crates with heavy guns and diesel engines stirred unrest among railway workers, who refused to move trains stamped with imperial eagles until all fascist insignia was removed."
+ glp_powers.11.a:0 "Re-stamp all weapons with the Black Skull and send them to the front!"
+ glp_powers.11.b:0 "Dispatch German models to engineering workshops for reverse-engineering"
+
+ glp_powers.12.t:0 "The Black Cross of the Steppes"
+ glp_powers.12.d:0 "KRO intelligence reports: Berlin views this treaty as temporary and prepares future expansion eastward. Batko Makhno and the Council order secret mobilization: utilize the respite to establish an impregnable deep defence in the steppe."
+ glp_powers.12.a:0 "Ratify the secret mobilization plan 'Steppe Thunder'"
+ glp_powers.12.b:0 "Construct hidden guerrilla stockpiles in every village and ravine"
+
+ # ── Britain Branch ─────────────────────────────────────────────────────────
+ glp_powers.20.t:0 "Foreign Office Attache in Gulyaipole"
+ glp_powers.20.d:0 "An unofficial British diplomatic mission has arrived in Gulyaipole from London. The British Admiralty views the Black Sea as a vital flank against continental dictatorships. London proposes integrating Odessa and Berdyansk into the British convoy system while transferring licenses for Vickers machine guns and naval radar."
+ glp_powers.20.a:0 "Conclude the Black Sea - British Naval Pact"
+ glp_powers.20.b:0 "Alliance with workers, not empires: direct pact with Liverpool trade unions!"
+ glp_powers.20.c:0 "Technological espionage: sailor committees acquire radar blueprints"
+
+ glp_powers.21.t:0 "Convoy from Liverpool"
+ glp_powers.21.d:0 "A British maritime convoy escorted by Royal Navy cruisers has navigated the Turkish Straits and docked in Odessa. Hundreds of Vickers machine guns, anti-aircraft guns, and field medicine crates are delivered to the Insurgent Army."
+ glp_powers.21.a:0 "Equip mobile tachankas with rapid-fire Vickers guns!"
+ glp_powers.21.b:0 "Deploy anti-aircraft and artillery batteries to coastal forts in Odessa and Berdyansk"

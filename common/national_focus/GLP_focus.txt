@@ -108,7 +108,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_underground_armories }
 		x = 2
 		y = 2
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
@@ -124,7 +124,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_partisan_warfare_doctrine }
 		x = 4
 		y = 2
-		cost = 5
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -138,7 +138,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_legendary_tachankas }
 		x = 6
 		y = 2
-		cost = 5
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -162,7 +162,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_black_banner_vanguard }
 		x = 2
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -177,7 +177,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_steppe_lightning }
 		x = 4
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -201,7 +201,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_anti_tank_cavalry }
 		x = 6
 		y = 3
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -226,7 +226,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_armored_train_production focus = GLP_rapid_rail_deployment }
 		x = 3
 		y = 4
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -334,7 +334,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_empower_the_communes }
 		x = 10
 		y = 2
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -361,7 +361,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_syndicate_industrial_planning }
 		x = 12
 		y = 2
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -380,7 +380,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_donbass_coal_and_steel_collective }
 		x = 14
 		y = 2
-		cost = 5
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -394,7 +394,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_dnieper_hydroelectric_freedom }
 		x = 10
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -426,7 +426,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_decentralized_workshop_network }
 		x = 14
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -444,7 +444,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_libertarian_railway_network focus = GLP_revvoensovet_armored_command }
 		x = 11
 		y = 4
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -459,7 +459,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_revvoensovet_armored_command focus = GLP_black_sea_shipyards_refit }
 		x = 13
 		y = 4
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -539,7 +539,7 @@ focus_tree = {
 		mutually_exclusive = { focus = GLP_decree_on_black_terror }
 		x = 18
 		y = 2
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 9 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -565,7 +565,7 @@ focus_tree = {
 		mutually_exclusive = { focus = GLP_libertarian_civil_courts }
 		x = 22
 		y = 2
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 4 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -590,7 +590,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_libertarian_civil_courts }
 		x = 18
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -619,7 +619,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_decree_on_black_terror }
 		x = 22
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
@@ -634,7 +634,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_zadov_intelligence_network }
 		x = 19
 		y = 4
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -704,7 +704,9 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			add_opinion_modifier = { target = SOV modifier = GLP_soviet_military_pact }
-			SOV = { add_opinion_modifier = { target = GLP modifier = GLP_soviet_military_pact } }
+			SOV = { add_opinion_modifier = { target = GLP modifier = GLP_soviet_military_pact
+			country_event = { id = glp_powers.1 days = 2 }
+		} }
 			add_popularity = { ideology = communism popularity = 0.10 }
 			add_stability = -0.05
 			SOV = { country_event = { id = glp_diplo.1 hours = 8 } }
@@ -733,7 +735,9 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			add_opinion_modifier = { target = GER modifier = GLP_german_military_pact }
-			GER = { add_opinion_modifier = { target = GLP modifier = GLP_german_military_pact } }
+			GER = { add_opinion_modifier = { target = GLP modifier = GLP_german_military_pact
+			country_event = { id = glp_powers.10 days = 2 }
+		} }
 			add_popularity = { ideology = fascism popularity = 0.08 }
 			add_stability = -0.06
 			GER = { country_event = { id = glp_diplo.2 hours = 8 } }
@@ -762,7 +766,9 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			add_opinion_modifier = { target = ENG modifier = GLP_british_military_pact }
-			ENG = { add_opinion_modifier = { target = GLP modifier = GLP_british_military_pact } }
+			ENG = { add_opinion_modifier = { target = GLP modifier = GLP_british_military_pact
+			country_event = { id = glp_powers.20 days = 2 }
+		} }
 			add_popularity = { ideology = democratic popularity = 0.08 }
 			add_stability = -0.04
 			ENG = { country_event = { id = glp_diplo.3 hours = 8 } }
@@ -783,6 +789,7 @@ focus_tree = {
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1200 producer = SOV }
 			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 200 producer = SOV }
 			add_political_power = -30
+			country_event = { id = glp_powers.2 days = 2 }
 		}
 	}
 
@@ -799,6 +806,7 @@ focus_tree = {
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1200 producer = GER }
 			add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 120 producer = GER }
 			add_political_power = -30
+			country_event = { id = glp_powers.11 days = 2 }
 		}
 	}
 
@@ -815,6 +823,7 @@ focus_tree = {
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1200 producer = ENG }
 			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 160 producer = ENG }
 			add_political_power = -30
+			country_event = { id = glp_powers.21 days = 2 }
 		}
 	}
 
@@ -824,12 +833,14 @@ focus_tree = {
 		prerequisite = { focus = GLP_soviet_armaments_lend_lease }
 		x = 26
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			army_experience = 50
-			add_tech_bonus = { name = glp_sov_doctrine_bonus bonus = 1.0 uses = 2 category = land_doctrine }
+			add_tech_bonus = { name = glp_sov_doctrine_bonus bonus = 1.0 uses = 2 category = land_doctrine
+			country_event = { id = glp_powers.3 days = 2 }
+		}
 		}
 	}
 
@@ -839,7 +850,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_krupp_arms_shipments }
 		x = 30
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -854,7 +865,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_vickers_armaments_lend_lease }
 		x = 34
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -872,7 +883,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_joint_red_black_military_academy }
 		x = 26
 		y = 4
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
@@ -886,11 +897,13 @@ focus_tree = {
 		prerequisite = { focus = GLP_wehrmacht_tactical_instructors }
 		x = 30
 		y = 4
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_timed_idea = { idea = GLP_german_axis_synergy days = 730 }
+			add_timed_idea = { idea = GLP_german_axis_synergy days = 730
+			country_event = { id = glp_powers.12 days = 2 }
+		}
 		}
 	}
 
@@ -900,7 +913,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_sevastopol_naval_refit_with_royal_navy }
 		x = 34
 		y = 4
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -946,7 +959,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_free_will }
 		x = 24
 		y = 2
-		cost = 5
+		cost = 10
 		available = {
 			OR = {
 				has_war = yes
@@ -994,7 +1007,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_old_enemies_unite }
 		x = 24
 		y = 3
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 9 }
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -1019,7 +1032,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_international_brigades }
 		x = 24
 		y = 4
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -1125,7 +1138,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_bread_for_cities_and_front }
 		x = 38
 		y = 2
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -1144,7 +1157,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_communal_granaries }
 		x = 42
 		y = 2
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -1159,7 +1172,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_tractor_stations_for_communes }
 		x = 38
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -1174,7 +1187,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_land_to_the_tillers_decree }
 		x = 42
 		y = 3
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -1188,7 +1201,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_free_libertarian_schools }
 		x = 39
 		y = 4
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -1347,7 +1360,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_black_international }
 		x = 46
 		y = 3
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -1382,7 +1395,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_total_militarization_of_communes }
 		x = 51
 		y = 3
-		cost = 5
+		cost = 7
 		ai_will_do = { factor = 6 }
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
@@ -1406,7 +1419,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_aid_to_spanish_anarchists focus = GLP_black_crescent_of_the_steppes }
 		x = 47
 		y = 4
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
@@ -1479,7 +1492,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_sevastopol_naval_base }
 		x = 2
 		y = 7
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 6 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -1495,7 +1508,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_sevastopol_naval_base }
 		x = 4
 		y = 7
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -1513,7 +1526,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_revolutionary_destroyers }
 		x = 2
 		y = 8
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 6 }
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
@@ -1566,7 +1579,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_black_sea_dominance }
 		x = 2
 		y = 10
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -1612,7 +1625,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_naval_aviation }
 		x = 3
 		y = 11
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 6 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -1743,7 +1756,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_air_superiority_doctrine }
 		x = 10
 		y = 10
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 6 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
@@ -1759,7 +1772,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_air_superiority_doctrine }
 		x = 14
 		y = 10
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -1776,7 +1789,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_strategic_bombing }
 		x = 12
 		y = 11
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 6 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
@@ -1805,7 +1818,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_unshakeable_revolutionary_order }
 		x = 20
 		y = 6
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -2110,7 +2123,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_cultural_enlightenment }
 		x = 28
 		y = 11
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -2139,7 +2152,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_peoples_militia_patrols focus = GLP_unshakeable_revolutionary_order }
 		x = 36
 		y = 6
-		cost = 10
+		cost = 7
 		ai_will_do = { factor = 6 }
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -2185,7 +2198,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_safe_houses_network }
 		x = 34
 		y = 8
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -2201,7 +2214,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_coded_communications }
 		x = 38
 		y = 8
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 6 }
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -2276,7 +2289,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_resistance_coordination }
 		x = 36
 		y = 11
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -2450,7 +2463,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_economic_independence }
 		x = 44
 		y = 11
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -2565,7 +2578,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_disinformation_campaigns }
 		x = 52
 		y = 9
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 6 }
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -2590,7 +2603,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_special_operations }
 		x = 50
 		y = 10
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -2606,7 +2619,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_special_operations }
 		x = 54
 		y = 10
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
@@ -2623,7 +2636,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_behind_enemy_lines }
 		x = 52
 		y = 11
-		cost = 7
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
@@ -2722,7 +2735,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_hospital_trains }
 		x = 3
 		y = 15
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3005,7 +3018,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_factory_committees }
 		x = 34
 		y = 13
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -3046,7 +3059,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_productivity_bonuses }
 		x = 36
 		y = 14
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -3090,7 +3103,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_womens_emancipation }
 		x = 42
 		y = 13
-		cost = 5
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3132,7 +3145,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_womens_leadership }
 		x = 44
 		y = 14
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3207,7 +3220,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_cossack_heritage }
 		x = 54
 		y = 13
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3233,7 +3246,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_steppe_warfare_school }
 		x = 52
 		y = 14
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3262,7 +3275,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_population_growth }
 		x = 3
 		y = 16
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3278,7 +3291,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_deep_battle_doctrine }
 		x = 2
 		y = 17
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3294,7 +3307,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_deep_battle_doctrine }
 		x = 4
 		y = 17
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3312,7 +3325,7 @@ focus_tree = {
 		x = 3
 		y = 18
 		mutually_exclusive = { focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
-		cost = 10
+		cost = 14
 		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
@@ -3426,7 +3439,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_defense_in_depth }
 		x = 20
 		y = 16
-		cost = 5
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3442,7 +3455,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_balkan_anarchist_federation }
 		x = 18
 		y = 17
-		cost = 5
+		cost = 14
 		ai_will_do = { factor = 4 }
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -3458,7 +3471,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_balkan_anarchist_federation }
 		x = 22
 		y = 17
-		cost = 5
+		cost = 14
 		ai_will_do = { factor = 4 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3476,7 +3489,7 @@ focus_tree = {
 		x = 20
 		y = 18
 		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
-		cost = 5
+		cost = 10
 		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 4 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ANNEXATION }
@@ -3528,7 +3541,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_mechanized_agriculture }
 		x = 30
 		y = 17
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -3546,7 +3559,7 @@ focus_tree = {
 		x = 28
 		y = 18
 		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_impregnable_intelligence focus = GLP_economic_miracle focus = GLP_cossack_legacy }
-		cost = 10
+		cost = 14
 		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
@@ -3576,7 +3589,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_syndicalist_paradise }
 		x = 36
 		y = 16
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -3635,7 +3648,7 @@ focus_tree = {
 		x = 36
 		y = 18
 		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_economic_miracle focus = GLP_cossack_legacy }
-		cost = 10
+		cost = 14
 		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY }
@@ -3680,7 +3693,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_full_employment }
 		x = 42
 		y = 17
-		cost = 10
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -3718,7 +3731,7 @@ focus_tree = {
 		x = 44
 		y = 18
 		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_cossack_legacy }
-		cost = 10
+		cost = 14
 		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
@@ -3747,7 +3760,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_cossack_glory }
 		x = 52
 		y = 16
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3763,7 +3776,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_cossack_officer_corps }
 		x = 50
 		y = 17
-		cost = 7
+		cost = 14
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -3806,7 +3819,7 @@ focus_tree = {
 		x = 52
 		y = 18
 		mutually_exclusive = { focus = GLP_combined_arms_mastery focus = GLP_industrial_powerhouse focus = GLP_global_anarchist_network focus = GLP_breadbasket_of_europe focus = GLP_impregnable_intelligence focus = GLP_economic_miracle }
-		cost = 10
+		cost = 14
 		available = { date > 1938.6.1 }
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }

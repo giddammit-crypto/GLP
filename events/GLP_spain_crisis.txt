@@ -58,11 +58,11 @@ country_event = {
 		# контрабандных коридоров, «возвращение» — решение
 		# GLP_spain_brigade_homecoming (черта «Испанский закал»).
 		if = {
-			limit = { NOT = { has_template = "Бригада РПАУ добровольцев" } }
+			limit = { NOT = { has_template = "Бригада РПА добровольцев" } }
 			random_owned_state = {
 				limit = { is_controlled_by = GLP }
 				create_unit = {
-					division = "division_template = \"Бригада РПАУ добровольцев\" start_manpower_factor = 0.8 start_experience_factor = 0.4"
+					division = "division_template = \"Бригада РПА добровольцев\" start_manpower_factor = 0.8 start_experience_factor = 0.4"
 					owner = GLP
 				}
 			}

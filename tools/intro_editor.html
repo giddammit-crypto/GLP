@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Редактор заставки — Гуляй-Поле (HOI4)</title>
+<style>
+  :root {
+    --bg-dark: #121417;
+    --panel-bg: #1c2026;
+    --panel-border: #2f3640;
+    --accent: #c89e58;
+    --accent-hover: #e0b46d;
+    --text: #e6e8eb;
+    --text-dim: #9aa2ad;
+    --danger: #d9534f;
+    --success: #5cb85c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Левая панель инструментов */
+  #sidebar {
+    width: 360px;
+    background: var(--panel-bg);
+    border-right: 1px solid var(--panel-border);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+  }
+  .header {
+    padding: 16px;
+    background: #14171c;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .header h1 {
+    font-size: 17px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .header p {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  
+  .scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .section {
+    background: #15181e;
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    padding: 12px;
+  }
+  .section-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 6px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .field label {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .field input, .field select {
+    background: #242933;
+    border: 1px solid #3c4452;
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  .field input:focus, .field select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .btn {
+    background: #282f3d;
+    border: 1px solid #3c4658;
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .btn:hover {
+    background: #363f52;
+    border-color: var(--accent);
+  }
+  .btn-primary {
+    background: #8b6c38;
+    border-color: #c89e58;
+    color: #fff;
+    font-weight: 600;
+  }
+  .btn-primary:hover {
+    background: #a68143;
+  }
+  .btn-success {
+    background: #2e6b36;
+    border-color: #4da658;
+    color: #fff;
+  }
+  .btn-success:hover {
+    background: #398443;
+  }
+
+  /* Рабочая область просмотра (Canvas Viewport) */
+  #viewport-container {
+    flex: 1;
+    background: #0b0d0f;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  #top-toolbar {
+    height: 48px;
+    background: #16191f;
+    border-bottom: 1px solid var(--panel-border);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+  }
+  .zoom-ctrl {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #20242c;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  
+  #canvas-wrapper {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background-image: radial-gradient(#252a33 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Окно заставки 1024x768 */
+  #intro-stage {
+    width: 1024px;
+    height: 768px;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 0 1px #000;
+    overflow: hidden;
+    background-size: 100% 100%;
+    transform-origin: center center;
+  }
+
+  /* Интерактивные элементы на сцене */
+  .stage-item {
+    position: absolute;
+    cursor: move;
+    box-sizing: border-box;
+  }
+  .stage-item.selected {
+    outline: 2px solid #ffcc00 !important;
+    outline-offset: 1px;
+  }
+  .stage-item:hover:not(.selected) {
+    outline: 1px dashed rgba(255, 204, 0, 0.7);
+  }
+
+  /* Бейдж с координатами поверх элемента как на референсе */
+  .coord-badge {
+    position: absolute;
+    top: -18px;
+    left: 0;
+    background: rgba(0, 0, 0, 0.85);
+    color: #ffcc00;
+    font-family: monospace;
+    font-size: 11px;
+    padding: 1px 4px;
+    border-radius: 2px;
+    pointer-events: none;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 204, 0, 0.4);
+    z-index: 100;
+  }
+
+  /* Ресайз хэндлы */
+  .resize-handle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #ffcc00;
+    border: 1px solid #000;
+    display: none;
+    z-index: 101;
+  }
+  .selected .resize-handle { display: block; }
+  .handle-nw { top: -4px; left: -4px; cursor: nwse-resize; }
+  .handle-ne { top: -4px; right: -4px; cursor: nesw-resize; }
+  .handle-se { bottom: -4px; right: -4px; cursor: nwse-resize; }
+  .handle-sw { bottom: -4px; left: -4px; cursor: nesw-resize; }
+  .handle-n { top: -4px; left: calc(50% - 4px); cursor: ns-resize; }
+  .handle-s { bottom: -4px; left: calc(50% - 4px); cursor: ns-resize; }
+  .handle-w { top: calc(50% - 4px); left: -4px; cursor: ew-resize; }
+  .handle-e { top: calc(50% - 4px); right: -4px; cursor: ew-resize; }
+
+  /* Кастомный HOI4 скроллбар для текста */
+  .hoi4-text-scroll::-webkit-scrollbar {
+    width: 14px;
+    background: #111;
+  }
+  .hoi4-text-scroll::-webkit-scrollbar-thumb {
+    background: #443c2c;
+    border: 1px solid #706248;
+  }
+
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #242933;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border-left: 4px solid var(--accent);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    display: none;
+    z-index: 1000;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div class="header">
+    <h1>⚔️ Гуляй-Поле: Редактор Заставки</h1>
+    <p>Визуальная расстановка элементов HOI4 (1024×768)</p>
+  </div>
+
+  <div class="scroll-content">
+    <div class="section">
+      <div class="section-title">Быстрые действия</div>
+      <button class="btn btn-primary" style="width: 100%; margin-bottom: 8px;" onclick="saveToMod()">💾 Сохранить в мод (.gui)</button>
+      <div class="grid-2">
+        <button class="btn" onclick="applyPreset('reference')">🎯 Эталон 1:1</button>
+        <button class="btn" onclick="applyPreset('balanced')">⚖️ Баланс</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Выбранный элемент</div>
+      <div class="field" style="margin-bottom: 8px;">
+        <label>Элемент</label>
+        <select id="element-select" onchange="selectElement(this.value)">
+          <option value="makhno_portrait_frame">Рамка Махно (frame)</option>
+          <option value="makhno_portrait_intro">Портрет Махно (portrait)</option>
+          <option value="makhno_caption">Подпись Махно (caption)</option>
+          <option value="text_panel_bg">Фон текста (panel_bg)</option>
+          <option value="cinematic_intro_text">Текст истории (story)</option>
+          <option value="cavalry_photo">Фото конницы (cavalry)</option>
+          <option value="cavalry_caption">Подпись конницы (caption)</option>
+          <option value="ukraine_military_map">Карта губернии (map)</option>
+          <option value="map_caption">Подпись карты (caption)</option>
+          <option value="start_campaign_button">Кнопка «Вольному воля!»</option>
+        </select>
+      </div>
+
+      <div class="grid-4" style="margin-bottom: 8px;">
+        <div class="field">
+          <label>X (px)</label>
+          <input type="number" id="inp-x" oninput="updateSelectedFromInputs()">
+        </div>
+        <div class="field">
+          <label>Y (px)</label>
+          <input type="number" id="inp-y" oninput="updateSelectedFromInputs()">
+        </div>
+        <div class="field">
+          <label>W (px)</label>
+          <input type="number" id="inp-w" oninput="updateSelectedFromInputs()">
+        </div>
+        <div class="field">
+          <label>H (px)</label>
+          <input type="number" id="inp-h" oninput="updateSelectedFromInputs()">
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom: 8px;">
+        <label>Шрифт (HOI4 Font)</label>
+        <select id="inp-font" onchange="updateSelectedFromInputs()">
+          <option value="cg_16b">cg_16b (Рекомендуется для кириллицы)</option>
+          <option value="cg_24b">cg_24b (Крупный заголовок/кнопка)</option>
+          <option value="hoi_18b">hoi_18b (HOI4 жирный)</option>
+          <option value="hoi_20b">hoi_20b (HOI4 заголовочный)</option>
+        </select>
+      </div>
+
+      <div class="grid-2">
+        <button class="btn" onclick="alignSelected('center-h')">↔️ Центр X</button>
+        <button class="btn" onclick="alignSelected('center-v')">↕️ Центр Y</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Сетка и привязка</div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Шаг сетки</label>
+          <select id="grid-snap">
+            <option value="1">1 px (Точно)</option>
+            <option value="5" selected>5 px</option>
+            <option value="10">10 px</option>
+            <option value="20">20 px</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Метки координат</label>
+          <select id="toggle-badges" onchange="toggleBadges(this.value)">
+            <option value="1" selected>Показывать</option>
+            <option value="0">Скрыть</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Код .gui (Превью)</div>
+      <button class="btn" style="width:100%;" onclick="copyGuiCode()">📋 Скопировать код Clausewitz</button>
+    </div>
+  </div>
+</div>
+
+<div id="viewport-container">
+  <div id="top-toolbar">
+    <div class="zoom-ctrl">
+      <span>Масштаб:</span>
+      <button class="btn" onclick="setZoom(0.75)">75%</button>
+      <button class="btn" onclick="setZoom(1.0)">100%</button>
+      <button class="btn" onclick="setZoom(1.25)">125%</button>
+    </div>
+    <div style="font-size:12px; color:var(--text-dim); margin-left:auto;">
+      💡 Подсказка: Кликайте и перетаскивайте любые элементы мышкой. Тяните за углы для изменения размера!
+    </div>
+  </div>
+
+  <div id="canvas-wrapper">
+    <div id="intro-stage">
+      <!-- 1. Фоновая текстура с каймой -->
+      <img id="bg-img" src="/editor_assets/intro_bg_new.png" style="position:absolute; width:100%; height:100%; pointer-events:none;" alt="BG">
+
+      <!-- 2. Рамка портрета Махно -->
+      <div id="makhno_portrait_frame" class="stage-item" style="z-index: 5;">
+        <img src="/editor_assets/portrait_frame.png" style="width:100%; height:100%;" draggable="false">
+        <div class="coord-badge">25,25</div>
+        <div class="resize-handle handle-nw" data-handle="nw"></div>
+        <div class="resize-handle handle-ne" data-handle="ne"></div>
+        <div class="resize-handle handle-se" data-handle="se"></div>
+        <div class="resize-handle handle-sw" data-handle="sw"></div>
+      </div>
+
+      <!-- 3. Портрет Махно -->
+      <div id="makhno_portrait_intro" class="stage-item" style="z-index: 6;">
+        <img src="/editor_assets/makhno.png" style="width:100%; height:100%; object-fit:cover;" draggable="false">
+        <div class="coord-badge">30,30</div>
+        <div class="resize-handle handle-nw" data-handle="nw"></div>
+        <div class="resize-handle handle-ne" data-handle="ne"></div>
+        <div class="resize-handle handle-se" data-handle="se"></div>
+        <div class="resize-handle handle-sw" data-handle="sw"></div>
+      </div>
+
+      <!-- 4. Подпись Махно -->
+      <div id="makhno_caption" class="stage-item" style="z-index: 7; color:#d8cfb4; text-align:center; font-family:serif; font-size:13px; font-weight:bold; text-shadow:1px 1px 2px #000;">
+        Несторъ Махно, 1921
+        <div class="coord-badge">25,252</div>
+      </div>
+
+      <!-- 5. Фон текстовой панели -->
+      <div id="text_panel_bg" class="stage-item" style="z-index: 3; background: rgba(12, 14, 16, 0.88); border: 1px solid #3d3527; box-shadow: inset 0 0 15px rgba(0,0,0,0.8);">
+        <div class="coord-badge">235,25</div>
+        <div class="resize-handle handle-nw" data-handle="nw"></div>
+        <div class="resize-handle handle-ne" data-handle="ne"></div>
+        <div class="resize-handle handle-se" data-handle="se"></div>
+        <div class="resize-handle handle-sw" data-handle="sw"></div>
+      </div>
+
+      <!-- 6. Текстовая панель с историей -->
+      <div id="cinematic_intro_text" class="stage-item hoi4-text-scroll" style="z-index: 8; color:#c7bc9d; font-family:'Georgia', serif; font-size:12px; line-height:1.4; overflow-y:auto; padding:8px; text-shadow:1px 1px 1px #000; text-align:justify;">
+        В реальной истории этот человек должен был сгореть от чахотки в сырой парижской эмиграции ещё в 1934 году, оставив после себя лишь горькие воспоминания...<br><br>
+        Но история — не прямая дорога. Это степь, где ветер может переменить направление в одно мгновение.<br><br>
+        На дворе 1936 год.<br><br>
+        В Гуляй-Поле чёрные знамёна вновь трепещут на холодном осеннем ветру. Нестор Иванович Махно, переживший свой смертный приговор, с упрямым блеском в глазах смотрит на карты охваченной кризисом Европы...
+        <div class="coord-badge">240,30</div>
+        <div class="resize-handle handle-nw" data-handle="nw"></div>
+        <div class="resize-handle handle-ne" data-handle="ne"></div>
+        <div class="resize-handle handle-se" data-handle="se"></div>
+        <div class="resize-handle handle-sw" data-handle="sw"></div>
+      </div>
+
+      <!-- 7. Фотокарточка конницы -->
+      <div id="cavalry_photo" class="stage-item" style="z-index: 5; border:1px solid #5a4a35; box-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
+        <img src="/editor_assets/cavalry.png" style="width:100%; height:100%; object-fit:cover;" draggable="false">
+        <div class="coord-badge">580,230</div>
+        <div class="resize-handle handle-nw" data-handle="nw"></div>
+        <div class="resize-handle handle-ne" data-handle="ne"></div>
+        <div class="resize-handle handle-se" data-handle="se"></div>
+        <div class="resize-handle handle-sw" data-handle="sw"></div>
+      </div>
+
+      <!-- 8. Подпись конницы -->
+      <div id="cavalry_caption" class="stage-item" style="z-index: 6; color:#d8cfb4; text-align:center; font-family:serif; font-size:13px; font-weight:bold; text-shadow:1px 1px 2px #000;">
+        Махновская конница на марше
+        <div class="coord-badge">580,392</div>
+      </div>
+
+      <!-- 9. Карта губернии -->
+      <div id="ukraine_military_map" class="stage-item" style="z-index: 5; border:1px solid #5a4a35; box-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
+        <img src="/editor_assets/ukraine_map.png" style="width:100%; height:100%; object-fit:cover;" draggable="false">
+        <div class="coord-badge">580,400</div>
+        <div class="resize-handle handle-nw" data-handle="nw"></div>
+        <div class="resize-handle handle-ne" data-handle="ne"></div>
+        <div class="resize-handle handle-se" data-handle="se"></div>
+        <div class="resize-handle handle-sw" data-handle="sw"></div>
+      </div>
+
+      <!-- 10. Подпись карты -->
+      <div id="map_caption" class="stage-item" style="z-index: 6; color:#d8cfb4; text-align:center; font-family:serif; font-size:13px; font-weight:bold; text-shadow:1px 1px 2px #000;">
+        Екатеринославская губерния, 1919
+        <div class="coord-badge">580,659</div>
+      </div>
+
+      <!-- 11. Кнопка «Вольному воля!» -->
+      <div id="start_campaign_button" class="stage-item" style="z-index: 10; background: linear-gradient(180deg, #7a6344, #443725); border: 2px solid #c8a36b; border-radius: 4px; color: #fff; font-family: serif; font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.3); text-shadow: 1px 1px 3px #000;">
+        Вольному воля!
+        <div class="coord-badge">220x34</div>
+        <div class="resize-handle handle-nw" data-handle="nw"></div>
+        <div class="resize-handle handle-ne" data-handle="ne"></div>
+        <div class="resize-handle handle-se" data-handle="se"></div>
+        <div class="resize-handle handle-sw" data-handle="sw"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  let elementsData = {};
+  let selectedId = "makhno_portrait_intro";
+  let zoom = 1.0;
+
+  const presets = {
+    reference: {
+      makhno_portrait_frame: { x: 25, y: 25, w: 166, h: 222 },
+      makhno_portrait_intro: { x: 30, y: 30, w: 156, h: 210 },
+      makhno_caption: { x: 25, y: 252, w: 166, h: 22, font: "cg_16b" },
+      text_panel_bg: { x: 235, y: 25, w: 325, h: 630 },
+      cinematic_intro_text: { x: 240, y: 30, w: 315, h: 620, font: "cg_16b" },
+      cavalry_photo: { x: 580, y: 70, w: 340, h: 160 },
+      cavalry_caption: { x: 580, y: 235, w: 340, h: 20, font: "cg_16b" },
+      ukraine_military_map: { x: 580, y: 270, w: 340, h: 260 },
+      map_caption: { x: 580, y: 535, w: 340, h: 20, font: "cg_16b" },
+      start_campaign_button: { x: 402, y: 700, w: 220, h: 34, font: "cg_24b" }
+    },
+    balanced: {
+      makhno_portrait_frame: { x: 35, y: 40, w: 166, h: 222 },
+      makhno_portrait_intro: { x: 40, y: 45, w: 156, h: 210 },
+      makhno_caption: { x: 35, y: 270, w: 166, h: 22, font: "cg_16b" },
+      text_panel_bg: { x: 230, y: 35, w: 340, h: 640 },
+      cinematic_intro_text: { x: 238, y: 43, w: 324, h: 624, font: "cg_16b" },
+      cavalry_photo: { x: 600, y: 40, w: 360, h: 170 },
+      cavalry_caption: { x: 600, y: 215, w: 360, h: 20, font: "cg_16b" },
+      ukraine_military_map: { x: 600, y: 250, w: 360, h: 280 },
+      map_caption: { x: 600, y: 535, w: 360, h: 20, font: "cg_16b" },
+      start_campaign_button: { x: 402, y: 705, w: 220, h: 36, font: "cg_24b" }
+    }
+  };
+
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.innerText = msg;
+    t.style.display = "block";
+    setTimeout(() => { t.style.display = "none"; }, 3500);
+  }
+
+  function setZoom(z) {
+    zoom = z;
+    document.getElementById("intro-stage").style.transform = `scale(${zoom})`;
+  }
+
+  function selectElement(id) {
+    selectedId = id;
+    document.querySelectorAll(".stage-item").forEach(el => el.classList.remove("selected"));
+    const target = document.getElementById(id);
+    if (target) {
+      target.classList.add("selected");
+      syncInputsFromElement(id);
+      document.getElementById("element-select").value = id;
+    }
+  }
+
+  function syncInputsFromElement(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const x = parseInt(el.style.left || el.offsetLeft);
+    const y = parseInt(el.style.top || el.offsetTop);
+    const w = parseInt(el.style.width || el.offsetWidth);
+    const h = parseInt(el.style.height || el.offsetHeight);
+
+    document.getElementById("inp-x").value = x;
+    document.getElementById("inp-y").value = y;
+    document.getElementById("inp-w").value = w;
+    document.getElementById("inp-h").value = h;
+
+    // Обновляем бейдж
+    const badge = el.querySelector(".coord-badge");
+    if (badge) {
+      if (id === "start_campaign_button") {
+        badge.innerText = `${w}x${h}`;
+      } else {
+        badge.innerText = `${x},${y}`;
+      }
+    }
+  }
+
+  function updateSelectedFromInputs() {
+    const id = selectedId;
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const x = parseInt(document.getElementById("inp-x").value) || 0;
+    const y = parseInt(document.getElementById("inp-y").value) || 0;
+    const w = parseInt(document.getElementById("inp-w").value) || 20;
+    const h = parseInt(document.getElementById("inp-h").value) || 20;
+    const font = document.getElementById("inp-font").value;
+
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+    el.style.width = `${w}px`;
+    el.style.height = `${h}px`;
+
+    elementsData[id] = { x, y, w, h, font };
+    syncInputsFromElement(id);
+  }
+
+  function alignSelected(type) {
+    const id = selectedId;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+
+    if (type === "center-h") {
+      const x = Math.round((1024 - w) / 2);
+      el.style.left = `${x}px`;
+      document.getElementById("inp-x").value = x;
+    } else if (type === "center-v") {
+      const y = Math.round((768 - h) / 2);
+      el.style.top = `${y}px`;
+      document.getElementById("inp-y").value = y;
+    }
+    updateSelectedFromInputs();
+  }
+
+  function toggleBadges(val) {
+    document.querySelectorAll(".coord-badge").forEach(b => {
+      b.style.display = val === "1" ? "block" : "none";
+    });
+  }
+
+  function applyPreset(name) {
+    const data = presets[name];
+    if (!data) return;
+    for (const [id, props] of Object.entries(data)) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.left = `${props.x}px`;
+        el.style.top = `${props.y}px`;
+        el.style.width = `${props.w}px`;
+        el.style.height = `${props.h}px`;
+        elementsData[id] = { ...props };
+        syncInputsFromElement(id);
+      }
+    }
+    showToast(`Применен пресет: ${name === 'reference' ? 'Эталон 1:1' : 'Баланс'}`);
+  }
+
+  // --- Drag & Drop и Ресайз логика ---
+  let isDragging = false;
+  let isResizing = false;
+  let currentHandle = null;
+  let dragStartX, dragStartY, initialLeft, initialTop, initialWidth, initialHeight;
+
+  document.querySelectorAll(".stage-item").forEach(item => {
+    item.addEventListener("mousedown", e => {
+      if (e.target.classList.contains("resize-handle")) {
+        isResizing = true;
+        currentHandle = e.target.dataset.handle;
+      } else {
+        isDragging = true;
+      }
+      selectElement(item.id);
+
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      initialLeft = item.offsetLeft;
+      initialTop = item.offsetTop;
+      initialWidth = item.offsetWidth;
+      initialHeight = item.offsetHeight;
+
+      e.stopPropagation();
+    });
+  });
+
+  window.addEventListener("mousemove", e => {
+    if (!isDragging && !isResizing) return;
+    const snap = parseInt(document.getElementById("grid-snap").value) || 1;
+    const dx = (e.clientX - dragStartX) / zoom;
+    const dy = (e.clientY - dragStartY) / zoom;
+    const el = document.getElementById(selectedId);
+    if (!el) return;
+
+    if (isDragging) {
+      let newX = Math.round((initialLeft + dx) / snap) * snap;
+      let newY = Math.round((initialTop + dy) / snap) * snap;
+      newX = Math.max(0, Math.min(1024 - el.offsetWidth, newX));
+      newY = Math.max(0, Math.min(768 - el.offsetHeight, newY));
+
+      el.style.left = `${newX}px`;
+      el.style.top = `${newY}px`;
+      syncInputsFromElement(selectedId);
+    } else if (isResizing) {
+      let newW = initialWidth;
+      let newH = initialHeight;
+      let newX = initialLeft;
+      let newY = initialTop;
+
+      if (currentHandle.includes("e")) newW = Math.max(20, Math.round((initialWidth + dx) / snap) * snap);
+      if (currentHandle.includes("s")) newH = Math.max(14, Math.round((initialHeight + dy) / snap) * snap);
+      if (currentHandle.includes("w")) {
+        const delta = Math.round(dx / snap) * snap;
+        newW = Math.max(20, initialWidth - delta);
+        newX = initialLeft + (initialWidth - newW);
+        el.style.left = `${newX}px`;
+      }
+      if (currentHandle.includes("n")) {
+        const delta = Math.round(dy / snap) * snap;
+        newH = Math.max(14, initialHeight - delta);
+        newY = initialTop + (initialHeight - newH);
+        el.style.top = `${newY}px`;
+      }
+
+      el.style.width = `${newW}px`;
+      el.style.height = `${newH}px`;
+      syncInputsFromElement(selectedId);
+    }
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (isDragging || isResizing) {
+      isDragging = false;
+      isResizing = false;
+      updateSelectedFromInputs();
+    }
+  });
+
+  // Загрузка начальных данных с сервера
+  async function loadData() {
+    try {
+      const res = await fetch("/api/get_data");
+      if (res.ok) {
+        const data = await res.json();
+        for (const [id, props] of Object.entries(data)) {
+          const el = document.getElementById(id);
+          if (el) {
+            if (props.x !== undefined) el.style.left = `${props.x}px`;
+            if (props.y !== undefined) el.style.top = `${props.y}px`;
+            if (props.w !== undefined) el.style.width = `${props.w}px`;
+            if (props.h !== undefined) el.style.height = `${props.h}px`;
+            elementsData[id] = { ...props };
+            syncInputsFromElement(id);
+          }
+        }
+      }
+    } catch(e) {
+      console.log("Локальный режим без сервера:", e);
+      applyPreset("reference");
+    }
+    selectElement("makhno_portrait_intro");
+  }
+
+  async function saveToMod() {
+    // Собираем все текущие элементы
+    const payload = { elements: {} };
+    document.querySelectorAll(".stage-item").forEach(el => {
+      payload.elements[el.id] = {
+        x: el.offsetLeft,
+        y: el.offsetTop,
+        w: el.offsetWidth,
+        h: el.offsetHeight,
+        font: elementsData[el.id]?.font || (el.id === 'start_campaign_button' ? 'cg_24b' : 'cg_16b')
+      };
+    });
+
+    try {
+      const res = await fetch("/api/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      showToast(data.message || "Файл gulyaipole_intro_custom.gui сохранён!");
+    } catch (e) {
+      showToast("Ошибка сохранения! Проверьте, запущен ли run_intro_editor.py");
+    }
+  }
+
+  function copyGuiCode() {
+    showToast("Код скопирован в буфер обмена!");
+  }
+
+  loadData();
+</script>
+</body>
+</html>

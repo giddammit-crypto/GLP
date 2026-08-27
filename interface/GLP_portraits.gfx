@@ -210,4 +210,14 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_oleg_potemkin_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Oleg_Potemkin.dds"
 	}
+
+	# ---------------------------- Иван Лепетченко ---------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_ivan_lepetchenko"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Ivan_Lepetchenko_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_ivan_lepetchenko_small"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Ivan_Lepetchenko.dds"
+	}
 }

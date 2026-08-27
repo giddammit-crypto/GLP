@@ -1,17 +1,5 @@
 # Гуляй-Поле — кинематографическая заставка (HOI4 1.19.2)
-#
-# РАСКЛАДКА 1:1 ПО ЭТАЛОННОМУ СКИНШУ (1024x768):
-#   (30,30)   портрет Махно в золотой раме + подпись
-#   (240,30)  текстовая панель (310x620) с вертикальной прокруткой
-#   (580,230) фотокарточка конницы (320x150) + подпись
-#   (580,400) военная карта (320x260) + подпись
-#   (402,700) кнопка «Вольному воля!» 220x34, shortcut ENTER
-#
-# Один containerWindowType; все элементы в единой системе координат окна,
-# чтобы вложенные окна не переопределяли origin/position.
-# Голос запускается событием glp_cinematic_intro.1 (sound_effect +
-# scoped_play_song), окно показывается scripted GUI по флагу
-# glp_show_cinematic_intro.
+# AAA Оформление и идеальная компоновка (1024x768)
 
 guiTypes = {
 	containerWindowType = {
@@ -22,115 +10,139 @@ guiTypes = {
 		origo = center
 		moveable = no
 		click_to_front = no
-		clipping = yes
 
-		# Мрачная фактура состаренной архивной бумаги (1024x768)
+		# ── ФОН И ДЕКОРАТИВНАЯ РАМКА ──────────────────────────────────────
 		background = {
 			name = "Background"
 			quadTextureSprite = "GFX_intro_bg"
 		}
 
-		# Золотая инкрустированная кайма по периметру окна
-		iconType = {
-			name = "intro_window_frame"
-			position = { x = 0 y = 0 }
-			size = { width = 1024 height = 768 }
-			spriteType = "GFX_gold_inner_border"
-			alwaystransparent = yes
+		# Рамка убрана — растянутая каёмка портит вид окна
+
+		# Кнопка-крестик в правом верхнем углу
+		buttonType = {
+			name = "close_intro_button"
+			position = { x = 976 y = 14 }
+			quadTextureSprite = "GFX_closebutton"
+			shortcut = "ESCAPE"
+			clicksound = click_close
+			pdx_tooltip = "CLOSE"
 		}
 
-		# Портрет Махно: левый верхний угол (30,30)
-		iconType = {
-			name = "makhno_portrait_frame"
-			position = { x = 25 y = 25 }
-			size = { width = 166 height = 220 }
-			spriteType = "GFX_political_leader_frame_gold"
-			alwaystransparent = yes
-		}
+		# ── ВЕРХНИЙ БЛОК: КАРТА, ПОРТРЕТ И КОННИЦА ───────────────────────
 
-		iconType = {
-			name = "makhno_portrait_intro"
-			position = { x = 30 y = 30 }
-			size = { width = 156 height = 210 }
-			spriteType = "GFX_portrait_nestor_makhno_intro"
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "makhno_caption"
-			position = { x = 25 y = 248 }
-			font = "hoi_12mbs"
-			borderSize = { x = 0 y = 0 }
-			text = "GULYAIPOLE_MAKHNO_CAPTION"
-			maxWidth = 166
-			maxHeight = 18
-			fixedsize = yes
-			format = center
-		}
-
-		# Текстовая панель (240,30): история с вертикальной прокруткой
-		instantTextBoxType = {
-			name = "cinematic_intro_text"
-			position = { x = 240 y = 30 }
-			font = "hoi_16mbs"
-			borderSize = { x = 0 y = 0 }
-			text = "GULYAIPOLE_EPIC_INTRO_TEXT"
-			maxWidth = 310
-			maxHeight = 620
-			format = left
-			scrollbarType = standardtext_slider
-		}
-
-		# Правый блок: фотокарточка конницы (580,230), подпись, карта (580,400)
-		iconType = {
-			name = "cavalry_photo"
-			position = { x = 580 y = 230 }
-			size = { width = 320 height = 150 }
-			spriteType = "GFX_intro_makhno_cavalry"
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "cavalry_caption"
-			position = { x = 580 y = 386 }
-			font = "hoi_12mbs"
-			borderSize = { x = 0 y = 0 }
-			text = "GULYAIPOLE_CAVALRY_CAPTION"
-			maxWidth = 320
-			maxHeight = 14
-			fixedsize = yes
-			format = center
-		}
-
+		# 1. Левая карточка: Военная карта Екатеринославщины
 		iconType = {
 			name = "ukraine_military_map"
-			position = { x = 580 y = 400 }
-			size = { width = 320 height = 260 }
+			position = { x = 45 y = 50 }
+			size = { width = 290 height = 230 }
 			spriteType = "GFX_intro_ukraine_map"
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "map_caption"
-			position = { x = 580 y = 664 }
-			font = "hoi_12mbs"
+			position = { x = 45 y = 286 }
+			font = "cg_16b"
 			borderSize = { x = 0 y = 0 }
 			text = "GULYAIPOLE_MAP_CAPTION"
-			maxWidth = 320
-			maxHeight = 14
+			maxWidth = 290
+			maxHeight = 20
 			fixedsize = yes
 			format = center
 		}
 
-		# Кнопка начала кампании: 220x34, центр низа (402,700)
+		# 2. Центральная карточка: Портрет Нестора Махно
+		iconType = {
+			name = "makhno_portrait_intro"
+			position = { x = 417 y = 75 }
+			size = { width = 240 height = 310 }
+			spriteType = "GFX_portrait_nestor_makhno_intro"
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "makhno_caption"
+			position = { x = 417 y = 348 }
+			font = "cg_16b"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_MAKHNO_CAPTION"
+			maxWidth = 240
+			maxHeight = 20
+			fixedsize = yes
+			format = center
+		}
+
+		# 3. Правая карточка: Махновская конница
+		iconType = {
+			name = "cavalry_photo"
+			position = { x = 669 y = 60 }
+			size = { width = 290 height = 180 }
+			spriteType = "GFX_intro_makhno_cavalry"
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "cavalry_caption"
+			position = { x = 669 y = 246 }
+			font = "cg_16b"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_CAVALRY_CAPTION"
+			maxWidth = 290
+			maxHeight = 20
+			fixedsize = yes
+			format = center
+		}
+
+		# ── СРЕДНИЙ БЛОК: ТЕКСТОВАЯ ПАНЕЛЬ ИСТОРИИ ─────────────────────────
+
+		# Тёмная подложка под весь текст на ширину окна (+15px по высоте)
+		iconType = {
+			name = "text_panel_bg"
+			position = { x = 35 y = 375 }
+			size = { width = 954 height = 310 }
+			spriteType = "GFX_tiled_bg_dark"
+			alwaystransparent = yes
+		}
+
+		# Текст истории с плавной прокруткой (+15px по высоте)
+		instantTextBoxType = {
+			name = "cinematic_intro_text"
+			position = { x = 50 y = 390 }
+			font = "cg_16b"
+			borderSize = { x = 4 y = 4 }
+			text = "GULYAIPOLE_EPIC_INTRO_TEXT"
+			maxWidth = 924
+			maxHeight = 280
+			format = left
+			scrollbarType = standardtext_slider
+		}
+
+		# ── НИЖНИЙ БЛОК: КНОПКА ЗАКРЫТИЯ / СТАРТА ──────────────────────────
+
+		# Главная золотая кнопка «Вольному воля!»
 		buttonType = {
 			name = "start_campaign_button"
-			position = { x = 402 y = 700 }
-			quadTextureSprite = "GFX_button_221x34"
-			buttonFont = "hoi_18mbs"
-			buttonText = "GULYAIPOLE_START_BUTTON"
-			shortcut = "ENTER"
+			position = { x = 392 y = 696 }
+			spriteType = "GFX_intro_start_button"
+			buttonText = ""
 			clicksound = click_default
+			shortcut = "ENTER"
+		}
+
+		# Текстовая надпись на кнопке (кириллица cg_16b)
+		instantTextBoxType = {
+			name = "start_campaign_button_label"
+			position = { x = 392 y = 707 }
+			font = "cg_16b"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_START_BUTTON"
+			maxWidth = 240
+			maxHeight = 20
+			fixedsize = yes
+			format = center
+			vertical_alignment = center
+			alwaystransparent = yes
 		}
 	}
 }

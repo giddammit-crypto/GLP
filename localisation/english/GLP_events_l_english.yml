@@ -264,3 +264,5 @@
  glp_diplo.30.t:0 "To Each Their Own Freedom"
  glp_diplo.30.d:0 "Makhno has refused every banner. No surety — so each neighbour watches his own frontier."
  glp_diplo.30.a:0 "Let them sit on the steppe"
+ glp_cinematic_intro.1.t:0 "Launch Gulyaipole Intro"
+ glp_cinematic_intro.1.d:0 "Hidden system event to launch the intro cinematic."

@@ -595,3 +595,30 @@ characters = {
 		}
 	}
 }
+
+	# ─────────────────────────────────────────────────────────────────────────
+	#  Иван Михайлович Лепетченко — полевой командир РПА.
+	#  Один из наиболее опытных тактиков Вольной Территории, специалист
+	#  по рейдовым операциям и обходным манёврам на степных коммуникациях.
+	# ─────────────────────────────────────────────────────────────────────────
+	GLP_ivan_lepetchenko = {
+		name = GLP_ivan_lepetchenko
+		portraits = {
+			army = {
+				large = "GFX_portrait_GLP_ivan_lepetchenko"
+				small = "GFX_portrait_GLP_ivan_lepetchenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_ivan_lepetchenko"
+				small = "GFX_portrait_GLP_ivan_lepetchenko_small"
+			}
+		}
+		corps_commander = {
+			skill = 2
+			attack_skill = 3
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 2
+			traits = { cavalry_officer GLP_steppe_raider }
+		}
+	}

@@ -1,0 +1,304 @@
+add_namespace = glp_powers
+
+# =============================================================================
+#  ГУЛЯЙ-ПОЛЕ — ВНЕШНЕПОЛИТИЧЕСКИЕ СОБЫТИЯ ВЕЛИКИХ ДЕРЖАВ (HOI4 1.19.2)
+#  СССР · Германия · Великобритания
+# =============================================================================
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  🔴 ВЕТКА СССР
+# ─────────────────────────────────────────────────────────────────────────────
+
+# glp_powers.1 — Телеграмма из Кремля: Харьковский пакт II
+country_event = {
+	id = glp_powers.1
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
+
+	is_triggered_only = yes
+
+	# Опция A: Полный прагматизм с политотделами
+	option = {
+		name = glp_powers.1.a
+		ai_chance = { factor = 35 }
+		add_political_power = 50
+		add_ideas = GLP_soviet_heavy_industry_support
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1200 producer = SOV }
+		SOV = { add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed } }
+		set_country_flag = glp_soviet_heavy_pact
+	}
+
+	# Опция B: Степное условие — равноправие без чекистов
+	option = {
+		name = glp_powers.1.b
+		ai_chance = { factor = 50 }
+		add_political_power = 30
+		add_stability = 0.05
+		add_war_support = 0.05
+		add_ideas = GLP_equal_soviet_partnership
+		SOV = { add_opinion_modifier = { target = GLP modifier = GLP_pact_watch } }
+		set_country_flag = glp_soviet_equal_pact
+	}
+
+	# Опция C: Спецоперация КРО Задова — внедрение в структуры ГРУ/НКВД
+	option = {
+		name = glp_powers.1.c
+		ai_chance = { factor = 15 }
+		add_political_power = 60
+		add_command_power = 20
+		set_country_flag = glp_kro_infiltrating_soviet
+		add_ideas = GLP_equal_soviet_partnership
+	}
+}
+
+# glp_powers.2 — Танковые эшелоны из Харькова
+country_event = {
+	id = glp_powers.2
+	title = glp_powers.2.t
+	desc = glp_powers.2.d
+	picture = GFX_news_event_GLP_rebirth
+
+	is_triggered_only = yes
+
+	# Опция A: Механизированная бригада «Батько Махно»
+	option = {
+		name = glp_powers.2.a
+		ai_chance = { factor = 60 }
+		army_experience = 25
+		add_tech_bonus = {
+			name = glp_armor_bonus
+			bonus = 1.0
+			uses = 1
+			category = armor
+		}
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 800 producer = SOV }
+		add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 120 producer = SOV }
+	}
+
+	# Опция B: Распределить орудия по тачаночным полкам
+	option = {
+		name = glp_powers.2.b
+		ai_chance = { factor = 40 }
+		army_experience = 15
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1500 producer = SOV }
+		add_equipment_to_stockpile = { type = support_equipment amount = 150 producer = SOV }
+		add_war_support = 0.05
+	}
+}
+
+# glp_powers.3 — Красно-Чёрные манёвры
+country_event = {
+	id = glp_powers.3
+	title = glp_powers.3.t
+	desc = glp_powers.3.d
+	picture = GFX_news_event_GLP_tachanka_charge
+
+	is_triggered_only = yes
+
+	# Опция A: Единая наступательная доктрина
+	option = {
+		name = glp_powers.3.a
+		ai_chance = { factor = 70 }
+		army_experience = 40
+		add_tech_bonus = {
+			name = glp_doctrine_bonus
+			bonus = 1.0
+			uses = 2
+			category = land_doctrine
+		}
+	}
+
+	# Опция B: Автономия партизанского манёвра
+	option = {
+		name = glp_powers.3.b
+		ai_chance = { factor = 30 }
+		army_experience = 20
+		add_political_power = 40
+		add_stability = 0.05
+	}
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  ⚫ ВЕТКА ГЕРМАНИИ
+# ─────────────────────────────────────────────────────────────────────────────
+
+# glp_powers.10 — Эмиссары из Берлина: Предложение Абвера
+country_event = {
+	id = glp_powers.10
+	title = glp_powers.10.t
+	desc = glp_powers.10.d
+	picture = GFX_news_event_GLP_black_guard_march
+
+	is_triggered_only = yes
+
+	# Опция A: Прагматический арсенал Круппа
+	option = {
+		name = glp_powers.10.a
+		ai_chance = { factor = 40 }
+		add_ideas = GLP_krupp_rearmament
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1200 producer = GER }
+		add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 120 producer = GER }
+		GER = { add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed } }
+		set_country_flag = glp_german_pragmatic_deal
+	}
+
+	# Опция B: Синдикальный демарш через Швейцарию
+	option = {
+		name = glp_powers.10.b
+		ai_chance = { factor = 35 }
+		add_political_power = 50
+		add_stability = 0.05
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 600 }
+		set_country_flag = glp_swiss_syndicate_channel
+	}
+
+	# Опция C: Спасение антифашистского подполья FAUD
+	option = {
+		name = glp_powers.10.c
+		ai_chance = { factor = 25 }
+		add_ideas = GLP_german_anarchist_cadres
+		add_manpower = 15000
+		add_political_power = 30
+		set_country_flag = glp_faud_cadres_rescued
+	}
+}
+
+# glp_powers.11 — Эшелоны Круппа на станции Пологи
+country_event = {
+	id = glp_powers.11
+	title = glp_powers.11.t
+	desc = glp_powers.11.d
+	picture = GFX_news_event_GLP_cavalry_raid
+
+	is_triggered_only = yes
+
+	# Опция A: Перебить клейма на «Чёрный Череп»
+	option = {
+		name = glp_powers.11.a
+		ai_chance = { factor = 60 }
+		add_war_support = 0.05
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1500 producer = GER }
+		add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 150 producer = GER }
+	}
+
+	# Опция B: Скопировать инженерные чертежи пушек
+	option = {
+		name = glp_powers.11.b
+		ai_chance = { factor = 40 }
+		add_tech_bonus = {
+			name = glp_artillery_bonus
+			bonus = 1.0
+			uses = 2
+			category = artillery
+		}
+	}
+}
+
+# glp_powers.12 — Чёрный крест степей
+country_event = {
+	id = glp_powers.12
+	title = glp_powers.12.t
+	desc = glp_powers.12.d
+	picture = GFX_news_event_GLP_white_collapse
+
+	is_triggered_only = yes
+
+	# Опция A: Мобилизационный план «Степной гром»
+	option = {
+		name = glp_powers.12.a
+		ai_chance = { factor = 70 }
+		army_experience = 30
+		add_war_support = 0.10
+		add_command_power = 30
+	}
+
+	# Опция B: Тайные схроны партизанских баз
+	option = {
+		name = glp_powers.12.b
+		ai_chance = { factor = 30 }
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 2000 }
+		add_stability = 0.05
+	}
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  🔵 ВЕТКА ВЕЛИКОБРИТАНИИ
+# ─────────────────────────────────────────────────────────────────────────────
+
+# glp_powers.20 — Атташе Форин-Офиса в Гуляйполе
+country_event = {
+	id = glp_powers.20
+	title = glp_powers.20.t
+	desc = glp_powers.20.d
+	picture = GFX_news_event_GLP_anarchist_congress
+
+	is_triggered_only = yes
+
+	# Опция A: Черноморско-Британский морской пакт
+	option = {
+		name = glp_powers.20.a
+		ai_chance = { factor = 40 }
+		add_ideas = GLP_black_sea_admiralty
+		navy_experience = 35
+		add_equipment_to_stockpile = { type = convoy_1 amount = 50 producer = ENG }
+		ENG = { add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed } }
+		set_country_flag = glp_british_admiralty_pact
+	}
+
+	# Опция B: Прямой союз с тред-юнионами Ливерпуля
+	option = {
+		name = glp_powers.20.b
+		ai_chance = { factor = 40 }
+		add_ideas = GLP_british_trade_union_solidarity
+		add_political_power = 50
+		add_stability = 0.08
+		set_country_flag = glp_tuc_solidarity_pact
+	}
+
+	# Опция C: Матросский технологический обмен
+	option = {
+		name = glp_powers.20.c
+		ai_chance = { factor = 20 }
+		add_tech_bonus = {
+			name = glp_electronics_bonus
+			bonus = 1.0
+			uses = 2
+			category = electronics
+		}
+		add_tech_bonus = {
+			name = glp_naval_doctrine_bonus
+			bonus = 1.0
+			uses = 1
+			category = naval_doctrine
+		}
+	}
+}
+
+# glp_powers.21 — Караван из Ливерпуля
+country_event = {
+	id = glp_powers.21
+	title = glp_powers.21.t
+	desc = glp_powers.21.d
+	picture = GFX_news_event_GLP_durruti_column
+
+	is_triggered_only = yes
+
+	# Опция A: Оснастить моторизованную кавалерию виккерсами
+	option = {
+		name = glp_powers.21.a
+		ai_chance = { factor = 60 }
+		army_experience = 20
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1200 producer = ENG }
+		add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 160 producer = ENG }
+	}
+
+	# Опция B: Укрепить портовую оборону Одессы и Бердянска
+	option = {
+		name = glp_powers.21.b
+		ai_chance = { factor = 40 }
+		navy_experience = 20
+		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 800 producer = ENG }
+		add_equipment_to_stockpile = { type = anti_air_equipment_1 amount = 100 producer = ENG }
+	}
+}

@@ -42,12 +42,14 @@ decisions = {
 					SPR = { add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1350 producer = GLP } }
 					add_stability = 0.01
 					add_war_support = 0.02
+					country_event = { id = glp_spain2.5 days = 3 }
 				}
 				else = {
 					# Перехват Regia Marina: 1500 винтовок в Средиземном море
-					ITA = { add_opinion_modifier = { target = GLP modifier = GLP_italian_protest_note } }
+					ITA = { add_opinion_modifier = { target = GLP modifier = GLP_black_sea_provocateurs } }
 					add_stability = -0.02
 					add_war_support = -0.01
+					country_event = { id = glp_spain2.6 days = 2 }
 				}
 			}
 			ai_will_do = { factor = 2 }
@@ -71,6 +73,7 @@ decisions = {
 				has_equipment = { small_arms_equipment_1 > 299 }
 			}
 			complete_effect = {
+				set_country_flag = glp_balkan_route_active
 				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -300 }
 				add_equipment_to_stockpile = { type = support_equipment amount = -100 }
 				if = {
@@ -107,6 +110,7 @@ decisions = {
 				has_equipment = { small_arms_equipment_1 > 499 }
 			}
 			complete_effect = {
+				set_country_flag = french_syndicate_smuggling
 				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -500 }
 				if = {
 					limit = { random = 95 }

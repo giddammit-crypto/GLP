@@ -1,14 +1,105 @@
-# Гуляй-Поле — регистрация голосовой дорожки как music asset (HOI4 1.19.2).
-#
-# Файлы *.asset читаются из каталога music/, поэтому voice.ogg лежит рядом
-# с этим определением. Для непосредственного запуска заставки используется
-# sound_effect = gulyaipole_intro_voice; музыкальная регистрация оставлена
-# для радио-совместимости и не подменяет обычный саундтрек игры.
+### =========================================================================
+###  ГУЛЯЙ-ПОЛЕ — звуковое оформление (Плейлист «Монгол Шуудан»)
+### =========================================================================
 
-# Имя намеренно отличается от soundeffect gulyaipole_intro_voice:
-# событие заставки всегда выбирает именно sound_effect, а не запись радио.
+music = {
+	name = "maintheme"
+	file = "mongol_shuudan_batka_ataman.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_bei"
+	file = "mongol_shuudan_bei.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_lyubo"
+	file = "mongol_shuudan_lyubo.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_konflikt"
+	file = "mongol_shuudan_konflikt.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_ne_moya_zabota"
+	file = "mongol_shuudan_ne_moya_zabota.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_sedmoi_patron"
+	file = "mongol_shuudan_sedmoi_patron.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_finsky_nozh"
+	file = "mongol_shuudan_finsky_nozh.ogg"
+	volume = 0.75
+}
+
+music = {
+	name = "GLP_ms_yablochko"
+	file = "mongol_shuudan_yablochko.ogg"
+	volume = 0.70
+}
+
+music = {
+	name = "GLP_ms_strelyai"
+	file = "mongol_shuudan_strelyai_ataman.ogg"
+	volume = 0.70
+}
+
+music = {
+	name = "GLP_ms_svoboda"
+	file = "mongol_shuudan_svoboda.ogg"
+	volume = 0.70
+}
+
+music = {
+	name = "GLP_ms_moskva"
+	file = "mongol_shuudan_moskva.ogg"
+	volume = 0.65
+}
+
+music = {
+	name = "GLP_ms_finka"
+	file = "mongol_shuudan_finsky_nozh.ogg"
+	volume = 0.70
+}
+
+music = {
+	name = "GLP_ms_privet_batke"
+	file = "mongol_shuudan_privet_batke.ogg"
+	volume = 0.70
+}
+
+music = {
+	name = "GLP_ms_dalnyaya"
+	file = "mongol_shuudan_dalnyaya_doroga.ogg"
+	volume = 0.65
+}
+
+music = {
+	name = "GLP_ms_poltsarstva"
+	file = "mongol_shuudan_poltsarstva_za_konya.ogg"
+	volume = 0.70
+}
+
+music = {
+	name = "GLP_ms_granata"
+	file = "mongol_shuudan_granata.ogg"
+	volume = 0.70
+}
 music = {
 	name = "gulyaipole_intro_voice_music"
 	file = "voice.ogg"
 	volume = 1.0
 }
+

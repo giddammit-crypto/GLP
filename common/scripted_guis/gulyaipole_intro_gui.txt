@@ -24,6 +24,12 @@ scripted_gui = {
 				clr_country_flag = glp_intro_manual_mode
 				scoped_play_song = GLP_ms_yablochko
 			}
+			close_intro_button_click = {
+				clr_country_flag = glp_show_cinematic_intro
+				clr_country_flag = glp_intro_crawl_mode
+				clr_country_flag = glp_intro_manual_mode
+				scoped_play_song = GLP_ms_yablochko
+			}
 		}
 
 		triggers = {
@@ -31,6 +37,12 @@ scripted_gui = {
 				always = yes
 			}
 			start_campaign_button_visible = {
+				always = yes
+			}
+			close_intro_button_click_enabled = {
+				always = yes
+			}
+			close_intro_button_visible = {
 				always = yes
 			}
 		}
