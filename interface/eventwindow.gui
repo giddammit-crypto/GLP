@@ -1,14 +1,15 @@
 # ============================================================================
 #  ГУЛЯЙ-ПОЛЕ — override окна событий.
 #
-#  База — ванильный interface/eventwindow.gui АКТУАЛЬНОЙ версии игры
-#  (окна EventWindow / EventWindow_Operative / EventWindow_leader не тронуты:
-#  шрифты ванильные hoi4_typewriter22/16 и hoi_20bs — cg_24b/cg_16b в HOI4
-#  НЕ существуют и дают чёрный текст со знаками «??????» на русском).
-#  Изменено ТОЛЬКО окно EventWindow_News: ширина удвоена (528 -> 1056),
-#  фон — широкий тёмный GFX_event_news_bg_wide (interface/GLP_eventwindow.gfx),
-#  заголовок/текст — «инверсные» БЕЛЫЕ шрифты hoi4_typewriter22/16_inverted.
+#  База — ванильный interface/eventwindow.gui АКТУАЛЬНОЙ версии игры.
+#  ВСЕ окна (EventWindow, EventWindow_Operative, EventWindow_leader,
+#  EventWindow_News) используют БЕЛЫЕ «инверсные» шрифты:
+#    hoi4_typewriter22_inverted (заголовки) + hoi4_typewriter16_inverted (текст).
+#  Кнопки выборов — hoi_20bs (ванильный).
+#  Окно EventWindow_News: ширина удвоена (528 -> 1056),
+#  фон — широкий тёмный GFX_event_news_bg_wide (interface/GLP_eventwindow.gfx).
 # ============================================================================
+
 
 guiTypes = {
 
