@@ -1,5 +1,6 @@
 ### =========================================================================
-###  ГУЛЯЙ-ПОЛЕ — игровой плейлист
+###  ГУЛЯЙ-ПОЛЕ — игровой плейлист (songs.txt)
+###  Заглушки (дубли Яблочко) удалены. Только уникальные треки.
 ### =========================================================================
 
 music_station = "base_music"
@@ -86,71 +87,8 @@ music = {
 }
 
 music = {
-	song = "GLP_ms_strelyai"
-	chance = {
-		factor = 2
-		modifier = { factor = 2 tag = GLP }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-
-music = {
-	song = "GLP_ms_svoboda"
-	chance = {
-		factor = 2
-		modifier = { factor = 2 tag = GLP }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-
-music = {
-	song = "GLP_ms_moskva"
-	chance = {
-		factor = 1.5
-		modifier = { factor = 2 tag = GLP }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-
-music = {
-	song = "GLP_ms_privet_batke"
-	chance = {
-		factor = 2
-		modifier = { factor = 2 tag = GLP }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-
-music = {
-	song = "GLP_ms_dalnyaya"
-	chance = {
-		factor = 1.5
-		modifier = { factor = 2 tag = GLP }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-
-music = {
-	song = "GLP_ms_poltsarstva"
-	chance = {
-		factor = 2
-		modifier = { factor = 2 tag = GLP }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-
-music = {
-	song = "GLP_ms_granata"
-	chance = {
-		factor = 2
-		modifier = { factor = 2 tag = GLP }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-music = {
 	song = "gulyaipole_intro_voice_music"
 	chance = {
 		factor = 0
 	}
 }
-
