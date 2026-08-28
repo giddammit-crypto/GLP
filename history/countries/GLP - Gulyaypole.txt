@@ -29,6 +29,13 @@ set_popularities = {
 	democratic = 5
 }
 
+# Special Country Rules (Война при мировой напряженности 3%, отправка добровольцев без лимитов 50%)
+set_rule = {
+	can_send_volunteers = yes
+	can_declare_war_without_wargoal_when_in_war = yes
+	can_generate_female_aces = yes
+}
+
 # Recruit Modern Characters
 recruit_character = GLP_nestor_makhno
 recruit_character = GLP_ataman_grigoriev

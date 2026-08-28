@@ -18,7 +18,11 @@ news_event = {
 
 	option = {
 		name = glp_news.100.a          # «Да грянетъ Громъ!»
-		trigger = { tag = GLP }
+		trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		} tag = GLP }
 		add_political_power = 50
 		add_war_support = 0.05
 		add_stability = 0.05
@@ -51,7 +55,11 @@ news_event = {
 
 	option = {
 		name = glp_news.1.a
-		trigger = { tag = GLP }
+		trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		} tag = GLP }
 		add_political_power = 50
 		add_stability = 0.05
 	}
@@ -78,7 +86,11 @@ news_event = {
 
 	option = {
 		name = glp_news.2.a
-		trigger = { tag = GLP }
+		trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		} tag = GLP }
 		add_stability = 0.10
 		add_political_power = 60
 	}
@@ -98,9 +110,13 @@ news_event = {
 
 	option = {
 		name = glp_news.3.a
-		trigger = { tag = GLP }
+		trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		} tag = GLP }
 		add_equipment_to_stockpile = {
-			type = small_arms_equipment_1
+			type = infantry_equipment
 			amount = 1000
 			producer = GLP
 		}
@@ -127,7 +143,11 @@ news_event = {
 
 	option = {
 		name = glp_news.4.a
-		trigger = { tag = GLP }
+		trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		} tag = GLP }
 		add_manpower = 20000
 		add_political_power = 75
 	}
@@ -147,7 +167,11 @@ news_event = {
 
 	option = {
 		name = glp_news.5.a
-		trigger = { tag = GLP }
+		trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		} tag = GLP }
 		add_political_power = 80
 		add_stability = 0.10
 	}
@@ -182,7 +206,11 @@ news_event = {
 
 	option = {
 		name = glp_news.6.a
-		trigger = { tag = GLP }
+		trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		} tag = GLP }
 		add_stability = 0.10
 		add_popularity = {
 			ideology = neutrality
@@ -208,7 +236,11 @@ news_event = {
 
 	option = {
 		name = glp_news.7.a
-		trigger = { tag = GLP }
+		trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		} tag = GLP }
 		army_experience = 10
 		add_war_support = 0.03
 	}
@@ -229,6 +261,8 @@ country_event = {
 	desc = glp.10.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1936.4.1
 	}
@@ -259,6 +293,8 @@ country_event = {
 	desc = glp.11.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1936.6.1
 	}
@@ -273,7 +309,7 @@ country_event = {
 	option = {
 		name = glp.11.b
 		add_equipment_to_stockpile = {
-			type = small_arms_equipment_1
+			type = infantry_equipment
 			amount = 600
 			producer = GLP
 		}
@@ -287,6 +323,8 @@ country_event = {
 	desc = glp.12.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		controls_state = 200
 		date > 1936.8.1
@@ -324,6 +362,8 @@ country_event = {
 	desc = glp.13.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		controls_state = 227
 		date > 1936.10.1
@@ -357,6 +397,8 @@ country_event = {
 	desc = glp.14.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1937.1.1
 	}
@@ -382,6 +424,8 @@ country_event = {
 	desc = glp.15.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1937.3.1
 	}
@@ -406,6 +450,8 @@ country_event = {
 	desc = glp.16.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		controls_state = 137
 		date > 1937.5.1
@@ -438,6 +484,8 @@ country_event = {
 	desc = glp.17.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1937.7.1
 	}
@@ -463,6 +511,8 @@ country_event = {
 	desc = glp.18.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1937.9.1
 	}
@@ -494,6 +544,8 @@ country_event = {
 	desc = glp.19.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1937.11.1
 	}
@@ -519,6 +571,8 @@ country_event = {
 	desc = glp.20.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1938.1.1
 	}
@@ -549,6 +603,8 @@ country_event = {
 	desc = glp.21.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1938.3.1
 	}
@@ -563,7 +619,7 @@ country_event = {
 	option = {
 		name = glp.21.b
 		add_equipment_to_stockpile = {
-			type = small_arms_equipment_1
+			type = infantry_equipment
 			amount = 800
 			producer = GLP
 		}
@@ -577,6 +633,8 @@ country_event = {
 	desc = glp.22.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1938.5.1
 	}
@@ -613,6 +671,8 @@ country_event = {
 	desc = glp.23.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1938.8.1
 	}
@@ -642,6 +702,8 @@ country_event = {
 	desc = glp.24.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1938.11.1
 	}
@@ -663,6 +725,11 @@ country_event = {
 	desc = glp.1.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = { name = glp.1.a add_political_power = 50 }
 }
 
@@ -672,6 +739,11 @@ country_event = {
 	desc = glp.2.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = { name = glp.2.a add_stability = 0.05 }
 }
 
@@ -681,6 +753,11 @@ country_event = {
 	desc = glp.3.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = { name = glp.3.a add_manpower = 15000 }
 }
 
@@ -695,6 +772,11 @@ country_event = {
 	desc = glp_raid.1.d
 	picture = GFX_news_event_GLP_black_guard_march
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 
 	option = {
 		name = glp_raid.1.a
@@ -713,6 +795,13 @@ news_event = {
 	picture = GFX_news_event_GLP_rebirth
 	major = no
 	is_triggered_only = yes
+
+	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
+	}
 
 	option = { name = glp_spanish.1.a }
 }

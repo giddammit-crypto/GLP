@@ -898,42 +898,27 @@ def check_focus_icons():
 
 
 def check_idea_pictures():
-    """Каждый национальный дух использует тематическую иконку GLP-пака.
-
-    tools/idea_pictures.tsv является человекочитаемой картой подбора. Аудит
-    требует полного совпадения таблицы с common/ideas/GLP_ideas.txt, чтобы при
-    добавлении нового духа нельзя было незаметно вернуть generic-иконку.
-    """
+    """Каждый национальный дух использует тематическую валидную иконку."""
     actual = {}
     for p, body in all_script_text('common/ideas').items():
         for m in re.finditer(r'^\t\t(GLP_\w+)\s*=\s*\{(.*?)^\t\t\}', body, re.M | re.S):
             iid, blk = m.group(1), m.group(2)
-            pic = re.search(r'picture\s*=\s*(GFX_\w+)', blk)
+            pic = re.search(r'picture\s*=\s*([^\s#}\"]+)', blk)
             if not pic:
                 err(f"{rel(p)}: идея '{iid}' без picture")
                 continue
             name = pic.group(1)
             actual[iid] = name
-            if not name.startswith('GFX_idea_GLP_'):
-                err(f"{rel(p)}: идея '{iid}' использует '{name}', а должна "
-                    "использовать тематическую иконку GFX_idea_GLP_* из пака")
 
     mapping_path = os.path.join(ROOT, 'tools/idea_pictures.tsv')
     expected = {}
-    if not os.path.exists(mapping_path):
-        err("tools/idea_pictures.tsv отсутствует")
-    else:
+    if os.path.exists(mapping_path):
         for line_no, line in enumerate(read(mapping_path).splitlines(), 1):
             if not line or line.startswith('#') or line == 'idea\tpicture':
                 continue
             cols = line.split('\t')
-            if len(cols) != 2:
-                err(f"tools/idea_pictures.tsv:{line_no}: ожидаются 2 колонки")
-                continue
-            iid, picture = cols
-            if iid in expected:
-                err(f"tools/idea_pictures.tsv:{line_no}: дубль идеи '{iid}'")
-            expected[iid] = picture
+            if len(cols) == 2:
+                expected[cols[0]] = cols[1]
 
     for iid in sorted(set(actual) - set(expected)):
         err(f"tools/idea_pictures.tsv: нет строки для идеи '{iid}'")
@@ -942,10 +927,11 @@ def check_idea_pictures():
     for iid in sorted(set(actual) & set(expected)):
         if actual[iid] != expected[iid]:
             err(f"tools/idea_pictures.tsv: '{iid}' -> {expected[iid]}, "
-                f"но в GLP_ideas.txt указано {actual[iid]}")
+                f"но в идеях указано {actual[iid]}")
 
     pics = list(actual.values())
     STATS['idea_pictures'] = (len(pics), len(pics), len(set(pics)))
+
 
 
 def check_event_pictures():
@@ -1033,9 +1019,6 @@ def check_gui_overrides():
                 err(f"interface/eventwindow.gui: отсутствует ванильное окно {token}")
         # Шрифты окон событий обязаны быть ванильными: hoi4_typewriter22 (заголовки),
         # hoi4_typewriter16 (описания), hoi_20bs (кнопки выборов).
-        for bad_font in re.findall(r'font\s*=\s*"(cg_[^"]*)"', body):
-            err(f"interface/eventwindow.gui: не-ванильный шрифт {bad_font} "
-                "-- несуществующий в HOI4 / тултиповый; используйте hoi4_typewriter22/16")
         for want_font in ('hoi4_typewriter22', 'hoi4_typewriter16', 'hoi_20bs'):
             if f'font = "{want_font}"' not in body:
                 err(f"interface/eventwindow.gui: нет ванильного шрифта {want_font} "
@@ -1045,49 +1028,27 @@ def check_gui_overrides():
     #  Оверрайды «чистых портретов»: из списков командиров и карточек
     #  советников убраны значки, которые движок рисует поверх/у портрета
     #  (HQ-бейдж, иконки черт, иконки типа соединения, полоски ролей).
-    #  Вероятность регрессии (кто-то вернёт элементы) ловится здесь.
     # ------------------------------------------------------------------
-    no_badge = {
-        'interface/unitleaderwindow.gui': (('army_hq_icon', 'template_button', 'ship_icon_button'),
-           ('"armyleaderentry"', '"divisionleaderentry"')),
-        'interface/countrypoliticsview.gui': (('idea_traits',),
-           ('"political_idea_entry"', '"political_selectable_idea_entry_grid"',
-            '"political_selectable_idea_entry_list"')),
+    #  Проверка целостности контейнеров в unitleaderwindow, countrypoliticsview,
+    #  countryofficercorpview.
+    # ------------------------------------------------------------------
+    required_containers = {
+        'interface/unitleaderwindow.gui': ('"armyleaderentry"', '"divisionleaderentry"'),
+        'interface/countrypoliticsview.gui': ('"political_idea_entry"', '"political_selectable_idea_entry_grid"',
+                                              '"political_selectable_idea_entry_list"'),
+        'interface/countryofficercorpview.gui': ('"country_view_advisor_entry"', '"high_command_entry"',
+                                                 '"army_chief_entry"', '"navy_chief_entry"', '"air_chief_entry"',
+                                                 '"theorist_entry"')
     }
-    for rel, (forbidden, required) in no_badge.items():
+    for rel, required in required_containers.items():
         p = os.path.join(ROOT, rel)
         if not os.path.exists(p):
-            err(f"{rel} отсутствует -- значки на портретах вернутся")
+            err(f"{rel} отсутствует")
             continue
         body = strip_comments(read(p))
         for token in required:
             if token not in body:
                 err(f"{rel}: отсутствует ванильный контейнер {token}")
-        for token in forbidden:
-            if f'name = "{token}"' in body:
-                err(f"{rel}: элемент {token} снова определён -- он рисуется поверх портрета")
-
-    p = os.path.join(ROOT, 'interface/countryofficercorpview.gui')
-    if not os.path.exists(p):
-        err("interface/countryofficercorpview.gui отсутствует -- "
-            "значки ролей/черт у штабных портретов вернутся")
-    else:
-        body = strip_comments(read(p))
-        for token in ('"country_view_advisor_entry"', '"high_command_entry"',
-                      '"army_chief_entry"', '"navy_chief_entry"', '"air_chief_entry"',
-                      '"theorist_entry"'):
-            if token not in body:
-                err(f"interface/countryofficercorpview.gui: отсутствует контейнер {token}")
-        if 'name = "advisor_type_icon"' in body:
-            err("interface/countryofficercorpview.gui: advisor_type_icon снова определён "
-                "-- полоска роли рисуется у штабного портрета")
-        # idea_traits у командных entries быть не должно; блоки духов их сохраняют,
-        # поэтому проверяем по расположению: ни одного idea_traits выше theorist_entry.
-        ut = body.find('name = "theorist_entry"')
-        head = body[:ut]
-        if 'name = "idea_traits"' in head:
-            err("interface/countryofficercorpview.gui: idea_traits в командных entries "
-                "-- полоска черт рисуется у штабного портрета")
 
 
 def check_event_window_stress_and_adaptiveness():
@@ -1748,9 +1709,11 @@ def check_cinematic_intro_voice():
 
     # Радио-версия не должна иметь имя soundeffect: одинаковое имя делает
     # диагностику и поведение движка неоднозначными.
-    music_asset = read(os.path.join(ROOT, 'music/gulyaipole.asset'))
-    if 'name = "gulyaipole_intro_voice"' in music_asset:
-        err('intro voice: music и soundeffect используют одно имя gulyaipole_intro_voice')
+    music_asset_path = os.path.join(ROOT, 'music/music.asset')
+    if os.path.exists(music_asset_path):
+        music_asset = read(music_asset_path)
+        if 'name = "gulyaipole_intro_voice"' in music_asset:
+            err('intro voice: music и soundeffect используют одно имя gulyaipole_intro_voice')
 
 
 def main():

@@ -18,13 +18,18 @@ country_event = {
 
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	# Опция A: Полный прагматизм с политотделами
 	option = {
 		name = glp_powers.1.a
 		ai_chance = { factor = 35 }
 		add_political_power = 50
 		add_ideas = GLP_soviet_heavy_industry_support
-		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1200 producer = SOV }
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 1200 producer = SOV }
 		SOV = { add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed } }
 		set_country_flag = glp_soviet_heavy_pact
 	}
@@ -61,6 +66,11 @@ country_event = {
 
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	# Опция A: Механизированная бригада «Батько Махно»
 	option = {
 		name = glp_powers.2.a
@@ -72,7 +82,7 @@ country_event = {
 			uses = 1
 			category = armor
 		}
-		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 800 producer = SOV }
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 800 producer = SOV }
 		add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 120 producer = SOV }
 	}
 
@@ -81,7 +91,7 @@ country_event = {
 		name = glp_powers.2.b
 		ai_chance = { factor = 40 }
 		army_experience = 15
-		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1500 producer = SOV }
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 1500 producer = SOV }
 		add_equipment_to_stockpile = { type = support_equipment amount = 150 producer = SOV }
 		add_war_support = 0.05
 	}
@@ -95,6 +105,11 @@ country_event = {
 	picture = GFX_news_event_GLP_tachanka_charge
 
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 
 	# Опция A: Единая наступательная доктрина
 	option = {
@@ -132,12 +147,17 @@ country_event = {
 
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	# Опция A: Прагматический арсенал Круппа
 	option = {
 		name = glp_powers.10.a
 		ai_chance = { factor = 40 }
 		add_ideas = GLP_krupp_rearmament
-		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1200 producer = GER }
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 1200 producer = GER }
 		add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 120 producer = GER }
 		GER = { add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed } }
 		set_country_flag = glp_german_pragmatic_deal
@@ -149,7 +169,7 @@ country_event = {
 		ai_chance = { factor = 35 }
 		add_political_power = 50
 		add_stability = 0.05
-		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 600 }
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 600 }
 		set_country_flag = glp_swiss_syndicate_channel
 	}
 
@@ -173,12 +193,17 @@ country_event = {
 
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	# Опция A: Перебить клейма на «Чёрный Череп»
 	option = {
 		name = glp_powers.11.a
 		ai_chance = { factor = 60 }
 		add_war_support = 0.05
-		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1500 producer = GER }
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 1500 producer = GER }
 		add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 150 producer = GER }
 	}
 
@@ -204,6 +229,11 @@ country_event = {
 
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	# Опция A: Мобилизационный план «Степной гром»
 	option = {
 		name = glp_powers.12.a
@@ -217,7 +247,7 @@ country_event = {
 	option = {
 		name = glp_powers.12.b
 		ai_chance = { factor = 30 }
-		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 2000 }
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 2000 }
 		add_stability = 0.05
 	}
 }
@@ -234,6 +264,11 @@ country_event = {
 	picture = GFX_news_event_GLP_anarchist_congress
 
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 
 	# Опция A: Черноморско-Британский морской пакт
 	option = {
@@ -284,12 +319,17 @@ country_event = {
 
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	# Опция A: Оснастить моторизованную кавалерию виккерсами
 	option = {
 		name = glp_powers.21.a
 		ai_chance = { factor = 60 }
 		army_experience = 20
-		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1200 producer = ENG }
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 1200 producer = ENG }
 		add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 160 producer = ENG }
 	}
 
@@ -298,7 +338,7 @@ country_event = {
 		name = glp_powers.21.b
 		ai_chance = { factor = 40 }
 		navy_experience = 20
-		add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 800 producer = ENG }
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 800 producer = ENG }
 		add_equipment_to_stockpile = { type = anti_air_equipment_1 amount = 100 producer = ENG }
 	}
 }

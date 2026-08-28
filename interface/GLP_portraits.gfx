@@ -218,6 +218,6 @@ spriteTypes = {
 	}
 	spriteType = {
 		name = "GFX_portrait_GLP_ivan_lepetchenko_small"
-		texturefile = "gfx/leaders/GLP/Portrait_GLP_Ivan_Lepetchenko.dds"
+		texturefile = "gfx/interface/ideas/idea_GLP_Ivan_Lepetchenko.dds"
 	}
 }

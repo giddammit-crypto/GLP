@@ -9,6 +9,11 @@ country_event = {
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	option = {
 		name = glp_diplo.1.a
 		ai_chance = {
@@ -66,6 +71,11 @@ country_event = {
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	option = {
 		name = glp_diplo.2.a
 		ai_chance = {
@@ -122,6 +132,11 @@ country_event = {
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	option = {
 		name = glp_diplo.3.a
 		ai_chance = {
@@ -173,6 +188,11 @@ country_event = {
 	desc = glp_diplo.11.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = { name = glp_diplo.11.a }
 }
 
@@ -182,6 +202,11 @@ country_event = {
 	desc = glp_diplo.12.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = {
 		name = glp_diplo.12.a
 		add_war_support = 0.05
@@ -195,6 +220,11 @@ country_event = {
 	desc = glp_crisis.1.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	fire_only_once = yes
 
 	option = {
@@ -226,6 +256,11 @@ country_event = {
 	desc = glp_crisis.2.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	fire_only_once = yes
 
 	option = {
@@ -253,6 +288,11 @@ country_event = {
 	desc = glp_crisis.3.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = {
 		name = glp_crisis.3.a
 		add_war_support = 0.10
@@ -269,6 +309,11 @@ country_event = {
 	desc = glp_crisis.10.d
 	picture = GFX_news_event_GLP_black_guard_march
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	fire_only_once = yes
 
 	# (1) Лояльность: атаман принимает общий устав РПА.
@@ -350,6 +395,11 @@ country_event = {
 	desc = glp_crisis.20.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	fire_only_once = yes
 
 	option = {
@@ -384,6 +434,11 @@ country_event = {
 	desc = glp_crisis.30.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	fire_only_once = yes
 
 	# (1) Лазарет — Батько уходит на лечение, армия ждёт.
@@ -467,6 +522,11 @@ country_event = {
 	desc = glp_crisis.31.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	fire_only_once = yes
 
 	# (a) Трофим Вдовиченко — лидер партизан, опытный командарм.
@@ -554,6 +614,11 @@ country_event = {
 	desc = glp_crisis.40.d
 	picture = GFX_news_event_GLP_black_guard_march
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	fire_only_once = yes
 
 	# (1a) Разоружить семёновцев. Стаб−, манпауэр−3000, ПП−20.
@@ -608,7 +673,9 @@ country_event = {
 	option = {
 		name = glp_crisis.41.a
 		ai_chance = { factor = 70 }
-		trigger = { has_country_flag = GLP_white_step_2_sidelined }
+		trigger = {
+		exists = yes
+		has_capitulated = no has_country_flag = GLP_white_step_2_sidelined }
 		add_stability = 0.04
 		add_manpower = -1500
 		add_political_power = 25
@@ -657,7 +724,9 @@ country_event = {
 	option = {
 		name = glp_crisis.42.a
 		ai_chance = { factor = 80 }
-		trigger = { has_country_flag = GLP_white_step_3_dispersed }
+		trigger = {
+		exists = yes
+		has_capitulated = no has_country_flag = GLP_white_step_3_dispersed }
 		add_stability = 0.05
 		add_political_power = 50
 		add_manpower = -2000
@@ -709,6 +778,11 @@ country_event = {
 	desc = glp_diplo.21.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = {
 		name = glp_diplo.21.a
 		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
@@ -724,6 +798,11 @@ country_event = {
 	desc = glp_diplo.22.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = {
 		name = glp_diplo.22.a
 		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
@@ -737,6 +816,11 @@ country_event = {
 	desc = glp_diplo.23.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = {
 		name = glp_diplo.23.a
 		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }
@@ -750,6 +834,11 @@ country_event = {
 	desc = glp_diplo.24.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = {
 		name = glp_diplo.24.a
 		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
@@ -765,6 +854,11 @@ country_event = {
 	desc = glp_diplo.25.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = {
 		name = glp_diplo.25.a
 		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
@@ -779,6 +873,11 @@ country_event = {
 	desc = glp_diplo.26.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = {
 		name = glp_diplo.26.a
 		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
@@ -793,6 +892,11 @@ country_event = {
 	desc = glp_diplo.30.d
 	picture = GFX_news_event_GLP_rebirth
 	is_triggered_only = yes
+
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
 	option = {
 		name = glp_diplo.30.a
 		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }

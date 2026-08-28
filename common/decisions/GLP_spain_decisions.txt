@@ -32,14 +32,14 @@ decisions = {
 				has_country_flag = glp_spain_open_route
 			}
 			available = {
-				has_equipment = { small_arms_equipment_1 > 1499 }
+				has_equipment = { infantry_equipment > 1499 }
 			}
 			complete_effect = {
-				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -1500 }
+				add_equipment_to_stockpile = { type = infantry_equipment amount = -1500 }
 				if = {
 					limit = { random = 65 }
 					# Конвой дошёл: потери в пути ~10%
-					SPR = { add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 1350 producer = GLP } }
+					SPR = { add_equipment_to_stockpile = { type = infantry_equipment amount = 1350 producer = GLP } }
 					add_stability = 0.01
 					add_war_support = 0.02
 					country_event = { id = glp_spain2.5 days = 3 }
@@ -70,16 +70,16 @@ decisions = {
 				}
 			}
 			available = {
-				has_equipment = { small_arms_equipment_1 > 299 }
+				has_equipment = { infantry_equipment > 299 }
 			}
 			complete_effect = {
 				set_country_flag = glp_balkan_route_active
-				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -300 }
+				add_equipment_to_stockpile = { type = infantry_equipment amount = -300 }
 				add_equipment_to_stockpile = { type = support_equipment amount = -100 }
 				if = {
 					limit = { random = 85 }
 					SPR = {
-						add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 270 producer = GLP }
+						add_equipment_to_stockpile = { type = infantry_equipment amount = 270 producer = GLP }
 						add_equipment_to_stockpile = { type = support_equipment amount = 90 producer = GLP }
 					}
 					add_war_support = 0.01
@@ -107,15 +107,15 @@ decisions = {
 				}
 			}
 			available = {
-				has_equipment = { small_arms_equipment_1 > 499 }
+				has_equipment = { infantry_equipment > 499 }
 			}
 			complete_effect = {
 				set_country_flag = french_syndicate_smuggling
-				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -500 }
+				add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
 				if = {
 					limit = { random = 95 }
 					SPR = {
-						add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 450 producer = GLP }
+						add_equipment_to_stockpile = { type = infantry_equipment amount = 450 producer = GLP }
 						add_equipment_to_stockpile = { type = support_equipment amount = 135 producer = GLP }
 					}
 					# Синдикалисты Франции ведут наш груз по своим линиям

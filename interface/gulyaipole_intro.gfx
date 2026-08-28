@@ -21,6 +21,13 @@ spriteTypes = {
 		texturefile = "gfx/interface/intro/gulyaipole_tiled_bg_dark.dds"
 	}
 	corneredTileSpriteType = {
+		name = "GFX_gulyaipole_panel_dark"
+		size = { x = 64 y = 64 }
+		texturefile = "gfx/interface/intro/gulyaipole_panel_dark.dds"
+		borderSize = { x = 6 y = 6 }
+		tilingCenter = yes
+	}
+	corneredTileSpriteType = {
 		name = "GFX_tiled_bg_dark_tiled"
 		texturefile = "gfx/interface/intro/gulyaipole_intro_bg.dds"
 		borderSize = { x = 0 y = 0 }

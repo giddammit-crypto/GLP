@@ -313,6 +313,9 @@ focus_tree = {
 	focus = {
 		id = GLP_donbass_coal_and_steel_collective
 		icon = GFX_focus_generic_coal_mining
+		available = {
+			controls_state = 227
+		}
 		prerequisite = { focus = GLP_syndicate_industrial_planning }
 		x = 14
 		y = 1
@@ -331,6 +334,9 @@ focus_tree = {
 	focus = {
 		id = GLP_dnieper_hydroelectric_freedom
 		icon = GFX_focus_generic_hydroelectric_energy
+		available = {
+			controls_state = 200
+		}
 		prerequisite = { focus = GLP_empower_the_communes }
 		x = 10
 		y = 2
@@ -423,6 +429,9 @@ focus_tree = {
 	focus = {
 		id = GLP_black_sea_shipyards_refit
 		icon = GFX_focus_generic_refit_civilian_ships
+		available = {
+			OR = { controls_state = 137 controls_state = 196 }
+		}
 		prerequisite = { focus = GLP_decentralized_workshop_network }
 		x = 14
 		y = 3
@@ -685,6 +694,18 @@ focus_tree = {
 	focus = {
 		id = GLP_alliance_with_soviet_union
 		icon = GFX_focus_generic_join_comintern
+		available = {
+			country_exists = SOV
+			NOT = { has_war_with = SOV }
+			SOV = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = SOV }
+				SOV = { has_capitulated = yes }
+				has_war_with = SOV
+			}
+		}
 		prerequisite = { focus = GLP_international_diplomacy_crossroads }
 		mutually_exclusive = { focus = GLP_alliance_with_germany focus = GLP_alliance_with_britain focus = GLP_free_will }
 		x = 26
@@ -717,6 +738,18 @@ focus_tree = {
 	focus = {
 		id = GLP_alliance_with_germany
 		icon = GFX_goal_generic_alliance
+		available = {
+			country_exists = GER
+			NOT = { has_war_with = GER }
+			GER = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = GER }
+				GER = { has_capitulated = yes }
+				has_war_with = GER
+			}
+		}
 		prerequisite = { focus = GLP_international_diplomacy_crossroads }
 		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_britain focus = GLP_free_will }
 		x = 30
@@ -748,6 +781,18 @@ focus_tree = {
 	focus = {
 		id = GLP_alliance_with_britain
 		icon = GFX_goal_generic_major_alliance
+		available = {
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+			ENG = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = ENG }
+				ENG = { has_capitulated = yes }
+				has_war_with = ENG
+			}
+		}
 		prerequisite = { focus = GLP_international_diplomacy_crossroads }
 		mutually_exclusive = { focus = GLP_alliance_with_soviet_union focus = GLP_alliance_with_germany focus = GLP_free_will }
 		x = 34
@@ -779,6 +824,18 @@ focus_tree = {
 	focus = {
 		id = GLP_soviet_armaments_lend_lease
 		icon = GFX_goal_generic_military_deal
+		available = {
+			country_exists = SOV
+			NOT = { has_war_with = SOV }
+			SOV = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = SOV }
+				SOV = { has_capitulated = yes }
+				has_war_with = SOV
+			}
+		}
 		prerequisite = { focus = GLP_alliance_with_soviet_union }
 		x = 26
 		y = 2
@@ -796,6 +853,18 @@ focus_tree = {
 	focus = {
 		id = GLP_krupp_arms_shipments
 		icon = GFX_focus_generic_license_production
+		available = {
+			country_exists = GER
+			NOT = { has_war_with = GER }
+			GER = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = GER }
+				GER = { has_capitulated = yes }
+				has_war_with = GER
+			}
+		}
 		prerequisite = { focus = GLP_alliance_with_germany }
 		x = 30
 		y = 2
@@ -813,6 +882,18 @@ focus_tree = {
 	focus = {
 		id = GLP_vickers_armaments_lend_lease
 		icon = GFX_goal_generic_military_deal
+		available = {
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+			ENG = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = ENG }
+				ENG = { has_capitulated = yes }
+				has_war_with = ENG
+			}
+		}
 		prerequisite = { focus = GLP_alliance_with_britain }
 		x = 34
 		y = 2
@@ -830,6 +911,18 @@ focus_tree = {
 	focus = {
 		id = GLP_joint_red_black_military_academy
 		icon = GFX_focus_generic_military_academy
+		available = {
+			country_exists = SOV
+			NOT = { has_war_with = SOV }
+			SOV = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = SOV }
+				SOV = { has_capitulated = yes }
+				has_war_with = SOV
+			}
+		}
 		prerequisite = { focus = GLP_soviet_armaments_lend_lease }
 		x = 26
 		y = 3
@@ -847,6 +940,18 @@ focus_tree = {
 	focus = {
 		id = GLP_wehrmacht_tactical_instructors
 		icon = GFX_focus_generic_military_mission
+		available = {
+			country_exists = GER
+			NOT = { has_war_with = GER }
+			GER = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = GER }
+				GER = { has_capitulated = yes }
+				has_war_with = GER
+			}
+		}
 		prerequisite = { focus = GLP_krupp_arms_shipments }
 		x = 30
 		y = 3
@@ -861,7 +966,22 @@ focus_tree = {
 
 	focus = {
 		id = GLP_sevastopol_naval_refit_with_royal_navy
+		available = {
+			controls_state = 137
+		}
 		icon = GFX_focus_generic_naval_discipline
+		available = {
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+			ENG = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = ENG }
+				ENG = { has_capitulated = yes }
+				has_war_with = ENG
+			}
+		}
 		prerequisite = { focus = GLP_vickers_armaments_lend_lease }
 		x = 34
 		y = 3
@@ -880,6 +1000,18 @@ focus_tree = {
 	focus = {
 		id = GLP_eurasian_red_black_vanguard
 		icon = GFX_focus_generic_red_flags
+		available = {
+			country_exists = SOV
+			NOT = { has_war_with = SOV }
+			SOV = { has_capitulated = no }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = SOV }
+				SOV = { has_capitulated = yes }
+				has_war_with = SOV
+			}
+		}
 		prerequisite = { focus = GLP_joint_red_black_military_academy }
 		x = 26
 		y = 4
@@ -1469,6 +1601,9 @@ focus_tree = {
 	focus = {
 		id = GLP_sevastopol_naval_base
 		icon = GFX_goal_generic_occupy_states_coastal
+		available = {
+			controls_state = 137
+		}
 		prerequisite = { focus = GLP_invincible_insurgency }
 		x = 2
 		y = 6
@@ -1504,6 +1639,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_submarine_flotilla
+		available = {
+			controls_state = 137
+		}
 		icon = GFX_goal_generic_navy_submarine
 		prerequisite = { focus = GLP_sevastopol_naval_base }
 		x = 4
@@ -1538,6 +1676,12 @@ focus_tree = {
 
 	focus = {
 		id = GLP_coastal_defense_batteries
+		available = {
+			OR = {
+			controls_state = 137
+			controls_state = 196
+		}
+		}
 		icon = GFX_focus_generic_coastal_fort
 		prerequisite = { focus = GLP_submarine_flotilla }
 		x = 4
@@ -1575,6 +1719,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_merchant_raider_fleet
+		available = {
+			controls_state = 137
+		}
 		icon = GFX_focus_generic_merchant_fleet
 		prerequisite = { focus = GLP_black_sea_dominance }
 		x = 2
@@ -1602,6 +1749,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_naval_aviation
+		available = {
+			controls_state = 137
+		}
 		icon = GFX_goal_generic_air_naval_bomber
 		prerequisite = { focus = GLP_black_sea_dominance }
 		x = 4
@@ -1716,6 +1866,12 @@ focus_tree = {
 
 	focus = {
 		id = GLP_anti_air_defense
+		available = {
+			OR = {
+			controls_state = 227
+			controls_state = 200
+		}
+		}
 		icon = GFX_focus_generic_air_defense
 		prerequisite = { focus = GLP_bomber_wings }
 		x = 14
@@ -1877,6 +2033,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_advanced_metallurgy
+		available = {
+			controls_state = 227
+		}
 		icon = GFX_focus_generic_steel
 		prerequisite = { focus = GLP_improved_weapons }
 		x = 22
@@ -2329,6 +2488,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_local_mining_operations
+		available = {
+			controls_state = 226
+		}
 		icon = GFX_focus_generic_mining_industry
 		prerequisite = { focus = GLP_self_sufficient_economy }
 		x = 42
@@ -2378,6 +2540,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_chemical_industry
+		available = {
+			controls_state = 227
+		}
 		icon = GFX_focus_generic_rubber
 		prerequisite = { focus = GLP_textile_syndicates }
 		x = 46
@@ -2396,6 +2561,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_steel_production
+		available = {
+			controls_state = 227
+		}
 		icon = GFX_focus_generic_steel
 		prerequisite = { focus = GLP_food_processing }
 		prerequisite = { focus = GLP_chemical_industry }
@@ -2416,6 +2584,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_fuel_synthesis
+		available = {
+			controls_state = 227
+		}
 		icon = GFX_focus_generic_stockpile_fuel
 		prerequisite = { focus = GLP_steel_production }
 		x = 42
@@ -2926,6 +3097,9 @@ focus_tree = {
 	# =========================================================================
 	focus = {
 		id = GLP_crimean_development
+		available = {
+			controls_state = 137
+		}
 		icon = GFX_focus_generic_public_works
 		prerequisite = { focus = GLP_new_soviet_culture }
 		x = 28
@@ -2962,6 +3136,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_shipbuilding_yards
+		available = {
+			controls_state = 137
+		}
 		icon = GFX_goal_generic_construct_naval_dockyard
 		prerequisite = { focus = GLP_crimean_development }
 		x = 30

@@ -39,7 +39,7 @@ GLP_revolutionary_military_ops = {
 		}
 		complete_effect = {
 			add_manpower = -2000
-			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 150 producer = GLP }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = 150 producer = GLP }
 			add_equipment_to_stockpile = { type = support_equipment amount = 40 producer = GLP }
 			army_experience = 10
 			target.state = {
@@ -77,16 +77,16 @@ GLP_revolutionary_military_ops = {
 		cost = 75
 		available = {
 			SPR = { has_civil_war = yes }
-			has_equipment = { small_arms_equipment_1 > 499 }
+			has_equipment = { infantry_equipment > 499 }
 			has_manpower > 4000
 		}
 		visible = { has_completed_focus = GLP_aid_to_spanish_anarchists }
 		fire_only_once = yes
 		complete_effect = {
 			add_manpower = -4000
-			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = -500 }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
 			SPR = {
-				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 500 producer = GLP }
+				add_equipment_to_stockpile = { type = infantry_equipment amount = 500 producer = GLP }
 				# Бригада прибывает на фронт: испанская газета это видит.
 				news_event = { id = glp_spanish.1 hours = 12 }
 			}
@@ -120,7 +120,7 @@ GLP_revolutionary_military_ops = {
 		# в подарок каждые 60 дней -- чистый фарм).
 		fire_only_once = yes
 		complete_effect = {
-			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 500 producer = GLP }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = 500 producer = GLP }
 			army_experience = 15
 		}
 		ai_will_do = { factor = 1 }
@@ -302,7 +302,7 @@ GLP_occupation_soviets = {
 		available = { 218 = { is_controlled_by = ROOT } }
 		complete_effect = {
 			218 = { add_compliance = 8 add_resistance = -6 }
-			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 400 producer = GLP }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = 400 producer = GLP }
 			army_experience = 10
 		}
 		ai_will_do = { factor = 1 }
@@ -342,7 +342,7 @@ GLP_occupation_soviets = {
 			}
 			if = {
 				limit = { random = 35 }
-				add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 200 producer = GLP }
+				add_equipment_to_stockpile = { type = infantry_equipment amount = 200 producer = GLP }
 			}
 			else = {
 				add_stability = -0.02
@@ -359,10 +359,10 @@ GLP_reconciliation_with_past = {
 		# Перевооружение бригады занимает сезон, а не 45 дней.
 		days_remove = 90
 		visible = { has_country_flag = GLP_allied_white_emigres }
-		available = { has_equipment = { small_arms_equipment_1 > 400 } }
+		available = { has_equipment = { infantry_equipment > 400 } }
 		fire_only_once = no
 		complete_effect = {
-			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 800 producer = GLP }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = 800 producer = GLP }
 			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 80 producer = GLP }
 			add_stability = -0.02
 			add_political_power = -25
@@ -415,7 +415,7 @@ GLP_foreign_aid = {
 			}
 		}
 		complete_effect = {
-			add_equipment_to_stockpile = { type = small_arms_equipment_1 amount = 500 producer = GLP }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = 500 producer = GLP }
 			add_equipment_to_stockpile = { type = support_equipment amount = 150 producer = GLP }
 			add_political_power = -20
 		}

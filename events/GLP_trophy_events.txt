@@ -13,6 +13,11 @@ country_event = {
 	picture = GFX_news_event_GLP_cavalry_raid
 	is_triggered_only = yes
 
+	trigger = {
+		exists = yes
+		has_capitulated = no
+	}
+
 	option = {
 		name = glp_trophy.1.a
 		army_experience = 5

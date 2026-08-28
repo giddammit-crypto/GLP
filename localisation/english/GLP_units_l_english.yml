@@ -1,5 +1,34 @@
 ﻿l_english:
  Chernogvardeyskaya_Kavaleriyskaya_Diviziya:0 "Black Guard Cavalry Division"
- Narodnaya_Povstancheskaya_Diviziya:0 "Insurgent Peoples Division"
- GLP_CAV_01:0 "§WBlack Guard Cavalry Formations§!"
- GLP_INF_01:0 "§WInsurgent Peoples Divisions§!"
+ Narodnaya_Povstancheskaya_Diviziya:0 "People's Insurgent Division"
+ GLP_CAV_01:0 "Black Guard Cavalry Formations"
+ GLP_INF_01:0 "People's Insurgent Divisions"
+ 
+ # Division Naming Groups
+ GLP_INF_HISTORICAL:0 "Rifle Brigades and Free Commune Divisions"
+ GLP_CAV_HISTORICAL:0 "Insurgent Cavalry and Tachankas of RPA"
+ GLP_ARM_HISTORICAL:0 "Black Guard Armored Formations"
+ GLP_MOT_HISTORICAL:0 "Motorized Tachanka and Mechanized Divisions"
+ GLP_MNT_HISTORICAL:0 "Mountain Insurgent Brigades"
+ GLP_MAR_HISTORICAL:0 "Marine Brigades of Free Sailors"
+ GLP_PAR_HISTORICAL:0 "Black Guard Airborne Brigades"
+ GLP_GAR_HISTORICAL:0 "Popular Self-Defense Militias"
+ 
+ # Ship Naming Groups
+ GLP_BB_HISTORICAL:0 "Battleships of the Free Fleet"
+ GLP_BC_HISTORICAL:0 "Black Guard Battlecruisers"
+ GLP_CV_HISTORICAL:0 "Revolutionary Aircraft Carriers"
+ GLP_CA_HISTORICAL:0 "Heavy Cruisers of the RPA"
+ GLP_CL_HISTORICAL:0 "Light Cruisers of the Free Fleet"
+ GLP_DD_HISTORICAL:0 "Black Banner Destroyers"
+ GLP_SS_HISTORICAL:0 "Black Guard Submarines"
+ 
+ # Thematic Units
+ GLP_tachanka:0 "Machine-Gun Tachanka"
+ GLP_tachanka_desc:0 "Legendary sprung cart with Maxim machine gun — the cornerstone of Makhnovist mobility and firepower."
+ GLP_black_guard:0 "Black Guard Detachments"
+ GLP_black_guard_desc:0 "Ideological anarchist shock troops tempered in the fires of the Civil War."
+ GLP_drozdovtsy_entity:0 "Drozdovsky Volunteer Formations"
+ GLP_kornilovtsy_entity:0 "Kornilov Shock Formations"
+ GLP_old_enemies:0 "Regiments of Former Bitter Enemies"
+ GLP_ataman_junta:0 "Ataman Insurgent Detachments"

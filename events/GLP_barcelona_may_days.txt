@@ -21,6 +21,8 @@ country_event = {
 	is_triggered_only = no
 
 	trigger = {
+		exists = yes
+		has_capitulated = no
 		tag = GLP
 		date > 1937.5.31
 		SPR = {
@@ -130,6 +132,13 @@ news_event = {
 	picture = GFX_news_event_GLP_rebirth
 	major = yes
 	is_triggered_only = yes
+
+	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
+	}
 	option = { name = glp_barcelona.2.a }
 }
 
@@ -140,6 +149,13 @@ news_event = {
 	picture = GFX_news_event_GLP_rebirth
 	major = no
 	is_triggered_only = yes
+
+	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
+	}
 	option = { name = glp_barcelona.3.a }
 }
 
@@ -150,6 +166,13 @@ news_event = {
 	picture = GFX_news_event_GLP_rebirth
 	major = yes
 	is_triggered_only = yes
+
+	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
+	}
 	option = { name = glp_barcelona.4.a }
 }
 
@@ -160,5 +183,12 @@ news_event = {
 	picture = GFX_news_event_GLP_rebirth
 	major = no
 	is_triggered_only = yes
+
+	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
+	}
 	option = { name = glp_barcelona.5.a }
 }

@@ -14,19 +14,12 @@ leader_traits = {
 	GLP_tachanka_commander = {
 		type = { land }
 		trait_type = personality_trait
-		gui_row = 3
-		gui_column = 0
 
 		modifier = {
 			cavalry_attack_factor = 0.15
 			cavalry_defence_factor = 0.10
 			breakthrough_factor = 0.10
 			army_speed_factor = 0.05
-		}
-
-		trait_xp_factor = {
-			cavalry_officer = 0.25
-			cavalry_leader = 0.25
 		}
 
 		ai_will_do = {
@@ -38,19 +31,12 @@ leader_traits = {
 	GLP_guerilla_master = {
 		type = { land }
 		trait_type = personality_trait
-		gui_row = 3
-		gui_column = 1
 
 		modifier = {
 			recon_factor = 0.15
 			army_org_factor = 0.10
 			out_of_supply_factor = -0.25
 			supply_consumption_factor = -0.10
-		}
-
-		trait_xp_factor = {
-			guerilla_fighter = 0.25
-			trickster = 0.25
 		}
 
 		ai_will_do = {
@@ -62,8 +48,6 @@ leader_traits = {
 	GLP_steppe_raider = {
 		type = { land }
 		trait_type = personality_trait
-		gui_row = 3
-		gui_column = 2
 
 		modifier = {
 			army_speed_factor = 0.10
@@ -80,8 +64,6 @@ leader_traits = {
 	GLP_white_emigre = {
 		type = { land }
 		trait_type = personality_trait
-		gui_row = 3
-		gui_column = 3
 		modifier = {
 			army_attack_factor = 0.05
 			army_org_factor = 0.03
@@ -93,8 +75,6 @@ leader_traits = {
 	GLP_white_emigre_favored = {
 		type = { land }
 		trait_type = personality_trait
-		gui_row = 3
-		gui_column = 4
 		modifier = {
 			army_attack_factor = 0.08
 			planning_speed = 0.10
@@ -106,8 +86,6 @@ leader_traits = {
 	GLP_white_emigre_sidelined = {
 		type = { land }
 		trait_type = personality_trait
-		gui_row = 3
-		gui_column = 5
 		modifier = {
 			army_attack_factor = -0.05
 			planning_speed = -0.10

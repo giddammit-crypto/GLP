@@ -1,5 +1,12 @@
-# Гуляй-Поле — кинематографическая заставка (HOI4 1.19.2)
-# AAA Оформление и идеальная компоновка (1024x768)
+# =============================================================================
+#  ГУЛЯЙ-ПОЛЕ — Кинематографическая заставка (HOI4 v1.19+)
+#  AAA Editorial Triptych Layout (1024x768)
+#
+#  Диегетическая компоновка:
+#  - Левая колонка:   Портрет Батьки в барочной золотой рамке + кредо РПА
+#  - Центральная:      Архивный свиток с историческим манифестом и скроллом
+#  - Правая колонка:  Фотокарточка конницы + аутентичная военная карта штаба
+# =============================================================================
 
 guiTypes = {
 	containerWindowType = {
@@ -11,13 +18,11 @@ guiTypes = {
 		moveable = no
 		click_to_front = no
 
-		# ── ФОН И ДЕКОРАТИВНАЯ РАМКА ──────────────────────────────────────
+		# ── ФОН ОКНА ──────────────────────────────────────────────────────
 		background = {
 			name = "Background"
 			quadTextureSprite = "GFX_intro_bg"
 		}
-
-		# Рамка убрана — растянутая каёмка портит вид окна
 
 		# Кнопка-крестик в правом верхнем углу
 		buttonType = {
@@ -29,63 +34,111 @@ guiTypes = {
 			pdx_tooltip = "CLOSE"
 		}
 
-		# ── ВЕРХНИЙ БЛОК: КАРТА, ПОРТРЕТ И КОННИЦА ───────────────────────
-
-		# 1. Левая карточка: Военная карта Екатеринославщины
-		iconType = {
-			name = "ukraine_military_map"
-			position = { x = 45 y = 50 }
-			size = { width = 290 height = 230 }
-			spriteType = "GFX_intro_ukraine_map"
+		# ── ВЕРХНИЙ ЗАГОЛОВОК И ДЕВИЗ ─────────────────────────────────────
+		instantTextBoxType = {
+			name = "intro_title"
+			position = { x = 60 y = 20 }
+			font = "hoi_24header"
+			text = "GULYAIPOLE_INTRO_TITLE"
+			maxWidth = 904
+			maxHeight = 28
+			format = center
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
-			name = "map_caption"
-			position = { x = 45 y = 286 }
-			font = "cg_16b"
-			borderSize = { x = 0 y = 0 }
-			text = "GULYAIPOLE_MAP_CAPTION"
-			maxWidth = 290
+			name = "intro_subtitle"
+			position = { x = 60 y = 48 }
+			font = "hoi_16mbs"
+			text = "GULYAIPOLE_INTRO_SUBTITLE"
+			maxWidth = 904
 			maxHeight = 20
-			fixedsize = yes
 			format = center
+			alwaystransparent = yes
 		}
 
-		# 2. Центральная карточка: Портрет Нестора Махно
+		# ── ЛЕВАЯ КОЛОНКА: ГЕРОЙ ИДЕИ (НЕСТОР МАХНО И КРЕДО) ──────────────
+
+		# Портрет Нестора Махно (156x210) в золотой рамке (166x220)
 		iconType = {
 			name = "makhno_portrait_intro"
-			position = { x = 417 y = 75 }
-			size = { width = 240 height = 310 }
+			position = { x = 67 y = 80 }
 			spriteType = "GFX_portrait_nestor_makhno_intro"
+			alwaystransparent = yes
+		}
+
+		iconType = {
+			name = "makhno_portrait_frame"
+			position = { x = 62 y = 75 }
+			spriteType = "GFX_political_leader_frame_gold"
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "makhno_caption"
-			position = { x = 417 y = 348 }
-			font = "cg_16b"
+			position = { x = 45 y = 302 }
+			font = "hoi_16mbs"
 			borderSize = { x = 0 y = 0 }
 			text = "GULYAIPOLE_MAKHNO_CAPTION"
-			maxWidth = 240
+			maxWidth = 200
 			maxHeight = 20
 			fixedsize = yes
 			format = center
 		}
 
-		# 3. Правая карточка: Махновская конница
+		# Исторический девиз и боевое кредо
+		instantTextBoxType = {
+			name = "motto_header"
+			position = { x = 45 y = 345 }
+			font = "hoi_18mbs"
+			text = "GULYAIPOLE_MOTTO_HEADER"
+			maxWidth = 200
+			maxHeight = 24
+			format = center
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "motto_body"
+			position = { x = 45 y = 375 }
+			font = "cg_16b"
+			text = "GULYAIPOLE_MOTTO_BODY"
+			maxWidth = 200
+			maxHeight = 280
+			format = center
+			alwaystransparent = yes
+		}
+
+		# ── ЦЕНТРАЛЬНАЯ КОЛОНКА: ИСТОРИЧЕСКИЙ МАНИФЕСТ И ХРОНИКА ─────────
+
+		# Полный эпический текст истории с плавной прокруткой
+		instantTextBoxType = {
+			name = "cinematic_intro_text"
+			position = { x = 270 y = 85 }
+			font = "vic_18"
+			borderSize = { x = 4 y = 4 }
+			text = "GULYAIPOLE_EPIC_INTRO_TEXT"
+			maxWidth = 395
+			maxHeight = 575
+			format = left
+			scrollbarType = standardtext_slider
+		}
+
+		# ── ПРАВАЯ КОЛОНКА: ВОЕННЫЙ АРХИВ (ФОТО КОННИЦЫ И КАРТА ШТАБА) ──
+
+		# 1. Фотокарточка конницы на марше (полная ширина 290 px)
 		iconType = {
 			name = "cavalry_photo"
-			position = { x = 669 y = 60 }
-			size = { width = 290 height = 180 }
+			position = { x = 690 y = 75 }
+			size = { width = 290 height = 145 }
 			spriteType = "GFX_intro_makhno_cavalry"
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "cavalry_caption"
-			position = { x = 669 y = 246 }
-			font = "cg_16b"
+			position = { x = 690 y = 224 }
+			font = "hoi_16mbs"
 			borderSize = { x = 0 y = 0 }
 			text = "GULYAIPOLE_CAVALRY_CAPTION"
 			maxWidth = 290
@@ -94,33 +147,53 @@ guiTypes = {
 			format = center
 		}
 
-		# ── СРЕДНИЙ БЛОК: ТЕКСТОВАЯ ПАНЕЛЬ ИСТОРИИ ─────────────────────────
-
-		# Тёмная подложка под весь текст на ширину окна (+15px по высоте)
+		# 2. Историческая карта Екатеринославской губернии (полная ширина 290 px)
 		iconType = {
-			name = "text_panel_bg"
-			position = { x = 35 y = 375 }
-			size = { width = 954 height = 310 }
-			spriteType = "GFX_tiled_bg_dark"
+			name = "ukraine_military_map"
+			position = { x = 690 y = 252 }
+			size = { width = 290 height = 235 }
+			spriteType = "GFX_intro_ukraine_map"
 			alwaystransparent = yes
 		}
 
-		# Текст истории с плавной прокруткой (+15px по высоте)
 		instantTextBoxType = {
-			name = "cinematic_intro_text"
-			position = { x = 50 y = 390 }
-			font = "cg_16b"
-			borderSize = { x = 4 y = 4 }
-			text = "GULYAIPOLE_EPIC_INTRO_TEXT"
-			maxWidth = 924
-			maxHeight = 280
-			format = left
-			scrollbarType = standardtext_slider
+			name = "map_caption"
+			position = { x = 690 y = 491 }
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = "GULYAIPOLE_MAP_CAPTION"
+			maxWidth = 290
+			maxHeight = 20
+			fixedsize = yes
+			format = center
 		}
 
-		# ── НИЖНИЙ БЛОК: КНОПКА ЗАКРЫТИЯ / СТАРТА ──────────────────────────
+		# 3. Информационная плашка штаба РПА
+		instantTextBoxType = {
+			name = "operations_note_header"
+			position = { x = 690 y = 525 }
+			font = "hoi_18mbs"
+			text = "GULYAIPOLE_OPERATIONS_HEADER"
+			maxWidth = 290
+			maxHeight = 22
+			format = center
+			alwaystransparent = yes
+		}
 
-		# Главная золотая кнопка «Вольному воля!»
+		instantTextBoxType = {
+			name = "operations_note_text"
+			position = { x = 690 y = 555 }
+			font = "cg_16b"
+			text = "GULYAIPOLE_OPERATIONS_BODY"
+			maxWidth = 290
+			maxHeight = 120
+			format = left
+			alwaystransparent = yes
+		}
+
+		# ── НИЖНИЙ БЛОК: ГЛАВНАЯ КНОПКА СТАРТА КАМПАНИИ ───────────────────
+
+		# Золотая кнопка «Вольному воля!»
 		buttonType = {
 			name = "start_campaign_button"
 			position = { x = 392 y = 696 }
@@ -130,11 +203,11 @@ guiTypes = {
 			shortcut = "ENTER"
 		}
 
-		# Текстовая надпись на кнопке (кириллица cg_16b)
+		# Текстовая надпись на кнопке
 		instantTextBoxType = {
 			name = "start_campaign_button_label"
 			position = { x = 392 y = 707 }
-			font = "cg_16b"
+			font = "hoi_18mbs"
 			borderSize = { x = 0 y = 0 }
 			text = "GULYAIPOLE_START_BUTTON"
 			maxWidth = 240

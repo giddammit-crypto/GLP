@@ -7,19 +7,25 @@ ideas = {
 		GLP_idea_spanish_brigade = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_insurgent_army
-			modifier = {
-				send_volunteer_size = 3.0
-				send_volunteer_divisions_required = -1.0
-				experience_gain_army_factor = 0.10
+			picture = SPR_collectivized_society
+			rule = {
+				can_send_volunteers = yes
 			}
+			modifier = {
+				army_org_factor = 0.05
+				army_morale_factor = 0.10
+				experience_gain_army_factor = 0.05
+				send_volunteers_tension = -1.00
+				generate_wargoal_tension = -0.97
+				send_volunteer_divisions_required = 0
+															}
 		}
 
 		# «Набат» замолк: сеть связных разочарована отказом
 		GLP_idea_nabat_disloyal = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_intelligence
+			picture = SPR_anarchist_society
 			modifier = {
 				stability_factor = -0.03
 				political_power_gain = -0.05
@@ -30,7 +36,7 @@ ideas = {
 		GLP_idea_catalan_wolfram_syndicate_workshops = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_industry
+			picture = generic_production_bonus
 			modifier = {
 				production_speed_arms_factory_factor = 0.10
 				production_factory_max_efficiency_factor = 0.05
@@ -42,7 +48,7 @@ ideas = {
 		GLP_idea_ukrainian_coal_and_grain = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_industry
+			picture = generic_agrarian_reform
 			modifier = {
 				industrial_capacity_factory = 0.05
 				production_speed_industrial_complex_factor = 0.05
@@ -54,7 +60,7 @@ ideas = {
 		GLP_voice_of_aragon = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_insurgent_army
+			picture = SPR_collectivized_society
 			modifier = {
 				research_speed_factor = 0.05
 				political_power_gain = 0.10
@@ -65,7 +71,7 @@ ideas = {
 		GLP_international_support = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_black_guard_legacy
+			picture = generic_volunteer_expedition_bonus
 			modifier = {
 				stability_factor = 0.05
 				war_support_factor = 0.05
@@ -76,7 +82,7 @@ ideas = {
 		GLP_black_international_member = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_black_guard_legacy
+			picture = generic_volunteer_expedition_bonus
 			modifier = {
 				political_power_gain = 0.15
 				send_volunteer_size = 5.0
@@ -89,7 +95,7 @@ ideas = {
 		GLP_spanish_veterans = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_insurgent_army
+			picture = generic_victors_of_ww1
 			modifier = {
 				army_core_attack_factor = 0.05
 				army_core_defence_factor = 0.05
@@ -102,7 +108,7 @@ ideas = {
 		GLP_aragon_collective_model = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_free_syndicates_and_soviets
+			picture = SPR_collectivized_society
 			modifier = {
 				production_speed_industrial_complex_factor = 0.05
 				production_speed_arms_factory_factor = 0.05
@@ -114,7 +120,7 @@ ideas = {
 		GLP_equal_soviet_partnership = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_insurgent_army
+			picture = generic_navy_bonus
 			modifier = {
 				army_org_factor = 0.10
 				political_power_gain = 0.10
@@ -126,7 +132,7 @@ ideas = {
 		GLP_soviet_heavy_industry_support = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_industry
+			picture = generic_production_bonus
 			modifier = {
 				industrial_capacity_factory = 0.10
 				production_speed_industrial_complex_factor = 0.10
@@ -138,7 +144,7 @@ ideas = {
 		GLP_krupp_rearmament = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_military
+			picture = generic_foreign_capital
 			modifier = {
 				army_core_attack_factor = 0.05
 				production_speed_arms_factory_factor = 0.10
@@ -149,7 +155,7 @@ ideas = {
 		GLP_german_anarchist_cadres = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_black_guard_legacy
+			picture = SPR_anarchist_society
 			modifier = {
 				research_speed_factor = 0.05
 				planning_speed = 0.15
@@ -161,7 +167,7 @@ ideas = {
 		GLP_black_sea_admiralty = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_navy
+			picture = generic_navy_bonus
 			modifier = {
 				navy_max_range_factor = 0.20
 				navy_screen_attack_factor = 0.10
@@ -172,7 +178,7 @@ ideas = {
 		GLP_british_trade_union_solidarity = {
 			allowed = { always = yes }
 			removal_cost = -1
-			picture = GFX_idea_GLP_free_syndicates_and_soviets
+			picture = generic_volunteer_expedition_bonus
 			modifier = {
 				stability_factor = 0.08
 				political_power_gain = 0.15

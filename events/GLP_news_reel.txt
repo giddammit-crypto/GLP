@@ -17,6 +17,10 @@ news_event = {
 	major = yes
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1936.5.1
 		has_completed_focus = GLP_armored_train_production
@@ -72,6 +76,10 @@ news_event = {
 	major = yes
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1936.9.1
 		has_completed_focus = GLP_dnieper_hydroelectric_freedom
@@ -132,6 +140,10 @@ news_event = {
 	major = yes
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1936.8.1
 		has_war = yes
@@ -151,7 +163,7 @@ news_event = {
 		army_experience = 30
 		add_war_support = 0.08
 		add_equipment_to_stockpile = {
-			type = small_arms_equipment_1
+			type = infantry_equipment
 			amount = 800
 			producer = GLP
 		}
@@ -193,6 +205,10 @@ news_event = {
 	major = yes
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1937.1.1
 		has_completed_focus = GLP_fourth_congress_of_peasants
@@ -245,6 +261,10 @@ news_event = {
 	major = yes
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1937.4.1
 		has_completed_focus = GLP_insurgent_army_reorganization
@@ -297,6 +317,10 @@ news_event = {
 	major = yes
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1936.12.1
 		has_completed_focus = GLP_donbass_coal_and_steel_collective
@@ -357,6 +381,10 @@ news_event = {
 	major = no
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1937.6.1
 		has_completed_focus = GLP_kontrrazvedka_reorganization
@@ -380,7 +408,7 @@ news_event = {
 	option = {
 		name = glp_press.7.b
 		add_equipment_to_stockpile = {
-			type = small_arms_equipment_1
+			type = infantry_equipment
 			amount = 500
 			producer = GLP
 		}
@@ -400,6 +428,10 @@ news_event = {
 	major = yes
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1937.9.1
 		has_completed_focus = GLP_peasant_grain_supplies
@@ -460,6 +492,10 @@ news_event = {
 	major = yes
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1938.1.1
 		has_completed_focus = GLP_syndicate_industrial_planning
@@ -509,6 +545,10 @@ news_event = {
 	major = yes
 
 	trigger = {
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		tag = GLP
 		date > 1938.5.1
 		has_completed_focus = GLP_aid_to_spanish_anarchists
@@ -529,7 +569,7 @@ news_event = {
 		add_political_power = 60
 		add_war_support = 0.08
 		add_equipment_to_stockpile = {
-			type = small_arms_equipment_1
+			type = infantry_equipment
 			amount = -1500
 			producer = GLP
 		}
@@ -547,6 +587,43 @@ news_event = {
 		trigger = {
 			NOT = { tag = GLP }
 			NOT = { tag = SPR }
+		}
+	}
+}
+
+# ----------------------------------------------------------------
+# 11. ПАДЕНИЕ ГУЛЯЙПОЛЯ: КОНЕЦ ВОЛЬНОЙ ТЕРРИТОРИИ
+# The Fall of Gulyaipole / Capitulation of GLP
+# ----------------------------------------------------------------
+news_event = {
+	id = glp_press.11
+	title = glp_press.11.t
+	desc = glp_press.11.d
+	picture = GFX_news_event_GLP_white_collapse
+	major = yes
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = glp_press.11.a
+		trigger = {
+			has_war_with = GLP
+		}
+	}
+
+	option = {
+		name = glp_press.11.b
+		trigger = {
+			NOT = { has_war_with = GLP }
+			NOT = { tag = GLP }
+		}
+	}
+
+	option = {
+		name = glp_press.11.c
+		trigger = {
+			tag = GLP
 		}
 	}
 }
