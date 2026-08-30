@@ -22,9 +22,12 @@ country_event = {
 	is_triggered_only = no
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		has_country_flag = glp_spain_war_active
 		NOT = { has_country_flag = glp_spain_choice_made }
 	}
@@ -59,14 +62,11 @@ country_event = {
 		# «маршрут в Испанию» отражают флаг маршрута и решения
 		# контрабандных коридоров, «возвращение» — решение
 		# GLP_spain_brigade_homecoming (черта «Испанский закал»).
-		if = {
-			limit = { NOT = { has_template = "Бригада РПА добровольцев" } }
-			random_owned_state = {
-				limit = { is_controlled_by = GLP }
-				create_unit = {
-					division = "division_template = \"Бригада РПА добровольцев\" start_manpower_factor = 0.8 start_experience_factor = 0.4"
-					owner = GLP
-				}
+		random_owned_controlled_state = {
+			prioritize = { 226 200 227 }
+			create_unit = {
+				division = "name = \"Испанский экспедиционный корпус РПА им. Дуррути\" division_template = \"Штурмовая дивизия Чёрного Знамени\" start_manpower_factor = 1.0 start_experience_factor = 0.6 start_equipment_factor = 1.0"
+				owner = GLP
 			}
 		}
 	}

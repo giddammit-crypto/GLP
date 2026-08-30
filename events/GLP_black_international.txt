@@ -19,6 +19,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 	}
 	option = { name = glp_bi.1.a }
 }

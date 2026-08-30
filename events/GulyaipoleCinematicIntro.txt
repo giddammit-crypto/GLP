@@ -13,6 +13,9 @@ country_event = {
 
 	trigger = {
 		tag = GLP
+		exists = yes
+		has_capitulated = no
+		
 		is_ai = no
 	}
 

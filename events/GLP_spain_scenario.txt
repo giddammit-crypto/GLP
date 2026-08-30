@@ -8,9 +8,12 @@ country_event = {
     picture = GFX_news_event_GLP_durruti_column
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         has_country_flag = glp_spain_open_route
         date > 1936.8.1
         NOT = { has_country_flag = glp_durruti_contacted }
@@ -43,9 +46,12 @@ country_event = {
     picture = GFX_news_event_GLP_anarchist_congress
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         has_country_flag = glp_durruti_advisors_sent
         NOT = { has_country_flag = glp_durruti_philosophy_known }
     }
@@ -77,9 +83,12 @@ country_event = {
     picture = GFX_news_event_GLP_durruti_death
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         has_country_flag = glp_durruti_contacted
         date > 1936.11.20
         NOT = { has_country_flag = glp_durruti_death_seen }
@@ -120,9 +129,12 @@ country_event = {
     picture = GFX_news_event_GLP_steppe_harvest
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         OR = {
             has_country_flag = glp_black_international_path
             has_country_flag = black_international_path
@@ -152,8 +164,11 @@ country_event = {
     is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
     
     option = {
@@ -172,8 +187,11 @@ country_event = {
     is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
     
     option = {
@@ -190,9 +208,12 @@ country_event = {
     picture = GFX_news_event_GLP_black_guard_march
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         has_country_flag = glp_balkan_route_active
         NOT = { has_country_flag = glp_romanian_suspicion }
     }
@@ -222,9 +243,12 @@ country_event = {
     picture = GFX_news_event_GLP_barcelona_may
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         has_country_flag = french_syndicate_smuggling
         NOT = { has_country_flag = glp_french_syndicate_contacted }
     }
@@ -249,9 +273,12 @@ country_event = {
     picture = GFX_news_event_GLP_nin_rescue
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         date > 1937.5.1
         date < 1937.6.30
         NOT = { has_country_flag = glp_nin_event_fired }
@@ -286,8 +313,11 @@ country_event = {
     is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
     
     option = {
@@ -307,8 +337,11 @@ country_event = {
     is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
     
     option = {
@@ -326,9 +359,12 @@ country_event = {
     picture = GFX_news_event_GLP_anarchist_congress
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         OR = {
             has_country_flag = glp_black_international_path
             has_country_flag = black_international_path
@@ -363,9 +399,12 @@ country_event = {
     picture = GFX_news_event_GLP_black_flag_raised
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         has_country_flag = glp_fai_consolidation
         NOT = { has_country_flag = glp_soviet_rift }
     }
@@ -389,9 +428,12 @@ country_event = {
     picture = GFX_news_event_GLP_emma_goldman
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         OR = {
             has_country_flag = glp_black_international_path
             has_country_flag = black_international_path
@@ -421,9 +463,12 @@ country_event = {
     picture = GFX_news_event_GLP_black_intl_congress
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         OR = {
             has_country_flag = glp_black_international_path
             has_country_flag = black_international_path
@@ -454,9 +499,12 @@ country_event = {
     picture = GFX_news_event_GLP_franco_gates
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         SPR = {
             has_war = yes
             surrender_progress > 0.7
@@ -491,7 +539,10 @@ country_event = {
     picture = GFX_news_event_GLP_spanish_refugees
     
     trigger = {
-        tag = GLP
+		tag = GLP
+		exists = yes
+		has_capitulated = no
+        
         has_country_flag = glp_franco_at_gates
         SPR = { has_capitulated = yes }
         NOT = { has_country_flag = glp_spanish_refugees }
@@ -518,9 +569,12 @@ country_event = {
     picture = GFX_news_event_GLP_white_collapse
     
     trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-        tag = GLP
+		
+		
+        
         has_country_flag = glp_spanish_refugees
         date > 1939.1.1
         NOT = { has_country_flag = glp_spain_lessons }

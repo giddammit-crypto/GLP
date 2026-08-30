@@ -1,59 +1,24 @@
 ### =========================================================================
 ###  ГУЛЯЙ-ПОЛЕ — игровой плейлист (songs.txt)
-###  Заглушки (дубли Яблочко) удалены. Только уникальные треки.
+###  Равномерная ротация всех треков группы «Монгол Шуудан» при загрузке,
+###  в главном меню и во время игры.
 ### =========================================================================
 
 music_station = "base_music"
 
 music = {
-	song = "maintheme"
+	song = "GLP_ms_lyubo"
 	chance = {
-		factor = 1
-		modifier = {
-			factor = 0
-			has_war = yes
-		}
-		modifier = {
-			factor = 0
-			has_country_flag = glp_show_cinematic_intro
-		}
+		factor = 2.0
+		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
 	}
 }
 
 music = {
 	song = "GLP_ms_bei"
 	chance = {
-		factor = 2.5
-		modifier = { factor = 2 tag = GLP }
+		factor = 2.0
 		modifier = { factor = 1.5 has_war = yes }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-
-music = {
-	song = "GLP_ms_lyubo"
-	chance = {
-		factor = 2.5
-		modifier = { factor = 2 tag = GLP }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-
-music = {
-	song = "GLP_ms_konflikt"
-	chance = {
-		factor = 2.5
-		modifier = { factor = 2 tag = GLP }
-		modifier = { factor = 1.5 has_war = yes }
-		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
-	}
-}
-
-music = {
-	song = "GLP_ms_ne_moya_zabota"
-	chance = {
-		factor = 2.5
-		modifier = { factor = 2 tag = GLP }
 		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
 	}
 }
@@ -61,8 +26,16 @@ music = {
 music = {
 	song = "GLP_ms_sedmoi_patron"
 	chance = {
-		factor = 2.5
-		modifier = { factor = 2 tag = GLP }
+		factor = 2.0
+		modifier = { factor = 1.5 has_war = yes }
+		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
+	}
+}
+
+music = {
+	song = "GLP_ms_konflikt"
+	chance = {
+		factor = 2.0
 		modifier = { factor = 1.5 has_war = yes }
 		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
 	}
@@ -71,8 +44,15 @@ music = {
 music = {
 	song = "GLP_ms_finsky_nozh"
 	chance = {
-		factor = 2.5
-		modifier = { factor = 2 tag = GLP }
+		factor = 2.0
+		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
+	}
+}
+
+music = {
+	song = "GLP_ms_ne_moya_zabota"
+	chance = {
+		factor = 2.0
 		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
 	}
 }
@@ -80,8 +60,7 @@ music = {
 music = {
 	song = "GLP_ms_yablochko"
 	chance = {
-		factor = 2
-		modifier = { factor = 2 tag = GLP }
+		factor = 2.0
 		modifier = { factor = 0 has_country_flag = glp_show_cinematic_intro }
 	}
 }

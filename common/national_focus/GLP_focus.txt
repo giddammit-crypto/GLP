@@ -98,7 +98,7 @@ focus_tree = {
 			add_ideas = GLP_idea_legendary_tachankas
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1000 producer = GLP }
 			add_political_power = -25 # Debuff: Реквизиция мастерских
-			news_event = { id = glp_news.3 days = 1 }
+			hidden_effect = { news_event = { id = glp_news.3 days = 1 } }
 		}
 	}
 
@@ -563,7 +563,7 @@ focus_tree = {
 			else = {
 				add_ideas = GLP_idea_libertarian_courts
 			}
-			country_event = { id = glp_crisis.20 days = 20 }
+			hidden_effect = { country_event = { id = glp_crisis.20 days = 20 } }
 		}
 	}
 
@@ -588,7 +588,7 @@ focus_tree = {
 			else = {
 				add_ideas = GLP_idea_black_terror
 			}
-			country_event = { id = glp_crisis.20 days = 20 }
+			hidden_effect = { country_event = { id = glp_crisis.20 days = 20 } }
 			add_manpower = -5000 # Debuff: Жесткие чистки
 		}
 	}
@@ -618,7 +618,7 @@ focus_tree = {
 			# GLP_libertarian_civil_courts / GLP_decree_on_black_terror;
 			# здесь — третий триггер (через 30 дней), чтобы событие
 			# приходило и при позднем прохождении сети.
-			country_event = { id = glp_crisis.20 days = 30 }
+			hidden_effect = { country_event = { id = glp_crisis.20 days = 30 } }
 		}
 	}
 
@@ -726,12 +726,12 @@ focus_tree = {
 		completion_reward = {
 			add_opinion_modifier = { target = SOV modifier = GLP_soviet_military_pact }
 			SOV = { add_opinion_modifier = { target = GLP modifier = GLP_soviet_military_pact
-			country_event = { id = glp_powers.1 days = 2 }
+			hidden_effect = { country_event = { id = glp_powers.1 days = 2 } }
 		} }
 			add_popularity = { ideology = communism popularity = 0.10 }
 			add_stability = -0.05
-			SOV = { country_event = { id = glp_diplo.1 hours = 8 } }
-			news_event = { id = glp_news.5 days = 2 }
+			hidden_effect = { SOV = { country_event = { id = glp_diplo.1 hours = 8 } } }
+			hidden_effect = { news_event = { id = glp_news.5 days = 2 } }
 		}
 	}
 
@@ -769,12 +769,12 @@ focus_tree = {
 		completion_reward = {
 			add_opinion_modifier = { target = GER modifier = GLP_german_military_pact }
 			GER = { add_opinion_modifier = { target = GLP modifier = GLP_german_military_pact
-			country_event = { id = glp_powers.10 days = 2 }
+			hidden_effect = { country_event = { id = glp_powers.10 days = 2 } }
 		} }
 			add_popularity = { ideology = fascism popularity = 0.08 }
 			add_stability = -0.06
-			GER = { country_event = { id = glp_diplo.2 hours = 8 } }
-			news_event = { id = glp_news.5 days = 2 }
+			hidden_effect = { GER = { country_event = { id = glp_diplo.2 hours = 8 } } }
+			hidden_effect = { news_event = { id = glp_news.5 days = 2 } }
 		}
 	}
 
@@ -812,12 +812,12 @@ focus_tree = {
 		completion_reward = {
 			add_opinion_modifier = { target = ENG modifier = GLP_british_military_pact }
 			ENG = { add_opinion_modifier = { target = GLP modifier = GLP_british_military_pact
-			country_event = { id = glp_powers.20 days = 2 }
+			hidden_effect = { country_event = { id = glp_powers.20 days = 2 } }
 		} }
 			add_popularity = { ideology = democratic popularity = 0.08 }
 			add_stability = -0.04
-			ENG = { country_event = { id = glp_diplo.3 hours = 8 } }
-			news_event = { id = glp_news.5 days = 2 }
+			hidden_effect = { ENG = { country_event = { id = glp_diplo.3 hours = 8 } } }
+			hidden_effect = { news_event = { id = glp_news.5 days = 2 } }
 		}
 	}
 
@@ -846,7 +846,7 @@ focus_tree = {
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1200 producer = SOV }
 			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 200 producer = SOV }
 			add_political_power = -30
-			country_event = { id = glp_powers.2 days = 2 }
+			hidden_effect = { country_event = { id = glp_powers.2 days = 2 } }
 		}
 	}
 
@@ -875,7 +875,7 @@ focus_tree = {
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1200 producer = GER }
 			add_equipment_to_stockpile = { type = anti_tank_equipment_1 amount = 120 producer = GER }
 			add_political_power = -30
-			country_event = { id = glp_powers.11 days = 2 }
+			hidden_effect = { country_event = { id = glp_powers.11 days = 2 } }
 		}
 	}
 
@@ -904,7 +904,7 @@ focus_tree = {
 			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1200 producer = ENG }
 			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 160 producer = ENG }
 			add_political_power = -30
-			country_event = { id = glp_powers.21 days = 2 }
+			hidden_effect = { country_event = { id = glp_powers.21 days = 2 } }
 		}
 	}
 
@@ -932,7 +932,7 @@ focus_tree = {
 		completion_reward = {
 			army_experience = 50
 			add_tech_bonus = { name = glp_sov_doctrine_bonus bonus = 1.0 uses = 2 category = land_doctrine
-			country_event = { id = glp_powers.3 days = 2 }
+			hidden_effect = { country_event = { id = glp_powers.3 days = 2 } }
 		}
 		}
 	}
@@ -1034,7 +1034,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			add_timed_idea = { idea = GLP_german_axis_synergy days = 730
-			country_event = { id = glp_powers.12 days = 2 }
+			hidden_effect = { country_event = { id = glp_powers.12 days = 2 } }
 		}
 		}
 	}
@@ -1076,12 +1076,12 @@ focus_tree = {
 			add_stability = 0.05
 			add_war_support = 0.10
 			add_ideas = GLP_idea_free_will
-			news_event = { id = glp_news.6 days = 1 }
-			SOV = { country_event = { id = glp_diplo.30 hours = 12 } }
-			GER = { country_event = { id = glp_diplo.30 hours = 12 } }
-			ENG = { country_event = { id = glp_diplo.30 hours = 12 } }
-			ROM = { country_event = { id = glp_diplo.30 hours = 12 } }
-			TUR = { country_event = { id = glp_diplo.30 hours = 12 } }
+			hidden_effect = { news_event = { id = glp_news.6 days = 1 } }
+			hidden_effect = { SOV = { country_event = { id = glp_diplo.30 hours = 12 } } }
+			hidden_effect = { GER = { country_event = { id = glp_diplo.30 hours = 12 } } }
+			hidden_effect = { ENG = { country_event = { id = glp_diplo.30 hours = 12 } } }
+			hidden_effect = { ROM = { country_event = { id = glp_diplo.30 hours = 12 } } }
+			hidden_effect = { TUR = { country_event = { id = glp_diplo.30 hours = 12 } } }
 		}
 	}
 
@@ -1124,12 +1124,26 @@ focus_tree = {
 			recruit_character = GLP_nikolai_skoblin
 			recruit_character = GLP_anton_turkul
 			recruit_character = GLP_grigory_semyonov
-			load_oob = "GLP_old_enemies"
+			random_owned_controlled_state = {
+				prioritize = { 226 200 227 }
+				create_unit = {
+					division = "name = \"1-й Офицерский ударный полк генерала Скоблина\" division_template = \"Штурмовая дивизия Чёрного Знамени\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+					owner = GLP
+				}
+				create_unit = {
+					division = "name = \"2-й Сводный стрелковый полк генерала Туркула\" division_template = \"Штурмовая дивизия Чёрного Знамени\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+					owner = GLP
+				}
+				create_unit = {
+					division = "name = \"3-й Конный полк атамана Семёнова\" division_template = \"Ударный тачаночный курень им. Батьки Махно\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+					owner = GLP
+				}
+			}
 			add_manpower = 8000
 			army_experience = 15
-			news_event = { id = glp_news.7 days = 1 }
-			news_event = { id = glp_white.1 days = 45 random_days = 15 }
-			country_event = { id = glp_crisis.40 days = 120 random_days = 30 }
+			hidden_effect = { news_event = { id = glp_news.7 days = 1 } }
+			hidden_effect = { news_event = { id = glp_white.1 days = 45 random_days = 15 } }
+			hidden_effect = { country_event = { id = glp_crisis.40 days = 120 random_days = 30 } }
 		}
 	}
 
@@ -1395,7 +1409,7 @@ focus_tree = {
 			add_stability = 0.10
 			add_political_power = 100
 			add_war_support = -0.05
-			news_event = { id = glp_news.2 days = 1 }
+			hidden_effect = { news_event = { id = glp_news.2 days = 1 } }
 		}
 	}
 
@@ -1454,7 +1468,7 @@ focus_tree = {
 				add_ideas = GLP_idea_black_international
 			}
 			add_political_power = -40
-			news_event = { id = glp_news.4 days = 2 }
+			hidden_effect = { news_event = { id = glp_news.4 days = 2 } }
 		}
 	}
 
@@ -1500,6 +1514,17 @@ focus_tree = {
 				limit = { has_equipment = { infantry_equipment > 1999 } }
 				add_equipment_to_stockpile = { type = infantry_equipment amount = -2000 }
 				SPR = { add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 2000 producer = GLP } }
+			}
+			random_owned_controlled_state = {
+				prioritize = { 226 200 227 }
+				create_unit = {
+					division = "name = \"1-я Интернациональная бригада им. Буэнавентуры Дуррути\" division_template = \"Штурмовая дивизия Чёрного Знамени\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+					owner = GLP
+				}
+				create_unit = {
+					division = "name = \"2-я Испанская ударная бригада CNT-FAI\" division_template = \"Ударный тачаночный курень им. Батьки Махно\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
+					owner = GLP
+				}
 			}
 			add_political_power = 40
 			army_experience = 20

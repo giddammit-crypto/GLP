@@ -1,10 +1,9 @@
 # Гуляй-Поле — scripted GUI кинематографической заставки (HOI4 1.19.2)
 #
 # Окно из interface/gulyaipole_intro_custom.gui показывается, пока установлен
-# glp_show_cinematic_intro. В центральной колонке — история Вольной республики
-# обычным текстом (GULYAIPOLE_EPIC_INTRO_TEXT), без режимов и переключений.
-# Кнопка «Вольному воля!» закрывает окно и снимает флаги (включая старые
-# режимные — для совместимости с сохранениями прошлых итераций).
+# glp_show_cinematic_intro. В центральной колонке — история Вольной республики.
+# Кнопка «Вольному воля!» закрывает окно и плавно переключает музыку на следующий
+# случайный трек из плейлиста «Монгол Шуудан» (чередуя композиции).
 
 scripted_gui = {
 	gulyaipole_cinematic_intro = {
@@ -22,13 +21,27 @@ scripted_gui = {
 				clr_country_flag = glp_show_cinematic_intro
 				clr_country_flag = glp_intro_crawl_mode
 				clr_country_flag = glp_intro_manual_mode
-				scoped_play_song = GLP_ms_yablochko
+				random_list = {
+					17 = { scoped_play_song = GLP_ms_lyubo }
+					17 = { scoped_play_song = GLP_ms_bei }
+					17 = { scoped_play_song = GLP_ms_sedmoi_patron }
+					17 = { scoped_play_song = GLP_ms_konflikt }
+					16 = { scoped_play_song = GLP_ms_finsky_nozh }
+					16 = { scoped_play_song = GLP_ms_ne_moya_zabota }
+				}
 			}
 			close_intro_button_click = {
 				clr_country_flag = glp_show_cinematic_intro
 				clr_country_flag = glp_intro_crawl_mode
 				clr_country_flag = glp_intro_manual_mode
-				scoped_play_song = GLP_ms_yablochko
+				random_list = {
+					17 = { scoped_play_song = GLP_ms_lyubo }
+					17 = { scoped_play_song = GLP_ms_bei }
+					17 = { scoped_play_song = GLP_ms_sedmoi_patron }
+					17 = { scoped_play_song = GLP_ms_konflikt }
+					16 = { scoped_play_song = GLP_ms_finsky_nozh }
+					16 = { scoped_play_song = GLP_ms_ne_moya_zabota }
+				}
 			}
 		}
 

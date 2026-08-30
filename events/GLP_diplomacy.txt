@@ -10,8 +10,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 
 	option = {
@@ -72,8 +75,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 
 	option = {
@@ -133,8 +139,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 
 	option = {
@@ -190,8 +199,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = { name = glp_diplo.11.a }
 }
@@ -204,8 +216,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = {
 		name = glp_diplo.12.a
@@ -222,8 +237,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	fire_only_once = yes
 
@@ -258,8 +276,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	fire_only_once = yes
 
@@ -290,8 +311,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = {
 		name = glp_crisis.3.a
@@ -311,8 +335,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	fire_only_once = yes
 
@@ -397,8 +424,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	fire_only_once = yes
 
@@ -436,8 +466,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	fire_only_once = yes
 
@@ -524,8 +557,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	fire_only_once = yes
 
@@ -616,8 +652,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	fire_only_once = yes
 
@@ -674,8 +713,11 @@ country_event = {
 		name = glp_crisis.41.a
 		ai_chance = { factor = 70 }
 		trigger = {
+		tag = GLP
 		exists = yes
-		has_capitulated = no has_country_flag = GLP_white_step_2_sidelined }
+		has_capitulated = no
+		
+		 has_country_flag = GLP_white_step_2_sidelined }
 		add_stability = 0.04
 		add_manpower = -1500
 		add_political_power = 25
@@ -725,8 +767,11 @@ country_event = {
 		name = glp_crisis.42.a
 		ai_chance = { factor = 80 }
 		trigger = {
+		tag = GLP
 		exists = yes
-		has_capitulated = no has_country_flag = GLP_white_step_3_dispersed }
+		has_capitulated = no
+		
+		 has_country_flag = GLP_white_step_3_dispersed }
 		add_stability = 0.05
 		add_political_power = 50
 		add_manpower = -2000
@@ -780,8 +825,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = {
 		name = glp_diplo.21.a
@@ -800,8 +848,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = {
 		name = glp_diplo.22.a
@@ -818,8 +869,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = {
 		name = glp_diplo.23.a
@@ -836,8 +890,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = {
 		name = glp_diplo.24.a
@@ -856,8 +913,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = {
 		name = glp_diplo.25.a
@@ -875,8 +935,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = {
 		name = glp_diplo.26.a
@@ -894,8 +957,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = {
 		name = glp_diplo.30.a

@@ -21,12 +21,15 @@ country_event = {
 	is_triggered_only = no
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1937.5.31
 		SPR = {
-			exists = yes
+			
 			has_civil_war = yes
 		}
 		NOT = { has_country_flag = glp_barcelona_resolved }
@@ -138,6 +141,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 	}
 	option = { name = glp_barcelona.2.a }
 }
@@ -155,6 +159,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 	}
 	option = { name = glp_barcelona.3.a }
 }
@@ -172,6 +177,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 	}
 	option = { name = glp_barcelona.4.a }
 }
@@ -189,6 +195,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 	}
 	option = { name = glp_barcelona.5.a }
 }

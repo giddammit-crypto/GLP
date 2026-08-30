@@ -22,7 +22,8 @@ news_event = {
 		GLP = {
 			exists = yes
 			has_capitulated = no
-		} tag = GLP }
+		}
+		 tag = GLP }
 		add_political_power = 50
 		add_war_support = 0.05
 		add_stability = 0.05
@@ -59,7 +60,8 @@ news_event = {
 		GLP = {
 			exists = yes
 			has_capitulated = no
-		} tag = GLP }
+		}
+		 tag = GLP }
 		add_political_power = 50
 		add_stability = 0.05
 	}
@@ -90,7 +92,8 @@ news_event = {
 		GLP = {
 			exists = yes
 			has_capitulated = no
-		} tag = GLP }
+		}
+		 tag = GLP }
 		add_stability = 0.10
 		add_political_power = 60
 	}
@@ -114,7 +117,8 @@ news_event = {
 		GLP = {
 			exists = yes
 			has_capitulated = no
-		} tag = GLP }
+		}
+		 tag = GLP }
 		add_equipment_to_stockpile = {
 			type = infantry_equipment
 			amount = 1000
@@ -147,7 +151,8 @@ news_event = {
 		GLP = {
 			exists = yes
 			has_capitulated = no
-		} tag = GLP }
+		}
+		 tag = GLP }
 		add_manpower = 20000
 		add_political_power = 75
 	}
@@ -171,7 +176,8 @@ news_event = {
 		GLP = {
 			exists = yes
 			has_capitulated = no
-		} tag = GLP }
+		}
+		 tag = GLP }
 		add_political_power = 80
 		add_stability = 0.10
 	}
@@ -210,7 +216,8 @@ news_event = {
 		GLP = {
 			exists = yes
 			has_capitulated = no
-		} tag = GLP }
+		}
+		 tag = GLP }
 		add_stability = 0.10
 		add_popularity = {
 			ideology = neutrality
@@ -240,7 +247,8 @@ news_event = {
 		GLP = {
 			exists = yes
 			has_capitulated = no
-		} tag = GLP }
+		}
+		 tag = GLP }
 		army_experience = 10
 		add_war_support = 0.03
 	}
@@ -261,9 +269,12 @@ country_event = {
 	desc = glp.10.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1936.4.1
 	}
 	mean_time_to_happen = { days = 45 }
@@ -293,9 +304,12 @@ country_event = {
 	desc = glp.11.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1936.6.1
 	}
 	mean_time_to_happen = { days = 60 }
@@ -323,9 +337,12 @@ country_event = {
 	desc = glp.12.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		controls_state = 200
 		date > 1936.8.1
 	}
@@ -362,9 +379,12 @@ country_event = {
 	desc = glp.13.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		controls_state = 227
 		date > 1936.10.1
 	}
@@ -397,9 +417,12 @@ country_event = {
 	desc = glp.14.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1937.1.1
 	}
 	mean_time_to_happen = { days = 70 }
@@ -424,9 +447,12 @@ country_event = {
 	desc = glp.15.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1937.3.1
 	}
 	mean_time_to_happen = { days = 80 }
@@ -450,9 +476,12 @@ country_event = {
 	desc = glp.16.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		controls_state = 137
 		date > 1937.5.1
 	}
@@ -484,9 +513,12 @@ country_event = {
 	desc = glp.17.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1937.7.1
 	}
 	mean_time_to_happen = { days = 90 }
@@ -511,9 +543,12 @@ country_event = {
 	desc = glp.18.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1937.9.1
 	}
 	mean_time_to_happen = { days = 90 }
@@ -544,9 +579,12 @@ country_event = {
 	desc = glp.19.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1937.11.1
 	}
 	mean_time_to_happen = { days = 85 }
@@ -571,9 +609,12 @@ country_event = {
 	desc = glp.20.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1938.1.1
 	}
 	mean_time_to_happen = { days = 90 }
@@ -603,9 +644,12 @@ country_event = {
 	desc = glp.21.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1938.3.1
 	}
 	mean_time_to_happen = { days = 90 }
@@ -633,9 +677,12 @@ country_event = {
 	desc = glp.22.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1938.5.1
 	}
 	mean_time_to_happen = { days = 90 }
@@ -671,9 +718,12 @@ country_event = {
 	desc = glp.23.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1938.8.1
 	}
 	mean_time_to_happen = { days = 100 }
@@ -702,9 +752,12 @@ country_event = {
 	desc = glp.24.d
 	picture = GFX_news_event_GLP_rebirth
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
-		tag = GLP
+		
+		
+		
 		date > 1938.11.1
 	}
 	mean_time_to_happen = { days = 100 }
@@ -727,8 +780,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = { name = glp.1.a add_political_power = 50 }
 }
@@ -741,8 +797,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = { name = glp.2.a add_stability = 0.05 }
 }
@@ -755,8 +814,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 	option = { name = glp.3.a add_manpower = 15000 }
 }
@@ -774,8 +836,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		tag = GLP
 		exists = yes
 		has_capitulated = no
+		
+		
 	}
 
 	option = {
@@ -801,6 +866,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 	}
 
 	option = { name = glp_spanish.1.a }

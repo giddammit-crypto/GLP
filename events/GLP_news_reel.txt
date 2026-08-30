@@ -21,6 +21,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1936.5.1
 		has_completed_focus = GLP_armored_train_production
@@ -80,6 +81,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1936.9.1
 		has_completed_focus = GLP_dnieper_hydroelectric_freedom
@@ -144,6 +146,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1936.8.1
 		has_war = yes
@@ -209,6 +212,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1937.1.1
 		has_completed_focus = GLP_fourth_congress_of_peasants
@@ -265,6 +269,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1937.4.1
 		has_completed_focus = GLP_insurgent_army_reorganization
@@ -321,6 +326,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1936.12.1
 		has_completed_focus = GLP_donbass_coal_and_steel_collective
@@ -385,6 +391,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1937.6.1
 		has_completed_focus = GLP_kontrrazvedka_reorganization
@@ -432,6 +439,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1937.9.1
 		has_completed_focus = GLP_peasant_grain_supplies
@@ -496,6 +504,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1938.1.1
 		has_completed_focus = GLP_syndicate_industrial_planning
@@ -549,6 +558,7 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
+		
 		tag = GLP
 		date > 1938.5.1
 		has_completed_focus = GLP_aid_to_spanish_anarchists
