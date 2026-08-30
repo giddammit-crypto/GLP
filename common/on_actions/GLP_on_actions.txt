@@ -69,7 +69,9 @@ on_actions = {
 						division_names_group = GLP_CAV_HISTORICAL
 						# 92 = конь (tools/division_icons.tsv): имена отряду даёт
 						# конная группа имён, а без counter движок взял бы иконку
-						# пехоты (infantry 600 > cavalry 599).
+						# пехоты (infantry 600 > cavalry 599). Силуэт 92 -- графика
+						# базовой игры (gfx/interface/counters/divisions_large/
+						# unit_cavalry_icon.dds), своей плитки у мода нет.
 						template_counter = 92
 						is_locked = yes
 						priority = 0

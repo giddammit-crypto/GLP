@@ -22,10 +22,20 @@
 #   намеренно НЕ утверждает род войск, проверка соответствия к ним не
 #   применяется).
 #
-# Плитки (в т.ч. 76x42 / 30x12 в несжатом ARGB8888 DDS) собирает
-# tools/build_division_icons.sh -- идемпотентно, из мастеров
-# tools/_icons_src/_src_div_*.png.
+# Откуда берётся картинка. Спрайт GFX_div_templ_N_large/_small обязан смотреть
+# в один из двух источников, и аудит проверяет оба:
+#   * rod vojsk (depicts != flag) -- ИСКЛЮЧИТЕЛЬНО графика базовой игры
+#     gfx/interface/counters/divisions_large/unit_<depicts>_icon.dds и
+#     gfx/interface/counters/divisions_small/onmap_unit_<depicts>_icon.dds,
+#     объявление копируется из ванильного interface/subuniticons.gfx
+#     (включая noOfFrames = 2, атлас из двух кадров). Свои силуэты родов войск
+#     мы не рисуем: пользователь просил именно ванильную иконку кавалерии, а
+#     самоповтор ванильного ресурса расходится с ней при каждом патче игры.
+#   * flag -- своя плитка 76x42 / 30x12 (несжатый ARGB8888 DDS), потому что
+#     флага махновцев в ванили нет. Собирает её идемпотентно
+#     tools/build_division_icons.sh из мастеров
+#     tools/_icons_src/_src_div_*.png -- руками бинарники не править.
 counter	large	small	depicts	note
 90	GFX_div_templ_90_large	GFX_div_templ_90_small	flag	белогвардейские добровольцы: чёрный флаг с черепом + бело-сине-красная полоса у древка
 91	GFX_div_templ_91_large	GFX_div_templ_91_small	flag	испанские анархисты CNT-FAI: красно-чёрная диагональ с черепом
-92	GFX_div_templ_92_large	GFX_div_templ_92_small	cavalry	конница РПА: всадник с шашкой и тачанка (МАО; у light_armor priority выше cavalry, поэтому без counter конница показывала танк)
+92	GFX_div_templ_92_large	GFX_div_templ_92_small	cavalry	конные шаблоны (60 «Казачья добровольческая конная», 110 «Испанская ударная конная колонна», 141 «Ударный тачаночный курень»); силуэт unit_cavalry_icon.dds из базовой игры, своя плитка не рисуется (у light_armor priority выше cavalry, поэтому без counter конница показывала танк)

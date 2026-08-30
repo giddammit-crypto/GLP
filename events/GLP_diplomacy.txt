@@ -413,6 +413,10 @@ country_event = {
 		# Григорьев-старший мог быть советником: убираем и как advisor.
 		if = {
 			limit = { has_idea = GLP_ataman_grigoriev_advisor }
+			# Сама идея GLP_ataman_grigoriev_advisor определена в
+			# common/ideas/GLP_advisors.txt — без неё has_idea был бы всегда ложен.
+			# Снимаем со слота (deactivate_advisor) и только потом убираем идею.
+			deactivate_advisor = GLP_ataman_grigoriev_advisor
 			remove_ideas = GLP_ataman_grigoriev_advisor
 		}
 	}

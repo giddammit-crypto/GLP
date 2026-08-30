@@ -719,6 +719,9 @@ focus_tree = {
 			hidden_effect = { country_event = { id = glp_powers.1 days = 2 } }
 			add_popularity = { ideology = communism popularity = 0.10 }
 			add_stability = -0.05
+			# Советская военная миссия: персонаж определён в common/characters, но не стоит
+			# в OOB 1936 — без вербовки его слот советника не появляется.
+			recruit_character = GLP_soviet_military_mission
 			hidden_effect = { SOV = { country_event = { id = glp_diplo.1 hours = 8 } } }
 			hidden_effect = { news_event = { id = glp_news.5 days = 2 } }
 		}
@@ -752,6 +755,9 @@ focus_tree = {
 			hidden_effect = { country_event = { id = glp_powers.10 days = 2 } }
 			add_popularity = { ideology = fascism popularity = 0.08 }
 			add_stability = -0.06
+			# Германская военная миссия: персонаж определён в common/characters, но не стоит
+			# в OOB 1936 — без вербовки его слот советника не появляется.
+			recruit_character = GLP_german_military_mission
 			hidden_effect = { GER = { country_event = { id = glp_diplo.2 hours = 8 } } }
 			hidden_effect = { news_event = { id = glp_news.5 days = 2 } }
 		}
@@ -785,6 +791,9 @@ focus_tree = {
 			hidden_effect = { country_event = { id = glp_powers.20 days = 2 } }
 			add_popularity = { ideology = democratic popularity = 0.08 }
 			add_stability = -0.04
+			# Британская военно-морская миссия: персонаж определён в common/characters, но не стоит
+			# в OOB 1936 — без вербовки его слот советника не появляется.
+			recruit_character = GLP_british_naval_drill
 			hidden_effect = { ENG = { country_event = { id = glp_diplo.3 hours = 8 } } }
 			hidden_effect = { news_event = { id = glp_news.5 days = 2 } }
 		}
