@@ -776,6 +776,12 @@ VANILLA_TRAITS = set("""
     silent_workhorse ideological_crusader captain_of_industry
     war_industrialist prince_of_terror fortification_engineer
     compassionate_gentleman quartermaster_general
+    seawolf blockade_runner superior_tactician spotter fly_swatter
+    ironside air_controller bold cautious old_guard_navy gentlemanly
+    craven fleet_protector battleship_adherent carrier_seaman
+    lone_wolf naval_lineage aviation_enthusiast
+    air_close_air_support_2 air_air_superiority_2 air_tactical_bombing_2
+    air_naval_strike_2 air_air_combat_training_2 air_bomber_interception_2
 """.split())
 
 

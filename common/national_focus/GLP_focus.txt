@@ -711,23 +711,12 @@ focus_tree = {
 		x = 26
 		y = 1
 		cost = 5
-		available = {
-			SOV = { exists = yes NOT = { has_war_with = ROOT } }
-			NOT = { has_war_with = SOV }
-		}
-		bypass = {
-			OR = {
-				NOT = { country_exists = SOV }
-				has_war_with = SOV
-			}
-		}
 		ai_will_do = { factor = 10 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			add_opinion_modifier = { target = SOV modifier = GLP_soviet_military_pact }
-			SOV = { add_opinion_modifier = { target = GLP modifier = GLP_soviet_military_pact
+			SOV = { add_opinion_modifier = { target = GLP modifier = GLP_soviet_military_pact } }
 			hidden_effect = { country_event = { id = glp_powers.1 days = 2 } }
-		} }
 			add_popularity = { ideology = communism popularity = 0.10 }
 			add_stability = -0.05
 			hidden_effect = { SOV = { country_event = { id = glp_diplo.1 hours = 8 } } }
@@ -755,22 +744,12 @@ focus_tree = {
 		x = 30
 		y = 1
 		cost = 5
-		available = {
-			GER = { exists = yes NOT = { has_war_with = ROOT } }
-		}
-		bypass = {
-			OR = {
-				NOT = { country_exists = GER }
-				has_war_with = GER
-			}
-		}
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			add_opinion_modifier = { target = GER modifier = GLP_german_military_pact }
-			GER = { add_opinion_modifier = { target = GLP modifier = GLP_german_military_pact
+			GER = { add_opinion_modifier = { target = GLP modifier = GLP_german_military_pact } }
 			hidden_effect = { country_event = { id = glp_powers.10 days = 2 } }
-		} }
 			add_popularity = { ideology = fascism popularity = 0.08 }
 			add_stability = -0.06
 			hidden_effect = { GER = { country_event = { id = glp_diplo.2 hours = 8 } } }
@@ -798,22 +777,12 @@ focus_tree = {
 		x = 34
 		y = 1
 		cost = 5
-		available = {
-			ENG = { exists = yes NOT = { has_war_with = ROOT } }
-		}
-		bypass = {
-			OR = {
-				NOT = { country_exists = ENG }
-				has_war_with = ENG
-			}
-		}
 		ai_will_do = { factor = 5 }
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			add_opinion_modifier = { target = ENG modifier = GLP_british_military_pact }
-			ENG = { add_opinion_modifier = { target = GLP modifier = GLP_british_military_pact
+			ENG = { add_opinion_modifier = { target = GLP modifier = GLP_british_military_pact } }
 			hidden_effect = { country_event = { id = glp_powers.20 days = 2 } }
-		} }
 			add_popularity = { ideology = democratic popularity = 0.08 }
 			add_stability = -0.04
 			hidden_effect = { ENG = { country_event = { id = glp_diplo.3 hours = 8 } } }
@@ -931,9 +900,8 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			army_experience = 50
-			add_tech_bonus = { name = glp_sov_doctrine_bonus bonus = 1.0 uses = 2 category = land_doctrine
+			add_tech_bonus = { name = glp_sov_doctrine_bonus bonus = 1.0 uses = 2 category = land_doctrine }
 			hidden_effect = { country_event = { id = glp_powers.3 days = 2 } }
-		}
 		}
 	}
 
@@ -966,11 +934,9 @@ focus_tree = {
 
 	focus = {
 		id = GLP_sevastopol_naval_refit_with_royal_navy
-		available = {
-			controls_state = 137
-		}
 		icon = GFX_focus_generic_naval_discipline
 		available = {
+			controls_state = 137
 			country_exists = ENG
 			NOT = { has_war_with = ENG }
 			ENG = { has_capitulated = no }
@@ -1033,9 +999,8 @@ focus_tree = {
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_timed_idea = { idea = GLP_german_axis_synergy days = 730
+			add_timed_idea = { idea = GLP_german_axis_synergy days = 730 }
 			hidden_effect = { country_event = { id = glp_powers.12 days = 2 } }
-		}
 		}
 	}
 
@@ -1127,15 +1092,15 @@ focus_tree = {
 			random_owned_controlled_state = {
 				prioritize = { 226 200 227 }
 				create_unit = {
-					division = "name = \"1-й Офицерский ударный полк генерала Скоблина\" division_template = \"Штурмовая дивизия Чёрного Знамени\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+					division = "name = \"1-й Офицерский ударный полк генерала Скоблина\" division_template = \"Офицерская добровольческая дивизия\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
 					owner = GLP
 				}
 				create_unit = {
-					division = "name = \"2-й Сводный стрелковый полк генерала Туркула\" division_template = \"Штурмовая дивизия Чёрного Знамени\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+					division = "name = \"2-й Сводный стрелковый полк генерала Туркула\" division_template = \"Офицерская добровольческая дивизия\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
 					owner = GLP
 				}
 				create_unit = {
-					division = "name = \"3-й Конный полк атамана Семёнова\" division_template = \"Ударный тачаночный курень им. Батьки Махно\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+					division = "name = \"3-й Конный полк атамана Семёнова\" division_template = \"Казачья добровольческая конная дивизия\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
 					owner = GLP
 				}
 			}
@@ -1518,11 +1483,11 @@ focus_tree = {
 			random_owned_controlled_state = {
 				prioritize = { 226 200 227 }
 				create_unit = {
-					division = "name = \"1-я Интернациональная бригада им. Буэнавентуры Дуррути\" division_template = \"Штурмовая дивизия Чёрного Знамени\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+					division = "name = \"1-я Интернациональная бригада им. Буэнавентуры Дуррути\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
 					owner = GLP
 				}
 				create_unit = {
-					division = "name = \"2-я Испанская ударная бригада CNT-FAI\" division_template = \"Ударный тачаночный курень им. Батьки Махно\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
+					division = "name = \"2-я Испанская ударная бригада CNT-FAI\" division_template = \"Испанская ударная конная колонна\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
 					owner = GLP
 				}
 			}
@@ -1633,7 +1598,6 @@ focus_tree = {
 		x = 2
 		y = 6
 		cost = 10
-		available = { controls_state = 137 }
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {

@@ -103,6 +103,117 @@ leader_traits = {
 	}
 
 	# =============================================================================
+	#  ЧЕРТЫ ПРЕТЕНДЕНТОВ НА ЧЁРНОЕ ЗНАМЯ (цепочка «Чёрной рады», glp_crisis.50-52)
+	# =============================================================================
+
+	# Дмитрий Попов — лидер-заговорщик: дисциплина штаба, недоверие коммун
+	GLP_left_sr_conspirator = {
+		random = no
+		sprite = 1
+		political_power_gain = 0.10
+		planning_speed = 0.10
+		stability_factor = -0.05
+		war_support_factor = 0.05
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Вольдемар Антони — патриарх гуляйпольского анархизма, учитель Махно
+	GLP_patriarch_of_anarchism = {
+		random = no
+		sprite = 1
+		stability_factor = 0.10
+		political_power_gain = 0.05
+		drift_defence_factor = 0.15
+		war_support_factor = -0.05
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# =============================================================================
+	#  НОВЫЕ МИНИСТРЫ ВОЛЬНОЙ ТЕРРИТОРИИ (v1.5.0) — advisor traits
+	# =============================================================================
+
+	# Министр печати: Летописец революции — Пётр Аршинов («Голос Воли»)
+	GLP_chronicler_of_revolution = {
+		random = no
+		sprite = 12
+		war_support_factor = 0.05
+		political_power_gain = 0.10
+		drift_defence_factor = 0.10
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Министр революционной обороны: Чёрная атаманша — Мария Никифорова
+	GLP_black_atamansha = {
+		random = no
+		sprite = 10
+		conscription_factor = 0.05
+		war_support_factor = 0.05
+		mobilization_speed = 0.10
+		stability_factor = -0.03
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Министр труда и синдикатов: Организатор синдикатов — Арон Барон
+	GLP_syndicalist_organizer = {
+		random = no
+		sprite = 12
+		production_speed_buildings_factor = 0.05
+		production_factory_max_efficiency_factor = 0.05
+		consumer_goods_factor = -0.02
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Военный теоретик: Теоретик партизанской войны — Яков Озеров (theorist)
+	GLP_partisan_theorist = {
+		random = no
+		sprite = 10
+		land_doctrine_cost_factor = -0.10
+		experience_gain_army = 0.05
+		max_dig_in = 2
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# =============================================================================
+	#  ФЛОТ И АВИАЦИЯ ВОЛЬНОЙ ТЕРРИТОРИИ (v1.5.1) — advisor traits
+	# =============================================================================
+
+	# Командующий флотом: Вольная флотилия — Фёдор Остапенко (navy_chief)
+	GLP_free_flotilla_commander = {
+		random = no
+		sprite = 13
+		navy_org_factor = 0.06
+		naval_coordination = 0.08
+		experience_gain_navy_factor = 0.10
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Начальник ВВС: Ас «Чёрных крыльев» — Андрей Верба (air_chief)
+	GLP_black_wings_ace = {
+		random = no
+		sprite = 10
+		air_superiority_efficiency = 0.05
+		experience_gain_air_factor = 0.10
+		air_untrained_pilots_penalty_factor = -0.10
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# =============================================================================
 	#  СОЮЗНЫЕ ВОЕННЫЕ МИССИИ (advisor traits) — открываются фокусами союзов
 	# =============================================================================
 

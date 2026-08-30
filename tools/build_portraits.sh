@@ -50,6 +50,16 @@ declare -A PEOPLE=(
 	[ivan_lepetchenko]=Ivan_Lepetchenko
 	[lavr_kornilov]=Lavr_Kornilov
 	[mikhail_drozdovsky]=Mikhail_Drozdovsky
+	[petr_arshinov]=Petr_Arshinov
+	[maria_nikiforova]=Maria_Nikiforova
+	[aron_baron]=Aron_Baron
+	[yakov_ozerov]=Yakov_Ozerov
+	[dmitry_popov]=Dmitry_Popov
+	[voldemar_antoni]=Voldemar_Antoni
+	[fedir_ostapenko]=Fedir_Ostapenko
+	[stepan_goncharenko]=Stepan_Goncharenko
+	[andriy_verba]=Andriy_Verba
+	[klym_orlyk]=Klym_Orlyk
 )
 
 # Общая обработка: лёгкое освѣтленіе (ТЗ: «чуть осветли», контрастъ сохранёнъ),

@@ -12,6 +12,121 @@
 #  9. «Трофейный ремонтно-ударный отряд РПА» (Ремонт и захват техники)
 # =========================================================================
 
+# =========================================================================
+#  ДОБРОВОЛЬЧЕСКИЕ ШАБЛОНЫ (v1.5.1) — иностранные добровольцы под своими
+#  знамёнами на основе чёрного флага Батьки Махно:
+#    * template_counter = 90 -> GFX_div_templ_90_* : белогвардейские
+#      добровольцы (чёрный флаг с черепом + бело-сине-красная полоса
+#      у древка);
+#    * template_counter = 91 -> GFX_div_templ_91_* : испанские анархисты
+#      CNT-FAI (красно-чёрное диагональное полотнище с черепом).
+#  Спрайты: interface/GLP_division_templates.gfx; текстуры 76x42 и 30x12 в
+#  gfx/interface/counters/division_templates_{large,small}/. Шаблоны
+#  заблокированы (is_locked) — это именные части, спавнятся фокусами
+#  GLP_old_enemies_unite / GLP_aid_to_spanish_anarchists и событием
+#  glp_spain.1 на территории Гуляйполя (штаты 226/200/227).
+# =========================================================================
+
+# 10. ОФИЦЕРСКАЯ ДОБРОВОЛЬЧЕСКАЯ ДИВИЗИЯ (белоэмигранты, пехота; флаг 90)
+division_template = {
+	name = "Офицерская добровольческая дивизия"
+	division_names_group = GLP_INF_HISTORICAL
+	template_counter = 90
+	is_locked = yes
+
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+		infantry = { x = 0 y = 2 }
+		infantry = { x = 1 y = 0 }
+		infantry = { x = 1 y = 1 }
+		infantry = { x = 1 y = 2 }
+		infantry = { x = 2 y = 0 }
+		artillery_brigade = { x = 3 y = 0 }
+		artillery_brigade = { x = 3 y = 1 }
+	}
+	support = {
+		artillery = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		field_hospital = { x = 0 y = 2 }
+		recon = { x = 0 y = 3 }
+	}
+}
+
+# 11. КАЗАЧЬЯ ДОБРОВОЛЬЧЕСКАЯ КОННАЯ ДИВИЗИЯ (белоэмигранты, конница; флаг 90)
+division_template = {
+	name = "Казачья добровольческая конная дивизия"
+	division_names_group = GLP_CAV_HISTORICAL
+	template_counter = 90
+	is_locked = yes
+
+	regiments = {
+		cavalry = { x = 0 y = 0 }
+		cavalry = { x = 0 y = 1 }
+		cavalry = { x = 0 y = 2 }
+		cavalry = { x = 1 y = 0 }
+		motorized = { x = 1 y = 1 }
+		motorized = { x = 1 y = 2 }
+		light_armor = { x = 2 y = 0 }
+	}
+	support = {
+		recon = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		artillery = { x = 0 y = 2 }
+		maintenance_company = { x = 0 y = 3 }
+	}
+}
+
+# 12. ИНТЕРНАЦИОНАЛЬНАЯ БРИГАДА CNT-FAI (испанские анархисты, пехота; флаг 91)
+division_template = {
+	name = "Интернациональная бригада CNT-FAI"
+	division_names_group = GLP_INF_HISTORICAL
+	template_counter = 91
+	is_locked = yes
+
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+		infantry = { x = 0 y = 2 }
+		infantry = { x = 1 y = 0 }
+		infantry = { x = 1 y = 1 }
+		infantry = { x = 1 y = 2 }
+		infantry = { x = 2 y = 0 }
+		artillery_brigade = { x = 3 y = 0 }
+		artillery_brigade = { x = 3 y = 1 }
+	}
+	support = {
+		artillery = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		field_hospital = { x = 0 y = 2 }
+		recon = { x = 0 y = 3 }
+	}
+}
+
+# 13. ИСПАНСКАЯ УДАРНАЯ КОННАЯ КОЛОННА (испанские анархисты, конница; флаг 91)
+division_template = {
+	name = "Испанская ударная конная колонна"
+	division_names_group = GLP_CAV_HISTORICAL
+	template_counter = 91
+	is_locked = yes
+
+	regiments = {
+		cavalry = { x = 0 y = 0 }
+		cavalry = { x = 0 y = 1 }
+		cavalry = { x = 0 y = 2 }
+		cavalry = { x = 1 y = 0 }
+		motorized = { x = 1 y = 1 }
+		motorized = { x = 1 y = 2 }
+		light_armor = { x = 2 y = 0 }
+	}
+	support = {
+		recon = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		artillery = { x = 0 y = 2 }
+		maintenance_company = { x = 0 y = 3 }
+	}
+}
+
 # 1. УДАРНЫЙ ТАЧАНОЧНЫЙ КУРЕНЬ ЧЕРНОЙ ГВАРДИИ (Рейды, прорыв и скорость)
 division_template = {
 	name = "Ударный тачаночный курень им. Батьки Махно"

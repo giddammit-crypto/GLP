@@ -1,6 +1,6 @@
 # Кинематографическая заставка «Гуляй-Поле» — HOI4 v1.19.2
 
-**Автор:** Амброзиев О.А.  
+**Автор:** iziwavez  
 **Стандарт:** AAA Photorealistic & PDX Technical Guidelines Compliance  
 **Версия игры:** Hearts of Iron IV v1.19.2
 
