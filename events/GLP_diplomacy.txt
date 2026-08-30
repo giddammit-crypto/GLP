@@ -10,9 +10,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Получатель — SOV (решение о гарантии Гуляйполю приходит
+		# великой державе из фокуса ГЛП): проверяем существование ГЛП.
+		tag = SOV
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -75,9 +79,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Получатель — GER (решение о гарантии Гуляйполю приходит
+		# великой державе из фокуса ГЛП): проверяем существование ГЛП.
+		tag = GER
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -139,9 +147,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Получатель — ENG (решение о гарантии Гуляйполю приходит
+		# великой державе из фокуса ГЛП): проверяем существование ГЛП.
+		tag = ENG
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -276,9 +288,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Получатель — Москва (событие шлётся в SOV из glp_crisis.1):
+		# проверяем существование Гуляйполя, а не собственный тег.
+		tag = SOV
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -825,9 +841,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
+		# поэтому проверяем существование ГЛП, а не собственный тег.
+		NOT = { tag = GLP }
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -848,9 +868,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
+		# поэтому проверяем существование ГЛП, а не собственный тег.
+		NOT = { tag = GLP }
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -869,9 +893,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
+		# поэтому проверяем существование ГЛП, а не собственный тег.
+		NOT = { tag = GLP }
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -890,9 +918,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
+		# поэтому проверяем существование ГЛП, а не собственный тег.
+		NOT = { tag = GLP }
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -913,9 +945,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
+		# поэтому проверяем существование ГЛП, а не собственный тег.
+		NOT = { tag = GLP }
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -935,9 +971,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
+		# поэтому проверяем существование ГЛП, а не собственный тег.
+		NOT = { tag = GLP }
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -957,9 +997,13 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
+		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
+		# поэтому проверяем существование ГЛП, а не собственный тег.
+		NOT = { tag = GLP }
+		GLP = {
+			exists = yes
+			has_capitulated = no
+		}
 		
 		
 	}
@@ -967,5 +1011,211 @@ country_event = {
 		name = glp_diplo.30.a
 		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }
 		add_ai_strategy = { type = contain id = "GLP" value = 30 }
+	}
+}
+
+# =============================================================================
+#  «ЧЁРНАЯ РАДА» (v1.5.0) — заговор против Батьки. Цепочка glp_crisis.50-52.
+#
+#  Три претендента на чёрное знамя, каждый со своим фотопортретом эпохи
+#  1930-х и своим политическим профилем:
+#    * Мария Никифорова — чёрная атаманша, требует войны до конца;
+#    * Дмитрий Попов — левый эсер, хочет «твёрдой руки» и дисциплины;
+#    * Вольдемар Антони — старый учитель Махно, патриарх анархизма.
+#
+#  Запуск: on_startup (см. common/on_actions/GLP_on_actions.txt) через
+#  1000+0..200 дней — только если Батько ещё жив и у власти. Ступень 1
+#  (glp_crisis.50) даёт выбор: раздавить заговор или созвать раду.
+#  Ступень 2 (glp_crisis.51) — голосование рады: Махно может удержать
+#  знамя или уступить его одному из трёх претендентов (свержение).
+#  Ступень 3 (glp_crisis.52) — новость миру об исходе рады.
+#
+#  Скриптовая дисциплина (официальная документация Paradox):
+#    * каждый retire — только под has_character guard (1.19 иначе
+#      роняет silent error, если персонаж погиб раньше);
+#    * наделение ролью лидера — add_country_leader_role +
+#      promote_leader = yes (ванильный путь для персонажа без
+#      стартового блока country_leader);
+#    * флаги ступеней GLP_black_rada_* очищаются в финале.
+# =============================================================================
+
+country_event = {
+	id = glp_crisis.50
+	title = glp_crisis.50.t
+	desc = glp_crisis.50.d
+	picture = GFX_news_event_GLP_black_rada
+	is_triggered_only = yes
+
+	trigger = {
+		tag = GLP
+		exists = yes
+		has_capitulated = no
+		has_country_leader = { character = GLP_nestor_makhno ruling_only = yes }
+		NOT = { has_country_flag = GLP_makhno_retired_no_successor }
+		NOT = { has_country_flag = GLP_makhno_council }
+	}
+	fire_only_once = yes
+
+	# (a) Раздавить заговор силой РЗР. Батько остаётся, но Вольная
+	# Территория помнит: стабильность падает, Задов получает работу.
+	option = {
+		name = glp_crisis.50.a
+		ai_chance = { factor = 60 }
+		add_stability = -0.08
+		add_political_power = -50
+		add_popularity = { ideology = neutrality popularity = -0.05 }
+		set_country_flag = GLP_black_rada_crushed
+		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
+	}
+
+	# (b) Созвать раду: пусть вольный сход решит, кто понесёт знамя.
+	# Риск свержения Батьки, но анархия верна себе — решает сход.
+	option = {
+		name = glp_crisis.50.b
+		ai_chance = { factor = 40 }
+		add_stability = 0.03
+		add_political_power = 25
+		set_country_flag = GLP_black_rada_convened
+		country_event = { id = glp_crisis.51 days = 14 random_days = 7 }
+	}
+}
+
+# Голосование Чёрной рады: Махно против трёх претендентов.
+country_event = {
+	id = glp_crisis.51
+	title = glp_crisis.51.t
+	desc = glp_crisis.51.d
+	picture = GFX_news_event_GLP_black_rada
+	is_triggered_only = yes
+
+	trigger = {
+		tag = GLP
+		exists = yes
+		has_capitulated = no
+		has_country_flag = GLP_black_rada_convened
+	}
+	fire_only_once = yes
+
+	# (a) Сход верен Батьке: Махно удерживает знамя, авторитет растёт.
+	option = {
+		name = glp_crisis.51.a
+		ai_chance = { factor = 55 }
+		add_stability = 0.05
+		add_war_support = 0.05
+		add_political_power = 50
+		clr_country_flag = GLP_black_rada_convened
+		set_country_flag = GLP_black_rada_makhno_won
+		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
+	}
+
+	# (b) Маруся Никифорова: чёрная атаманша берёт знамя — война до конца.
+	option = {
+		name = glp_crisis.51.b
+		ai_chance = { factor = 20 }
+		add_war_support = 0.10
+		add_stability = -0.10
+		if = {
+			limit = { has_character = GLP_nestor_makhno }
+			GLP_nestor_makhno = {
+				retire = yes
+			}
+		}
+		if = {
+			limit = { has_character = GLP_maria_nikiforova }
+			GLP_maria_nikiforova = {
+				add_country_leader_role = {
+					promote_leader = yes
+					country_leader = {
+						ideology = anarchism
+						expire = "1965.1.1.1"
+						traits = { GLP_black_atamansha GLP_panic }
+					}
+				}
+			}
+		}
+		clr_country_flag = GLP_black_rada_convened
+		set_country_flag = GLP_black_rada_nikiforova
+		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
+	}
+
+	# (c) Дмитрий Попов: левый эсер строит «дисциплинированную вольницу».
+	option = {
+		name = glp_crisis.51.c
+		ai_chance = { factor = 15 }
+		add_political_power = 75
+		add_stability = -0.05
+		if = {
+			limit = { has_character = GLP_nestor_makhno }
+			GLP_nestor_makhno = {
+				retire = yes
+			}
+		}
+		if = {
+			limit = { has_character = GLP_dmitry_popov }
+			GLP_dmitry_popov = {
+				add_country_leader_role = {
+					promote_leader = yes
+					country_leader = {
+						ideology = anarchism
+						expire = "1965.1.1.1"
+						traits = { GLP_left_sr_conspirator }
+					}
+				}
+			}
+		}
+		clr_country_flag = GLP_black_rada_convened
+		set_country_flag = GLP_black_rada_popov
+		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
+	}
+
+	# (d) Вольдемар Антони: старый учитель принимает знамя из рук ученика.
+	option = {
+		name = glp_crisis.51.w
+		ai_chance = { factor = 10 }
+		add_stability = 0.08
+		add_war_support = -0.08
+		if = {
+			limit = { has_character = GLP_nestor_makhno }
+			GLP_nestor_makhno = {
+				retire = yes
+			}
+		}
+		if = {
+			limit = { has_character = GLP_voldemar_antoni }
+			GLP_voldemar_antoni = {
+				add_country_leader_role = {
+					promote_leader = yes
+					country_leader = {
+						ideology = anarchism
+						expire = "1965.1.1.1"
+						traits = { GLP_patriarch_of_anarchism }
+					}
+				}
+			}
+		}
+		clr_country_flag = GLP_black_rada_convened
+		set_country_flag = GLP_black_rada_antoni
+		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
+	}
+}
+
+# Новость миру: исход Чёрной рады (единая газета, текст по scripted loc не
+# требуется — каждая ветка ставит свой флаг, а газета говорит об итоге схода).
+news_event = {
+	id = glp_crisis.52
+	title = glp_crisis.52.t
+	desc = glp_crisis.52.d
+	picture = GFX_news_event_GLP_black_rada
+	major = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = glp_crisis.52.a
+		trigger = { tag = GLP }
+	}
+	option = {
+		name = glp_crisis.52.b
+		trigger = { NOT = { tag = GLP } }
 	}
 }

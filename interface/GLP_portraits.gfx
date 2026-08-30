@@ -220,4 +220,64 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_ivan_lepetchenko_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Ivan_Lepetchenko.dds"
 	}
+
+	# ----------------------- Пётр Аршинов (министр печати) -------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_petr_arshinov"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Petr_Arshinov_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_petr_arshinov_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Petr_Arshinov.dds"
+	}
+
+	# ------------------ Мария Никифорова (мин. рев. обороны) -----------------
+	spriteType = {
+		name = "GFX_portrait_GLP_maria_nikiforova"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Maria_Nikiforova_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_maria_nikiforova_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Maria_Nikiforova.dds"
+	}
+
+	# ------------------- Арон Барон (мин. труда и синдикатов) ----------------
+	spriteType = {
+		name = "GFX_portrait_GLP_aron_baron"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Aron_Baron_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_aron_baron_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Aron_Baron.dds"
+	}
+
+	# --------------------- Яков Озеров (военный теоретик) --------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_yakov_ozerov"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Yakov_Ozerov_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_yakov_ozerov_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Yakov_Ozerov.dds"
+	}
+
+	# ---------------------- Дмитрий Попов (военный министр) ------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_dmitry_popov"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Dmitry_Popov_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_dmitry_popov_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Dmitry_Popov.dds"
+	}
+
+	# ------------------ Вольдемар Антони (патриарх анархизма) ----------------
+	spriteType = {
+		name = "GFX_portrait_GLP_voldemar_antoni"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Voldemar_Antoni_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_voldemar_antoni_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Voldemar_Antoni.dds"
+	}
 }

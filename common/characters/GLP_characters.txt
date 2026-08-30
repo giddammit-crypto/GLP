@@ -594,7 +594,6 @@ characters = {
 			logistics_skill = 2
 		}
 	}
-}
 
 	# ─────────────────────────────────────────────────────────────────────────
 	#  Иван Михайлович Лепетченко — полевой командир РПА.
@@ -622,3 +621,151 @@ characters = {
 			traits = { cavalry_officer GLP_steppe_raider }
 		}
 	}
+	# ------------------------------------------------------------------
+	#  ПЯТЬ НОВЫХ МИНИСТРОВ ВОЛЬНОЙ ТЕРРИТОРИИ (v1.5.0).
+	#  Исторические фигуры махновщины и анархического движения, ранее
+	#  не представленные в моде. Никто не дублирует существующих
+	#  советников: новые idea_token, новые уникальные черты
+	#  (см. common/country_leader/GLP_traits.txt), фотопортреты в
+	#  фирменной стилистике 1930-х (tools/build_portraits.sh).
+	# ------------------------------------------------------------------
+
+	# Пётр Андреевич Аршинов — идеолог и летописец махновщины,
+	# редактор «Голоса Воли». Министр печати Вольной Территории.
+	GLP_petr_arshinov = {
+		name = GLP_petr_arshinov
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_petr_arshinov"
+				small = "GFX_portrait_GLP_petr_arshinov_small"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = GLP_petr_arshinov_advisor
+			cost = 100
+			removal_cost = 10
+			traits = { GLP_chronicler_of_revolution }
+			ai_will_do = { factor = 1 }
+		}
+	}
+
+	# Мария Григорьевна Никифорова («Маруся») — чёрная атаманша,
+	# командир Вольной боевой дружины. Министр революционной обороны.
+	# Амбициозна и опасна: одна из претендентов на место Батьки
+	# в цепочке «Чёрной рады» (glp_crisis.50-52).
+	GLP_maria_nikiforova = {
+		name = GLP_maria_nikiforova
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_maria_nikiforova"
+				small = "GFX_portrait_GLP_maria_nikiforova_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_maria_nikiforova"
+				small = "GFX_portrait_GLP_maria_nikiforova_small"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = GLP_maria_nikiforova_advisor
+			cost = 100
+			removal_cost = 10
+			traits = { GLP_black_atamansha }
+			ai_will_do = { factor = 1 }
+		}
+	}
+
+	# Арон Давидович Барон — анархо-синдикалист, организатор фабричных
+	# комитетов Екатеринослава. Министр труда и синдикатов.
+	GLP_aron_baron = {
+		name = GLP_aron_baron
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_aron_baron"
+				small = "GFX_portrait_GLP_aron_baron_small"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = GLP_aron_baron_advisor
+			cost = 100
+			removal_cost = 10
+			traits = { GLP_syndicalist_organizer }
+			ai_will_do = { factor = 1 }
+		}
+	}
+
+	# Яков Васильевич Озеров — кадровый штабс-капитан старой армии,
+	# начальник оперативного отдела штаба РПА. Военный теоретик
+	# партизанской войны — «свой» теоретик в слоте theorist
+	# (альтернатива союзным военным миссиям, которых нужно ещё
+	# открывать фокусами союзов).
+	GLP_yakov_ozerov = {
+		name = GLP_yakov_ozerov
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_yakov_ozerov"
+				small = "GFX_portrait_GLP_yakov_ozerov_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_yakov_ozerov"
+				small = "GFX_portrait_GLP_yakov_ozerov_small"
+			}
+		}
+		advisor = {
+			slot = theorist
+			idea_token = GLP_yakov_ozerov_advisor
+			ledger = army
+			cost = 100
+			removal_cost = 10
+			traits = { GLP_partisan_theorist }
+			ai_will_do = { factor = 1 }
+		}
+	}
+
+	# Дмитрий Иванович Попов — левый эсер, начальник штабной канцелярии
+	# РПА. Военный министр-организатор — альтернатива Белашу в слоте
+	# army_chief. Второй заговорщик «Чёрной рады» (glp_crisis.50-52).
+	GLP_dmitry_popov = {
+		name = GLP_dmitry_popov
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_dmitry_popov"
+				small = "GFX_portrait_GLP_dmitry_popov_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_dmitry_popov"
+				small = "GFX_portrait_GLP_dmitry_popov_small"
+			}
+		}
+		advisor = {
+			slot = army_chief
+			idea_token = GLP_dmitry_popov_advisor
+			ledger = army
+			cost = 100
+			removal_cost = 10
+			traits = { army_chief_organizational_2 }
+			ai_will_do = { factor = 1 }
+		}
+	}
+
+	# ------------------------------------------------------------------
+	#  КОНКУРЕНТЫ БАТЬКИ (v1.5.0) — претенденты на чёрное знамя.
+	#  Мария Никифорова и Дмитрий Попов определены выше как министры;
+	#  Вольдемар Антони — третий претендент цепочки «Чёрной рады»
+	#  (glp_crisis.50-52): старый учитель Махно, патриарх гуляйпольского
+	#  анархизма. Ролей на старте не имеет — становится лидером только
+	#  через add_country_leader_role в glp_crisis.52 (ванильный путь
+	#  1.19 для персонажа без стартового блока country_leader).
+	# ------------------------------------------------------------------
+	GLP_voldemar_antoni = {
+		name = GLP_voldemar_antoni
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_voldemar_antoni"
+				small = "GFX_portrait_GLP_voldemar_antoni_small"
+			}
+		}
+	}
+}

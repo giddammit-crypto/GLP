@@ -117,3 +117,32 @@
  GLP_generic_navy_fleet_log:0 "Fleet Quartermaster"
  GLP_generic_air_air_combat_trainer:0 "Air Combat Instructor"
  GLP_generic_air_close_air_sup:0 "Close Air Support Master"
+
+ # ============ Five new ministers of the Free Territory (v1.5.0) ============
+ GLP_petr_arshinov:0 "Pyotr Arshinov"
+ GLP_petr_arshinov_advisor:0 "Pyotr Arshinov"
+ GLP_maria_nikiforova:0 "Maria Nikiforova"
+ GLP_maria_nikiforova_advisor:0 "Maria Nikiforova ('Marusya')"
+ GLP_aron_baron:0 "Aron Baron"
+ GLP_aron_baron_advisor:0 "Aron Baron"
+ GLP_yakov_ozerov:0 "Yakov Ozerov"
+ GLP_yakov_ozerov_advisor:0 "Yakov Ozerov"
+ GLP_dmitry_popov:0 "Dmitry Popov"
+ GLP_dmitry_popov_advisor:0 "Dmitry Popov"
+ GLP_voldemar_antoni:0 "Voldemar Antoni"
+
+ # New minister traits
+ GLP_chronicler_of_revolution:0 "Minister of the Press: Chronicler of the Revolution"
+ GLP_chronicler_of_revolution_desc:0 "Editor of the Voice of Freedom and keeper of the movement's memory: his fiery editorials hold the people's will firmer than any decree."
+ GLP_black_atamansha:0 "Minister of Revolutionary Defence: Black Atamansha"
+ GLP_black_atamansha_desc:0 "Marusya recognizes neither front nor rear: her free militias raise villages to arms faster than the staff can print an order. But where she passes, expect no order."
+ GLP_syndicalist_organizer:0 "Minister of Labour: Syndicalist Organizer"
+ GLP_syndicalist_organizer_desc:0 "The factory committees of Ekaterinoslav trust Baron as one of their own: the machines run without overseers, and output quotas rise voluntarily."
+ GLP_partisan_theorist:0 "Military Theorist: Theory of Partisan Warfare"
+ GLP_partisan_theorist_desc:0 "A former staff captain distilled the experience of a thousand raids into a single doctrine: strike from nowhere, entrench overnight, vanish into the steppe by dawn."
+
+ # Black Rada pretender traits
+ GLP_left_sr_conspirator:0 "Iron Hand of the Free Territory"
+ GLP_left_sr_conspirator_desc:0 "Popov forges the free host into a disciplined force: the staff runs like clockwork, but the communes grumble — they did not drive out the commissars to breed their own."
+ GLP_patriarch_of_anarchism:0 "Patriarch of Anarchism"
+ GLP_patriarch_of_anarchism_desc:0 "The old teacher who first led young Makhno into the movement. His word reconciles atamans and communes, but the old man no longer hungers for war."
