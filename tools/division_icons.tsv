@@ -1,0 +1,31 @@
+# GLP -- реестр ИКОНОК ШАБЛОНОВ ДИВИЗИЙ (template_counter).
+# Сверяет tools/glp_audit.py (check_division_icons).
+#
+# Как HOI4 выбирает иконку шаблона (hoi4.paradoxwikis.com/Division_modding,
+# /Effect#division_template):
+#   * template_counter = N  -> спрайты GFX_div_templ_N_large (плитка 76x42,
+#     дизайнер дивизий и детальная панель) и GFX_div_templ_N_small
+#     (30x12, фишка на карте);
+#   * без template_counter  -> иконка под-юнита с НАИБОЛЬШИМ priority среди
+#     линейных батальонов (колонки combat_support -- артполки, ПТО, ПВО --
+#     род войск не определяют). Ваниль, дамп 1.14.1 common/units/*.txt:
+#       super_heavy/heavy/medium/light_armor 2501..2510 > bus 1000 >
+#       mechanized 610 > marine|mountaineers 601 > infantry 600 >
+#       cavalry 599 = motorized 599 > armored_car 501 > militia 400.
+#     Поэтому конный шаблон с танковым батальоном без явного counter
+#     показывал ТАНК вместо коня (светился в дизайнере и на карте) --
+#     отсюда counter 92 с силуэтом конницы РПА.
+#
+# Колонки: counter  large  small  depicts  note
+#   depicts = cavalry|infantry|motorized|armor|marine|mountaineers|garrison
+#   либо flag -- «знамя» (добровольческие части под своим флагом: иконка
+#   намеренно НЕ утверждает род войск, проверка соответствия к ним не
+#   применяется).
+#
+# Плитки (в т.ч. 76x42 / 30x12 в несжатом ARGB8888 DDS) собирает
+# tools/build_division_icons.sh -- идемпотентно, из мастеров
+# tools/_icons_src/_src_div_*.png.
+counter	large	small	depicts	note
+90	GFX_div_templ_90_large	GFX_div_templ_90_small	flag	белогвардейские добровольцы: чёрный флаг с черепом + бело-сине-красная полоса у древка
+91	GFX_div_templ_91_large	GFX_div_templ_91_small	flag	испанские анархисты CNT-FAI: красно-чёрная диагональ с черепом
+92	GFX_div_templ_92_large	GFX_div_templ_92_small	cavalry	конница РПА: всадник с шашкой и тачанка (МАО; у light_armor priority выше cavalry, поэтому без counter конница показывала танк)

@@ -128,9 +128,17 @@ division_template = {
 }
 
 # 1. УДАРНЫЙ ТАЧАНОЧНЫЙ КУРЕНЬ ЧЕРНОЙ ГВАРДИИ (Рейды, прорыв и скорость)
+#    template_counter = 92 -> GFX_div_templ_92_* — конница РПА (всадник с
+#    шашкой и тачанка). Без явного counter движок берёт иконку батальона с
+#    наибольшим priority, а у light_armor он 2501 против 599 у cavalry: конная
+#    дивизия с танковым батальоном показывала бы ТАНК. Реестр counter -> иконка
+#    и соответствие названий дивизий иконкам — tools/division_icons.tsv
+#    (сверяет tools/glp_audit.py, check_division_icons); силуэты собирает
+#    tools/build_division_icons.sh.
 division_template = {
 	name = "Ударный тачаночный курень им. Батьки Махно"
 	division_names_group = GLP_CAV_HISTORICAL
+	template_counter = 92
 
 	regiments = {
 		cavalry = { x = 0 y = 0 }

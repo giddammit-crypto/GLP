@@ -67,6 +67,10 @@ on_actions = {
 					division_template = {
 						name = "Трофейный отряд РПА"
 						division_names_group = GLP_CAV_HISTORICAL
+						# 92 = конь (tools/division_icons.tsv): имена отряду даёт
+						# конная группа имён, а без counter движок взял бы иконку
+						# пехоты (infantry 600 > cavalry 599).
+						template_counter = 92
 						is_locked = yes
 						priority = 0
 						regiments = {

@@ -249,12 +249,12 @@
 
 - [`AUDIT_REPORT.md`](AUDIT_REPORT.md) — полный аудит: синтаксис, дубликаты, локализация, спрайты, геометрия, защита от фарма (`tools/glp_audit.py`, код возврата 1 при ошибках).
 - [`GAMEPLAY_READINESS.md`](GAMEPLAY_READINESS.md) — боеготовность и баланс.
-- [`ICONS_REPORT.md`](ICONS_REPORT.md) — отчёт по иконкам фокусов и духов.
+- [`ICONS_REPORT.md`](ICONS_REPORT.md) — отчёт по иконкам фокусов, духов и шаблонов дивизий (соответствие иконки названию дивизии).
 - [`CINEMATIC_INTRO_README.md`](CINEMATIC_INTRO_README.md) — кинематографическая заставка и озвучка.
 - [`THIRD_PARTY_ASSETS.md`](THIRD_PARTY_ASSETS.md) — сторонние материалы и лицензии.
 - [`next.md`](next.md) — планы развития.
 - `mod_page/` — страница модификации с галереей и предысторией.
-- Инструменты: `tools/glp_audit.py`, `tools/assign_focus_filters.py`, `tools/sync_focus_headers.py`, `tools/build_portraits.sh`, `tools/build_spirit_icons.sh`, `tools/build_thumbnail.sh`, `tools/build_screens.sh`, `tools/build_event_pictures.sh`.
+- Инструменты: `tools/glp_audit.py`, `tools/assign_focus_filters.py`, `tools/sync_focus_headers.py`, `tools/build_portraits.sh`, `tools/build_spirit_icons.sh`, `tools/build_thumbnail.sh`, `tools/build_screens.sh`, `tools/build_event_pictures.sh`, `tools/build_division_icons.sh`.
 
 Структура модификации: `common/` (фокусы, идеи, персонажи, решения) · `events/` (события и новостная лента) · `gfx/` (флаги, портреты, экраны, иконки) · `history/` (история страны, боевой состав, области) · `interface/` (интерфейс) · `localisation/` (русский и английский) · `music/` и `sound/`.
 

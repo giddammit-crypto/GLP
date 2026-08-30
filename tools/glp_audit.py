@@ -37,7 +37,15 @@ Checks performed:
     (referenced in some focus / on_action / event), every retire/retire_char
     call sits behind a has_character guard (silent error otherwise), and
     step-1/2/3 chains clean their set_country_flag / clr_country_flag pairs.
-
+ 16. Division template icons match the branch the template name (and its
+     division_names_group) promises: every template_counter is registered in
+     tools/division_icons.tsv with existing 76x42 / 30x12 tiles, and the icon
+     the engine would draw (highest-priority line battalion, per vanilla
+     `priority`) equals the branch of the name.  Cavalry divisions that carry
+     a light_armor battalion otherwise show a TANK silhouette (priority 2501
+     vs 599) -- hence template_counter 92 and tools/division_icons.tsv.
+     Also: each entry of a division-names group must mention a branch its own
+     division_types allow.
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
 import hashlib
@@ -1134,6 +1142,312 @@ EXPECTED_UNIT_MODEL_FILES = (
 )
 
 
+# ------------------------------------------------------ 16. иконки дивизий
+# Род войск, который «рисует» иконку шаблона. HOI4 берёт иконку под-юнита с
+# НАИБОЛЬШИМ priority среди линейных батальонов (колонки combat_support --
+# артполки, ПТО, ПВО -- род войск не определяют). Поэтому конница с танковым
+# батальоном без template_counter показывает ТАНК, а не коня.
+# Приоритеты -- дамп ванили 1.14.1, common/units/*.txt.
+SUBUNIT_ICON = {
+    # name: (priority, группа, семья-иконка)
+    'infantry':                  (600,  'infantry',              'foot'),
+    'bicycle_battalion':         (600,  'infantry',              'foot'),
+    'marine':                    (601,  'infantry',              'marine'),
+    'marine_commando':           (601,  'infantry',              'marine'),
+    'mountaineers':              (601,  'infantry',              'mountain'),
+    'paratrooper':               (2,    'infantry',              'para'),
+    'militia':                   (400,  'infantry',              'foot'),
+    'irregular_infantry':        (400,  'infantry',              'foot'),
+    'penal_battalion':           (400,  'infantry',              'foot'),
+    'cavalry':                   (599,  'mobile',                'horse'),
+    'camelry':                   (599,  'mobile',                'horse'),
+    'motorized':                 (599,  'mobile',                'truck'),
+    'bus':                       (1000, 'mobile',                'truck'),
+    'mechanized':                (610,  'mobile',                'truck'),
+    'amphibious_mechanized':     (610,  'mobile',                'truck'),
+    'armored_car':               (501,  'mobile',                'truck'),
+    'light_armor':               (2501, 'armor',                 'tank'),
+    'medium_armor':              (2502, 'armor',                 'tank'),
+    'heavy_armor':               (2503, 'armor',                 'tank'),
+    'modern_armor':              (2510, 'armor',                 'tank'),
+    'super_heavy_armor':         (2510, 'armor',                 'tank'),
+    'amphibious_armor':          (2501, 'armor',                 'tank'),
+    'artillery_brigade':         (1198, 'combat_support',        'foot'),
+    'mot_artillery_brigade':     (1198, 'mobile_combat_support', 'foot'),
+    'rocket_artillery_brigade':  (1199, 'combat_support',        'foot'),
+    'mot_rocket_artillery_brigade': (1199, 'mobile_combat_support', 'foot'),
+    'anti_tank_brigade':         (1197, 'combat_support',        'foot'),
+    'mot_anti_tank_brigade':     (1197, 'mobile_combat_support', 'foot'),
+    'anti_air_brigade':          (301,  'combat_support',        'foot'),
+    'mot_anti_air_brigade':      (301,  'mobile_combat_support', 'foot'),
+    'light_sp_artillery_brigade':  (1795, 'armor_combat_support', 'tank'),
+    'medium_sp_artillery_brigade': (1796, 'armor_combat_support', 'tank'),
+    'heavy_sp_artillery_brigade':  (1797, 'armor_combat_support', 'tank'),
+    'light_tank_destroyer_brigade':  (1795, 'armor_combat_support', 'tank'),
+    'medium_tank_destroyer_brigade': (1796, 'armor_combat_support', 'tank'),
+    'heavy_tank_destroyer_brigade':  (1797, 'armor_combat_support', 'tank'),
+    'blackshirt_assault_battalion':  (0,   'support',              'foot'),
+}
+ICON_FAMILIES = ('foot', 'horse', 'truck', 'tank', 'marine', 'mountain', 'para')
+# Словарь колонки depicts в tools/division_icons.tsv -> семья иконки
+BRANCH_TO_FAMILY = {
+    'cavalry': 'horse', 'infantry': 'foot', 'garrison': 'foot', 'militia': 'foot',
+    'motorized': 'truck', 'mechanized': 'truck', 'armor': 'tank', 'marine': 'marine',
+    'mountaineers': 'mountain', 'paratrooper': 'para',
+}
+# Род войск по названию дивизии (ищет ВСЕ совпадения: «моторизованная
+# тачаночная» = truck + horse, и этого достаточно, чтобы имя не противоречило
+# группе имён).
+NAME_FAMILIES = (
+    (('конн', 'кавалер', 'тачан', 'казач', 'улан', 'драгун'),          'horse'),
+    (('танк', 'бронетанк', 'бронеполк', 'автоброн'),                   'tank'),
+    (('моториз', 'мото', 'автомоб', 'механизац'),                      'truck'),
+    (('морск', 'матрос', 'черномор', 'флот'),                           'marine'),
+    (('горн', 'альп'),                                                  'mountain'),
+    (('параш', 'вдв', 'воздушно'),                                      'para'),
+    (('стрелк', 'пехот', 'дружин', 'ополчен', 'самооборо', 'гарнизон',
+      'охран', 'караул', 'страж', 'заслон'),                            'foot'),
+)
+SUPPORT_GROUPS = ('support', 'combat_support', 'mobile_combat_support',
+                  'armor_combat_support')
+
+
+def _block_body(text, start):
+    """Тело {...}, открывающегося на text[start] == '{'; None при разъезде."""
+    if start >= len(text) or text[start] != '{':
+        return None
+    i, depth = start, 0
+    while i < len(text):
+        if text[i] == '{':
+            depth += 1
+        elif text[i] == '}':
+            depth -= 1
+            if depth == 0:
+                return text[start + 1:i]
+        i += 1
+    return None
+
+
+def name_families(title):
+    low = title.lower()
+    fams = {fam for keys, fam in NAME_FAMILIES if any(k in low for k in keys)}
+    # «десантная» сама по себе не род войск (высадка бывает морская и
+    # воздушная) — уточняем только по морскому контексту, иначе молчим
+    if 'десант' in low and any(k in low for k in ('морск', 'матрос', 'черномор',
+                                                   'флот', 'керчен', 'одесс',
+                                                   'севастоп')):
+        fams.add('marine')
+    return fams
+
+
+def load_custom_subunits():
+    """Свои sub_units мода: имя -> (priority, группа, семья-иконка)."""
+    out = {}
+    for p in walk('common/units', ('.txt',)):
+        body = strip_comments(read(p))
+        m = re.search(r'sub_units\s*=\s*\{', body)
+        if not m:
+            continue
+        inner = _block_body(body, body.index('{', m.start()))
+        if inner is None:
+            continue
+        for mm in re.finditer(r'^\s*(\w+)\s*=\s*\{', inner, re.MULTILINE):
+            blk = _block_body(inner, inner.index('{', mm.start()))
+            if not blk:
+                continue
+            prio = re.search(r'\bpriority\s*=\s*(\d+)', blk)
+            grp = re.search(r'\bgroup\s*=\s*(\w+)', blk)
+            if not prio or not grp:
+                continue          # type = {...}, categories = {...}, террейн
+            name = mm.group(1)
+            if re.search(r'\bcavalry\s*=\s*yes', blk):
+                fam = 'horse'
+            elif grp.group(1) == 'armor':
+                fam = 'tank'
+            elif name in SUBUNIT_ICON:
+                fam = SUBUNIT_ICON[name][2]
+            else:
+                fam = {'infantry': 'foot', 'mobile': 'truck',
+                       'support': 'foot'}.get(grp.group(1), 'foot')
+            out[name] = (int(prio.group(1)), grp.group(1), fam)
+    return out
+
+
+def load_name_groups():
+    """Группы имён дивизий: имя -> (роды из division_types, список названий)."""
+    groups = {}
+    for p in walk('common/units/names_divisions', ('.txt',)):
+        body = strip_comments(read(p))
+        for m in re.finditer(r'^\s*(\w+)\s*=\s*\{', body, re.MULTILINE):
+            blk = _block_body(body, body.index('{', m.start()))
+            if not blk:
+                continue
+            dt = re.search(r'division_types\s*=\s*\{([^}]*)\}', blk)
+            types = {t.strip('"') for t in dt.group(1).split()} if dt else set()
+            fams = {SUBUNIT_ICON[t][2] for t in types if t in SUBUNIT_ICON}
+            names = re.findall(r'\d+\s*=\s*\{\s*"([^"]+)"', blk)
+            groups[m.group(1)] = (fams, names)
+    return groups
+
+
+def check_division_icons():
+    """Иконка каждого шаблона дивизии обязана соответствовать его названию.
+
+    Правила (реестр -- tools/division_icons.tsv):
+      * template_counter обязан быть в реестре, его плитки -- определены как
+        спрайты GFX_div_templ_N_large/_small и иметь размер 76x42 / 30x12;
+      * counter с depicts != flag утверждает род войск -- он обязан совпасть
+        с родом, который следует из названия шаблона и его группы имён;
+      * без counter иконка = семья линейного батальона с максимальным
+        priority -- она обязана совпасть с названием/группой имён;
+      * каждое имя в группе имён обязано упоминать род своей группы.
+    """
+    registry = {}
+    tsv = os.path.join(ROOT, 'tools/division_icons.tsv')
+    if not os.path.exists(tsv):
+        err('tools/division_icons.tsv: нет реестра иконок шаблонов дивизий')
+        return
+    for line in read(tsv).split('\n'):
+        if not line.strip() or line.startswith('#') or line.startswith('counter\t'):
+            continue
+        parts = [x.strip() for x in line.split('\t')]
+        if len(parts) < 4 or not parts[0].isdigit():
+            err('tools/division_icons.tsv: строка не «counter\tlarge\tsmall'
+                f'\tdepicts\t...»: {line}')
+            continue
+        registry[parts[0]] = dict(large=parts[1], small=parts[2],
+                                  depicts=parts[3], used=0)
+
+    sprites = {}
+    for p in walk('interface', ('.gfx',)):
+        body = strip_comments(read(p))
+        for m in re.finditer(r'spriteType\s*=\s*\{\s*name\s*=\s*"'
+                             r'(GFX_div_templ_\d+_(?:large|small))"'
+                             r'[^}]*?texturefile\s*=\s*"?([^"\s]+)"?',
+                             body, re.IGNORECASE):
+            sprites[m.group(1)] = m.group(2)
+
+    for n, row in sorted(registry.items()):
+        if row['depicts'] != 'flag' and row['depicts'] not in BRANCH_TO_FAMILY:
+            err(f'tools/division_icons.tsv: counter {n}: неизвестный depicts '
+                f'«{row["depicts"]}» (можно семья иконки из {"/".join(ICON_FAMILIES)} '
+                f'или flag)')
+        for key, want in (('large', (76, 42)), ('small', (30, 12))):
+            sprite = row[key]
+            if sprite not in sprites:
+                err(f'tools/division_icons.tsv: counter {n}: спрайт «{sprite}» '
+                    f'не определён ни в одном interface/*.gfx')
+                continue
+            tex = sprites[sprite]
+            path = os.path.join(ROOT, tex)
+            if not os.path.exists(path):
+                err(f'tools/division_icons.tsv: counter {n}: нет текстуры {tex}')
+                continue
+            info = dds_info(path)
+            if not info:
+                err(f'{tex}: не является DDS')
+                continue
+            w, h, fmt = info
+            if (w, h) != want:
+                err(f'{tex}: counter {n} — плитка {w}x{h}, движок ждёт плитку '
+                    f'шаблона дивизии {want[0]}x{want[1]}')
+            if fmt not in ('ARGB8888', 'DXT5'):
+                err(f'{tex}: counter {n} — сжатие {fmt}, нужно ARGB8888 или DXT5')
+
+    groups = load_name_groups()
+    custom = load_custom_subunits()
+
+    for grp, (fams, names) in sorted(groups.items()):
+        if not fams:
+            continue
+        for div_name in names:
+            nf = name_families(div_name)
+            if nf and not (nf & fams):
+                warn(f'группа имён {grp}: «{div_name}» называет другой род войск '
+                     f'({"|".join(sorted(nf))}), чем сама группа '
+                     f'({"|".join(sorted(fams))})')
+
+    for d in ('history/units', 'common/on_actions', 'events', 'common/national_focus'):
+        for p in walk(d, ('.txt',)):
+            body = strip_comments(read(p))
+            for m in re.finditer(r'division_template\s*=\s*\{', body):
+                blk = _block_body(body, body.index('{', m.start()))
+                if not blk:
+                    continue
+                nm = re.search(r'\bname\s*=\s*"([^"]+)"', blk)
+                if not nm:
+                    continue          # это ссылка division_template = "..."
+                title = nm.group(1)
+                regs = re.search(r'\bregiments\s*=\s*\{', blk)
+                reg_body = _block_body(blk, regs.end() - 1) if regs else ''
+                battalions = re.findall(r'(\w+)\s*=\s*\{\s*x\s*=\s*\d+\s+y\s*=\s*\d+\s*\}',
+                                        reg_body or '')
+                c = re.search(r'template_counter\s*=\s*(\d+)', blk)
+                counter = c.group(1) if c else None
+                g = re.search(r'division_names_group\s*=\s*(\w+)', blk)
+                grp = g.group(1) if g else None
+
+                if grp and grp not in groups:
+                    err(f'{rel(p)}: шаблон «{title}» ссылается на группу имён '
+                        f'{grp}, которой нет в common/units/names_divisions/')
+                    continue
+
+                nf = name_families(title)
+                gf = groups[grp][0] if grp else set()
+                if nf and gf and not (nf & gf):
+                    warn(f'{rel(p)}: шаблон «{title}» называется как '
+                         f'{"|".join(sorted(nf))}, но имена берёт из группы {grp} '
+                         f'({"|".join(sorted(gf))})')
+                want = (nf & gf) or gf or nf
+                if not want:
+                    continue
+
+                if counter:
+                    if counter not in registry:
+                        err(f'{rel(p)}: шаблон «{title}»: template_counter = {counter} '
+                            'нет в tools/division_icons.tsv — движок не найдёт '
+                            f'спрайты GFX_div_templ_{counter}_large/_small, и у '
+                            'дивизии не будет иконки')
+                        continue
+                    registry[counter]['used'] += 1
+                    dep = registry[counter]['depicts']
+                    if dep == 'flag':
+                        continue      # знамя добровольцев род войск не утверждает
+                    got = BRANCH_TO_FAMILY.get(dep)
+                    if got not in want:
+                        err(f'{rel(p)}: шаблон «{title}» — иконка counter {counter} '
+                            f'(«{dep}») не соответствует названию/группе имён '
+                            f'(ожидается {"|".join(sorted(want))})')
+                    continue
+
+                scored = []
+                for b in sorted(set(battalions)):
+                    prio, grp_name, fam = (custom.get(b) or SUBUNIT_ICON.get(b)
+                                           or (0, 'infantry', 'foot'))
+                    if grp_name in SUPPORT_GROUPS:
+                        continue      # колонки поддержки иконку не задают
+                    scored.append((prio, fam, b))
+                if not scored:
+                    continue
+                top = max(scored)
+                if top[1] not in want:
+                    others = [x for x in scored if x[1] in want]
+                    hint = ''
+                    if others:
+                        hint = (f' — например, у «{others[0][2]}» priority '
+                                f'{others[0][0]}, он проигрывает; нужен '
+                                f'template_counter из tools/division_icons.tsv '
+                                f'с плиткой «{sorted(want)[0]}»')
+                    err(f'{rel(p)}: шаблон «{title}» — иконка не по названию: '
+                        f'движок возьмёт силуэт «{top[2]}» (priority {top[0]} → '
+                        f'{top[1]}), а ожидается {"|".join(sorted(want))}{hint}')
+
+    for n, row in sorted(registry.items()):
+        if not row['used']:
+            warn(f'tools/division_icons.tsv: counter {n} («{row["depicts"]}») не '
+                 f'используется ни одним шаблоном дивизии')
+
+
 def check_unit_models():
     """Пехота-матрос RSR_marine и казачья конница Rise of Russia должны быть на месте."""
     for fname in EXPECTED_UNIT_MODEL_FILES:
@@ -1749,6 +2063,7 @@ def main():
     check_event_window_stress_and_adaptiveness()
     check_advisor_portraits(defs)
     check_unit_models()
+    check_division_icons()
     check_entity_graph()
     check_no_stray_art()
     check_loc_tech_names(loc)
