@@ -1,0 +1,305 @@
+### =========================================================================
+###  Гуляйпольская Республика — СОВЕТНИКИ (advisor-идеи)
+###  Введено итерацией 23 (см. AUDIT_REPORT.md); номер релиза не
+###  назначаем здесь: версия мода живёт в descriptor.mod (1.5.1).
+###
+###  Зачем этот файл. В common/characters/GLP_characters.txt у каждого
+###  персонажа есть блок `advisor = { slot = ... idea_token = ... }`. Сам по
+###  себе он только ПОКАЗЫВАЕТ человека в ставке: бонусы движок берёт из
+###  ИДЕИ с этим idea_token, объявленной в common/ideas в категории, имя
+###  которой равны advisor-слоту (`high_command`, `army_chief`, `navy_chief`,
+###  `air_chief`, `theorist`, `political_advisor`). Без определения идеи
+###  советник нанимается и не даёт ничего — именно так выглядело «у Щуся и
+###  Григорьева нет бонусов». Проверка закреплена в tools/glp_audit.py
+###  (раздел «17. Advisor ideas»).
+###
+###  Схема — ванильная (common/ideas/<страна>.txt у Rise of Russia и базовой
+###  игры): allowed / available / ledger / picture / traits / ai_will_do.
+###  Модификаторы не дублируются: если черта существует (своя — из
+###  common/country_leader/GLP_traits.txt, ванильная — army_*/navy_*/air_*),
+###  её модификаторы применяются движком сами. Отдельный `modifier` получает
+###  только то, для чего в ванили подходящей черты нет (темп конницы Щуся).
+###
+###  picture — ванильные `GFX_idea_generic_*` (generic_army_europe_1..6,
+###  generic_navy_europe_1..2, generic_air_europe_1..2,
+###  generic_political_advisor_europe_1..3); своих портретов-идей у мода нет,
+###  и брать для карточек советников нечего — см. tools/idea_pictures.tsv.
+### =========================================================================
+
+ideas = {
+
+	# -------------------------------------------------------------------------
+	#  Начальники сухопутных сил (slot = army_chief)
+	# -------------------------------------------------------------------------
+	army_chief = {
+
+		# Виктор Белаш — начальник штаба РПА: оперативное планирование.
+		GLP_viktor_belash_advisor = {
+			picture = generic_army_europe_1
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { GLP_operational_planner }
+			ai_will_do = {
+				factor = 2
+			}
+		}
+
+		# Германская военная миссия — появляется только после фокуса союза.
+		GLP_german_mission_advisor = {
+			picture = generic_army_europe_3
+			allowed = {
+				original_tag = GLP
+			}
+			available = {
+				has_completed_focus = GLP_alliance_with_germany
+			}
+			traits = { GLP_german_mission_drill }
+			ai_will_do = {
+				factor = 3
+			}
+		}
+
+		# Дмитрий Попов — организатор снабжения и тылов повстанческой армии.
+		GLP_dmitry_popov_advisor = {
+			picture = generic_army_europe_5
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { army_chief_organizational_2 }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+	}
+
+	# -------------------------------------------------------------------------
+	#  Генеральный штаб (slot = high_command); ledger задаёт вкладку учёта
+	# -------------------------------------------------------------------------
+	high_command = {
+
+		# Семён Каретник — командир кавалерии РПА.
+		GLP_semen_karetnik_advisor = {
+			ledger = army
+			picture = generic_army_europe_2
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { army_cavalry_2 }
+			ai_will_do = {
+				factor = 2
+			}
+		}
+
+		# Феодосий Щусь — рейдовая конница. Ваниальной «черты темпа конницы»
+		# нет (в моде раньше стояло несуществующее army_cavalry_speed_2, из-за
+		# чего советник и не дал бонусов), поэтому рейдовый темп оформлен
+		# модификатором идеи, а атакующая часть — ванильной чертой.
+		GLP_feodosiy_shchus_advisor = {
+			ledger = army
+			picture = generic_army_europe_4
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { army_cavalry_2 }
+			modifier = {
+				cavalry_speed_factor = 0.08
+			}
+			ai_will_do = {
+				factor = 2
+			}
+		}
+
+		# Никифор Григорьев — атамана-повстанца ведут две ванильные черты
+		# штаба: конница и восстановление частей после боёв (то, ради чего
+		# в файле персонажей была выдуманная army_morale_2).
+		GLP_ataman_grigoriev_advisor = {
+			ledger = army
+			picture = generic_army_europe_6
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { army_cavalry_2 army_regrouping_2 }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+
+		# Клим Орлик — авиация поддержки при штабе.
+		GLP_klym_orlyk_advisor = {
+			ledger = air
+			picture = generic_air_europe_1
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { air_close_air_support_2 }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+	}
+
+	# -------------------------------------------------------------------------
+	#  Флот (slot = navy_chief)
+	# -------------------------------------------------------------------------
+	navy_chief = {
+
+		# Британская военно-морская миссия — фокус GLP_alliance_with_britain.
+		GLP_british_naval_advisor = {
+			picture = generic_navy_europe_1
+			allowed = {
+				original_tag = GLP
+			}
+			available = {
+				has_completed_focus = GLP_alliance_with_britain
+			}
+			traits = { GLP_british_naval_drill }
+			ai_will_do = {
+				factor = 2
+			}
+		}
+
+		# Федор Остапенко — атаманы флотилии Азовского моря.
+		GLP_fedir_ostapenko_advisor = {
+			picture = generic_navy_europe_2
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { GLP_free_flotilla_commander }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+	}
+
+	# -------------------------------------------------------------------------
+	#  ВВС (slot = air_chief)
+	# -------------------------------------------------------------------------
+	air_chief = {
+
+		# Андрей Верба — «Чёрные крылья».
+		GLP_andriy_verba_advisor = {
+			picture = generic_air_europe_2
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { GLP_black_wings_ace }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+	}
+
+	# -------------------------------------------------------------------------
+	#  Военные теоретики (slot = theorist)
+	# -------------------------------------------------------------------------
+	theorist = {
+
+		# Советская военная миссия — фокус GLP_alliance_with_soviet_union.
+		GLP_soviet_mission_advisor = {
+			ledger = army
+			picture = generic_army_europe_3
+			allowed = {
+				original_tag = GLP
+			}
+			available = {
+				has_completed_focus = GLP_alliance_with_soviet_union
+			}
+			traits = { GLP_soviet_mission_doctrine }
+			ai_will_do = {
+				factor = 3
+			}
+		}
+
+		# Яков Озеров — теоретик партизанской войны.
+		GLP_yakov_ozerov_advisor = {
+			ledger = army
+			picture = generic_army_europe_1
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { GLP_partisan_theorist }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+	}
+
+	# -------------------------------------------------------------------------
+	#  Политические советники (slot = political_advisor)
+	# -------------------------------------------------------------------------
+	political_advisor = {
+
+		# Лев Задов — разведка и контрразведка Реввоенсовета.
+		GLP_lev_zadov_advisor = {
+			picture = generic_political_advisor_europe_2
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { silent_workhorse counter_intelligence_expert GLP_head_of_intelligence }
+			ai_will_do = {
+				factor = 2
+			}
+		}
+
+		# Галина Кузьменко — идеология и агитация («мать Махно»).
+		GLP_halyna_kuzmenko_advisor = {
+			picture = generic_political_advisor_europe_1
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { ideological_crusader }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+
+		# Всеволод Волин — анархо-синдикалистская теория совета.
+		GLP_vsevolod_volin_advisor = {
+			picture = generic_political_advisor_europe_3
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { ideological_crusader free_soviets_minister }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+
+		# Пётр Аршинов — летописец и организатор «Набат».
+		GLP_petr_arshinov_advisor = {
+			picture = generic_political_advisor_europe_1
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { GLP_chronicler_of_revolution }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+
+		# Мария Никифорова — революционная оборона и мобилизация.
+		GLP_maria_nikiforova_advisor = {
+			picture = generic_political_advisor_europe_2
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { GLP_black_atamansha }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+
+		# Арон Барон — синдикаты, труд и производство.
+		GLP_aron_baron_advisor = {
+			picture = generic_political_advisor_europe_3
+			allowed = {
+				original_tag = GLP
+			}
+			traits = { GLP_syndicalist_organizer }
+			ai_will_do = {
+				factor = 1
+			}
+		}
+	}
+}

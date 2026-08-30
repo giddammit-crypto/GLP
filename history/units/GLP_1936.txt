@@ -20,8 +20,14 @@
 #      у древка);
 #    * template_counter = 91 -> GFX_div_templ_91_* : испанские анархисты
 #      CNT-FAI (красно-чёрное диагональное полотнище с черепом).
-#  Спрайты: interface/GLP_division_templates.gfx; текстуры 76x42 и 30x12 в
-#  gfx/interface/counters/division_templates_{large,small}/. Шаблоны
+#  Знамя утверждает принадлежность, а не род войск, поэтому оно стоит ТОЛЬКО у
+#  пехотных добровольческих шаблонов. Конные («Казачья добровольческая конная»,
+#  «Испанская ударная конная колонна») идут под template_counter = 92 — силуэт
+#  кавалерии базовой игры, — чтобы на карте у любой конной дивизии была конная
+#  иконка.
+#  Спрайты: interface/GLP_division_templates.gfx; свои плитки 76x42 и 30x12 в
+#  gfx/interface/counters/division_templates_{large,small}/ (только 90/91),
+#  92 указывает на графику самой игры. Шаблоны
 #  заблокированы (is_locked) — это именные части, спавнятся фокусами
 #  GLP_old_enemies_unite / GLP_aid_to_spanish_anarchists и событием
 #  glp_spain.1 на территории Гуляйполя (штаты 226/200/227).
@@ -57,7 +63,7 @@ division_template = {
 division_template = {
 	name = "Казачья добровольческая конная дивизия"
 	division_names_group = GLP_CAV_HISTORICAL
-	template_counter = 90
+	template_counter = 92	# конный шаблон -> силуэт кавалерии базовой игры
 	is_locked = yes
 
 	regiments = {
@@ -107,7 +113,7 @@ division_template = {
 division_template = {
 	name = "Испанская ударная конная колонна"
 	division_names_group = GLP_CAV_HISTORICAL
-	template_counter = 91
+	template_counter = 92	# конный шаблон -> силуэт кавалерии базовой игры
 	is_locked = yes
 
 	regiments = {
@@ -128,9 +134,19 @@ division_template = {
 }
 
 # 1. УДАРНЫЙ ТАЧАНОЧНЫЙ КУРЕНЬ ЧЕРНОЙ ГВАРДИИ (Рейды, прорыв и скорость)
+#    template_counter = 92 -> GFX_div_templ_92_* — силуэт кавалерии из базовой
+#    игры (gfx/interface/counters/divisions_large/unit_cavalry_icon.dds и
+#    divisions_small/onmap_unit_cavalry_icon.dds), своей плитки под этот номер у
+#    мода нет. Counter обязателен: без явного counter движок берёт иконку
+#    батальона с наибольшим priority, а у light_armor он 2501 против 599 у
+#    cavalry — конная дивизия с танковым батальоном показывала бы ТАНК. Реестр
+#    counter -> иконка и соответствие названий дивизий иконкам —
+#    tools/division_icons.tsv (сверяет tools/glp_audit.py,
+#    check_division_icons).
 division_template = {
 	name = "Ударный тачаночный курень им. Батьки Махно"
 	division_names_group = GLP_CAV_HISTORICAL
+	template_counter = 92
 
 	regiments = {
 		cavalry = { x = 0 y = 0 }

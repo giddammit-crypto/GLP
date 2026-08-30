@@ -5,7 +5,10 @@
 ###  Никаких жёстко заданных `id = <число>`: движок 1.19.2 раздаёт
 ###  идентификаторы сам, а ручные ID — классическая причина конфликта
 ###  советников и вылета при загрузке сценария 1936/1939.
-###  Каждый idea_token уникален (проверяется tools/glp_audit.py).
+###  Каждый idea_token уникален и обязан быть определён как advisor-идея в
+###  common/ideas/GLP_advisors.txt в категории, равной его slot (иначе
+###  советник наймётся без единого модификатора). Обе вещи проверяет
+###  tools/glp_audit.py (разделы 1 «Characters» и 17 «Advisor ideas»).
 ### =========================================================================
 characters = {
 
@@ -128,13 +131,16 @@ characters = {
 			planning_skill = 2
 			logistics_skill = 2
 		}
+		#  Бонусы советника живёт в идее GLP_feodosiy_shchus_advisor
+		#  (common/ideas/GLP_advisors.txt): черта должна быть ванильной,
+		#  army_cavalry_speed_2 в базовой игре не существует.
 		advisor = {
 			slot = high_command
 			idea_token = GLP_feodosiy_shchus_advisor
 			ledger = army
 			cost = 100
 			removal_cost = 10
-			traits = { army_cavalry_speed_2 }
+			traits = { army_cavalry_2 }
 		}
 	}
 
@@ -233,13 +239,16 @@ characters = {
 			planning_skill = 3
 			logistics_skill = 2
 		}
+		#  Две ванильные черты штаба: конница и восстановление частей.
+		#  Прежний набор (army_cavalry_speed_2 army_morale_2) ссылался на
+		#  несуществующие черты, поэтому советник не давал ничего.
 		advisor = {
 			slot = high_command
 			idea_token = GLP_ataman_grigoriev_advisor
 			ledger = army
 			cost = 100
 			removal_cost = 10
-			traits = { army_cavalry_speed_2 army_morale_2 }
+			traits = { army_cavalry_2 army_regrouping_2 }
 		}
 	}
 

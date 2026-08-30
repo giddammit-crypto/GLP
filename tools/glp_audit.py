@@ -6,7 +6,9 @@ GLP mod audit  -- HOI4 1.19.2 compliance checker.
 Checks performed:
   1. Brace balance / basic syntax of every .txt / .gfx script.
   2. Localisation: UTF-8 BOM, "l_<lang>:" header, duplicate keys,
-     key parity between russian and english.
+     key parity between russian and english, and balanced quotes in every
+     value (an unescaped " inside a value truncates the string and the game
+     prints ???????).
   3. Missing localisation for characters, custom leader traits, ideas,
      idea tokens (advisors), national focuses, events.
   4. Duplicate definitions: character ids, advisor idea_token, idea names,
@@ -20,9 +22,9 @@ Checks performed:
   8. Loading quote geometry/font (vanilla tip window 1024x200, CENTER_DOWN,
      loadscreen_tip) and continuous-focus palette centring/safe gap below the focus tree.
   9. Custom cavalry/cossack models from Rise of Russia must be present
-     (GLP_units.*, NTC_cavalry in black papakha, sabre, sabre anims) and wired as
-     tag-specific GLP_cavalry_entity / GLP_cavalry_2_entity without
-     cloning vanilla cavalry entities.
+     (GLP_units.*, DON_cavalry -- Don Cossack rider --, sabre, sabre anims) and
+     wired as tag-specific GLP_cavalry_entity / GLP_cavalry_2_entity without
+     cloning vanilla cavalry entities; every mesh's embedded .dds deps resolve.
  10. Character traits that are neither vanilla nor defined by the mod.
  11. Anti-pattern `check_variable = { random ... }` in common/events/history.
  12. Every focus carries generic `search_filters` matching
@@ -37,7 +39,23 @@ Checks performed:
     (referenced in some focus / on_action / event), every retire/retire_char
     call sits behind a has_character guard (silent error otherwise), and
     step-1/2/3 chains clean their set_country_flag / clr_country_flag pairs.
-
+ 16. Division template icons match the branch the template name (and its
+     division_names_group) promises: every template_counter is registered in
+     tools/division_icons.tsv, and the icon the engine would draw (highest
+     priority line battalion, per vanilla `priority`) equals the branch of the
+     name.  Cavalry divisions that carry a light_armor battalion otherwise
+     show a TANK silhouette (priority 2501 vs 599) -- hence template_counter
+     92 and tools/division_icons.tsv.  A branch tile must be BASE GAME art
+     (gfx/interface/counters/divisions_{large,small}/unit_<branch>_icon.dds);
+     only `depicts = flag` may ship its own 76x42 / 30x12 dds.
+     Also: each entry of a division-names group must mention a branch its own
+     division_types allow.
+ 17. Advisors are complete: every idea_token of common/characters resolves to
+     an idea in common/ideas whose category equals the advisor slot (an idea
+     that does not exist == an advisor with zero bonuses), the slot is a real
+     vanilla High Command slot, traits resolve to vanilla-or-mod traits, the
+     idea grants at least one modifier, and hiring gates in the characters
+     block and in the idea agree.
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
 import hashlib
@@ -52,6 +70,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Paths that live in the base game, not in the mod -- referencing them is fine.
 VANILLA_TEXTURES = {
     'gfx/interface/goals/shine_overlay.dds',
+    # Ванильные силуэты родов войск для контр-фишек дивизий. Мод намеренно
+    # НЕ рисует свою иконку кавалерии: template_counter 92 указывает на эти
+    # файлы базовой игры (см. tools/division_icons.tsv и раздел 16).
+    'gfx/interface/counters/divisions_large/unit_cavalry_icon.dds',
+    'gfx/interface/counters/divisions_small/onmap_unit_cavalry_icon.dds',
     'gfx/FX/buttonstate.lua',
     'gfx//interface//thisisdog.dds',
     'gfx/interface/pdx_dev_logo_s.dds',
@@ -184,6 +207,17 @@ def load_loc():
                 err(f"{rel(p)}:{i}: duplicate localisation key '{k}' "
                     f"(first at line {seen[k]})")
             seen[k] = i
+            # Значение обязано быть одной целой строкой: неэкранированная "
+            # внутри обрывает строку, и движок покажет ??????? вместо текста
+            # (класс поломки из итерации 6; аудит поймал её на новых
+            # *_advisor_desc, где кавычки стояли внутри значения).
+            # m заканчивается на открывающей кавычке значения
+            value = line[m.end():].replace('\\"', '')
+            if value.count('"') != 1:
+                err(f"{rel(p)}:{i}: локализация «{k}» — кавычки значения не "
+                    "сбалансированы: движок оборвёт строку и покажет ??????? "
+                    "вместо текста; внутренние кавычки нужно экранировать "
+                    "или убрать из значения")
             langs.setdefault(lang, {})[k] = rel(p)
     return langs
 
@@ -756,33 +790,69 @@ def glob_dds(subdir):
 
 
 # ------------------------------------------------- 7. traits & loc coverage
-VANILLA_TRAITS = set("""
-    inspirational_leader panic_leader dislikes_germany dislikes_russia
-    war_hero collaborator communist_revolutionary anti_communist
-    guerilla_fighter trickster organizer offensive_doctrine defensive_doctrine
-    infantry_officer infantry_leader infantry_expert cavalry_officer
-    cavalry_leader cavalry_expert armor_officer armor_leader panzer_expert
-    artillery_officer artillery_leader artillery_expert commando
-    ranger trait_mountaineer trait_engineer naval_invader paratrooper
-    aggressive_assaulter skilled_staffer brilliant_strategist
-    fast_planner careful_planner substance_abuser trait_reckless
-    politically_connected media_personality thorough_planner
-    hill_fighter desert_fox winter_specialist swamp_fox jungle_rat
-    urban_assault_specialist old_guard harsh_leader war_hero_general
-    logistics_wizard scavenger camouflage_expert bearer_of_artillery
-    army_chief_organizational_2 army_chief_offensive_2 army_chief_defensive_2
-    army_cavalry_2 army_cavalry_speed_2 army_morale_2 army_entrenchment_2
-    army_infantry_2 army_regrouping_2 army_logistics_2 army_artillery_2
-    silent_workhorse ideological_crusader captain_of_industry
-    war_industrialist prince_of_terror fortification_engineer
-    compassionate_gentleman quartermaster_general
-    seawolf blockade_runner superior_tactician spotter fly_swatter
-    ironside air_controller bold cautious old_guard_navy gentlemanly
-    craven fleet_protector battleship_adherent carrier_seaman
-    lone_wolf naval_lineage aviation_enthusiast
-    air_close_air_support_2 air_air_superiority_2 air_tactical_bombing_2
-    air_naval_strike_2 air_air_combat_training_2 air_bomber_interception_2
-""".split())
+# Словарь имён черт базовой игры.  У каждой существующей черты есть
+# локализационный ключ, поэтому полный снимок имён лежит в
+# tools/vanilla_trait_names.txt (собран из localisation/english/
+# traits_l_english.yml; зеркало ванили cbrzeczysz/hoi4-history @ 1.14.1).
+# Рукой этот список не вести: прошлая версия словаря содержала выдуманные
+# army_cavalry_speed_2 и army_morale_2, из-за чего советники Щусь и Григорьев
+# прошли аудит и в игре не дали ни одного модификатора.
+ADVISOR_TRAIT_FAMILIES = {
+    'army': ('armored', 'artillery', 'cavalry', 'commando', 'concealment',
+             'entrenchment', 'infantry', 'logistics', 'regrouping',
+             'CombinedArms',
+             'chief_defensive', 'chief_drill', 'chief_entrenchment',
+             'chief_maneuver', 'chief_morale', 'chief_offensive',
+             'chief_organizational', 'chief_planning', 'chief_reform'),
+    'navy': ('amphibious_assault', 'anti_submarine', 'battleship',
+             'capital_ship', 'carrier', 'cruiser', 'destroyer',
+             'fleet_logistics', 'naval_air_defense', 'screen', 'submarine',
+             'chief_commerce_raiding', 'chief_decisive_battle',
+             'chief_maneuver', 'chief_naval_aviation', 'chief_reform'),
+    'air': ('air_combat_training', 'air_superiority', 'airborne',
+            'bomber_interception', 'close_air_support', 'naval_strike',
+            'pilot_training', 'strategic_bombing', 'tactical_bombing',
+            'chief_all_weather', 'chief_ground_support',
+            'chief_night_operations', 'chief_reform', 'chief_safety'),
+}
+
+
+def _advisor_trait_names():
+    """Черты ставки/министров ванили: семейства x уровни 1..3 (сверено со
+    снимком локализации -- количества совпадают: 54 army, 48 navy, 42 air)."""
+    out = set()
+    for ledger, fams in ADVISOR_TRAIT_FAMILIES.items():
+        for fam in fams:
+            for lvl in (1, 2, 3):
+                out.add(f'{ledger}_{fam}_{lvl}')
+    return out
+
+
+def load_vanilla_traits():
+    """Имена ванильных черт: снимок локализации + семейства ставки."""
+    names = _advisor_trait_names()
+    snap = os.path.join(ROOT, 'tools/vanilla_trait_names.txt')
+    if not os.path.exists(snap):
+        warn('tools/vanilla_trait_names.txt: нет снимка ванильных черт -- '
+             'проверка имён видит только семейства army_*/navy_*/air_*')
+        return names
+    for line in read(snap).split('\n'):
+        line = line.strip()
+        if line and not line.startswith('#'):
+            names.add(line)
+    return names
+
+
+VANILLA_TRAITS = load_vanilla_traits()
+
+# Законные advisor-слоты (High Command / правительство) базовой игры:
+# common/characters/NZL.txt, common/ideas/belarus.txt, 1.14.1.
+ADVISOR_SLOTS = {
+    'theorist', 'army_chief', 'navy_chief', 'air_chief', 'high_command',
+    'political_advisor', 'chief_of_armament', 'tank_designer',
+    'aircraft_designer', 'naval_designer', 'high_commission', 'secretary',
+}
+
 
 
 def check_characters(defs, loc):
@@ -1097,13 +1167,13 @@ def check_advisor_portraits(defs):
                                           list(all_script_text('common/characters').values())[0], re.M))
 
 
-# В моде нет кастомных 3D-моделей. Раньше каталог gfx/models/units/
-# содержал mesh-файлы из Revolution or Reaction: Rise of Russia, но их
-# импорт провоцировал краш рендера, и теперь мод полностью на ванильных
-# infantry_rifle_entity / cavalry_entity / cavalry_2_entity. Все следы
-# импорта (GLP_units.gfx / .asset, GLP_cavalry_animations.asset,
-# .mesh/.dds/.anim) удалены; в случае попытки вернуть их -- check_unit_models
-# сообщит об этом.
+# Каталог gfx/models/units/ хранит импортированные бинарники Revolution or
+# Reaction: Rise of Russia: всадник-донской казак DON_cavalry (модель конницы
+# Гуляйполя) и пехота-матрос RSR_marine. Краш итерации 4-6 был вызван не
+# самими моделями, а сборкой кавалерийских сущностей через clone ванильных
+# cavalry-сущностей; после перехода на явные определения (паттерн DON_*-блока
+# из YR_units_cavalry.asset) импорт работает. Список обязателен для
+# check_unit_models, а граф сущностей целиком проверяет check_entity_graph.
 
 
 EXPECTED_UNIT_MODEL_FILES = (
@@ -1114,10 +1184,10 @@ EXPECTED_UNIT_MODEL_FILES = (
     'gfx/models/units/RSR_marine_diffuse.dds',
     'gfx/models/units/RSR_marine_normal.dds',
     'gfx/models/units/RSR_marine_spec.dds',
-    'gfx/models/units/NTC_cavalry.mesh',
-    'gfx/models/units/NTC_cavalry_diffuse_.dds',
-    'gfx/models/units/NTC_cavalry_normal.dds',
-    'gfx/models/units/NTC_cavalry_spec.dds',
+    'gfx/models/units/DON_cavalry.mesh',
+    'gfx/models/units/DON_cavalry_diffuse.dds',
+    'gfx/models/units/DON_cavalry_normal.dds',
+    'gfx/models/units/DON_cavalry_specular.dds',
     'gfx/models/units/russian_sword_sabre.mesh',
     'gfx/models/units/russian_sword_sabre_holder.mesh',
     'gfx/models/units/russian_sword_sabre_diffuse.dds',
@@ -1134,8 +1204,484 @@ EXPECTED_UNIT_MODEL_FILES = (
 )
 
 
+# ------------------------------------------------------ 16. иконки дивизий
+# Род войск, который «рисует» иконку шаблона. HOI4 берёт иконку под-юнита с
+# НАИБОЛЬШИМ priority среди линейных батальонов (колонки combat_support --
+# артполки, ПТО, ПВО -- род войск не определяют). Поэтому конница с танковым
+# батальоном без template_counter показывает ТАНК, а не коня.
+# Приоритеты -- дамп ванили 1.14.1, common/units/*.txt.
+SUBUNIT_ICON = {
+    # name: (priority, группа, семья-иконка)
+    'infantry':                  (600,  'infantry',              'foot'),
+    'bicycle_battalion':         (600,  'infantry',              'foot'),
+    'marine':                    (601,  'infantry',              'marine'),
+    'marine_commando':           (601,  'infantry',              'marine'),
+    'mountaineers':              (601,  'infantry',              'mountain'),
+    'paratrooper':               (2,    'infantry',              'para'),
+    'militia':                   (400,  'infantry',              'foot'),
+    'irregular_infantry':        (400,  'infantry',              'foot'),
+    'penal_battalion':           (400,  'infantry',              'foot'),
+    'cavalry':                   (599,  'mobile',                'horse'),
+    'camelry':                   (599,  'mobile',                'horse'),
+    'motorized':                 (599,  'mobile',                'truck'),
+    'bus':                       (1000, 'mobile',                'truck'),
+    'mechanized':                (610,  'mobile',                'truck'),
+    'amphibious_mechanized':     (610,  'mobile',                'truck'),
+    'armored_car':               (501,  'mobile',                'truck'),
+    'light_armor':               (2501, 'armor',                 'tank'),
+    'medium_armor':              (2502, 'armor',                 'tank'),
+    'heavy_armor':               (2503, 'armor',                 'tank'),
+    'modern_armor':              (2510, 'armor',                 'tank'),
+    'super_heavy_armor':         (2510, 'armor',                 'tank'),
+    'amphibious_armor':          (2501, 'armor',                 'tank'),
+    'artillery_brigade':         (1198, 'combat_support',        'foot'),
+    'mot_artillery_brigade':     (1198, 'mobile_combat_support', 'foot'),
+    'rocket_artillery_brigade':  (1199, 'combat_support',        'foot'),
+    'mot_rocket_artillery_brigade': (1199, 'mobile_combat_support', 'foot'),
+    'anti_tank_brigade':         (1197, 'combat_support',        'foot'),
+    'mot_anti_tank_brigade':     (1197, 'mobile_combat_support', 'foot'),
+    'anti_air_brigade':          (301,  'combat_support',        'foot'),
+    'mot_anti_air_brigade':      (301,  'mobile_combat_support', 'foot'),
+    'light_sp_artillery_brigade':  (1795, 'armor_combat_support', 'tank'),
+    'medium_sp_artillery_brigade': (1796, 'armor_combat_support', 'tank'),
+    'heavy_sp_artillery_brigade':  (1797, 'armor_combat_support', 'tank'),
+    'light_tank_destroyer_brigade':  (1795, 'armor_combat_support', 'tank'),
+    'medium_tank_destroyer_brigade': (1796, 'armor_combat_support', 'tank'),
+    'heavy_tank_destroyer_brigade':  (1797, 'armor_combat_support', 'tank'),
+    'blackshirt_assault_battalion':  (0,   'support',              'foot'),
+}
+ICON_FAMILIES = ('foot', 'horse', 'truck', 'tank', 'marine', 'mountain', 'para')
+# Словарь колонки depicts в tools/division_icons.tsv -> семья иконки
+BRANCH_TO_FAMILY = {
+    'cavalry': 'horse', 'infantry': 'foot', 'garrison': 'foot', 'militia': 'foot',
+    'motorized': 'truck', 'mechanized': 'truck', 'armor': 'tank', 'marine': 'marine',
+    'mountaineers': 'mountain', 'paratrooper': 'para',
+}
+# Род войск по названию дивизии (ищет ВСЕ совпадения: «моторизованная
+# тачаночная» = truck + horse, и этого достаточно, чтобы имя не противоречило
+# группе имён).
+NAME_FAMILIES = (
+    (('конн', 'кавалер', 'тачан', 'казач', 'улан', 'драгун'),          'horse'),
+    (('танк', 'бронетанк', 'бронеполк', 'автоброн'),                   'tank'),
+    (('моториз', 'мото', 'автомоб', 'механизац'),                      'truck'),
+    (('морск', 'матрос', 'черномор', 'флот'),                           'marine'),
+    (('горн', 'альп'),                                                  'mountain'),
+    (('параш', 'вдв', 'воздушно'),                                      'para'),
+    (('стрелк', 'пехот', 'дружин', 'ополчен', 'самооборо', 'гарнизон',
+      'охран', 'караул', 'страж', 'заслон'),                            'foot'),
+)
+SUPPORT_GROUPS = ('support', 'combat_support', 'mobile_combat_support',
+                  'armor_combat_support')
+
+
+def _block_body(text, start):
+    """Тело {...}, открывающегося на text[start] == '{'; None при разъезде."""
+    if start >= len(text) or text[start] != '{':
+        return None
+    i, depth = start, 0
+    while i < len(text):
+        if text[i] == '{':
+            depth += 1
+        elif text[i] == '}':
+            depth -= 1
+            if depth == 0:
+                return text[start + 1:i]
+        i += 1
+    return None
+
+
+def name_families(title):
+    low = title.lower()
+    fams = {fam for keys, fam in NAME_FAMILIES if any(k in low for k in keys)}
+    # «десантная» сама по себе не род войск (высадка бывает морская и
+    # воздушная) — уточняем только по морскому контексту, иначе молчим
+    if 'десант' in low and any(k in low for k in ('морск', 'матрос', 'черномор',
+                                                   'флот', 'керчен', 'одесс',
+                                                   'севастоп')):
+        fams.add('marine')
+    return fams
+
+
+def load_custom_subunits():
+    """Свои sub_units мода: имя -> (priority, группа, семья-иконка)."""
+    out = {}
+    for p in walk('common/units', ('.txt',)):
+        body = strip_comments(read(p))
+        m = re.search(r'sub_units\s*=\s*\{', body)
+        if not m:
+            continue
+        inner = _block_body(body, body.index('{', m.start()))
+        if inner is None:
+            continue
+        for mm in re.finditer(r'^\s*(\w+)\s*=\s*\{', inner, re.MULTILINE):
+            blk = _block_body(inner, inner.index('{', mm.start()))
+            if not blk:
+                continue
+            prio = re.search(r'\bpriority\s*=\s*(\d+)', blk)
+            grp = re.search(r'\bgroup\s*=\s*(\w+)', blk)
+            if not prio or not grp:
+                continue          # type = {...}, categories = {...}, террейн
+            name = mm.group(1)
+            if re.search(r'\bcavalry\s*=\s*yes', blk):
+                fam = 'horse'
+            elif grp.group(1) == 'armor':
+                fam = 'tank'
+            elif name in SUBUNIT_ICON:
+                fam = SUBUNIT_ICON[name][2]
+            else:
+                fam = {'infantry': 'foot', 'mobile': 'truck',
+                       'support': 'foot'}.get(grp.group(1), 'foot')
+            out[name] = (int(prio.group(1)), grp.group(1), fam)
+    return out
+
+
+def load_name_groups():
+    """Группы имён дивизий: имя -> (роды из division_types, список названий)."""
+    groups = {}
+    for p in walk('common/units/names_divisions', ('.txt',)):
+        body = strip_comments(read(p))
+        for m in re.finditer(r'^\s*(\w+)\s*=\s*\{', body, re.MULTILINE):
+            blk = _block_body(body, body.index('{', m.start()))
+            if not blk:
+                continue
+            dt = re.search(r'division_types\s*=\s*\{([^}]*)\}', blk)
+            types = {t.strip('"') for t in dt.group(1).split()} if dt else set()
+            fams = {SUBUNIT_ICON[t][2] for t in types if t in SUBUNIT_ICON}
+            names = re.findall(r'\d+\s*=\s*\{\s*"([^"]+)"', blk)
+            groups[m.group(1)] = (fams, names)
+    return groups
+
+
+def check_division_icons():
+    """Иконка каждого шаблона дивизии обязана соответствовать его названию.
+
+    Правила (реестр -- tools/division_icons.tsv):
+      * template_counter обязан быть в реестре, его плитки -- определены как
+        спрайты GFX_div_templ_N_large/_small;
+      * род войск (depicts != flag) рисуется ГРАФИКОЙ БАЗОВОЙ ИГРЫ:
+        gfx/interface/counters/divisions_large/unit_<depicts>_icon.dds и
+        .../divisions_small/onmap_unit_<depicts>_icon.dds, noOfFrames = 2,
+        путь зарегистрирован в VANILLA_TEXTURES. Собственный силуэт рода войск
+        мод не рисует (он расходится с ванильным при каждом патче игры);
+      * своя плитка 76x42 / 30x12 допустима только для depicts = flag;
+      * counter с depicts != flag утверждает род войск -- он обязан совпасть
+        с родом, который следует из названия шаблона и его группы имён;
+      * без counter иконка = семья линейного батальона с максимальным
+        priority -- она обязана совпасть с названием/группой имён;
+      * каждое имя в группе имён обязано упоминать род своей группы.
+    """
+    registry = {}
+    tsv = os.path.join(ROOT, 'tools/division_icons.tsv')
+    if not os.path.exists(tsv):
+        err('tools/division_icons.tsv: нет реестра иконок шаблонов дивизий')
+        return
+    for line in read(tsv).split('\n'):
+        if not line.strip() or line.startswith('#') or line.startswith('counter\t'):
+            continue
+        parts = [x.strip() for x in line.split('\t')]
+        if len(parts) < 4 or not parts[0].isdigit():
+            err('tools/division_icons.tsv: строка не «counter\tlarge\tsmall'
+                f'\tdepicts\t...»: {line}')
+            continue
+        registry[parts[0]] = dict(large=parts[1], small=parts[2],
+                                  depicts=parts[3], used=0)
+
+    sprites = {}
+    for p in walk('interface', ('.gfx',)):
+        body = strip_comments(read(p))
+        for m in re.finditer(r'spriteType\s*=\s*\{([^}]*)\}', body, re.S):
+            blk = m.group(1)
+            nm = re.search(r'name\s*=\s*"(GFX_div_templ_\d+_(?:large|small))"',
+                           blk)
+            if not nm:
+                continue
+            tex = re.search(r'texturefile\s*=\s*"?([^"\s]+)"?', blk, re.I)
+            frames = re.search(r'noOfFrames\s*=\s*(\d+)', blk, re.I)
+            sprites[nm.group(1)] = (tex.group(1) if tex else '',
+                                    int(frames.group(1)) if frames else 1)
+
+    for n, row in sorted(registry.items()):
+        if row['depicts'] != 'flag' and row['depicts'] not in BRANCH_TO_FAMILY:
+            err(f'tools/division_icons.tsv: counter {n}: неизвестный depicts '
+                f'«{row["depicts"]}» (можно семья иконки из {"/".join(ICON_FAMILIES)} '
+                f'или flag)')
+        for key, want in (('large', (76, 42)), ('small', (30, 12))):
+            sprite = row[key]
+            if sprite not in sprites:
+                err(f'tools/division_icons.tsv: counter {n}: спрайт «{sprite}» '
+                    f'не определён ни в одном interface/*.gfx')
+                continue
+            tex, frames = sprites[sprite]
+            path = os.path.join(ROOT, tex)
+            if not os.path.exists(path):
+                # Иконка из базовой игры: единственный способ показать род
+                # войск, не клонируя ванильные ассеты мода.
+                mv = re.fullmatch(r'gfx/interface/counters/divisions_'
+                                  r'(large|small)/(onmap_)?unit_([a-z_]+)_icon'
+                                  r'\.dds', tex)
+                if not mv:
+                    err(f'tools/division_icons.tsv: counter {n}: {sprite} -> {tex} '
+                        '— такой текстуры нет в моде, и это не ванильный силуэт '
+                        'рода войск (gfx/interface/counters/divisions_'
+                        '{large,small}/[onmap_]unit_<род>_icon.dds)')
+                    continue
+                if mv.group(1) != key:
+                    err(f'counter {n}: {sprite} -> {tex}: плитку «{key}» берёт из '
+                        f'папки divisions_{mv.group(1)}, а надо divisions_{key}')
+                if (mv.group(2) is not None) != (key == 'small'):
+                    err(f'counter {n}: {tex}: onmap_-силуэт принадлежит мелким '
+                        'фишкам на карте (divisions_small); большую плитку '
+                        'дизайнера им рисовать нельзя')
+                if row['depicts'] == 'flag':
+                    err(f'counter {n}: знамя добровольцев не может быть ванильным '
+                        f'силуэтом — {tex} утверждает род войск «{mv.group(3)}»')
+                    continue
+                if (BRANCH_TO_FAMILY.get(mv.group(3))
+                        != BRANCH_TO_FAMILY.get(row['depicts'])):
+                    err(f'counter {n}: {tex} — силуэт «{mv.group(3)}», а в '
+                        f'tools/division_icons.tsv обещан род «{row["depicts"]}»')
+                if tex not in VANILLA_TEXTURES:
+                    err(f'counter {n}: {tex} — ссылка на графику базовой игры без '
+                        'записи в VANILLA_TEXTURES (список «легально живёт в игре, '
+                        'а не в моде»); добавь путь туда и укажи источник')
+                if frames != 2:
+                    err(f'counter {n}: {sprite} — ванильный атлас силуэтов идёт в '
+                        '2 кадра, нужно noOfFrames = 2 (иначе движок сожмёт обе '
+                        'иконки в одну плитку)')
+                continue
+            if row['depicts'] != 'flag':
+                err(f'counter {n}: {tex} — собственный силуэт рода войск в моде '
+                    'запрещён: для depicts != flag берётся графика базовой игры '
+                    '(см. tools/division_icons.tsv)')
+                continue
+            info = dds_info(path)
+            if not info:
+                err(f'{tex}: не является DDS')
+                continue
+            w, h, fmt = info
+            if (w, h) != want:
+                err(f'{tex}: counter {n} — плитка {w}x{h}, движок ждёт плитку '
+                    f'шаблона дивизии {want[0]}x{want[1]}')
+            if fmt not in ('ARGB8888', 'DXT5'):
+                err(f'{tex}: counter {n} — сжатие {fmt}, нужно ARGB8888 или DXT5')
+
+    groups = load_name_groups()
+    custom = load_custom_subunits()
+
+    for grp, (fams, names) in sorted(groups.items()):
+        if not fams:
+            continue
+        for div_name in names:
+            nf = name_families(div_name)
+            if nf and not (nf & fams):
+                warn(f'группа имён {grp}: «{div_name}» называет другой род войск '
+                     f'({"|".join(sorted(nf))}), чем сама группа '
+                     f'({"|".join(sorted(fams))})')
+
+    for d in ('history/units', 'common/on_actions', 'events', 'common/national_focus'):
+        for p in walk(d, ('.txt',)):
+            body = strip_comments(read(p))
+            for m in re.finditer(r'division_template\s*=\s*\{', body):
+                blk = _block_body(body, body.index('{', m.start()))
+                if not blk:
+                    continue
+                nm = re.search(r'\bname\s*=\s*"([^"]+)"', blk)
+                if not nm:
+                    continue          # это ссылка division_template = "..."
+                title = nm.group(1)
+                regs = re.search(r'\bregiments\s*=\s*\{', blk)
+                reg_body = _block_body(blk, regs.end() - 1) if regs else ''
+                battalions = re.findall(r'(\w+)\s*=\s*\{\s*x\s*=\s*\d+\s+y\s*=\s*\d+\s*\}',
+                                        reg_body or '')
+                c = re.search(r'template_counter\s*=\s*(\d+)', blk)
+                counter = c.group(1) if c else None
+                g = re.search(r'division_names_group\s*=\s*(\w+)', blk)
+                grp = g.group(1) if g else None
+
+                if grp and grp not in groups:
+                    err(f'{rel(p)}: шаблон «{title}» ссылается на группу имён '
+                        f'{grp}, которой нет в common/units/names_divisions/')
+                    continue
+
+                nf = name_families(title)
+                gf = groups[grp][0] if grp else set()
+                if nf and gf and not (nf & gf):
+                    warn(f'{rel(p)}: шаблон «{title}» называется как '
+                         f'{"|".join(sorted(nf))}, но имена берёт из группы {grp} '
+                         f'({"|".join(sorted(gf))})')
+                want = (nf & gf) or gf or nf
+                if not want:
+                    continue
+
+                if counter:
+                    if counter not in registry:
+                        err(f'{rel(p)}: шаблон «{title}»: template_counter = {counter} '
+                            'нет в tools/division_icons.tsv — движок не найдёт '
+                            f'спрайты GFX_div_templ_{counter}_large/_small, и у '
+                            'дивизии не будет иконки')
+                        continue
+                    registry[counter]['used'] += 1
+                    dep = registry[counter]['depicts']
+                    if dep == 'flag':
+                        continue      # знамя добровольцев род войск не утверждает
+                    got = BRANCH_TO_FAMILY.get(dep)
+                    if got not in want:
+                        err(f'{rel(p)}: шаблон «{title}» — иконка counter {counter} '
+                            f'(«{dep}») не соответствует названию/группе имён '
+                            f'(ожидается {"|".join(sorted(want))})')
+                    continue
+
+                scored = []
+                for b in sorted(set(battalions)):
+                    prio, grp_name, fam = (custom.get(b) or SUBUNIT_ICON.get(b)
+                                           or (0, 'infantry', 'foot'))
+                    if grp_name in SUPPORT_GROUPS:
+                        continue      # колонки поддержки иконку не задают
+                    scored.append((prio, fam, b))
+                if not scored:
+                    continue
+                top = max(scored)
+                if top[1] not in want:
+                    others = [x for x in scored if x[1] in want]
+                    hint = ''
+                    if others:
+                        hint = (f' — например, у «{others[0][2]}» priority '
+                                f'{others[0][0]}, он проигрывает; нужен '
+                                f'template_counter из tools/division_icons.tsv '
+                                f'с плиткой «{sorted(want)[0]}»')
+                    err(f'{rel(p)}: шаблон «{title}» — иконка не по названию: '
+                        f'движок возьмёт силуэт «{top[2]}» (priority {top[0]} → '
+                        f'{top[1]}), а ожидается {"|".join(sorted(want))}{hint}')
+
+    for n, row in sorted(registry.items()):
+        if not row['used']:
+            warn(f'tools/division_icons.tsv: counter {n} («{row["depicts"]}») не '
+                 f'используется ни одним шаблоном дивизии')
+
+
+def _idea_defs_by_category():
+    """common/ideas/*.txt -> {имя идеи: (категория, блок, «файл:строка»)}."""
+    out = {}
+    for p in walk('common/ideas', ('.txt',)):
+        body = strip_comments(read(p))
+        m = re.search(r'\bideas\s*=\s*\{', body)
+        if not m:
+            continue
+        root = _block_body(body, m.end() - 1)
+        if not root:
+            continue
+        for cm in re.finditer(r'^\t([a-z_][a-z_0-9]*)\s*=\s*\{', root, re.M):
+            cat_body = _block_body(root, root.index('{', cm.start()))
+            if not cat_body:
+                continue
+            for im in re.finditer(r'^\t\t([A-Za-z_][A-Za-z_0-9]*)\s*=\s*\{',
+                                  cat_body, re.M):
+                blk = _block_body(cat_body, cat_body.index('{', im.start()))
+                out[im.group(1)] = (cm.group(1), blk or '',
+                                    f'{os.path.basename(p)}:{cat_body.count(chr(10), 0, im.start())}')
+    return out
+
+
+def check_advisor_ideas(defs):
+    """Советник без advisor-идеи = советник без бонусов (раздел 17).
+
+    common/characters задаёт только КАДРА (слот, цена, черта для списка
+    кандидатов); сами модификаторы живут в идее из common/ideas, объявленной в
+    категории, имя которой равны слоту. Этот аудит уже ловил выдуманные имена
+    черт, но не ловил отсутствующие идеи -- так «Щусь и Григорьев» имели
+    советников без единого бонуса.
+    """
+    ideas = _idea_defs_by_category()
+    known_traits = set(defs['trait']) | VANILLA_TRAITS
+    foci = set(defs['focus'])
+    seen = set()
+
+    for p in sorted(walk('common/characters', ('.txt',))):
+        body = strip_comments(read(p))
+        for m in re.finditer(r'\badvisor\s*=\s*\{', body):
+            blk = _block_body(body, body.index('{', m.start()))
+            if not blk:
+                continue
+            line_no = body.count('\n', 0, m.start()) + 1
+            who = f'{rel(p)}:{line_no}'
+            slot = re.search(r'\bslot\s*=\s*(\S+)', blk)
+            tok = re.search(r'\bidea_token\s*=\s*(\S+)', blk)
+            if not slot:
+                err(f'{who}: advisor-блок без slot')
+                continue
+            slot = slot.group(1)
+            if slot not in ADVISOR_SLOTS:
+                err(f'{who}: slot = {slot} — такого advisor-слота в базовой '
+                    f'игре нет (законны: {", ".join(sorted(ADVISOR_SLOTS))}); '
+                    'советник не встанет ни в одну ячейку ставки')
+            traits = ' '.join(re.findall(r'traits\s*=\s*\{([^}]*)\}', blk, re.S))
+            adv_traits = set(re.findall(r'[A-Za-z_][A-Za-z_0-9]*', traits))
+            bad = sorted(t for t in adv_traits if t not in known_traits)
+            if bad:
+                err(f'{who}: advisor-черты {bad} не определены ни модом, ни в '
+                    'базовой игре (см. tools/vanilla_trait_names.txt) — '
+                    'советник наймётся без бонусов')
+            if slot == 'high_command' and 'ledger' not in blk:
+                warn(f'{who}: slot = high_command без ledger — советник '
+                     'попадёт не во вкладку учёта')
+            if not tok:
+                continue
+            token = tok.group(1)
+            seen.add(token)
+            if token not in ideas:
+                err(f'{who}: idea_token = {token} — такой идеи нет ни в одном '
+                    'common/ideas/*.txt; советник существует, но не даёт '
+                    'ровно ничего (описать её нужно в категории, равной slot)')
+                continue
+            cat, iblk, where = ideas[token]
+            if cat != slot:
+                err(f'common/ideas: идея {token} объявлена в категории '
+                    f'«{cat}», а персонаж ждёт её в слоте «{slot}» — '
+                    'движок не свяжет советника с бонусами')
+            if not re.search(r'\ballowed\s*=\s*\{', iblk):
+                err(f'common/ideas: идея {token} без allowed — она будет '
+                    'предложена всем странам, а не только GLP')
+            i_traits = set(re.findall(
+                r'[A-Za-z_][A-Za-z_0-9]*',
+                ' '.join(re.findall(r'traits\s*=\s*\{([^}]*)\}', iblk, re.S))))
+            if not i_traits and not re.search(r'\bmodifier\s*=\s*\{', iblk):
+                err(f'common/ideas: идея {token} не даёт ни traits, ни '
+                    'modifier — нанимать её не за что')
+            if adv_traits - i_traits:
+                err(f'common/ideas: идея {token} не даёт {sorted(adv_traits - i_traits)}, '
+                    f'хотя персонаж ({who}) обещает эти черты в списке кандидатов')
+            for t_ in sorted(i_traits - adv_traits):
+                warn(f'common/ideas: идея {token} даёт черту «{t_}», которой нет '
+                     f'у кандидата ({who}) — tooltip и реальные бонусы разойдутся')
+            pic = re.search(r'\bpicture\s*=\s*([^\s#}\"]+)', iblk)
+            if pic:
+                pname = pic.group(1)
+                if (f'GFX_idea_{pname}' not in VANILLA_IDEA_SPRITES
+                        and not pname.startswith('SPR_')
+                        and f'GFX_idea_{pname}' not in defs.get('sprite', set())):
+                    err(f'common/ideas: идея {token}: picture = {pname} — '
+                        'нет ни ванильного GFX_idea_*, ни спрайта мода')
+            for fm in re.finditer(r'has_completed_focus\s*=\s*(\S+)', iblk):
+                if fm.group(1) not in foci:
+                    err(f'common/ideas: идея {token} требует фокус '
+                        f'{fm.group(1)}, которого нет в common/national_focus — '
+                        'советник нельзя будет нанять никогда')
+
+    for token in sorted(set(ideas) - seen):
+        cat = ideas[token][0]
+        if cat in ADVISOR_SLOTS and token.startswith('GLP_'):
+            warn(f'common/ideas: advisor-идея {token} (категория «{cat}») не '
+                 'привязана ни к одному персонажу — мёртвый код')
+
+
 def check_unit_models():
-    """Пехота-матрос RSR_marine и казачья конница Rise of Russia должны быть на месте."""
+    """Донская казачья конница и пехота-матрос Rise of Russia должны быть на месте.
+
+    Отдельно проверяется то, за чем пользователь приходил дважды: конные
+    дивизии GLP обязаны стоять на модели ДОНСКИХ казаков (DON_cavalry), а не
+    на ванильном всаднике, и каждый меш обязан находить свои .dds (иначе
+    движок рисует белую болванку).
+    """
     for fname in EXPECTED_UNIT_MODEL_FILES:
         p = os.path.join(ROOT, fname)
         if not os.path.exists(p):
@@ -1149,6 +1695,34 @@ def check_unit_models():
                 err(f"gfx/entities/GLP_units.asset: нет сущности '{name}'")
         if re.search(r'clone\s*=\s*"(cavalry_entity|cavalry_2_entity|generic_infantry_mg_rider_entity|infantry_rifle_entity)"', body):
             err("gfx/entities/GLP_units.asset: запрещён clone ванильной cavalry/infantry-сущности")
+
+    # кавалерийские всадники мода = донские казаки
+    gfx = os.path.join(ROOT, 'gfx/entities/GLP_units.gfx')
+    if os.path.exists(gfx):
+        gbody = strip_comments(read(gfx))
+        for mesh in ('GLP_cavalry_mesh', 'GLP_cavalry_2_mesh'):
+            m = re.search(r'pdxmesh\s*=\s*\{[^{}]*?name\s*=\s*"%s"[^{}]*?file\s*=\s*"([^"]+)"'
+                          % re.escape(mesh), gbody, re.S)
+            if not m:
+                err(f"gfx/entities/GLP_units.gfx: pdxmesh '{mesh}' не найден — "
+                    'у конных дивизий не будет модели донских казаков')
+                continue
+            if not m.group(1).endswith('DON_cavalry.mesh'):
+                err(f"gfx/entities/GLP_units.gfx: '{mesh}' -> {m.group(1)}: "
+                    'конница Гуляйполя обязана стоять на модели донских казаков '
+                    'gfx/models/units/DON_cavalry.mesh')
+        # каждый меш обязан находить текстуры, на которые ссылается изнутри
+        for mm in re.finditer(r'pdxmesh\s*=\s*\{[^{}]*?file\s*=\s*"([^"]+)"', gbody, re.S):
+            mp = os.path.join(ROOT, mm.group(1))
+            if not os.path.exists(mp):
+                continue
+            deps = {d.decode() for d in
+                    re.findall(rb'([A-Za-z0-9_]{4,60}\.dds)', open(mp, 'rb').read())}
+            folder = os.path.dirname(mp)
+            for dep in sorted(deps):
+                if not os.path.exists(os.path.join(folder, dep)):
+                    err(f"{rel(mp)}: меш ссылается на {dep}, которого нет в "
+                        f"{rel(folder)}/ — текстуры импортированы под другим именем")
 
 
 # ---------------------------------------------------------------- 11. entity graph
@@ -1748,7 +2322,9 @@ def main():
     check_gui_overrides()
     check_event_window_stress_and_adaptiveness()
     check_advisor_portraits(defs)
+    check_advisor_ideas(defs)
     check_unit_models()
+    check_division_icons()
     check_entity_graph()
     check_no_stray_art()
     check_loc_tech_names(loc)

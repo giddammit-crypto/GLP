@@ -1,5 +1,6 @@
 # =========================================================================
-#  GLP -- Знамёна добровольческих дивизий (v1.5.1)
+#  GLP -- Иконки шаблонов дивизий: знамёна добровольцев (90/91)
+#         и конница РПА (92)   (v1.5.1)
 #
 #  Механика: division_template с template_counter = N берёт спрайты
 #  GFX_div_templ_N_large (76x42, дизайнер дивизий / детальная панель)
@@ -14,6 +15,18 @@
 #        (фокус GLP_aid_to_spanish_anarchists и событие glp_spain.1,
 #        шаблоны «Интернациональная бригада CNT-FAI» / «Испанская
 #        ударная конная колонна»).
+#  92 -- КОННИЦА: силуэт кавалерии базовой игры, а НЕ своя картинка. Counter
+#        обязателен: без явного counter движок берёт иконку под-юнита с
+#        наибольшим priority в составе, а у light_armor priority = 2501 против
+#        599 у cavalry -- поэтому конный «Ударный тачаночный курень» с одним
+#        батальоном лёгких танков показывал ТАНК. Свою плитку под этот номер мы
+#        не рисуем: взяты спрайты из самой игры
+#        (gfx/interface/counters/divisions_{large,small}/unit_cavalry_icon.dds,
+#        объявление скопировано из ванильного interface/subuniticons.gfx,
+#        включая noOfFrames = 2 -- атлас из двух кадров). Таблица шаблонов и их
+#        иконок: tools/division_icons.tsv, сверяет tools/glp_audit.py
+#        (check_division_icons). Свои плитки (только знамёна) собирает
+#        tools/build_division_icons.sh.
 # =========================================================================
 
 spriteTypes = {
@@ -28,6 +41,11 @@ spriteTypes = {
 		name = "GFX_div_templ_91_large"
 		texturefile = "gfx/interface/counters/division_templates_large/GLP_spanish_volunteers.dds"
 	}
+	spriteType = {
+		name = "GFX_div_templ_92_large"
+		texturefile = "gfx/interface/counters/divisions_large/unit_cavalry_icon.dds"
+		noOfFrames = 2
+	}
 
 	### Малые знамёна (контр-фишки на карте, 30x12) ###
 
@@ -38,5 +56,10 @@ spriteTypes = {
 	spriteType = {
 		name = "GFX_div_templ_91_small"
 		texturefile = "gfx/interface/counters/division_templates_small/GLP_spanish_volunteers.dds"
+	}
+	spriteType = {
+		name = "GFX_div_templ_92_small"
+		texturefile = "gfx/interface/counters/divisions_small/onmap_unit_cavalry_icon.dds"
+		noOfFrames = 2
 	}
 }
