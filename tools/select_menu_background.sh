@@ -30,7 +30,7 @@ if [[ $# -ne 1 || ! $1 =~ ^[1-9]$ ]]; then
 fi
 
 OPT=$1
-SRC="gfx/interface/menu_options/frontendmenu_bg_option_${OPT}.dds"
+SRC="tools/menu_backgrounds/frontendmenu_bg_option_${OPT}.dds"
 DST="gfx/interface/frontendmainviewbg.dds"
 
 if [[ ! -f "$SRC" ]]; then

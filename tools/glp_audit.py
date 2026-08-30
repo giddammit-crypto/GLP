@@ -373,7 +373,7 @@ def check_screens():
         if 'gfx/loadingscreens' not in body:
             warn("descriptor.mod: нет replace_path=\"gfx/loadingscreens\" — "
                  "ванильные/DLC экраны загрузки могут подмешиваться")
-    missing = [n for n in range(1, 17)
+    missing = [n for n in range(1, 7)
                if not os.path.exists(os.path.join(ROOT, f'gfx/loadingscreens/load_{n}.dds'))]
     if missing:
         warn("экраны загрузки мода не выставлены: "

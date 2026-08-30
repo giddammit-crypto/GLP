@@ -5,6 +5,6 @@ spriteTypes = {
 	# газеты GFX_event_news_bg (event_news_bg.dds).
 	spriteType = {
 		name = "GFX_event_news_bg_wide"
-		texturefile = "gfx/interface/GLP_event_news_bg.dds"
+		texturefile = "gfx/interface/event_news_bg.dds"
 	}
 }
