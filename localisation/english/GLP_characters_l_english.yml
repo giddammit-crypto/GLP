@@ -146,3 +146,16 @@
  GLP_left_sr_conspirator_desc:0 "Popov forges the free host into a disciplined force: the staff runs like clockwork, but the communes grumble — they did not drive out the commissars to breed their own."
  GLP_patriarch_of_anarchism:0 "Patriarch of Anarchism"
  GLP_patriarch_of_anarchism_desc:0 "The old teacher who first led young Makhno into the movement. His word reconciles atamans and communes, but the old man no longer hungers for war."
+
+ # ============ Fleet and aviation of the Free Territory (v1.5.1) ============
+ GLP_fedir_ostapenko:0 "Fedir Ostapenko"
+ GLP_fedir_ostapenko_advisor:0 "Fedir Ostapenko"
+ GLP_stepan_goncharenko:0 "Stepan Goncharenko"
+ GLP_andriy_verba:0 "Andriy Verba"
+ GLP_andriy_verba_advisor:0 "Andriy Verba"
+ GLP_klym_orlyk:0 "Klym Orlyk"
+ GLP_klym_orlyk_advisor:0 "Klym Orlyk"
+ GLP_free_flotilla_commander:0 "Commander of the Free Flotilla"
+ GLP_free_flotilla_commander_desc:0 "An old Black Sea boatswain who raised the black flag over the destroyers of Sevastopol. His flotilla sails without admiralties or written orders — yet moors with chronometer precision."
+ GLP_black_wings_ace:0 "Ace of the Black Wings"
+ GLP_black_wings_ace_desc:0 "A dashing steppe aviator: his squadron takes off from dirt strips near Gulyaipole and appears over enemy columns before their staff can even mark themselves on the map."

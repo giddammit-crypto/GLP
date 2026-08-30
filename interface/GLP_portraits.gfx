@@ -280,4 +280,44 @@ spriteTypes = {
 		name = "GFX_portrait_GLP_voldemar_antoni_small"
 		texturefile = "gfx/interface/ideas/idea_GLP_Voldemar_Antoni.dds"
 	}
+
+	# ---------------------- Фёдор Остапенко (адмирал) ------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_fedir_ostapenko"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Fedir_Ostapenko_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_fedir_ostapenko_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Fedir_Ostapenko.dds"
+	}
+
+	# --------------------- Степан Гончаренко (адмирал) -----------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_stepan_goncharenko"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Stepan_Goncharenko_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_stepan_goncharenko_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Stepan_Goncharenko.dds"
+	}
+
+	# ---------------------- Андрей Верба (начальник ВВС) ---------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_andriy_verba"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Andriy_Verba_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_andriy_verba_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Andriy_Verba.dds"
+	}
+
+	# ----------------------- Клим Орлик (авиагруппа) -------------------------
+	spriteType = {
+		name = "GFX_portrait_GLP_klym_orlyk"
+		texturefile = "gfx/leaders/GLP/Portrait_GLP_Klym_Orlyk_large.dds"
+	}
+	spriteType = {
+		name = "GFX_portrait_GLP_klym_orlyk_small"
+		texturefile = "gfx/interface/ideas/idea_GLP_Klym_Orlyk.dds"
+	}
 }

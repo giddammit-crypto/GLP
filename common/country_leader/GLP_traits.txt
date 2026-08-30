@@ -186,6 +186,34 @@ leader_traits = {
 	}
 
 	# =============================================================================
+	#  ФЛОТ И АВИАЦИЯ ВОЛЬНОЙ ТЕРРИТОРИИ (v1.5.1) — advisor traits
+	# =============================================================================
+
+	# Командующий флотом: Вольная флотилия — Фёдор Остапенко (navy_chief)
+	GLP_free_flotilla_commander = {
+		random = no
+		sprite = 13
+		navy_org_factor = 0.06
+		naval_coordination = 0.08
+		experience_gain_navy_factor = 0.10
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Начальник ВВС: Ас «Чёрных крыльев» — Андрей Верба (air_chief)
+	GLP_black_wings_ace = {
+		random = no
+		sprite = 10
+		air_superiority_efficiency = 0.05
+		experience_gain_air_factor = 0.10
+		air_untrained_pilots_penalty_factor = -0.10
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# =============================================================================
 	#  СОЮЗНЫЕ ВОЕННЫЕ МИССИИ (advisor traits) — открываются фокусами союзов
 	# =============================================================================
 

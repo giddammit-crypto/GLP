@@ -70,6 +70,12 @@ recruit_character = GLP_aron_baron
 recruit_character = GLP_yakov_ozerov
 recruit_character = GLP_dmitry_popov
 
+# Флот и авиация РПА (v1.5.1): адмиралы и лётные командиры
+recruit_character = GLP_fedir_ostapenko
+recruit_character = GLP_stepan_goncharenko
+recruit_character = GLP_andriy_verba
+recruit_character = GLP_klym_orlyk
+
 # National Spirits / Ideas
 add_ideas = {
 	GLP_black_guard_legacy

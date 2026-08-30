@@ -65,7 +65,7 @@ country_event = {
 		random_owned_controlled_state = {
 			prioritize = { 226 200 227 }
 			create_unit = {
-				division = "name = \"Испанский экспедиционный корпус РПА им. Дуррути\" division_template = \"Штурмовая дивизия Чёрного Знамени\" start_manpower_factor = 1.0 start_experience_factor = 0.6 start_equipment_factor = 1.0"
+				division = "name = \"Испанский экспедиционный корпус РПА им. Дуррути\" division_template = \"Интернациональная бригада CNT-FAI\" start_manpower_factor = 1.0 start_experience_factor = 0.6 start_equipment_factor = 1.0"
 				owner = GLP
 			}
 		}

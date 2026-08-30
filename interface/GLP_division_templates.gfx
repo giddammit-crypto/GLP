@@ -1,0 +1,42 @@
+# =========================================================================
+#  GLP -- Знамёна добровольческих дивизий (v1.5.1)
+#
+#  Механика: division_template с template_counter = N берёт спрайты
+#  GFX_div_templ_N_large (76x42, дизайнер дивизий / детальная панель)
+#  и GFX_div_templ_N_small (30x12, контр-фишки на карте).
+#  Официальная документация: hoi4.paradoxwikis.com/Division_modding.
+#
+#  90 -- Белогвардейские добровольцы: чёрный флаг Батьки Махно с черепом
+#        и костями + бело-сине-красная полоса у древка (фокус
+#        GLP_old_enemies_unite, шаблоны «Офицерская добровольческая
+#        дивизия» / «Казачья добровольческая конная дивизия»).
+#  91 -- Испанские анархисты CNT-FAI: красно-чёрная диагональ с черепом
+#        (фокус GLP_aid_to_spanish_anarchists и событие glp_spain.1,
+#        шаблоны «Интернациональная бригада CNT-FAI» / «Испанская
+#        ударная конная колонна»).
+# =========================================================================
+
+spriteTypes = {
+
+	### Большие знамёна (дизайнер дивизий, 76x42) ###
+
+	spriteType = {
+		name = "GFX_div_templ_90_large"
+		texturefile = "gfx/interface/counters/division_templates_large/GLP_white_volunteers.dds"
+	}
+	spriteType = {
+		name = "GFX_div_templ_91_large"
+		texturefile = "gfx/interface/counters/division_templates_large/GLP_spanish_volunteers.dds"
+	}
+
+	### Малые знамёна (контр-фишки на карте, 30x12) ###
+
+	spriteType = {
+		name = "GFX_div_templ_90_small"
+		texturefile = "gfx/interface/counters/division_templates_small/GLP_white_volunteers.dds"
+	}
+	spriteType = {
+		name = "GFX_div_templ_91_small"
+		texturefile = "gfx/interface/counters/division_templates_small/GLP_spanish_volunteers.dds"
+	}
+}

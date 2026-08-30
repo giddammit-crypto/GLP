@@ -768,4 +768,119 @@ characters = {
 			}
 		}
 	}
+
+	# ------------------------------------------------------------------
+	#  ФЛОТ И АВИАЦИЯ ВОЛЬНОЙ ТЕРРИТОРИИ (v1.5.1).
+	#  Черноморские вольные моряки и степные авиаторы РПА: два адмирала
+	#  (navy_leader — можно назначить командующими флотом) и два лётных
+	#  командира (советники air_chief / high_command). Фотопортреты в
+	#  фирменной стилистике 1930-х (tools/build_portraits.sh).
+	# ------------------------------------------------------------------
+
+	# Фёдор Остапенко — старый черноморский боцман, адмирал вольного
+	# флота. Командующий Черноморской вольной флотилией.
+	GLP_fedir_ostapenko = {
+		name = GLP_fedir_ostapenko
+		portraits = {
+			navy = {
+				large = "GFX_portrait_GLP_fedir_ostapenko"
+				small = "GFX_portrait_GLP_fedir_ostapenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_fedir_ostapenko"
+				small = "GFX_portrait_GLP_fedir_ostapenko_small"
+			}
+		}
+		navy_leader = {
+			traits = { seawolf }
+			skill = 3
+			attack_skill = 3
+			defense_skill = 3
+			maneuvering_skill = 3
+			coordination_skill = 2
+		}
+		advisor = {
+			slot = navy_chief
+			idea_token = GLP_fedir_ostapenko_advisor
+			ledger = navy
+			cost = 100
+			removal_cost = 10
+			traits = { GLP_free_flotilla_commander }
+			ai_will_do = { factor = 1 }
+		}
+	}
+
+	# Степан Гончаренко — молодой командир минной флотилии, мастер
+	# ночных набегов на рейды противника.
+	GLP_stepan_goncharenko = {
+		name = GLP_stepan_goncharenko
+		portraits = {
+			navy = {
+				large = "GFX_portrait_GLP_stepan_goncharenko"
+				small = "GFX_portrait_GLP_stepan_goncharenko_small"
+			}
+			civilian = {
+				large = "GFX_portrait_GLP_stepan_goncharenko"
+				small = "GFX_portrait_GLP_stepan_goncharenko_small"
+			}
+		}
+		navy_leader = {
+			traits = { bold }
+			skill = 2
+			attack_skill = 3
+			defense_skill = 2
+			maneuvering_skill = 3
+			coordination_skill = 2
+		}
+	}
+
+	# Андрей Верба — лихой степной авиатор, командир истребительной
+	# эскадрильи «Чёрные крылья». Начальник ВВС РПА (air_chief).
+	GLP_andriy_verba = {
+		name = GLP_andriy_verba
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_andriy_verba"
+				small = "GFX_portrait_GLP_andriy_verba_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_andriy_verba"
+				small = "GFX_portrait_GLP_andriy_verba_small"
+			}
+		}
+		advisor = {
+			slot = air_chief
+			idea_token = GLP_andriy_verba_advisor
+			ledger = air
+			cost = 100
+			removal_cost = 10
+			traits = { GLP_black_wings_ace }
+			ai_will_do = { factor = 1 }
+		}
+	}
+
+	# Клим Орлик — суровый командир бомбардировочной группы, мастер
+	# ударов по колоннам и переправам (high_command, авиация).
+	GLP_klym_orlyk = {
+		name = GLP_klym_orlyk
+		portraits = {
+			civilian = {
+				large = "GFX_portrait_GLP_klym_orlyk"
+				small = "GFX_portrait_GLP_klym_orlyk_small"
+			}
+			army = {
+				large = "GFX_portrait_GLP_klym_orlyk"
+				small = "GFX_portrait_GLP_klym_orlyk_small"
+			}
+		}
+		advisor = {
+			slot = high_command
+			idea_token = GLP_klym_orlyk_advisor
+			ledger = air
+			cost = 100
+			removal_cost = 10
+			traits = { air_close_air_support_2 }
+			ai_will_do = { factor = 1 }
+		}
+	}
 }
