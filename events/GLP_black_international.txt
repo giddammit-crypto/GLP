@@ -21,5 +21,7 @@ news_event = {
 		}
 		
 	}
-	option = { name = glp_bi.1.a }
+	option = {
+		name = glp_bi.1.a
+	}
 }

@@ -58,10 +58,7 @@ news_event = {
 
 	option = {
 		name = glp_press.1.c
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { has_war_with = GLP }
-		}
+		# universal fallback
 	}
 }
 
@@ -123,10 +120,7 @@ news_event = {
 
 	option = {
 		name = glp_press.2.c
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { tag = SOV }
-		}
+		# universal fallback
 	}
 }
 
@@ -246,10 +240,7 @@ news_event = {
 
 	option = {
 		name = glp_press.4.c
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { tag = SOV }
-		}
+		# universal fallback
 	}
 }
 
@@ -303,10 +294,7 @@ news_event = {
 
 	option = {
 		name = glp_press.5.c
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { has_war_with = GLP }
-		}
+		# universal fallback
 	}
 }
 
@@ -368,10 +356,7 @@ news_event = {
 
 	option = {
 		name = glp_press.6.c
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { tag = SOV }
-		}
+		# universal fallback
 	}
 }
 
@@ -535,10 +520,7 @@ news_event = {
 
 	option = {
 		name = glp_press.9.c
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { tag = SOV }
-		}
+		# universal fallback
 	}
 }
 
@@ -594,10 +576,7 @@ news_event = {
 
 	option = {
 		name = glp_press.10.c
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { tag = SPR }
-		}
+		# universal fallback
 	}
 }
 

@@ -12,7 +12,7 @@ state = {
 	history = {
 		owner = GLP
 		victory_points = {
-			11437 20 # Ekaterinoslav (Gulyaypole)
+			11437 20 # Gulyaypole (capital)
 		}
 		victory_points = {
 			11561 10 # Nikopol

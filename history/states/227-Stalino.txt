@@ -13,7 +13,7 @@ state = {
 	history = {
 		owner = GLP
 		victory_points = {
-			6474 30 # Donetsk (Yuzovka) - Capital
+			6474 30 # Donetsk (Yuzovka)
 		}
 		buildings = {
 			infrastructure = 4

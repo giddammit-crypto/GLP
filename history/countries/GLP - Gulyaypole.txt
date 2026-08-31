@@ -1,4 +1,4 @@
-capital = 227
+capital = 226
 
 # Starting Technologies
 set_technology = {

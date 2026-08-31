@@ -1,12 +1,6 @@
 add_namespace = glp
 add_namespace = glp_news
 
-# ================================================================
-#  ВСТУПИТЕЛЬНЫЙ ЭКРАНЪ НОВОЙ ПАРТІИ
-#  Газетная полоса 1930-хъ: портретъ Батьки Махно слѣва вверху,
-#  черное знамя Гуляйполя справа внизу.
-#  Вызывается изъ common/on_actions/GLP_on_actions.txt (on_startup).
-# ================================================================
 news_event = {
 	id = glp_news.100
 	title = glp_news.100.t
@@ -17,34 +11,9 @@ news_event = {
 	fire_only_once = yes
 
 	option = {
-		name = glp_news.100.a          # «Да грянетъ Громъ!»
-		trigger = {
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		 tag = GLP }
-		add_political_power = 50
-		add_war_support = 0.05
-		add_stability = 0.05
-	}
-	option = {
-		name = glp_news.100.b          # взглядъ изъ Москвы
-		trigger = { tag = SOV }
-	}
-	option = {
-		name = glp_news.100.c          # прочій міръ
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { tag = SOV }
-		}
+		name = glp_news.100.a
 	}
 }
-
-
-# =========================================================
-# 6 MAJOR STATE & WORLD NEWS EVENTS
-# =========================================================
 
 news_event = {
 	id = glp_news.1
@@ -56,25 +25,13 @@ news_event = {
 
 	option = {
 		name = glp_news.1.a
-		trigger = {
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		 tag = GLP }
+		trigger = { tag = GLP }
 		add_political_power = 50
 		add_stability = 0.05
 	}
 	option = {
 		name = glp_news.1.b
-		trigger = { tag = SOV }
-	}
-	option = {
-		name = glp_news.1.c
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { tag = SOV }
-		}
+		trigger = { NOT = { tag = GLP } }
 	}
 }
 
@@ -88,12 +45,7 @@ news_event = {
 
 	option = {
 		name = glp_news.2.a
-		trigger = {
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		 tag = GLP }
+		trigger = { tag = GLP }
 		add_stability = 0.10
 		add_political_power = 60
 	}
@@ -113,20 +65,10 @@ news_event = {
 
 	option = {
 		name = glp_news.3.a
-		trigger = {
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		 tag = GLP }
+		trigger = { tag = GLP }
 		add_equipment_to_stockpile = {
 			type = infantry_equipment
 			amount = 1000
-			producer = GLP
-		}
-		add_equipment_to_stockpile = {
-			type = train_equipment
-			amount = 10
 			producer = GLP
 		}
 		army_experience = 20
@@ -147,12 +89,7 @@ news_event = {
 
 	option = {
 		name = glp_news.4.a
-		trigger = {
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		 tag = GLP }
+		trigger = { tag = GLP }
 		add_manpower = 20000
 		add_political_power = 75
 	}
@@ -172,33 +109,13 @@ news_event = {
 
 	option = {
 		name = glp_news.5.a
-		trigger = {
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		 tag = GLP }
+		trigger = { tag = GLP }
 		add_political_power = 80
 		add_stability = 0.10
 	}
 	option = {
 		name = glp_news.5.b
-		trigger = {
-			OR = {
-				AND = { tag = SOV GLP = { has_completed_focus = GLP_alliance_with_soviet_union } }
-				AND = { tag = GER GLP = { has_completed_focus = GLP_alliance_with_germany } }
-				AND = { tag = ENG GLP = { has_completed_focus = GLP_alliance_with_britain } }
-			}
-		}
-	}
-	option = {
-		name = glp_news.5.c
-		trigger = {
-			NOT = { tag = GLP }
-			NOT = { tag = SOV }
-			NOT = { tag = GER }
-			NOT = { tag = ENG }
-		}
+		trigger = { NOT = { tag = GLP } }
 	}
 }
 
@@ -212,12 +129,7 @@ news_event = {
 
 	option = {
 		name = glp_news.6.a
-		trigger = {
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		 tag = GLP }
+		trigger = { tag = GLP }
 		add_stability = 0.10
 		add_popularity = {
 			ideology = neutrality
@@ -232,7 +144,6 @@ news_event = {
 	}
 }
 
-# Бѣлые добровольцы изъ Европы прибываютъ подъ черное знамя (вѣтка «Вольному воля»).
 news_event = {
 	id = glp_news.7
 	title = glp_news.7.t
@@ -243,14 +154,9 @@ news_event = {
 
 	option = {
 		name = glp_news.7.a
-		trigger = {
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		 tag = GLP }
-		army_experience = 10
-		add_war_support = 0.03
+		trigger = { tag = GLP }
+		add_manpower = 15000
+		army_experience = 25
 	}
 	option = {
 		name = glp_news.7.b
@@ -258,569 +164,17 @@ news_event = {
 	}
 }
 
-# =========================================================
-# 15 UNIQUE GULYAYPOLE HISTORICAL & ALT-HISTORICAL EVENTS
-# =========================================================
-
-# Event 1: Spanish CNT-FAI Delegates Arrival
-country_event = {
-	id = glp.10
-	title = glp.10.t
-	desc = glp.10.d
+news_event = {
+	id = glp_spanish.1
+	title = glp_spanish.1.t
+	desc = glp_spanish.1.d
 	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1936.4.1
-	}
-	mean_time_to_happen = { days = 45 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.10.a
-		add_political_power = 40
-		add_manpower = 5000
-		army_experience = 10
-	}
-	option = {
-		name = glp.10.b
-		add_tech_bonus = {
-			name = glp_cnt_bonus
-			bonus = 1.0
-			uses = 1
-			category = industry
-		}
-	}
-}
-
-# Event 2: Tachanka Steppe War Games
-country_event = {
-	id = glp.11
-	title = glp.11.t
-	desc = glp.11.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1936.6.1
-	}
-	mean_time_to_happen = { days = 60 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.11.a
-		army_experience = 25
-		add_war_support = 0.05
-	}
-	option = {
-		name = glp.11.b
-		add_equipment_to_stockpile = {
-			type = infantry_equipment
-			amount = 600
-			producer = GLP
-		}
-	}
-}
-
-# Event 3: Electrification & DnieproGES Modernization
-country_event = {
-	id = glp.12
-	title = glp.12.t
-	desc = glp.12.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		controls_state = 200
-		date > 1936.8.1
-	}
-	mean_time_to_happen = { days = 60 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.12.a
-		200 = {
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = industrial_complex
-				level = 1
-				instant_build = yes
-			}
-		}
-		add_stability = 0.05
-	}
-	option = {
-		name = glp.12.b
-		add_tech_bonus = {
-			name = glp_electrification
-			bonus = 1.0
-			uses = 1
-			category = electronics
-		}
-	}
-}
-
-# Event 4: Donbass Coal Syndicate Reorganization
-country_event = {
-	id = glp.13
-	title = glp.13.t
-	desc = glp.13.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		controls_state = 227
-		date > 1936.10.1
-	}
-	mean_time_to_happen = { days = 60 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.13.a
-		227 = {
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = arms_factory
-				level = 1
-				instant_build = yes
-			}
-		}
-		add_political_power = 30
-	}
-	option = {
-		name = glp.13.b
-		add_stability = 0.08
-		add_political_power = 60
-	}
-}
-
-# Event 5: Commissioning of the Heavy Armored Train
-country_event = {
-	id = glp.14
-	title = glp.14.t
-	desc = glp.14.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1937.1.1
-	}
-	mean_time_to_happen = { days = 70 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.14.a
-		add_equipment_to_stockpile = {
-			type = train_equipment
-			amount = 8
-			producer = GLP
-		}
-		army_experience = 15
-		add_war_support = 0.05
-	}
-}
-
-# Event 6: The Great Autumn Fair in Gulyaypole
-country_event = {
-	id = glp.15
-	title = glp.15.t
-	desc = glp.15.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1937.3.1
-	}
-	mean_time_to_happen = { days = 80 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.15.a
-		add_stability = 0.10
-		add_political_power = 40
-	}
-	option = {
-		name = glp.15.b
-		add_manpower = 8000
-	}
-}
-
-# Event 7: Restoration of the Sevastopol Revolutionary Fleet
-country_event = {
-	id = glp.16
-	title = glp.16.t
-	desc = glp.16.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		controls_state = 137
-		date > 1937.5.1
-	}
-	mean_time_to_happen = { days = 75 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.16.a
-		137 = {
-			add_building_construction = {
-				type = dockyard
-				level = 1
-				instant_build = yes
-			}
-		}
-		navy_experience = 25
-	}
-	option = {
-		name = glp.16.b
-		navy_experience = 40
-		add_political_power = 30
-	}
-}
-
-# Event 8: Batko Makhno Frontline Inspection Tour
-country_event = {
-	id = glp.17
-	title = glp.17.t
-	desc = glp.17.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1937.7.1
-	}
-	mean_time_to_happen = { days = 90 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.17.a
-		army_experience = 20
-		add_war_support = 0.08
-		add_stability = 0.05
-	}
-	option = {
-		name = glp.17.b
-		add_political_power = 60
-	}
-}
-
-# Event 9: Agricultural Communes Flourishing
-country_event = {
-	id = glp.18
-	title = glp.18.t
-	desc = glp.18.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1937.9.1
-	}
-	mean_time_to_happen = { days = 90 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.18.a
-		add_stability = 0.08
-		add_manpower = 12000
-	}
-	option = {
-		name = glp.18.b
-		226 = {
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = industrial_complex
-				level = 1
-				instant_build = yes
-			}
-		}
-	}
-}
-
-# Event 10: Golos Voli Radio Broadcast Tower Launch
-country_event = {
-	id = glp.19
-	title = glp.19.t
-	desc = glp.19.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1937.11.1
-	}
-	mean_time_to_happen = { days = 85 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.19.a
-		add_political_power = 75
-		add_stability = 0.05
-	}
-	option = {
-		name = glp.19.b
-		add_war_support = 0.10
-		army_experience = 15
-	}
-}
-
-# Event 11: High Command War Council
-country_event = {
-	id = glp.20
-	title = glp.20.t
-	desc = glp.20.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1938.1.1
-	}
-	mean_time_to_happen = { days = 90 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.20.a
-		add_tech_bonus = {
-			name = glp_cav_doctrine
-			bonus = 1.0
-			uses = 1
-			category = land_doctrine
-		}
-		army_experience = 20
-	}
-	option = {
-		name = glp.20.b
-		add_political_power = 50
-		army_experience = 30
-	}
-}
-
-# Event 12: Lev Zadov Counter-Intelligence Operation
-country_event = {
-	id = glp.21
-	title = glp.21.t
-	desc = glp.21.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1938.3.1
-	}
-	mean_time_to_happen = { days = 90 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.21.a
-		add_stability = 0.08
-		add_political_power = 40
-	}
-	option = {
-		name = glp.21.b
-		add_equipment_to_stockpile = {
-			type = infantry_equipment
-			amount = 800
-			producer = GLP
-		}
-	}
-}
-
-# Event 13: Black Petrel Steppe Air Squadron Formation
-country_event = {
-	id = glp.22
-	title = glp.22.t
-	desc = glp.22.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1938.5.1
-	}
-	mean_time_to_happen = { days = 90 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.22.a
-		air_experience = 30
-		add_tech_bonus = {
-			name = glp_air_bonus
-			bonus = 1.0
-			uses = 1
-			category = light_fighter
-		}
-	}
-	option = {
-		name = glp.22.b
-		227 = {
-			add_building_construction = {
-				type = air_base
-				level = 2
-				instant_build = yes
-			}
-		}
-		air_experience = 15
-	}
-}
-
-# Event 14: Ekaterinoslav Anarchist Philosophy Symposium
-country_event = {
-	id = glp.23
-	title = glp.23.t
-	desc = glp.23.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1938.8.1
-	}
-	mean_time_to_happen = { days = 100 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.23.a
-		add_political_power = 65
-		add_stability = 0.05
-	}
-	option = {
-		name = glp.23.b
-		add_tech_bonus = {
-			name = glp_theory_bonus
-			bonus = 1.0
-			uses = 1
-			category = industry
-		}
-	}
-}
-
-# Event 15: Jubilee of the Stateless Republic
-country_event = {
-	id = glp.24
-	title = glp.24.t
-	desc = glp.24.d
-	picture = GFX_news_event_GLP_rebirth
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-		
-		date > 1938.11.1
-	}
-	mean_time_to_happen = { days = 100 }
-	fire_only_once = yes
-
-	option = {
-		name = glp.24.a
-		add_stability = 0.15
-		add_war_support = 0.10
-		add_political_power = 100
-	}
-}
-
-# Legacy Event hooks
-country_event = {
-	id = glp.1
-	title = glp.1.t
-	desc = glp.1.d
-	picture = GFX_news_event_GLP_rebirth
+	major = no
 	is_triggered_only = yes
 
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
+	option = {
+		name = glp_spanish.1.a
 	}
-	option = { name = glp.1.a add_political_power = 50 }
-}
-
-country_event = {
-	id = glp.2
-	title = glp.2.t
-	desc = glp.2.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	option = { name = glp.2.a add_stability = 0.05 }
-}
-
-country_event = {
-	id = glp.3
-	title = glp.3.t
-	desc = glp.3.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	option = { name = glp.3.a add_manpower = 15000 }
 }
 
 add_namespace = glp_raid
@@ -853,21 +207,3 @@ country_event = {
 
 # Испанская газета видит бригаду Гуляйполя на фронте (решение
 # GLP_send_brigade_to_cnt_fai).
-news_event = {
-	id = glp_spanish.1
-	title = glp_spanish.1.t
-	desc = glp_spanish.1.d
-	picture = GFX_news_event_GLP_rebirth
-	major = no
-	is_triggered_only = yes
-
-	trigger = {
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-	}
-
-	option = { name = glp_spanish.1.a }
-}

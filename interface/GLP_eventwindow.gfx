@@ -1,10 +1,8 @@
 spriteTypes = {
-	# Широкий фон газетного окна новостей (EventWindow_News, 1056x595).
-	# Это кастомный тёмный «бумажный» фон GLP (GLP_event_news_bg.dds) —
-	# он был в моде изначально и должен использоваться вместо ванильной
-	# газеты GFX_event_news_bg (event_news_bg.dds).
+	# Фон газетного окна новостей (EventWindow_News, 528x705).
+	# Переопределяет ванильный спрайт одноимённой текстурой Гуляйполя.
 	spriteType = {
-		name = "GFX_event_news_bg_wide"
+		name = "GFX_event_news_bg"
 		texturefile = "gfx/interface/event_news_bg.dds"
 	}
 }

@@ -1,4 +1,4 @@
-version="1.5.1"
+version="1.5.2"
 tags={
 	"Alternative History"
 	"National Focuses"
@@ -11,5 +11,5 @@ name="Гуляйполе: Вольная Территория - Анархия �
 picture="thumbnail.png"
 replace_path="gfx/loadingscreens"
 replace_path="music"
-supported_version="1.19.*"
+supported_version="1.19.2.*"
 remote_file_id="3792313906"

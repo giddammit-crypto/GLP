@@ -52,6 +52,8 @@ music = {
 	volume = 0.70
 }
 
+# Голос вступительного ролика вызывается scoped_play_song из
+# GulyaipoleCinematicIntro.txt; это не часть ротации base_music.
 music = {
 	name = "gulyaipole_intro_voice_music"
 	file = "voice.ogg"
