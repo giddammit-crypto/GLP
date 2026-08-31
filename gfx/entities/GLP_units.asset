@@ -178,3 +178,13 @@ entity = {
 
 	attach = { name = "infantry_unit"	Saddle_Node = "GLP_infantry_2_rider_entity" }
 }
+
+entity = {
+	name = "GLP_cavalry_1_entity"
+	clone = "GLP_cavalry_entity"
+}
+
+entity = {
+	name = "GLP_cavalry_3_entity"
+	clone = "GLP_cavalry_entity"
+}

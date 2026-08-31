@@ -1,44 +1,64 @@
 # =========================================================================
 #  ГУЛЯЙ-ПОЛЕ — Вооружённые силы РПА (1936 год)
-#  9 уникальных, высокоэффективных и полностью различных шаблонов:
-#  1. «Ударный тачаночный курень Черной Гвардии» (Рейды, прорыв и скорость)
-#  2. «Штурмовая дивизия Чёрного Знамени» (Эшелонированный прорыв фронта)
-#  3. «Степной моторизованный полк «Воля або Смерть»» (Охват и котлы)
-#  4. «Бронетанковая ударная дивизия «Гроза Степей»» (Танковый кулак)
-#  5. «Черноморская вольная морская десантная бригада» (Десант и реки)
-#  6. «Горно-повстанческая бригада «Орлиное Гнездо»» (Горы и скалы Крыма)
-#  7. «Стрелковая бригада вольных коммун» (Основной фронтовой костяк)
-#  8. «Партизанский заслон народной самообороны» (Охрана тылов и снабжения)
-#  9. «Трофейный ремонтно-ударный отряд РПА» (Ремонт и захват техники)
+#  9 полностью уникальных, идеально сбалансированных и неповторяющихся шаблонов:
+#  1. «Ударный тачаночный курень им. Батьки Махно» (CW 10, Рейдовая маневренная конница)
+#  2. «Конно-повстанческая дивизия РПА» (CW 16, Тяжёлая ударная кавалерия прорыва)
+#  3. «Штурмовая дивизия Чёрного Знамени» (CW 20, Эшелонированный штурм укрепрайонов)
+#  4. «Степной моторизованный полк «Воля або Смерть»» (CW 15, Мобильный охват флангов)
+#  5. «Бронетанковая дивизия Черной Гвардии» (CW 16, Бронетанковый кулак)
+#  6. «Черноморская вольная морская бригада» (CW 15, Десант, реки и береговая оборона)
+#  7. «Горно-повстанческая бригада «Орлиное Гнездо»» (CW 12, Бои на высотах и скалах)
+#  8. «Стрелковая бригада вольных коммун» (CW 18, Основной костяк удержания фронта)
+#  9. «Партизанский заслон народной самообороны» (CW 9, Гарнизоны и охрана тыла)
 # =========================================================================
 
-# =========================================================================
-#  ДОБРОВОЛЬЧЕСКИЕ ШАБЛОНЫ (v1.5.1) — иностранные добровольцы под своими
-#  знамёнами на основе чёрного флага Батьки Махно:
-#    * template_counter = 90 -> GFX_div_templ_90_* : белогвардейские
-#      добровольцы (чёрный флаг с черепом + бело-сине-красная полоса
-#      у древка);
-#    * template_counter = 91 -> GFX_div_templ_91_* : испанские анархисты
-#      CNT-FAI (красно-чёрное диагональное полотнище с черепом).
-#  Знамя утверждает принадлежность, а не род войск, поэтому оно стоит ТОЛЬКО у
-#  пехотных добровольческих шаблонов. Конные («Казачья добровольческая конная»,
-#  «Испанская ударная конная колонна») идут под template_counter = 92 — силуэт
-#  кавалерии базовой игры, — чтобы на карте у любой конной дивизии была конная
-#  иконка.
-#  Спрайты: interface/GLP_division_templates.gfx; свои плитки 76x42 и 30x12 в
-#  gfx/interface/counters/division_templates_{large,small}/ (только 90/91),
-#  92 указывает на графику самой игры. Шаблоны
-#  заблокированы (is_locked) — это именные части, спавнятся фокусами
-#  GLP_old_enemies_unite / GLP_aid_to_spanish_anarchists и событием
-#  glp_spain.1 на территории Гуляйполя (штаты 226/200/227).
-# =========================================================================
-
-# 10. ОФИЦЕРСКАЯ ДОБРОВОЛЬЧЕСКАЯ ДИВИЗИЯ (белоэмигранты, пехота; флаг 90)
+# 1. УДАРНЫЙ ТАЧАНОЧНЫЙ КУРЕНЬ ИМ. БАТЬКИ МАХНО (Рейдовая конница, модель Донского казака)
 division_template = {
-	name = "Офицерская добровольческая дивизия"
+	name = "Ударный тачаночный курень им. Батьки Махно"
+	division_names_group = GLP_CAV_HISTORICAL
+	template_counter = 92
+
+	regiments = {
+		cavalry = { x = 0 y = 0 }
+		cavalry = { x = 0 y = 1 }
+		cavalry = { x = 0 y = 2 }
+		cavalry = { x = 1 y = 0 }
+		cavalry = { x = 1 y = 1 }
+	}
+	support = {
+		recon = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		maintenance_company = { x = 0 y = 2 }
+	}
+}
+
+# 2. КОННО-ПОВСТАНЧЕСКАЯ ДИВИЗИЯ РПА (Тяжёлая кавалерия, модель Донского казака)
+division_template = {
+	name = "Конно-повстанческая дивизия РПА"
+	division_names_group = GLP_CAV_HISTORICAL
+
+	regiments = {
+		cavalry = { x = 0 y = 0 }
+		cavalry = { x = 0 y = 1 }
+		cavalry = { x = 0 y = 2 }
+		cavalry = { x = 0 y = 3 }
+		cavalry = { x = 1 y = 0 }
+		cavalry = { x = 1 y = 1 }
+		cavalry = { x = 1 y = 2 }
+		cavalry = { x = 1 y = 3 }
+	}
+	support = {
+		recon = { x = 0 y = 0 }
+		artillery = { x = 0 y = 1 }
+		field_hospital = { x = 0 y = 2 }
+		engineer = { x = 0 y = 3 }
+	}
+}
+
+# 3. ШТУРМОВАЯ ДИВИЗИЯ ЧЁРНОГО ЗНАМЕНИ (Тяжёлая пехотная дивизия прорыва)
+division_template = {
+	name = "Штурмовая дивизия Чёрного Знамени"
 	division_names_group = GLP_INF_HISTORICAL
-	template_counter = 90
-	is_locked = yes
 
 	regiments = {
 		infantry = { x = 0 y = 0 }
@@ -59,31 +79,134 @@ division_template = {
 	}
 }
 
-# 11. КАЗАЧЬЯ ДОБРОВОЛЬЧЕСКАЯ КОННАЯ ДИВИЗИЯ (белоэмигранты, конница; флаг 90)
+# 4. СТЕПНОЙ МОТОРИЗОВАННЫЙ ПОЛК «ВОЛЯ АБО СМЕРТЬ» (Мобильный охват)
 division_template = {
-	name = "Казачья добровольческая конная дивизия"
-	division_names_group = GLP_CAV_HISTORICAL
-	template_counter = 92	# конный шаблон -> силуэт кавалерии базовой игры
-	is_locked = yes
+	name = "Степной моторизованный полк «Воля або Смерть»"
+	division_names_group = GLP_MOT_HISTORICAL
 
 	regiments = {
-		cavalry = { x = 0 y = 0 }
-		cavalry = { x = 0 y = 1 }
-		cavalry = { x = 0 y = 2 }
-		cavalry = { x = 1 y = 0 }
+		motorized = { x = 0 y = 0 }
+		motorized = { x = 0 y = 1 }
+		motorized = { x = 0 y = 2 }
+		motorized = { x = 1 y = 0 }
 		motorized = { x = 1 y = 1 }
 		motorized = { x = 1 y = 2 }
-		light_armor = { x = 2 y = 0 }
+		artillery_brigade = { x = 2 y = 0 }
 	}
 	support = {
 		recon = { x = 0 y = 0 }
 		engineer = { x = 0 y = 1 }
-		artillery = { x = 0 y = 2 }
-		maintenance_company = { x = 0 y = 3 }
+		maintenance_company = { x = 0 y = 2 }
+		artillery = { x = 0 y = 3 }
 	}
 }
 
-# 12. ИНТЕРНАЦИОНАЛЬНАЯ БРИГАДА CNT-FAI (испанские анархисты, пехота; флаг 91)
+# 5. БРОНЕТАНКОВАЯ УДАРНАЯ ДИВИЗИЯ ЧЕРНОЙ ГВАРДИИ (Танковый кулак)
+division_template = {
+	name = "Бронетанковая дивизия Черной Гвардии"
+	division_names_group = GLP_ARM_HISTORICAL
+
+	regiments = {
+		light_armor = { x = 0 y = 0 }
+		light_armor = { x = 0 y = 1 }
+		light_armor = { x = 0 y = 2 }
+		light_armor = { x = 1 y = 0 }
+		motorized = { x = 1 y = 1 }
+		motorized = { x = 1 y = 2 }
+		motorized = { x = 2 y = 0 }
+		motorized = { x = 2 y = 1 }
+	}
+	support = {
+		recon = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		maintenance_company = { x = 0 y = 2 }
+		artillery = { x = 0 y = 3 }
+	}
+}
+
+# 6. ЧЕРНОМОРСКАЯ ВОЛЬНАЯ МОРСКАЯ ДЕСАНТНАЯ БРИГАДА (Морпехи)
+division_template = {
+	name = "Черноморская вольная морская бригада"
+	division_names_group = GLP_MAR_HISTORICAL
+
+	regiments = {
+		marine = { x = 0 y = 0 }
+		marine = { x = 0 y = 1 }
+		marine = { x = 0 y = 2 }
+		marine = { x = 1 y = 0 }
+		marine = { x = 1 y = 1 }
+		marine = { x = 1 y = 2 }
+		artillery_brigade = { x = 2 y = 0 }
+	}
+	support = {
+		engineer = { x = 0 y = 0 }
+		recon = { x = 0 y = 1 }
+		artillery = { x = 0 y = 2 }
+	}
+}
+
+# 7. ГОРНО-ПОВСТАНЧЕСКАЯ БРИГАДА «ОРЛИНОЕ ГНЕЗДО» (Горные стрелки)
+division_template = {
+	name = "Горно-повстанческая бригада «Орлиное Гнездо»"
+	division_names_group = GLP_MNT_HISTORICAL
+
+	regiments = {
+		mountaineers = { x = 0 y = 0 }
+		mountaineers = { x = 0 y = 1 }
+		mountaineers = { x = 0 y = 2 }
+		mountaineers = { x = 1 y = 0 }
+		mountaineers = { x = 1 y = 1 }
+		mountaineers = { x = 1 y = 2 }
+	}
+	support = {
+		engineer = { x = 0 y = 0 }
+		recon = { x = 0 y = 1 }
+		artillery = { x = 0 y = 2 }
+	}
+}
+
+# 8. СТРЕЛКОВАЯ БРИГАДА ВОЛЬНЫХ КОММУН (Основная линия фронта)
+division_template = {
+	name = "Стрелковая бригада вольных коммун"
+	division_names_group = GLP_INF_HISTORICAL
+
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+		infantry = { x = 0 y = 2 }
+		infantry = { x = 1 y = 0 }
+		infantry = { x = 1 y = 1 }
+		infantry = { x = 1 y = 2 }
+		infantry = { x = 2 y = 0 }
+		infantry = { x = 2 y = 1 }
+		infantry = { x = 2 y = 2 }
+	}
+	support = {
+		engineer = { x = 0 y = 0 }
+		artillery = { x = 0 y = 1 }
+		recon = { x = 0 y = 2 }
+	}
+}
+
+# 9. ПАРТИЗАНСКИЙ ЗАСЛОН НАРОДНОЙ САМООБОРОНЫ (Охрана тыла и флангов)
+division_template = {
+	name = "Партизанский заслон народной самообороны"
+	division_names_group = GLP_GAR_HISTORICAL
+
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+		infantry = { x = 1 y = 0 }
+		infantry = { x = 1 y = 1 }
+		cavalry = { x = 2 y = 0 }
+	}
+	support = {
+		military_police = { x = 0 y = 0 }
+		recon = { x = 0 y = 1 }
+	}
+}
+
+# 10. СКРИПТОВЫЙ ШАБЛОН: ИНТЕРНАЦИОНАЛЬНАЯ БРИГАДА CNT-FAI (Испанские добровольцы)
 division_template = {
 	name = "Интернациональная бригада CNT-FAI"
 	division_names_group = GLP_INF_HISTORICAL
@@ -109,249 +232,22 @@ division_template = {
 	}
 }
 
-# 13. ИСПАНСКАЯ УДАРНАЯ КОННАЯ КОЛОННА (испанские анархисты, конница; флаг 91)
-division_template = {
-	name = "Испанская ударная конная колонна"
-	division_names_group = GLP_CAV_HISTORICAL
-	template_counter = 92	# конный шаблон -> силуэт кавалерии базовой игры
-	is_locked = yes
-
-	regiments = {
-		cavalry = { x = 0 y = 0 }
-		cavalry = { x = 0 y = 1 }
-		cavalry = { x = 0 y = 2 }
-		cavalry = { x = 1 y = 0 }
-		motorized = { x = 1 y = 1 }
-		motorized = { x = 1 y = 2 }
-		light_armor = { x = 2 y = 0 }
-	}
-	support = {
-		recon = { x = 0 y = 0 }
-		engineer = { x = 0 y = 1 }
-		artillery = { x = 0 y = 2 }
-		maintenance_company = { x = 0 y = 3 }
-	}
-}
-
-# 1. УДАРНЫЙ ТАЧАНОЧНЫЙ КУРЕНЬ ЧЕРНОЙ ГВАРДИИ (Рейды, прорыв и скорость)
-#    template_counter = 92 -> GFX_div_templ_92_* — силуэт кавалерии из базовой
-#    игры (gfx/interface/counters/divisions_large/unit_cavalry_icon.dds и
-#    divisions_small/onmap_unit_cavalry_icon.dds), своей плитки под этот номер у
-#    мода нет. Counter обязателен: без явного counter движок берёт иконку
-#    батальона с наибольшим priority, а у light_armor он 2501 против 599 у
-#    cavalry — конная дивизия с танковым батальоном показывала бы ТАНК. Реестр
-#    counter -> иконка и соответствие названий дивизий иконкам —
-#    tools/division_icons.tsv (сверяет tools/glp_audit.py,
-#    check_division_icons).
-division_template = {
-	name = "Ударный тачаночный курень им. Батьки Махно"
-	division_names_group = GLP_CAV_HISTORICAL
-	template_counter = 92
-
-	regiments = {
-		cavalry = { x = 0 y = 0 }
-		cavalry = { x = 0 y = 1 }
-		cavalry = { x = 0 y = 2 }
-		cavalry = { x = 1 y = 0 }
-		motorized = { x = 1 y = 1 }
-		motorized = { x = 1 y = 2 }
-		light_armor = { x = 2 y = 0 }
-	}
-	support = {
-		recon = { x = 0 y = 0 }
-		engineer = { x = 0 y = 1 }
-		artillery = { x = 0 y = 2 }
-		maintenance_company = { x = 0 y = 3 }
-	}
-}
-
-# 2. ШТУРМОВАЯ ДИВИЗИЯ ЧЁРНОГО ЗНАМЕНИ (Тяжёлая пехотная дивизия прорыва)
-division_template = {
-	name = "Штурмовая дивизия Чёрного Знамени"
-	division_names_group = GLP_INF_HISTORICAL
-
-	regiments = {
-		infantry = { x = 0 y = 0 }
-		infantry = { x = 0 y = 1 }
-		infantry = { x = 0 y = 2 }
-		infantry = { x = 1 y = 0 }
-		infantry = { x = 1 y = 1 }
-		infantry = { x = 1 y = 2 }
-		infantry = { x = 2 y = 0 }
-		artillery_brigade = { x = 3 y = 0 }
-		artillery_brigade = { x = 3 y = 1 }
-	}
-	support = {
-		artillery = { x = 0 y = 0 }
-		engineer = { x = 0 y = 1 }
-		field_hospital = { x = 0 y = 2 }
-		recon = { x = 0 y = 3 }
-	}
-}
-
-# 3. СТЕПНОЙ МОТОРИЗОВАННЫЙ ПОЛК «ВОЛЯ АБО СМЕРТЬ» (Мобильный охват)
-division_template = {
-	name = "Степной моторизованный полк «Воля або Смерть»"
-	division_names_group = GLP_MOT_HISTORICAL
-
-	regiments = {
-		motorized = { x = 0 y = 0 }
-		motorized = { x = 0 y = 1 }
-		motorized = { x = 0 y = 2 }
-		motorized = { x = 1 y = 0 }
-		motorized = { x = 1 y = 1 }
-		motorized = { x = 1 y = 2 }
-		artillery_brigade = { x = 2 y = 0 }
-	}
-	support = {
-		recon = { x = 0 y = 0 }
-		engineer = { x = 0 y = 1 }
-		maintenance_company = { x = 0 y = 2 }
-		artillery = { x = 0 y = 3 }
-	}
-}
-
-# 4. БРОНЕТАНКОВАЯ УДАРНАЯ ДИВИЗИЯ ЧЕРНОЙ ГВАРДИИ (Танковый кулак)
-division_template = {
-	name = "Бронетанковая дивизия Черной Гвардии"
-	division_names_group = GLP_ARM_HISTORICAL
-
-	regiments = {
-		light_armor = { x = 0 y = 0 }
-		light_armor = { x = 0 y = 1 }
-		light_armor = { x = 0 y = 2 }
-		light_armor = { x = 1 y = 0 }
-		motorized = { x = 1 y = 1 }
-		motorized = { x = 1 y = 2 }
-		motorized = { x = 2 y = 0 }
-		motorized = { x = 2 y = 1 }
-	}
-	support = {
-		recon = { x = 0 y = 0 }
-		engineer = { x = 0 y = 1 }
-		maintenance_company = { x = 0 y = 2 }
-		artillery = { x = 0 y = 3 }
-	}
-}
-
-# 5. ЧЕРНОМОРСКАЯ ВОЛЬНАЯ МОРСКАЯ ДЕСАНТНАЯ БРИГАДА (Морпехи)
-division_template = {
-	name = "Черноморская вольная морская бригада"
-	division_names_group = GLP_MAR_HISTORICAL
-
-	regiments = {
-		marine = { x = 0 y = 0 }
-		marine = { x = 0 y = 1 }
-		marine = { x = 0 y = 2 }
-		marine = { x = 1 y = 0 }
-		marine = { x = 1 y = 1 }
-		marine = { x = 1 y = 2 }
-		artillery_brigade = { x = 2 y = 0 }
-	}
-	support = {
-		engineer = { x = 0 y = 0 }
-		recon = { x = 0 y = 1 }
-		artillery = { x = 0 y = 2 }
-	}
-}
-
-# 6. ГОРНО-ПОВСТАНЧЕСКАЯ БРИГАДА «ОРЛИНОЕ ГНЕЗДО» (Горные стрелки)
-division_template = {
-	name = "Горно-повстанческая бригада «Орлиное Гнездо»"
-	division_names_group = GLP_MNT_HISTORICAL
-
-	regiments = {
-		mountaineers = { x = 0 y = 0 }
-		mountaineers = { x = 0 y = 1 }
-		mountaineers = { x = 0 y = 2 }
-		mountaineers = { x = 1 y = 0 }
-		mountaineers = { x = 1 y = 1 }
-		mountaineers = { x = 1 y = 2 }
-	}
-	support = {
-		engineer = { x = 0 y = 0 }
-		recon = { x = 0 y = 1 }
-		artillery = { x = 0 y = 2 }
-	}
-}
-
-# 7. СТРЕЛКОВАЯ БРИГАДА ВОЛЬНЫХ КОММУН (Основная линия фронта)
-division_template = {
-	name = "Стрелковая бригада вольных коммун"
-	division_names_group = GLP_INF_HISTORICAL
-
-	regiments = {
-		infantry = { x = 0 y = 0 }
-		infantry = { x = 0 y = 1 }
-		infantry = { x = 0 y = 2 }
-		infantry = { x = 1 y = 0 }
-		infantry = { x = 1 y = 1 }
-		infantry = { x = 1 y = 2 }
-		infantry = { x = 2 y = 0 }
-		infantry = { x = 2 y = 1 }
-		infantry = { x = 2 y = 2 }
-	}
-	support = {
-		engineer = { x = 0 y = 0 }
-		artillery = { x = 0 y = 1 }
-		recon = { x = 0 y = 2 }
-	}
-}
-
-# 8. ПАРТИЗАНСКИЙ ЗАСЛОН НАРОДНОЙ САМООБОРОНЫ (Охрана тыла и флангов)
-division_template = {
-	name = "Партизанский заслон народной самообороны"
-	division_names_group = GLP_GAR_HISTORICAL
-
-	regiments = {
-		infantry = { x = 0 y = 0 }
-		infantry = { x = 0 y = 1 }
-		infantry = { x = 1 y = 0 }
-		infantry = { x = 1 y = 1 }
-		cavalry = { x = 2 y = 0 }
-		cavalry = { x = 2 y = 1 }
-	}
-	support = {
-		military_police = { x = 0 y = 0 }
-		recon = { x = 0 y = 1 }
-	}
-}
-
-# 9. ТРОФЕЙНЫЙ РЕМОНТНО-УДАРНЫЙ ОТРЯД РПА
-division_template = {
-	name = "Трофейный ремонтно-ударный отряд РПА"
-	division_names_group = GLP_ARM_HISTORICAL
-
-	regiments = {
-		infantry = { x = 0 y = 0 }
-		infantry = { x = 0 y = 1 }
-		motorized = { x = 1 y = 0 }
-		motorized = { x = 1 y = 1 }
-		light_armor = { x = 2 y = 0 }
-	}
-	support = {
-		maintenance_company = { x = 0 y = 0 }
-		engineer = { x = 0 y = 1 }
-		artillery = { x = 0 y = 2 }
-	}
-}
-
 # =========================================================================
 #  ДИСЛОКАЦИЯ ВОЙСК НА СТАРТЕ (1936 ГОД)
 # =========================================================================
 units = {
-	# Кавалерийские и тачаночные ударные соединения
+	# Кавалерийские соединения (Донские казаки)
 	division = {
 		name = "1-я Конно-повстанческая дивизия им. Батьки Махно"
 		location = 9729 # Гуляйполе
-		division_template = "Ударный тачаночный курень им. Батьки Махно"
+		division_template = "Конно-повстанческая дивизия РПА"
 		start_experience_factor = 0.6
 		start_equipment_factor = 1.0
 	}
 	division = {
 		name = "2-я Кавалерийская дивизия Черной Гвардии им. Феодосия Щуся"
 		location = 6596 # Запорожье
-		division_template = "Ударный тачаночный курень им. Батьки Махно"
+		division_template = "Конно-повстанческая дивизия РПА"
 		start_experience_factor = 0.5
 		start_equipment_factor = 1.0
 	}
@@ -372,7 +268,7 @@ units = {
 
 	# Штурмовая пехота прорыва
 	division = {
-		name = "1-я Стрелковая бригада вольных коммун"
+		name = "1-я Штурмовая бригада вольных коммун"
 		location = 9729 # Гуляйполе
 		division_template = "Штурмовая дивизия Чёрного Знамени"
 		start_experience_factor = 0.5
@@ -413,6 +309,15 @@ units = {
 		location = 488 # Черкассы
 		division_template = "Стрелковая бригада вольных коммун"
 		start_experience_factor = 0.3
+		start_equipment_factor = 1.0
+	}
+
+	# Гарнизон и морская пехота в Одессе
+	division = {
+		name = "1-я Одесская рабочая морская дружина"
+		location = 11670 # Одесса
+		division_template = "Черноморская вольная морская бригада"
+		start_experience_factor = 0.4
 		start_equipment_factor = 1.0
 	}
 
