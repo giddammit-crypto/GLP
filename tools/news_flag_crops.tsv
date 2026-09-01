@@ -6,6 +6,9 @@
 #
 # Пересборка: tools/build_news_flag_pictures.sh
 air_squadron	0.34
+alliance_treaty	0.28
+anarchist_congress	0.45
+armored_train	0.36
 autumn_fair	0.26
 black_flag_raised	0.27
 black_guard_march	0.40
@@ -15,11 +18,15 @@ cavalry_raid	0.28
 dnieper_electric	0.45
 donbass_syndicates	0.42
 makhno_inspection	0.42
+nin_rescue	0.42
 peasant_communes	0.33
 radio_tower	0.30
-rebirth	0.31
+rebirth	0.22
+sevastopol_fleet	0.30
+steppe_harvest	0.30
 tachanka	0.45
 tachanka_charge	0.42
-triumph	0.40
-volunteers_arrival	0.30
+triumph	0.30
+volunteers_arrival	0.45
 war_council	0.36
+white_collapse	0.30
