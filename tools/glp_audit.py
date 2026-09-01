@@ -56,9 +56,10 @@ Checks performed:
      vanilla High Command slot, traits resolve to vanilla-or-mod traits, the
      idea grants at least one modifier, and hiring gates in the characters
      block and in the idea agree.
- 18. The custom tachanka technology contract uses current 1.19 keys, has a
-     real incoming path/gridbox anchor, and references one equipment
-     archetype from every custom sub-unit need block.
+ 18. The custom tachanka technology contract uses current 1.19 keys, is
+     restricted to GLP, creates valid GLP-only division templates, has a real
+     incoming path/gridbox anchor, uses a transport equipment archetype, and
+     resolves cavalry designer/map icons and equipment combat stats.
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
 import hashlib
@@ -2296,8 +2297,9 @@ def check_tachanka_technology_contract():
     The generic audit intentionally does not know every Clausewitz database
     key.  This focused check catches the two failures that made the branch
     appear to be present on disk while being absent in-game: the old
-    ``enable_sub_units`` spelling and a root technology without an incoming
-    path/gridbox anchor.
+    ``enable_sub_units`` spelling, a root technology without an incoming
+    path/gridbox anchor, globally active custom battalions, and templates or
+    icons that do not resolve to the intended cavalry family.
     """
     tech_path = os.path.join(ROOT, 'common/technologies/GLP_technologies.txt')
     anchor_path = os.path.join(ROOT, 'common/technologies/zzz_GLP_tachanka_anchor.txt')
@@ -2356,13 +2358,29 @@ def check_tachanka_technology_contract():
             err(f'tachanka: {tech_id} is not assigned to infantry_folder')
         if not re.search(r'position\s*=\s*\{[^}]*x\s*=\s*-?\d+[^}]*y\s*=\s*-?\d+', body, re.S):
             err(f'tachanka: {tech_id} has no literal infantry-folder position')
+        if not re.search(r'allow\s*=\s*\{[^}]*tag\s*=\s*GLP', body, re.S):
+            err(f'tachanka: {tech_id} can be researched by a country other than GLP')
 
     if not re.search(r'allow_branch\s*=\s*\{[^}]*tag\s*=\s*GLP', tech, re.S):
         err('tachanka: root branch is not restricted to GLP')
 
+    tech2 = extract_block(tech, 'GLP_tachanka_tech_2') or ''
+    if 'load_oob = "unlock_armored_tachankas"' not in tech2:
+        err('tachanka: tech 2 does not create the armored-tachanka division template')
+    armored_oob_path = os.path.join(ROOT, 'history/units/unlock_armored_tachankas.txt')
+    if not os.path.isfile(armored_oob_path):
+        err('tachanka: missing history/units/unlock_armored_tachankas.txt')
+    else:
+        armored_oob = strip_comments(read(armored_oob_path))
+        if 'armored_tachanka' not in armored_oob:
+            err('tachanka: armored template does not contain armored_tachanka regiments')
+        if not re.search(r'template_counter\s*=\s*92', armored_oob):
+            err('tachanka: armored template has no cavalry template_counter = 92')
+
     equipment_ids = set(re.findall(r'(?m)^\s*(tachanka_equipment(?:_\d+)?)\s*=\s*\{', equipment))
     if 'tachanka_equipment' not in equipment_ids:
         err('tachanka: missing tachanka_equipment archetype')
+    variant_bodies = {}
     for number, parent in zip(range(1, 5), ['tachanka_equipment', 'tachanka_equipment_1',
                                              'tachanka_equipment_2', 'tachanka_equipment_3']):
         eid = f'tachanka_equipment_{number}'
@@ -2370,17 +2388,104 @@ def check_tachanka_technology_contract():
         if body is None:
             err(f'tachanka: missing equipment variant {eid}')
             continue
+        variant_bodies[eid] = body
         if not re.search(r'(?m)^\s*archetype\s*=\s*tachanka_equipment\s*$', body):
             err(f'tachanka: {eid} is not attached to tachanka_equipment archetype')
         if number > 1 and not re.search(
                 rf'(?m)^\s*parent\s*=\s*{re.escape(parent)}\s*$', body):
             err(f'tachanka: {eid} must inherit from {parent}')
 
+    # Combat values belong to equipment, as they do for vanilla tanks.  Check
+    # effective inherited values as well as the monotonic progression of the
+    # four variants, so a future edit cannot silently remove armor/attack.
+    archetype_body = extract_block(equipment, 'tachanka_equipment') or ''
+    combat_stats = (
+        'maximum_speed', 'reliability', 'hardness', 'soft_attack', 'hard_attack',
+        'defense', 'breakthrough', 'ap_attack', 'armor_value',
+        'fuel_consumption', 'build_cost_ic',
+    )
+
+    def stat_value(body, key):
+        match = re.search(r'(?m)^\s*' + re.escape(key) + r'\s*=\s*(-?[0-9]+(?:\.[0-9]+)?)', body)
+        if match:
+            return float(match.group(1))
+        if body != archetype_body:
+            return stat_value(archetype_body, key)
+        return None
+
+    effective = {}
+    for number in range(1, 5):
+        eid = f'tachanka_equipment_{number}'
+        body = variant_bodies.get(eid)
+        if body is None:
+            continue
+        effective[eid] = {}
+        for key in combat_stats:
+            value = stat_value(body, key)
+            if value is None:
+                err(f'tachanka: {eid} has no effective equipment stat {key}')
+            else:
+                effective[eid][key] = value
+        for key in ('maximum_speed', 'build_cost_ic'):
+            if key in effective[eid] and effective[eid][key] <= 0:
+                err(f'tachanka: {eid} has non-positive {key}')
+        for key in ('reliability', 'hardness'):
+            if key in effective[eid] and not 0 <= effective[eid][key] <= 1:
+                err(f'tachanka: {eid} has invalid {key} outside 0..1')
+        for key in ('soft_attack', 'hard_attack', 'defense', 'breakthrough',
+                    'ap_attack', 'armor_value', 'fuel_consumption'):
+            if key in effective[eid] and effective[eid][key] < 0:
+                err(f'tachanka: {eid} has negative {key}')
+
+    for key in ('soft_attack', 'hard_attack', 'ap_attack', 'armor_value', 'hardness'):
+        values = [effective[f'tachanka_equipment_{n}'][key]
+                  for n in range(1, 5)
+                  if f'tachanka_equipment_{n}' in effective and key in effective[f'tachanka_equipment_{n}']]
+        if len(values) == 4 and values != sorted(values):
+            err(f'tachanka: {key} does not progress monotonically across equipment variants')
+
     for unit_id in ('tachanka', 'armored_tachanka'):
         body = extract_block(units, unit_id)
-        if body is None or not re.search(
-                r'(?m)^\s*tachanka_equipment\s*=\s*20\s*$', body):
+        if body is None:
+            err(f'tachanka: missing sub-unit definition {unit_id}')
+            continue
+        if not re.search(r'(?m)^\s*active\s*=\s*no\s*$', body):
+            err(f'tachanka: {unit_id} is globally active; it must be enabled by GLP technology')
+        if not re.search(r'(?m)^\s*transport\s*=\s*tachanka_equipment\s*$', body):
+            err(f'tachanka: {unit_id} does not inherit speed from tachanka equipment')
+        if not re.search(r'(?m)^\s*tachanka_equipment\s*=\s*20\s*$', body):
             err(f'tachanka: {unit_id} does not consume the tachanka_equipment archetype')
+        if unit_id == 'armored_tachanka' and re.search(
+                r'(?m)^\s*(?:maximum_speed|armor_value|ap_attack)\s*=', body):
+            err('tachanka: armored_tachanka duplicates equipment combat stats in the sub-unit')
+        if not re.search(r'(?m)^\s*sprite\s*=\s*cavalry\s*$', body):
+            err(f'tachanka: {unit_id} does not use the vanilla cavalry designer icon')
+        if not re.search(r'(?m)^\s*map_icon_category\s*=\s*other\s*$', body):
+            err(f'tachanka: {unit_id} does not use the vanilla cavalry map icon category')
+
+    history_path = os.path.join(ROOT, 'history/units/GLP_1936.txt')
+    if os.path.isfile(history_path):
+        history = strip_comments(read(history_path))
+        tachanka_template = extract_block(history, 'division_template') or ''
+        # The first template is the starting GLP tachanka formation.
+        if 'tachanka = {' not in tachanka_template:
+            err('tachanka: GLP starting tachanka template does not use the custom battalion')
+        if not re.search(r'template_counter\s*=\s*92', tachanka_template):
+            err('tachanka: GLP starting tachanka template has no cavalry template_counter = 92')
+
+    gfx_path = os.path.join(ROOT, 'interface/GLP_division_templates.gfx')
+    if not os.path.isfile(gfx_path):
+        err('tachanka: missing division-template icon declarations')
+    else:
+        gfx = strip_comments(read(gfx_path))
+        for size, texture in (
+                ('large', 'divisions_large/unit_cavalry_icon.dds'),
+                ('small', 'divisions_small/onmap_unit_cavalry_icon.dds')):
+            pattern = (rf'name\s*=\s*"GFX_div_templ_92_{size}"'
+                       rf'.{{0,600}}?texturefile\s*=\s*"gfx/interface/counters/{texture}"'
+                       rf'.{{0,200}}?noOfFrames\s*=\s*2')
+            if not re.search(pattern, gfx, re.S | re.I):
+                err(f'tachanka: counter 92 {size} icon is not the vanilla cavalry two-frame atlas')
 
 
 def main():

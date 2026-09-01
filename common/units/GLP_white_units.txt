@@ -20,7 +20,8 @@ sub_units = {
 		map_icon_category = other
 		priority = 610
 		ai_priority = 250
-		active = yes
+		# Only the GLP tachanka technology activates this battalion.
+		active = no
 		cavalry = yes
 
 		type = { cavalry infantry }
@@ -38,7 +39,8 @@ sub_units = {
 		default_morale = 0.45
 		manpower = 500
 
-		maximum_speed = 8.5
+		# The latest researched tachanka variant supplies the movement speed.
+		transport = tachanka_equipment
 		training_time = 90
 		weight = 0.4
 		supply_consumption = 0.04
@@ -76,14 +78,14 @@ sub_units = {
 		}
 
 		combat_width = 2
-		max_organisation = 65
+		# Lightly armoured cavalry: lower organisation than horse cavalry,
+		# while armour, piercing, attack and speed come from the equipment.
+		max_organisation = 45
 		max_strength = 25
-		default_morale = 0.45
+		default_morale = 0.35
 		manpower = 500
 
-		maximum_speed = 8.0
-		armor_value = 8.0
-		ap_attack = 12.0
+		transport = tachanka_equipment
 		training_time = 100
 		weight = 0.5
 		supply_consumption = 0.05
@@ -95,6 +97,14 @@ sub_units = {
 			support_equipment = 10
 		}
 
+		forest = { attack = -0.20 movement = -0.25 }
+		hills = { attack = -0.10 movement = -0.10 }
+		mountain = { attack = -0.25 movement = -0.35 }
+		jungle = { attack = -0.25 movement = -0.35 }
+		marsh = { attack = -0.15 movement = -0.20 }
+		urban = { attack = -0.20 }
+		river = { attack = -0.15 movement = -0.15 }
+		amphibious = { attack = -0.40 }
 		plains = { attack = 0.25 movement = 0.10 }
 	}
 

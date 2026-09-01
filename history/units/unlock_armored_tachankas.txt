@@ -1,0 +1,20 @@
+# Standard template created when GLP_tachanka_tech_2 is researched.
+# The file is loaded only by that GLP technology's on_research_complete effect.
+
+division_template = {
+	name = "Бронированный тачаночный курень"
+	division_names_group = GLP_CAV_HISTORICAL
+	template_counter = 92
+
+	regiments = {
+		armored_tachanka = { x = 0 y = 0 }
+		armored_tachanka = { x = 0 y = 1 }
+		armored_tachanka = { x = 0 y = 2 }
+		armored_tachanka = { x = 1 y = 0 }
+		armored_tachanka = { x = 1 y = 1 }
+	}
+	support = {
+		recon = { x = 0 y = 0 }
+		maintenance_company = { x = 0 y = 1 }
+	}
+}

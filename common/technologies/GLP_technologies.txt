@@ -15,6 +15,9 @@ technologies = {
 		allow_branch = {
 			tag = GLP
 		}
+		allow = {
+			tag = GLP
+		}
 
 		enable_subunits = {
 			tachanka
@@ -54,11 +57,28 @@ technologies = {
 	}
 
 	GLP_tachanka_tech_2 = {
+		allow = {
+			tag = GLP
+		}
+
 		enable_subunits = {
 			armored_tachanka
 		}
 		enable_equipments = {
 			tachanka_equipment_2
+		}
+
+		on_research_complete = {
+			limit = {
+				tag = GLP
+				NOT = {
+					has_template = "Бронированный тачаночный курень"
+				}
+			}
+			hidden_effect = {
+				load_oob = "unlock_armored_tachankas"
+			}
+			custom_effect_tooltip = UNLOCK_DIVISION_TEMPLATE
 		}
 
 		# The path from tech 1 is the prerequisite.  Do not use the obsolete
@@ -94,6 +114,10 @@ technologies = {
 	}
 
 	GLP_tachanka_tech_3 = {
+		allow = {
+			tag = GLP
+		}
+
 		enable_equipments = {
 			tachanka_equipment_3
 		}
@@ -132,6 +156,10 @@ technologies = {
 	}
 
 	GLP_tachanka_tech_4 = {
+		allow = {
+			tag = GLP
+		}
+
 		enable_equipments = {
 			tachanka_equipment_4
 		}
