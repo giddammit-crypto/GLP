@@ -56,6 +56,9 @@ Checks performed:
      vanilla High Command slot, traits resolve to vanilla-or-mod traits, the
      idea grants at least one modifier, and hiring gates in the characters
      block and in the idea agree.
+ 18. The custom tachanka technology contract uses current 1.19 keys, has a
+     real incoming path/gridbox anchor, and references one equipment
+     archetype from every custom sub-unit need block.
 Exit code 0 = clean, 1 = errors found.  Warnings never fail the build.
 """
 import hashlib
@@ -2287,8 +2290,102 @@ def check_cinematic_intro_voice():
             err('intro voice: music и soundeffect используют одно имя gulyaipole_intro_voice')
 
 
+def check_tachanka_technology_contract():
+    """Validate the custom infantry-technology branch as an engine contract.
+
+    The generic audit intentionally does not know every Clausewitz database
+    key.  This focused check catches the two failures that made the branch
+    appear to be present on disk while being absent in-game: the old
+    ``enable_sub_units`` spelling and a root technology without an incoming
+    path/gridbox anchor.
+    """
+    tech_path = os.path.join(ROOT, 'common/technologies/GLP_technologies.txt')
+    anchor_path = os.path.join(ROOT, 'common/technologies/zzz_GLP_tachanka_anchor.txt')
+    equipment_path = os.path.join(ROOT, 'common/units/equipment/GLP_tachanka_equipment.txt')
+    units_path = os.path.join(ROOT, 'common/units/GLP_white_units.txt')
+
+    if not all(os.path.isfile(p) for p in (tech_path, anchor_path, equipment_path, units_path)):
+        err('tachanka: missing one of the technology, anchor, equipment, or unit files')
+        return
+
+    tech = strip_comments(read(tech_path))
+    anchor = strip_comments(read(anchor_path))
+    equipment = strip_comments(read(equipment_path))
+    units = strip_comments(read(units_path))
+
+    def extract_block(text, key):
+        """Return the first Clausewitz block whose key is *key*."""
+        match = re.search(
+            r'(?m)^\s*' + re.escape(key) + r'\s*=\s*\{', text)
+        if not match:
+            return None
+        opening = text.find('{', match.start())
+        depth = 0
+        for index in range(opening, len(text)):
+            if text[index] == '{':
+                depth += 1
+            elif text[index] == '}':
+                depth -= 1
+                if depth == 0:
+                    return text[opening + 1:index]
+        return None
+
+    if 'enable_sub_units' in tech:
+        err('common/technologies/GLP_technologies.txt: use enable_subunits, not enable_sub_units')
+    if re.search(r'(?m)^\s*prerequisites\s*=', tech):
+        err('common/technologies/GLP_technologies.txt: prerequisites is not a HOI4 technology key; use path/dependencies')
+
+    expected_chain = [
+        'GLP_tachanka_tech_1',
+        'GLP_tachanka_tech_2',
+        'GLP_tachanka_tech_3',
+        'GLP_tachanka_tech_4',
+    ]
+    if not re.search(r'leads_to_tech\s*=\s*GLP_tachanka_tech_1\b', anchor):
+        err('tachanka: root tech has no incoming path from a vanilla gridbox anchor')
+    for current, following in zip(expected_chain, expected_chain[1:]):
+        if f'leads_to_tech = {following}' not in tech:
+            err(f'tachanka: {current} does not lead to {following}')
+
+    for tech_id in expected_chain:
+        body = extract_block(tech, tech_id)
+        if body is None:
+            err(f'tachanka: missing technology definition {tech_id}')
+            continue
+        if not re.search(r'folder\s*=\s*\{[^}]*name\s*=\s*infantry_folder', body, re.S):
+            err(f'tachanka: {tech_id} is not assigned to infantry_folder')
+        if not re.search(r'position\s*=\s*\{[^}]*x\s*=\s*-?\d+[^}]*y\s*=\s*-?\d+', body, re.S):
+            err(f'tachanka: {tech_id} has no literal infantry-folder position')
+
+    if not re.search(r'allow_branch\s*=\s*\{[^}]*tag\s*=\s*GLP', tech, re.S):
+        err('tachanka: root branch is not restricted to GLP')
+
+    equipment_ids = set(re.findall(r'(?m)^\s*(tachanka_equipment(?:_\d+)?)\s*=\s*\{', equipment))
+    if 'tachanka_equipment' not in equipment_ids:
+        err('tachanka: missing tachanka_equipment archetype')
+    for number, parent in zip(range(1, 5), ['tachanka_equipment', 'tachanka_equipment_1',
+                                             'tachanka_equipment_2', 'tachanka_equipment_3']):
+        eid = f'tachanka_equipment_{number}'
+        body = extract_block(equipment, eid)
+        if body is None:
+            err(f'tachanka: missing equipment variant {eid}')
+            continue
+        if not re.search(r'(?m)^\s*archetype\s*=\s*tachanka_equipment\s*$', body):
+            err(f'tachanka: {eid} is not attached to tachanka_equipment archetype')
+        if number > 1 and not re.search(
+                rf'(?m)^\s*parent\s*=\s*{re.escape(parent)}\s*$', body):
+            err(f'tachanka: {eid} must inherit from {parent}')
+
+    for unit_id in ('tachanka', 'armored_tachanka'):
+        body = extract_block(units, unit_id)
+        if body is None or not re.search(
+                r'(?m)^\s*tachanka_equipment\s*=\s*20\s*$', body):
+            err(f'tachanka: {unit_id} does not consume the tachanka_equipment archetype')
+
+
 def main():
     check_syntax()
+    check_tachanka_technology_contract()
     loc = load_loc()
     defs = collect_definitions()
     check_duplicates(defs)
