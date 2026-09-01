@@ -8,30 +8,63 @@
 # from the infantry folder even though its technology definition was valid.
 #
 # HOI4 has no partial merge for an existing technology ID.  The block below
-# therefore restates the vanilla paratroopers technology and adds an incoming
-# path to our custom root.  The zzz_ prefix makes this definition load after
-# the vanilla infantry technology file.  This reuses the existing
-# `paratroopers_tree` gridbox and does not override the 6000+ line GUI file.
-# The custom root has allow_branch = { tag = GLP }, so the anchor and the
-# tachanka line are visible only in the GLP research tree.
+# therefore restates the vanilla "Motorized Trucks" technology and adds an
+# incoming path to our custom root.  The zzz_ prefix makes this definition
+# load after the vanilla infantry technology file, so the restated block
+# replaces the vanilla one (all vanilla fields are reproduced below).
 #
-# The vanilla paratroopers values below are the 1.19-compatible definition;
+# The tachanka line is anchored to tech_trucks so that it inherits the
+# existing `tech_trucks_tree` gridbox (the motorized row of the infantry
+# folder, origin x = 140 y = 620) -- no GUI override is needed.  The anchor
+# deliberately uses tech_trucks rather than armored_car1 because the vanilla
+# armored cars are gated behind the "La Resistance" DLC via allow_branch and
+# the tachanka branch must be visible for GLP without any DLC.
+#
+# Layout: the vanilla armored cars sit in the row y = 900 (armored_car1/2/3
+# at pixel x = 210/700/980).  The GLP tachanka branch is placed in the empty
+# band directly below that row, on pixel row y = 970, columns x = 350/420/
+# 490/630 (folder positions x = 5, y = 3/4/5/7 in LEFT format; column 560 is
+# skipped because the vanilla marines2 icon occupies pixel (560, 1035)
+# directly below it).  This keeps the branch clear of the motorized row
+# (y = 620), the armored cars (y = 900), the special forces rows (marines
+# y = 1035, mountaineers y = 1135, paratroopers y = 1235, rangers y = 1335)
+# and every other infantry branch.
+#
+# The custom root has allow_branch = { tag = GLP }, so the anchor path and
+# the tachanka line are visible only in the GLP research tree.
+#
+# The vanilla tech_trucks values below are the 1.19-compatible definition;
 # do not remove the original enable/reward/AI fields when updating this
 # anchor for a future game version.
 
 technologies = {
 
-	paratroopers = {
+	tech_trucks = {
 		enable_subunits = {
-			paratrooper
+			mot_anti_tank_brigade
+			mot_artillery_brigade
+			mot_anti_air_brigade
 		}
 		enable_subunits = {
 			limit = { has_dlc = "Thunder at Our Gates" }
-			hq_paratrooper
+			hq_motorized
+		}
+
+		enable_equipments = {
+			motorized_equipment_0
+		}
+
+		enable_equipment_modules = {
+			tank_wheeled_suspension
 		}
 
 		path = {
-			leads_to_tech = paratroopers2
+			leads_to_tech = motorised_infantry
+			research_cost_coeff = 1
+		}
+
+		path = {
+			leads_to_tech = armored_car1
 			research_cost_coeff = 1
 		}
 
@@ -41,74 +74,40 @@ technologies = {
 			research_cost_coeff = 1
 		}
 
-		research_cost = 2
+		research_cost = 1.5
 		start_year = 1936
 		folder = {
 			name = infantry_folder
-			position = { x = 3 y = 2 }
-		}
-
-		on_research_complete_limit = {
-			NOT = {
-				has_template_containing_unit = paratrooper
-			}
-		}
-		on_research_complete = {
-			hidden_effect = {
-				load_oob = "unlock_paratroopers"
-			}
-			custom_effect_tooltip = UNLOCK_DIVISION_TEMPLATE
-
-			if = {
-				limit = { has_dlc = "Gotterdammerung" }
-				custom_effect_tooltip = {
-					localization_key = SP_UNLOCK_RAID
-					RAID_TYPE = raid_type_mine_sabotage_raid
-				}
-				custom_effect_tooltip = {
-					localization_key = SP_UNLOCK_RAID
-					RAID_TYPE = raid_type_pathfinder_raid
-				}
-			}
+			position = { x = 0 y = -1 }
 		}
 
 		categories = {
-			para_tech
-			cat_special_forces_generic
+			motorized_equipment
+			mio_cat_tech_all_motorized_mechanized
+			infantry_tech
 		}
+		special_project_specialization = { specialization_land }
 
 		ai_will_do = {
-			factor = 0.5
+			factor = 1
 
 			modifier = {
-				factor = 20
-				tag = USA
-				date > 1943.1.1
+				factor = 2
+				date > "1937.1.1"
 			}
 
 			modifier = {
 				factor = 2
-				tag = GER
+				date > "1938.1.1"
 			}
 
 			modifier = {
-				factor = 5
-				tag = ENG
+				factor = 2
+				date > "1939.1.1"
 			}
-
 			modifier = {
-				factor = 20
-				tag = GER
-				has_completed_focus = GER_anschluss
-				CZE = {
-					is_ai = no
-				}
-			}
-
-			modifier = {
-				factor = 5
-				tag = GER
-				has_completed_focus = GER_fallschirmjager
+				is_major = no
+				factor = 0.75
 			}
 		}
 	}
