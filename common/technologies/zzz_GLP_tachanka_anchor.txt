@@ -8,30 +8,37 @@
 # from the infantry folder even though its technology definition was valid.
 #
 # HOI4 has no partial merge for an existing technology ID.  The block below
-# therefore restates the vanilla paratroopers technology and adds an incoming
-# path to our custom root.  The zzz_ prefix makes this definition load after
-# the vanilla infantry technology file.  This reuses the existing
-# `paratroopers_tree` gridbox and does not override the 6000+ line GUI file.
-# The custom root has allow_branch = { tag = GLP }, so the anchor and the
-# tachanka line are visible only in the GLP research tree.
+# therefore restates the vanilla "Infantry Weapons I" technology and adds an
+# incoming path to our custom root.  The zzz_ prefix makes this definition
+# load after the vanilla infantry technology file, so the restated block
+# replaces the vanilla one (all vanilla fields are reproduced below).
 #
-# The vanilla paratroopers values below are the 1.19-compatible definition;
-# do not remove the original enable/reward/AI fields when updating this
-# anchor for a future game version.
+# The tachanka line is anchored to infantry_weapons1 (the 1936 infantry
+# weapons tech, the second icon in the infantry row).  The incoming path
+# assigns the branch to the existing `infantry_weapons_tree` gridbox, so no
+# GUI override is needed.  The GLP branch occupies the empty band between the
+# infantry weapons row (y = 325) and the motorized/trucks row (y = 620):
+# it starts directly below Infantry Weapons I (x = 2, y = 2) and continues
+# right along the same band (x = 2, y = 2..5).  It is therefore clear of the
+# special-forces rows (marines / mountaineers / paratroopers / rangers),
+# which live in their own gridboxes at y = 825..1125.
+#
+# The custom root has allow_branch = { tag = GLP }, so the anchor path and
+# the tachanka line are visible only in the GLP research tree.
+#
+# The vanilla infantry_weapons1 values below are the 1.19-compatible
+# definition; do not remove the original enable/reward/AI fields when
+# updating this anchor for a future game version.
 
 technologies = {
 
-	paratroopers = {
-		enable_subunits = {
-			paratrooper
-		}
-		enable_subunits = {
-			limit = { has_dlc = "Thunder at Our Gates" }
-			hq_paratrooper
+	infantry_weapons1 = {
+		enable_equipments = {
+			infantry_equipment_1
 		}
 
 		path = {
-			leads_to_tech = paratroopers2
+			leads_to_tech = infantry_weapons2
 			research_cost_coeff = 1
 		}
 
@@ -41,74 +48,28 @@ technologies = {
 			research_cost_coeff = 1
 		}
 
-		research_cost = 2
+		research_cost = 1.5
 		start_year = 1936
 		folder = {
 			name = infantry_folder
-			position = { x = 3 y = 2 }
-		}
-
-		on_research_complete_limit = {
-			NOT = {
-				has_template_containing_unit = paratrooper
-			}
-		}
-		on_research_complete = {
-			hidden_effect = {
-				load_oob = "unlock_paratroopers"
-			}
-			custom_effect_tooltip = UNLOCK_DIVISION_TEMPLATE
-
-			if = {
-				limit = { has_dlc = "Gotterdammerung" }
-				custom_effect_tooltip = {
-					localization_key = SP_UNLOCK_RAID
-					RAID_TYPE = raid_type_mine_sabotage_raid
-				}
-				custom_effect_tooltip = {
-					localization_key = SP_UNLOCK_RAID
-					RAID_TYPE = raid_type_pathfinder_raid
-				}
-			}
+			position = { x = 0 y = 2 }
 		}
 
 		categories = {
-			para_tech
-			cat_special_forces_generic
+			infantry_weapons
 		}
 
 		ai_will_do = {
-			factor = 0.5
-
-			modifier = {
-				factor = 20
-				tag = USA
-				date > 1943.1.1
-			}
+			base = 2
 
 			modifier = {
 				factor = 2
-				tag = GER
+				is_major = yes
 			}
 
 			modifier = {
-				factor = 5
-				tag = ENG
-			}
-
-			modifier = {
-				factor = 20
-				tag = GER
-				has_completed_focus = GER_anschluss
-				CZE = {
-					is_ai = no
-				}
-			}
-
-			modifier = {
-				factor = 5
-				tag = GER
-				has_completed_focus = GER_fallschirmjager
+				factor = 10
+				date > 1936.1.3
 			}
 		}
 	}
