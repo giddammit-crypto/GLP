@@ -3,17 +3,21 @@ technologies = {
 	# -------------------------------------------------------------------------
 	# Гуляйпольская линия тачанок.
 	#
-	# The first technology is anchored to the vanilla infantry_weapons1 grid
-	# box in zzz_GLP_tachanka_anchor.txt.  A folder/position block alone does
-	# not create a renderable technology branch in the country tech-tree GUI.
+	# The first technology is anchored to the vanilla tech_trucks grid box in
+	# zzz_GLP_tachanka_anchor.txt.  A folder/position block alone does not
+	# create a renderable technology branch in the country tech-tree GUI.
 	#
 	# The infantry folder uses the "LEFT" gridbox format (x = down, y = right)
 	# and has one gridbox per branch chain.  The tachanka line inherits the
-	# infantry_weapons_tree gridbox from its anchor and is placed in the empty
-	# band between the infantry weapons row (y = 325) and the motorized/trucks
-	# row (y = 620), starting under Infantry Weapons I and extending right
-	# (x = 2, y = 2..5) -- clear of the vanilla special-forces rows (marines,
-	# mountaineers, paratroopers, rangers) and of the other infantry branches.
+	# tech_trucks_tree gridbox (the motorized row) from its anchor and is
+	# placed in the empty band directly BELOW the vanilla armored cars:
+	# the armored cars sit at pixel row y = 900, the tachanka branch at
+	# pixel row y = 970, columns x = 350/420/490/630 (folder positions
+	# x = 5, y = 3/4/5/7).  Column 560 is skipped because the vanilla
+	# marines2 icon occupies pixel (560, 1035) directly below it.  The
+	# special forces rows (marines y = 1035, mountaineers y = 1135,
+	# paratroopers y = 1235, rangers y = 1335) stay below the tachanka row,
+	# untouched.
 	# -------------------------------------------------------------------------
 
 	GLP_tachanka_tech_1 = {
@@ -43,10 +47,9 @@ technologies = {
 		start_year = 1936
 		folder = {
 			name = infantry_folder
-			# Empty band between the infantry weapons row (y = 325) and the
-			# motorized/trucks row (y = 620).  The branch starts directly
-			# below Infantry Weapons I and continues right along y = 465.
-			position = { x = 2 y = 2 }
+			# Row directly below the vanilla armored cars (y = 900);
+			# first column of the tachanka branch (pixel x = 350, y = 970).
+			position = { x = 5 y = 3 }
 		}
 
 		categories = {
@@ -102,7 +105,7 @@ technologies = {
 		start_year = 1938
 		folder = {
 			name = infantry_folder
-			position = { x = 2 y = 3 }
+			position = { x = 5 y = 4 }
 		}
 
 		categories = {
@@ -141,7 +144,7 @@ technologies = {
 		start_year = 1939
 		folder = {
 			name = infantry_folder
-			position = { x = 2 y = 4 }
+			position = { x = 5 y = 5 }
 		}
 
 		categories = {
@@ -178,7 +181,9 @@ technologies = {
 		start_year = 1941
 		folder = {
 			name = infantry_folder
-			position = { x = 2 y = 5 }
+			# Column 560 is skipped (vanilla marines2 sits below it at
+			# pixel (560, 1035)); the fourth tachanka continues at 630.
+			position = { x = 5 y = 7 }
 		}
 
 		categories = {
