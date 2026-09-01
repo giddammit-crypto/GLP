@@ -95,24 +95,23 @@ on_actions = {
 
 				# вступительная газета новой партіи — сразу послѣ загрузки
 				news_event = { id = glp_news.100 hours = 2 }
-				news_event = { id = glp_news.1 days = 2 }
+				# Сюжетные кризисы: разнесены по времени на месяцы и годы вперед
+				if = {
+					limit = { country_exists = SOV NOT = { has_war_with = SOV } }
+					country_event = { id = glp_crisis.1 days = 180 }
+				}
+				country_event = { id = glp_crisis.10 days = 300 }
+				country_event = { id = glp_crisis.30 days = 730 }
+				country_event = { id = glp_crisis.50 days = 1000 }
+
 			# Ультиматум Москвы: окно 1936.3-1938.6 (старт + 150 дней).
 			# Запускаем только если СССР существует и не воюет с нами —
 			# иначе «ультиматум» странам в открытой войне бессмыслен, а
 			# событие is_triggered_only отработает вхолостую.
-			if = {
-				limit = {
-					country_exists = SOV
-					NOT = { has_war_with = SOV }
-				}
-				country_event = { id = glp_crisis.1 days = 150 }
-			}
-			country_event = { id = glp_crisis.10 days = 220 }
-				country_event = { id = glp_crisis.30 days = 900 }
+
 				# «Чёрная рада» — заговор претендентов на чёрное знамя.
 				# Поздний кризис: событие само проверяет в trigger, что
 				# Батько всё ещё лидер (is_triggered_only + trigger).
-				country_event = { id = glp_crisis.50 days = 1000 random_days = 200 }
 				# Соседи сразу видят Вольную территорию как проблему, не как обычный минор.
 				SOV = {
 					add_ai_strategy = { type = antagonize id = "GLP" value = 160 }
@@ -163,7 +162,7 @@ on_actions = {
 				FROM = {
 					# --- 50%: стрелковое вооружение и снаряжение ---
 					if = {
-						limit = { random = 50 }
+						
 						add_equipment_to_stockpile = {
 							type = infantry_equipment
 							amount = 120
@@ -177,7 +176,7 @@ on_actions = {
 					}
 					# --- 25%: мототехника ---
 					if = {
-						limit = { random = 25 }
+						
 						add_equipment_to_stockpile = {
 							type = motorized_equipment
 							amount = 20
@@ -188,7 +187,7 @@ on_actions = {
 				# шасси + орудие (чистый «tank»-ключ больше не существует);
 				# DLC-вилка удалена: шасси/орудие есть в базовой игре 1.19.
 				if = {
-					limit = { random = 8 }
+					
 					add_equipment_to_stockpile = {
 						type = artillery_equipment_1
 						amount = 10
@@ -200,7 +199,7 @@ on_actions = {
 						producer = GLP
 					}
 					add_equipment_to_stockpile = {
-						type = light_tank_gun_1
+						type = basic_light_tank
 						amount = 2
 						producer = GLP
 					}
@@ -216,7 +215,7 @@ on_actions = {
 							has_equipment = { support_equipment > 60 }
 							NOT = { has_country_flag = glp_trophy_division_cooldown }
 						}
-						random_owned_state = {
+						owned_state = {
 							limit = { is_controlled_by = GLP }
 							create_unit = {
 								division = "division_template = \"Трофейный отряд РПА\" start_manpower_factor = 1.0 start_experience_factor = 0.3"
@@ -234,7 +233,7 @@ on_actions = {
 							type = support_equipment
 							amount = -60
 						}
-						set_country_flag = { flag = glp_trophy_division_cooldown days = 45 }
+						set_country_flag = { flag = glp_trophy_division_cooldown  }
 						country_event = { id = glp_trophy.1 hours = 6 }
 					}
 				}
@@ -268,8 +267,8 @@ on_actions = {
 	}
 
 	on_day = {
-		date = 1936.7.20
-		days = 5
+		
+		
 		effect = {
 			if = {
 				limit = {

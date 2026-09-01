@@ -1,21 +1,5 @@
-# =============================================================================
-#  ГУЛЯЙПОЛЕ — категория решений «Испанский маршрут» (модуль «Иберийский
-#  пожар и Чёрный Интернационал»).
-#  Видна, пока действует один из маршрутов помощи (флаг тайного или
-#  полного курса) и не свернута после подавления CNT-FAI в Барселоне
-#  (flag glp_spanish_programs_shut, событие glp_barcelona.1.c).
-# =============================================================================
-decision_categories = {
-	GLP_spain_smuggling_routes = {
-		icon = GFX_decision_category_secret_service
-		picture = GFX_decision_cat_generic_political_actions
-		allowed = { original_tag = GLP }
-		visible = {
-			OR = {
-				has_country_flag = glp_spain_secret_route
-				has_country_flag = glp_spain_open_route
-			}
-			NOT = { has_country_flag = glp_spanish_programs_shut }
-		}
-	}
+GLP_spain_smuggling_routes = {
+	icon = generic_civil_support
+	picture = GFX_decision_cat_generic_makhnovshchina
+	priority = 100
 }

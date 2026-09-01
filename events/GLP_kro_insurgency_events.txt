@@ -1,0 +1,97 @@
+add_namespace = glp_kro
+
+# Приказ Батьки: Всеобщее восстание в тылу врага
+country_event = {
+	id = glp_kro.100
+	title = glp_kro.100.t
+	desc = glp_kro.100.d
+	picture = GFX_news_event_GLP_black_guard_march
+	is_triggered_only = yes
+
+	option = {
+		name = glp_kro.100.a
+		# Разгром логистики врага строго в чужих приграничных стейтах:
+		every_other_country = {
+			limit = {
+				has_war_with = GLP
+			}
+			every_owned_state = {
+				limit = {
+					NOT = { is_core_of = GLP }
+					NOT = { is_owned_by = GLP }
+					OR = {
+						state = 202 # Киев (СССР)
+						state = 221 # Полтава / Чернигов (СССР)
+						state = 218 # Ростов (СССР)
+						state = 234 # Кубань / Краснодар (СССР)
+						state = 217 # Сталинградское приграничье (СССР)
+						state = 224 # Воронеж (СССР)
+						state = 260 # Курск / Белгород (СССР)
+						state = 79  # Бессарабия (Румыния)
+						state = 89  # Восточная Галиция / Львов (Польша)
+						state = 93  # Волынь (Польша)
+						state = 91  # Станиславов / Тарнополь (Польша)
+					}
+				}
+				damage_building = {
+					type = railways
+					damage = 4
+				}
+				damage_building = {
+					type = supply_node
+					damage = 2
+				}
+			}
+			add_stability = -0.08
+			add_war_support = -0.05
+		}
+
+		# Пополнение сил и снаряжения партизанами
+		add_political_power = 50
+		add_war_support = 0.10
+		add_manpower = 15000
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 1500
+			producer = GLP
+		}
+
+		# Формирование 3 ударных партизанских дивизий
+		random_owned_controlled_state = {
+			prioritize = { 226 200 227 }
+			create_unit = {
+				division = "name = \"1-й Приграничный повстанческий полк КРО\" division_template = \"Партизанский заслон народной самообороны\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
+				owner = GLP
+			}
+			create_unit = {
+				division = "name = \"2-й Степной рейдовый курень КРО\" division_template = \"Ударный тачаночный курень им. Батьки Махно\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+				owner = GLP
+			}
+			create_unit = {
+				division = "name = \"3-й Подпольный батальон Черной Гвардии\" division_template = \"Партизанский заслон народной самообороны\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
+				owner = GLP
+			}
+		}
+
+		set_country_flag = glp_kro_insurgency_fired
+		news_event = { id = glp_kro.101 hours = 6 }
+	}
+}
+
+news_event = {
+	id = glp_kro.101
+	title = glp_kro.101.t
+	desc = glp_kro.101.d
+	picture = GFX_news_event_GLP_rebirth
+	major = yes
+	is_triggered_only = yes
+
+	option = {
+		name = glp_kro.101.a
+		trigger = { tag = GLP }
+	}
+	option = {
+		name = glp_kro.101.b
+		trigger = { NOT = { tag = GLP } }
+	}
+}

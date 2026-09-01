@@ -16,7 +16,7 @@
 #  Блок 5. Черноморско-Иберийский пакт (Чёрный Интернационал) —
 #  фракция + взаимные экономические нацдухи.
 # =============================================================================
-decisions = {
+
 	GLP_spain_smuggling_routes = {
 		# --------------------------------------------------------------
 		# 1. ЧЕРНОМОРСКИЙ ПРОРЫВ (через Босфор морем, конвой)
@@ -36,20 +36,19 @@ decisions = {
 			}
 			complete_effect = {
 				add_equipment_to_stockpile = { type = infantry_equipment amount = -1500 }
-				if = {
-					limit = { random = 65 }
-					# Конвой дошёл: потери в пути ~10%
-					SPR = { add_equipment_to_stockpile = { type = infantry_equipment amount = 1350 producer = GLP } }
-					add_stability = 0.01
-					add_war_support = 0.02
-					country_event = { id = glp_spain2.5 days = 3 }
-				}
-				else = {
-					# Перехват Regia Marina: 1500 винтовок в Средиземном море
-					ITA = { add_opinion_modifier = { target = GLP modifier = GLP_black_sea_provocateurs } }
-					add_stability = -0.02
-					add_war_support = -0.01
-					country_event = { id = glp_spain2.6 days = 2 }
+				random_list = {
+					65 = {
+						SPR = { add_equipment_to_stockpile = { type = infantry_equipment amount = 1350 producer = GLP } }
+						add_stability = 0.01
+						add_war_support = 0.02
+						country_event = { id = glp_spain2.5 days = 3 }
+					}
+					35 = {
+						ITA = { add_opinion_modifier = { target = GLP modifier = GLP_black_sea_provocateurs } }
+						add_stability = -0.02
+						add_war_support = -0.01
+						country_event = { id = glp_spain2.6 days = 2 }
+					}
 				}
 			}
 			ai_will_do = { factor = 2 }
@@ -76,17 +75,18 @@ decisions = {
 				set_country_flag = glp_balkan_route_active
 				add_equipment_to_stockpile = { type = infantry_equipment amount = -300 }
 				add_equipment_to_stockpile = { type = support_equipment amount = -100 }
-				if = {
-					limit = { random = 85 }
-					SPR = {
-						add_equipment_to_stockpile = { type = infantry_equipment amount = 270 producer = GLP }
-						add_equipment_to_stockpile = { type = support_equipment amount = 90 producer = GLP }
+				random_list = {
+					85 = {
+						SPR = {
+							add_equipment_to_stockpile = { type = infantry_equipment amount = 270 producer = GLP }
+							add_equipment_to_stockpile = { type = support_equipment amount = 90 producer = GLP }
+						}
+						add_war_support = 0.01
 					}
-					add_war_support = 0.01
-				}
-				else = {
-					# Партия сгорела в румынском порту
-					add_stability = -0.01
+					15 = {
+						# Партия сгорела в румынском порту
+						add_stability = -0.01
+					}
 				}
 			}
 			ai_will_do = { factor = 2 }
@@ -112,19 +112,19 @@ decisions = {
 			complete_effect = {
 				set_country_flag = french_syndicate_smuggling
 				add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
-				if = {
-					limit = { random = 95 }
-					SPR = {
-						add_equipment_to_stockpile = { type = infantry_equipment amount = 450 producer = GLP }
-						add_equipment_to_stockpile = { type = support_equipment amount = 135 producer = GLP }
+				random_list = {
+					95 = {
+						SPR = {
+							add_equipment_to_stockpile = { type = infantry_equipment amount = 450 producer = GLP }
+							add_equipment_to_stockpile = { type = support_equipment amount = 135 producer = GLP }
+						}
+						FRA = { add_opinion_modifier = { target = GLP modifier = GLP_french_syndicalist_warmth } }
+						add_war_support = 0.01
 					}
-					# Синдикалисты Франции ведут наш груз по своим линиям
-					FRA = { add_opinion_modifier = { target = GLP modifier = GLP_french_syndicalist_warmth } }
-					add_war_support = 0.01
-				}
-				else = {
-					# Караван перехвачен на перевале
-					add_stability = -0.01
+					5 = {
+						# Караван перехвачен на перевале
+						add_stability = -0.01
+					}
 				}
 			}
 			ai_will_do = { factor = 2 }
@@ -208,9 +208,7 @@ decisions = {
 			complete_effect = {
 				if = {
 					limit = { is_in_faction = no }
-					create_faction = {
-						name = "GLP_black_international_faction"
-					}
+					create_faction = "GLP_black_international_faction"
 				}
 				add_to_faction = SPR
 				# Взаимные экономические нацдухи
@@ -228,4 +226,3 @@ decisions = {
 			}
 		}
 	}
-}

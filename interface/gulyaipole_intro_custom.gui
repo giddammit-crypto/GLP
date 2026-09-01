@@ -130,7 +130,6 @@ guiTypes = {
 		iconType = {
 			name = "cavalry_photo"
 			position = { x = 690 y = 75 }
-			size = { width = 290 height = 145 }
 			spriteType = "GFX_intro_makhno_cavalry"
 			alwaystransparent = yes
 		}
@@ -151,7 +150,6 @@ guiTypes = {
 		iconType = {
 			name = "ukraine_military_map"
 			position = { x = 690 y = 252 }
-			size = { width = 290 height = 235 }
 			spriteType = "GFX_intro_ukraine_map"
 			alwaystransparent = yes
 		}

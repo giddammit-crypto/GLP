@@ -1487,17 +1487,44 @@ focus_tree = {
 			if = {
 				limit = { has_equipment = { infantry_equipment > 1999 } }
 				add_equipment_to_stockpile = { type = infantry_equipment amount = -2000 }
-				SPR = { add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 2000 producer = GLP } }
+				SPR = { add_equipment_to_stockpile = { type = infantry_equipment amount = 2000 producer = GLP } }
 			}
-			random_owned_controlled_state = {
-				prioritize = { 226 200 227 }
-				create_unit = {
-					division = "name = \"1-я Интернациональная бригада им. Буэнавентуры Дуррути\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
-					owner = GLP
+			# Высадка 3 добровольческих интербригад РПА Батьки Махно в Испании
+			if = {
+				limit = { SPR = { exists = yes } }
+				SPR = {
+					random_owned_controlled_state = {
+						prioritize = { 165 795 166 167 168 }
+						create_unit = {
+							division = "name = \"1-я Интернациональная бригада им. Буэнавентуры Дуррути\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.7 start_equipment_factor = 1.0"
+							owner = SPR
+						}
+						create_unit = {
+							division = "name = \"2-я Добровольческая колонна им. Батьки Махно\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+							owner = SPR
+						}
+						create_unit = {
+							division = "name = \"3-я Анархо-повстанческая ударная сотня РПА\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+							owner = SPR
+						}
+					}
 				}
-				create_unit = {
-					division = "name = \"2-я Испанская ударная бригада CNT-FAI\" division_template = \"Испанская ударная конная колонна\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
-					owner = GLP
+			}
+			else = {
+				random_owned_controlled_state = {
+					prioritize = { 226 200 227 }
+					create_unit = {
+						division = "name = \"1-я Интернациональная бригада им. Буэнавентуры Дуррути\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+						owner = GLP
+					}
+					create_unit = {
+						division = "name = \"2-я Добровольческая колонна им. Батьки Махно\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+						owner = GLP
+					}
+					create_unit = {
+						division = "name = \"3-я Анархо-повстанческая ударная сотня РПА\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+						owner = GLP
+					}
 				}
 			}
 			add_political_power = 40

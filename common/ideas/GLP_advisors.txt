@@ -103,7 +103,7 @@ ideas = {
 			}
 			traits = { army_cavalry_2 }
 			modifier = {
-				cavalry_speed_factor = 0.08
+				army_speed_factor = 0.08
 			}
 			ai_will_do = {
 				factor = 2

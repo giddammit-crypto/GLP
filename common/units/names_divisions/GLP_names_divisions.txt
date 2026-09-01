@@ -9,7 +9,7 @@ GLP_INF_HISTORICAL = {
 	name = "Стрелковые бригады и дивизии вольных коммун"
 	for_countries = { GLP }
 	can_use = { always = yes }
-	division_types = { "infantry" }
+	division_types = { infantry }
 	fallback_name = "%d-я Повстанческая стрелковая дивизия"
 
 	ordered = {
@@ -71,7 +71,7 @@ GLP_CAV_HISTORICAL = {
 	name = "Конно-повстанческие части и тачанки РПА"
 	for_countries = { GLP }
 	can_use = { always = yes }
-	division_types = { "cavalry" }
+	division_types = { light_armor medium_armor heavy_armor infantry cavalry motorized mechanized }
 	fallback_name = "%d-я Конно-повстанческая дивизия"
 
 	ordered = {
@@ -113,13 +113,7 @@ GLP_ARM_HISTORICAL = {
 	name = "Бронетанковые дивизии и полки Черной Гвардии"
 	for_countries = { GLP }
 	can_use = { always = yes }
-	division_types = { 
-		"light_armor" "medium_armor" "heavy_armor" "modern_armor" "super_heavy_armor" "amphibious_armor" "armor"
-		"light_sp_artillery_brigade" "medium_sp_artillery_brigade" "heavy_sp_artillery_brigade"
-		"light_tank_destroyer_brigade" "medium_tank_destroyer_brigade" "heavy_tank_destroyer_brigade"
-		"light_sp_anti_air_brigade" "medium_sp_anti_air_brigade" "heavy_sp_anti_air_brigade"
-		"flame_tank" "light_flame_tank" "medium_flame_tank" "heavy_flame_tank"
-	}
+	division_types = { light_armor medium_armor heavy_armor }
 	fallback_name = "%d-я Бронетанковая дивизия Черной Гвардии"
 
 	ordered = {
@@ -171,7 +165,7 @@ GLP_MOT_HISTORICAL = {
 	name = "Моторизованные тачаночные и механизированные дивизии"
 	for_countries = { GLP }
 	can_use = { always = yes }
-	division_types = { "motorized" "mechanized" }
+	division_types = { motorized mechanized }
 	fallback_name = "%d-я Моторизованная тачаночная дивизия"
 
 	ordered = {
@@ -203,7 +197,7 @@ GLP_MNT_HISTORICAL = {
 	name = "Горно-повстанческие бригады и дивизии"
 	for_countries = { GLP }
 	can_use = { always = yes }
-	division_types = { "mountaineers" }
+	division_types = { mountaineers }
 	fallback_name = "%d-я Горно-повстанческая бригада"
 
 	ordered = {
@@ -225,7 +219,7 @@ GLP_MAR_HISTORICAL = {
 	name = "Бригады морской пехоты и вольных матросов"
 	for_countries = { GLP }
 	can_use = { always = yes }
-	division_types = { "marine" }
+	division_types = { marine }
 	fallback_name = "%d-я Морская десантная бригада"
 
 	ordered = {
@@ -247,7 +241,7 @@ GLP_PAR_HISTORICAL = {
 	name = "Воздушно-десантные бригады Черной Гвардии"
 	for_countries = { GLP }
 	can_use = { always = yes }
-	division_types = { "paratrooper" }
+	division_types = { paratrooper }
 	fallback_name = "%d-я Воздушно-десантная бригада"
 
 	ordered = {
@@ -269,7 +263,7 @@ GLP_GAR_HISTORICAL = {
 	name = "Дружины народной самообороны и ополчения"
 	for_countries = { GLP }
 	can_use = { always = yes }
-	division_types = { "militia" "garrison" }
+	division_types = { militia }
 	fallback_name = "%d-я Дружина народной самообороны"
 
 	ordered = {

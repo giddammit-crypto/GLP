@@ -169,8 +169,7 @@ bookmarks = {
 		GLP = {
 			history = "GLP_GATHERING_STORM_DESC"
 			ideology = neutrality
-			override_leader_portrait = GFX_portrait_GLP_nestor_makhno
-			ideas = {
+						ideas = {
 				GLP_black_guard_legacy
 				GLP_free_syndicates_and_soviets
 				GLP_hostile_encirclement

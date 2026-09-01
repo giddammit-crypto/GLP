@@ -1,5 +1,7 @@
 add_namespace = glp
 add_namespace = glp_news
+add_namespace = glp_spanish
+add_namespace = glp_raid
 
 news_event = {
 	id = glp_news.100
@@ -177,8 +179,6 @@ news_event = {
 	}
 }
 
-add_namespace = glp_raid
-add_namespace = glp_spanish
 
 # Провал рейда: конница замечена в открытом поле (риск 30% у решения
 # GLP_conduct_cavalry_partisan_raid).

@@ -14,7 +14,7 @@ ideas = {
 				army_core_attack_factor = 0.05
 				cavalry_attack_factor = 0.10
 				cavalry_defence_factor = 0.05
-				cavalry_speed_factor = 0.05
+				army_speed_factor = 0.05
 				army_org_factor = 0.03
 				dig_in_speed_factor = 0.10
 				conscription_factor = 0.05
@@ -120,7 +120,7 @@ ideas = {
 			picture = generic_morale_bonus
 			modifier = {
 				drift_defence_factor = 0.35
-				enemy_partisan_effect = -0.30
+				resistance_damage_to_garrison = -0.30
 			}
 		}
 
@@ -604,7 +604,7 @@ ideas = {
 			modifier = {
 				air_superiority_efficiency = 0.20
 				air_cas_present_factor = 0.15
-				air_naval_strike_attack_factor = 0.15
+				air_cas_present_factor = 0.15
 				war_support_factor = 0.05
 			}
 		}
@@ -701,7 +701,7 @@ ideas = {
 			picture = SPR_class_war
 			modifier = {
 				resistance_growth_on_our_occupied_states = 0.15
-				enemy_partisan_effect = -0.20
+				resistance_damage_to_garrison = -0.20
 				conscription_factor = 0.05
 			}
 		}
@@ -856,7 +856,7 @@ ideas = {
 			picture = generic_morale_bonus
 			modifier = {
 				resistance_growth_on_our_occupied_states = 0.20
-				enemy_partisan_effect = -0.25
+				resistance_damage_to_garrison = -0.25
 				special_forces_cap = 0.10
 			}
 		}
@@ -1063,7 +1063,7 @@ ideas = {
 			removal_cost = -1
 			picture = generic_morale_bonus
 			modifier = {
-			cavalry_speed_factor = 0.08
+			army_speed_factor = 0.08
 			monthly_population = 0.03
 			}
 		}

@@ -232,6 +232,53 @@ division_template = {
 	}
 }
 
+
+# 11. СКРИПТОВЫЙ ШАБЛОН: ОФИЦЕРСКАЯ ДОБРОВОЛЬЧЕСКАЯ ДИВИЗИЯ (Белогвардейцы)
+division_template = {
+	name = "Офицерская добровольческая дивизия"
+	division_names_group = GLP_INF_HISTORICAL
+	template_counter = 90
+	is_locked = yes
+
+	regiments = {
+		infantry = { x = 0 y = 0 }
+		infantry = { x = 0 y = 1 }
+		infantry = { x = 0 y = 2 }
+		infantry = { x = 1 y = 0 }
+		infantry = { x = 1 y = 1 }
+		infantry = { x = 1 y = 2 }
+		infantry = { x = 2 y = 0 }
+		artillery_brigade = { x = 3 y = 0 }
+		artillery_brigade = { x = 3 y = 1 }
+	}
+	support = {
+		artillery = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+		recon = { x = 0 y = 2 }
+	}
+}
+
+# 12. СКРИПТОВЫЙ ШАБЛОН: КАЗАЧЬЯ ДОБРОВОЛЬЧЕСКАЯ КОННАЯ ДИВИЗИЯ (Белые казаки)
+division_template = {
+	name = "Казачья добровольческая конная дивизия"
+	division_names_group = GLP_CAV_HISTORICAL
+	template_counter = 90
+	is_locked = yes
+
+	regiments = {
+		cavalry = { x = 0 y = 0 }
+		cavalry = { x = 0 y = 1 }
+		cavalry = { x = 0 y = 2 }
+		cavalry = { x = 1 y = 0 }
+		cavalry = { x = 1 y = 1 }
+		cavalry = { x = 1 y = 2 }
+	}
+	support = {
+		recon = { x = 0 y = 0 }
+		artillery = { x = 0 y = 1 }
+	}
+}
+
 # =========================================================================
 #  ДИСЛОКАЦИЯ ВОЙСК НА СТАРТЕ (1936 ГОД)
 # =========================================================================

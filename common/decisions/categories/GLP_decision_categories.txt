@@ -55,3 +55,12 @@ GLP_anarchist_freedom_measures = {
 	picture = GFX_decision_cat_generic_anarchism
 	allowed = { original_tag = GLP }
 }
+
+GLP_kro_network_category = {
+	icon = GFX_decision_category_secret_service
+	picture = GFX_decision_cat_generic_oppression
+	allowed = { original_tag = GLP }
+	visible = {
+		has_completed_focus = GLP_kontrrazvedka_reorganization
+	}
+}

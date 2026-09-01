@@ -21,7 +21,7 @@ leader_traits = {
 
 		modifier = {
 			army_org_factor = 0.05
-			cavalry_speed_factor = 0.05
+			army_speed_factor = 0.05
 			recon_factor = 0.10
 		}
 
