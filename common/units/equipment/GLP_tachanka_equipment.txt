@@ -1,54 +1,68 @@
 equipments = {
 
-	# 1. Тачанка РПА обр. 1936 г.
-	tachanka_equipment_1 = {
+	# -------------------------------------------------------------------------
+	# Tachanka equipment family.
+	#
+	# `tachanka_equipment` is the archetype used by the sub-unit `need` blocks.
+	# The numbered entries are buildable variants unlocked by the technologies.
+	# Keeping the archetype separate is required for equipment upgrades to work
+	# in the division designer and for old variants to be replaced by new ones.
+	# -------------------------------------------------------------------------
+
+	tachanka_equipment = {
 		year = 1936
-		
+
 		is_archetype = yes
-		is_buildable = yes
-		picture = GFX_GLP_tachanka_tech_1_medium
+		is_buildable = no
+		picture = GLP_tachanka_tech_1
 		type = motorized
 		group_by = archetype
-		
+
 		interface_category = interface_category_land
-		
-		# Затраты на производство (IC) и ресурсы (только 1 сталь, без хрома/вольфрама)
+
+		# Horse-drawn machine-gun carriage: steel only and no fuel.
 		build_cost_ic = 1.2
 		resources = {
 			steel = 1
 		}
-		
-		# ТТХ тачанки
+
 		maximum_speed = 8.5
 		reliability = 0.90
+		hardness = 0.0
 		soft_attack = 18.0
 		hard_attack = 3.0
 		defense = 14.0
 		breakthrough = 10.0
 		ap_attack = 5.0
+		air_attack = 0.0
 		armor_value = 0.0
-		
-		fuel_consumption = 0.0 # Лошадиная тяга, нефть не тратится!
+
+		fuel_consumption = 0.0
+	}
+
+	# 1. Пулемётная тачанка РПА (1936)
+	tachanka_equipment_1 = {
+		year = 1936
+		archetype = tachanka_equipment
+		is_buildable = yes
+		priority = 10
+		picture = GLP_tachanka_tech_1
 	}
 
 	# 2. Бронированная тачанка прорыва (1938)
 	tachanka_equipment_2 = {
 		year = 1938
-		
-		is_archetype = no
-		is_buildable = yes
+		archetype = tachanka_equipment
 		parent = tachanka_equipment_1
+		is_buildable = yes
 		priority = 20
-		picture = GFX_GLP_tachanka_tech_2_medium
-		type = motorized
-		
-		interface_category = interface_category_land
-		
+		picture = GLP_tachanka_tech_2
+
 		build_cost_ic = 1.8
 		resources = {
 			steel = 2
 		}
-		
+
 		maximum_speed = 8.0
 		reliability = 0.88
 		soft_attack = 26.0
@@ -58,29 +72,24 @@ equipments = {
 		ap_attack = 10.0
 		armor_value = 6.0
 		hardness = 0.20
-		
 		fuel_consumption = 0.0
 	}
 
 	# 3. Бронеавтомобиль «Воля» (1939)
 	tachanka_equipment_3 = {
 		year = 1939
-		
-		is_archetype = no
+		archetype = tachanka_equipment
+		parent = tachanka_equipment_2
 		is_buildable = yes
-		parent = tachanka_equipment_1
 		priority = 30
-		picture = GFX_GLP_tachanka_tech_3_medium
-		type = motorized
-		
-		interface_category = interface_category_land
-		
+		picture = GLP_tachanka_tech_3
+
 		build_cost_ic = 2.4
 		resources = {
 			steel = 2
 			rubber = 1
 		}
-		
+
 		maximum_speed = 10.5
 		reliability = 0.85
 		soft_attack = 34.0
@@ -90,30 +99,25 @@ equipments = {
 		ap_attack = 18.0
 		armor_value = 15.0
 		hardness = 0.40
-		
 		fuel_consumption = 0.6
 	}
 
 	# 4. Тяжёлый броневик «Батько» (1941)
 	tachanka_equipment_4 = {
 		year = 1941
-		
-		is_archetype = no
+		archetype = tachanka_equipment
+		parent = tachanka_equipment_3
 		is_buildable = yes
-		parent = tachanka_equipment_1
 		priority = 40
-		picture = GFX_GLP_tachanka_tech_4_medium
-		type = motorized
-		
-		interface_category = interface_category_land
-		
+		picture = GLP_tachanka_tech_4
+
 		build_cost_ic = 3.2
 		resources = {
 			steel = 3
 			rubber = 1
 			tungsten = 1
 		}
-		
+
 		maximum_speed = 11.5
 		reliability = 0.82
 		soft_attack = 46.0
@@ -123,7 +127,6 @@ equipments = {
 		ap_attack = 35.0
 		armor_value = 28.0
 		hardness = 0.60
-		
 		fuel_consumption = 1.0
 	}
 }

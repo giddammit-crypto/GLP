@@ -19,11 +19,11 @@ division_template = {
 	template_counter = 92
 
 	regiments = {
-		cavalry = { x = 0 y = 0 }
-		cavalry = { x = 0 y = 1 }
-		cavalry = { x = 0 y = 2 }
-		cavalry = { x = 1 y = 0 }
-		cavalry = { x = 1 y = 1 }
+		tachanka = { x = 0 y = 0 }
+		tachanka = { x = 0 y = 1 }
+		tachanka = { x = 0 y = 2 }
+		tachanka = { x = 1 y = 0 }
+		tachanka = { x = 1 y = 1 }
 	}
 	support = {
 		recon = { x = 0 y = 0 }
