@@ -3,6 +3,22 @@ add_namespace = glp_news
 add_namespace = glp_spanish
 add_namespace = glp_raid
 
+
+
+
+
+
+
+
+
+
+
+# Провал рейда: конница замечена в открытом поле (риск 30% у решения
+# GLP_conduct_cavalry_partisan_raid).
+
+# Испанская газета видит бригаду Гуляйполя на фронте (решение
+# GLP_send_brigade_to_cnt_fai).
+
 news_event = {
 	id = glp_news.100
 	title = glp_news.100.t
@@ -179,9 +195,6 @@ news_event = {
 	}
 }
 
-
-# Провал рейда: конница замечена в открытом поле (риск 30% у решения
-# GLP_conduct_cavalry_partisan_raid).
 country_event = {
 	id = glp_raid.1
 	title = glp_raid.1.t
@@ -204,6 +217,3 @@ country_event = {
 		add_war_support = 0.03
 	}
 }
-
-# Испанская газета видит бригаду Гуляйполя на фронте (решение
-# GLP_send_brigade_to_cnt_fai).

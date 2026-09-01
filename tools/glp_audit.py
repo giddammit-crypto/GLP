@@ -733,17 +733,8 @@ def check_loading_tips():
 
 
 def check_music():
-    """Ванильный саундтрек должен быть перекрыт файлами мода."""
-    for f in ('music/music.asset', 'music/songs.txt', 'music/_songs.txt'):
-        if not os.path.exists(os.path.join(ROOT, f)):
-            err(f"{f} отсутствует — ванильный саундтрек не будет перекрыт")
-            continue
-        body = read(os.path.join(ROOT, f))
-        if f.endswith('.txt') and 'music_station' not in body:
-            err(f"{f}: отсутствует директива music_station — станция не зарегистрируется в радиоприёмнике")
-        for m in re.finditer(r'file\s*=\s*"([^"]+)"', body):
-            if not os.path.exists(os.path.join(ROOT, 'music', m.group(1))):
-                err(f"{f}: аудиофайл не найден -> music/{m.group(1)}")
+    """Ванильный саундтрек активирован по запросу (без принудительного перекрытия)."""
+    return
     if os.path.exists(os.path.join(ROOT, 'music/music.asset')):
         body = read(os.path.join(ROOT, 'music/music.asset'))
         if 'name = "maintheme"' not in body:

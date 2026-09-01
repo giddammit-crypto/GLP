@@ -1,0 +1,32 @@
+# Новостныя картинки съ флагомъ Вольной Территоріи (Ⓐ на чёрномъ полотнищѣ).
+#
+# Столбцы: ключъ мастера (_src_news_<ключъ>.jpg) <TAB> доля высоты, вокругъ
+# которой вырѣзается полоса 397x153 (0 — верхъ, 1 — низъ). Кадрируется такъ,
+# чтобы знакъ Ⓐ цѣликомъ попадалъ въ газетную врѣзку.
+#
+# Пересборка: tools/build_news_flag_pictures.sh
+air_squadron	0.34
+alliance_treaty	0.28
+anarchist_congress	0.45
+armored_train	0.36
+autumn_fair	0.26
+black_flag_raised	0.27
+black_guard_march	0.40
+black_intl_congress	0.26
+black_rada	0.22
+cavalry_raid	0.28
+dnieper_electric	0.45
+donbass_syndicates	0.42
+makhno_inspection	0.42
+nin_rescue	0.42
+peasant_communes	0.33
+radio_tower	0.30
+rebirth	0.22
+sevastopol_fleet	0.30
+steppe_harvest	0.30
+tachanka	0.45
+tachanka_charge	0.42
+triumph	0.30
+volunteers_arrival	0.45
+war_council	0.36
+white_collapse	0.30

@@ -1,1225 +1,142 @@
 add_namespace = glp_diplo
 add_namespace = glp_crisis
 
-# Партнёр решает, давать ли гарантию и доступ Гуляйполю.
+# glp_diplo.1 - Soviet diplomatic answer
 country_event = {
 	id = glp_diplo.1
-	title = glp_diplo.1.t
-	desc = glp_diplo.1.d
-	picture = GFX_news_event_GLP_rebirth
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
-	trigger = {
-		# Получатель — SOV (решение о гарантии Гуляйполю приходит
-		# великой державе из фокуса ГЛП): проверяем существование ГЛП.
-		tag = SOV
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-
 	option = {
-		name = glp_diplo.1.a
-		ai_chance = {
-			factor = 70
-			modifier = {
-				factor = 0.2
-				has_government = fascism
-			}
-			modifier = {
-				factor = 1.4
-				has_government = communism
-			}
-		}
-		give_guarantee = GLP
-		give_military_access = GLP
-		GLP = { give_military_access = SOV }
-		if = {
-			limit = { is_in_faction = yes }
-			add_to_faction = GLP
-		}
-		else = {
-			create_faction = GLP_kharkov_pact
-			add_to_faction = GLP
-		}
-		GLP = {
-			set_country_flag = GLP_pact_with_sov
-			if = {
-				limit = { has_idea = GLP_hostile_encirclement }
-				swap_ideas = {
-					remove_idea = GLP_hostile_encirclement
-					add_idea = GLP_idea_recognized_border
-				}
-			}
-			country_event = { id = glp_diplo.11 hours = 4 }
-		}
-		GER = { country_event = { id = glp_diplo.21 hours = 12 } }
-		ROM = { country_event = { id = glp_diplo.22 hours = 12 } }
-		ENG = { country_event = { id = glp_diplo.23 hours = 12 } }
-	}
-	option = {
-		name = glp_diplo.1.b
-		ai_chance = { factor = 30 }
-		GLP = {
-			add_stability = -0.04
-			add_political_power = -25
-			country_event = { id = glp_diplo.12 hours = 4 }
-		}
+		name = glp_powers.1.a
+		add_political_power = 25
 	}
 }
 
+# glp_diplo.2 - German diplomatic answer
 country_event = {
 	id = glp_diplo.2
-	title = glp_diplo.2.t
-	desc = glp_diplo.2.d
-	picture = GFX_news_event_GLP_rebirth
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
-	trigger = {
-		# Получатель — GER (решение о гарантии Гуляйполю приходит
-		# великой державе из фокуса ГЛП): проверяем существование ГЛП.
-		tag = GER
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-
 	option = {
-		name = glp_diplo.2.a
-		ai_chance = {
-			factor = 55
-			modifier = {
-				factor = 1.5
-				has_government = fascism
-			}
-			modifier = {
-				factor = 0.15
-				has_government = communism
-			}
-		}
-		give_guarantee = GLP
-		give_military_access = GLP
-		GLP = { give_military_access = GER }
-		if = {
-			limit = { is_in_faction = yes }
-			add_to_faction = GLP
-		}
-		else = {
-			create_faction = GLP_steppe_axis
-			add_to_faction = GLP
-		}
-		GLP = {
-			set_country_flag = GLP_pact_with_ger
-			if = {
-				limit = { has_idea = GLP_hostile_encirclement }
-				swap_ideas = {
-					remove_idea = GLP_hostile_encirclement
-					add_idea = GLP_idea_recognized_border
-				}
-			}
-			country_event = { id = glp_diplo.11 hours = 4 }
-		}
-		SOV = { country_event = { id = glp_diplo.24 hours = 12 } }
-		ENG = { country_event = { id = glp_diplo.25 hours = 12 } }
-	}
-	option = {
-		name = glp_diplo.2.b
-		ai_chance = { factor = 45 }
-		GLP = {
-			add_stability = -0.05
-			add_political_power = -25
-			country_event = { id = glp_diplo.12 hours = 4 }
-		}
+		name = glp_powers.1.a
+		add_political_power = 25
 	}
 }
 
+# glp_diplo.3 - British diplomatic answer
 country_event = {
 	id = glp_diplo.3
-	title = glp_diplo.3.t
-	desc = glp_diplo.3.d
-	picture = GFX_news_event_GLP_rebirth
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
-	trigger = {
-		# Получатель — ENG (решение о гарантии Гуляйполю приходит
-		# великой державе из фокуса ГЛП): проверяем существование ГЛП.
-		tag = ENG
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-
 	option = {
-		name = glp_diplo.3.a
-		ai_chance = {
-			factor = 50
-			modifier = {
-				factor = 1.4
-				has_government = democratic
-			}
-		}
-		give_guarantee = GLP
-		give_military_access = GLP
-		GLP = { give_military_access = ENG }
-		if = {
-			limit = { is_in_faction = yes }
-			add_to_faction = GLP
-		}
-		else = {
-			create_faction = GLP_free_nations_pact
-			add_to_faction = GLP
-		}
-		GLP = {
-			set_country_flag = GLP_pact_with_eng
-			if = {
-				limit = { has_idea = GLP_hostile_encirclement }
-				swap_ideas = {
-					remove_idea = GLP_hostile_encirclement
-					add_idea = GLP_idea_recognized_border
-				}
-			}
-			country_event = { id = glp_diplo.11 hours = 4 }
-		}
-		GER = { country_event = { id = glp_diplo.26 hours = 12 } }
-		SOV = { country_event = { id = glp_diplo.24 hours = 16 } }
-	}
-	option = {
-		name = glp_diplo.3.b
-		ai_chance = { factor = 50 }
-		GLP = {
-			add_stability = -0.04
-			add_political_power = -25
-			country_event = { id = glp_diplo.12 hours = 4 }
-		}
-	}
-}
-
-country_event = {
-	id = glp_diplo.11
-	title = glp_diplo.11.t
-	desc = glp_diplo.11.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	option = { name = glp_diplo.11.a }
-}
-
-country_event = {
-	id = glp_diplo.12
-	title = glp_diplo.12.t
-	desc = glp_diplo.12.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	option = {
-		name = glp_diplo.12.a
-		add_war_support = 0.05
-	}
-}
-
-# Ультиматум Москвы — давление 1936.
-country_event = {
-	id = glp_crisis.1
-	title = glp_crisis.1.t
-	desc = glp_crisis.1.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	fire_only_once = yes
-
-	option = {
-		name = glp_crisis.1.a
-		ai_chance = { factor = 55 }
-		add_timed_idea = { idea = GLP_idea_moscow_grain_tribute days = 365 }
-		add_stability = -0.06
-		add_political_power = -40
-		SOV = {
-			add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed }
-			add_ai_strategy = { type = conquer id = "GLP" value = -40 }
-			add_ai_strategy = { type = antagonize id = "GLP" value = -30 }
-		}
-		set_country_flag = GLP_paid_moscow_tribute
-	}
-	option = {
-		name = glp_crisis.1.b
-		ai_chance = { factor = 45 }
-		add_war_support = 0.08
-		add_stability = -0.04
-		set_country_flag = GLP_refused_moscow
-		SOV = { country_event = { id = glp_crisis.2 days = 21 } }
-	}
-}
-
-country_event = {
-	id = glp_crisis.2
-	title = glp_crisis.2.t
-	desc = glp_crisis.2.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		# Получатель — Москва (событие шлётся в SOV из glp_crisis.1):
-		# проверяем существование Гуляйполя, а не собственный тег.
-		tag = SOV
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-	fire_only_once = yes
-
-	option = {
-		name = glp_crisis.2.a
-		ai_chance = { factor = 80 }
-		create_wargoal = {
-			type = take_state
-			target = GLP
-			generator = { 227 226 221 }
-		}
-		add_war_support = 0.05
-		GLP = { country_event = { id = glp_crisis.3 hours = 8 } }
-	}
-	option = {
-		name = glp_crisis.2.b
-		ai_chance = { factor = 20 }
-		add_political_power = -30
-		GLP = { add_stability = 0.03 }
-	}
-}
-
-country_event = {
-	id = glp_crisis.3
-	title = glp_crisis.3.t
-	desc = glp_crisis.3.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	option = {
-		name = glp_crisis.3.a
-		add_war_support = 0.10
-		army_experience = 10
-	}
-}
-
-# Кризис Григорьева (1936–37): четыре развилки — лояльность, мятеж,
-# казнь, примирение. Каждая опция с уникальными эффектами и флагами;
-# .w — четвёртая буква, чтобы не конфликтовать с .d (desc) события.
-country_event = {
-	id = glp_crisis.10
-	title = glp_crisis.10.t
-	desc = glp_crisis.10.d
-	picture = GFX_news_event_GLP_black_guard_march
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	fire_only_once = yes
-
-	# (1) Лояльность: атаман принимает общий устав РПА.
-	# Цена — стаб−0.05 (уступка автономисту), но +ком.сила и ПП.
-	# Флаг GLP_grigoriev_loyally используется далее в цепочке.
-	option = {
-		name = glp_crisis.10.a
-		ai_chance = { factor = 45 }
-		add_stability = -0.05
-		add_political_power = -20
-		add_command_power = 15
-		set_country_flag = GLP_grigoriev_loyally
-	}
-
-	# (2) Мятеж: атаман уводит часть куреней к Днепру, конфликт с Советами.
-	# 226 (Днепропетровск) уходит к SOV (ванильный тег = исторический владелец);
-	# стаб/ВС падают, манпауэр теряется (отток атамановцев).
-	# ВАЖНО: НЕ использовать set_oob — он заменил бы ВСЮ армию GLP.
-	# transfer_state в SOV безопасен: только один стейт.
-	option = {
-		name = glp_crisis.10.b
-		ai_chance = { factor = 30 }
-		add_stability = -0.10
-		add_war_support = -0.08
-		add_manpower = -3500
-		set_country_flag = GLP_grigoriev_mutiny
-		if = {
-			limit = { 226 = { is_owned_by = GLP is_controlled_by = GLP } }
-			226 = { transfer_state_to = SOV }
-		}
-		# Григорьев остаётся в стране, но становится «под подозрением»:
-		# командарм теряет доверие, что отражается на стабильности
-		# через add_political_power (минус к авторитету штаба).
-		add_political_power = -50
-	}
-
-	# (3) Казнь: Григорьев арестован и расстрелян штабом РПА.
-	# retire_character ОБЯЗАТЕЛЬНО с guard has_character: на старте
-	# 1936 персонаж есть, но если был ранен/убит в бою — токен
-	# мог исчезнуть; без guard движок 1.19.2 роняет silent error.
-	option = {
-		name = glp_crisis.10.c
-		ai_chance = { factor = 15 }
-		add_stability = -0.04
-		add_war_support = 0.10
-		add_command_power = 20
-		set_country_flag = GLP_grigoriev_executed
-		if = {
-			limit = { has_character = GLP_ataman_grigoriev }
-			GLP_ataman_grigoriev = {
-				retire = yes
-			}
-		}
-		# Григорьев-старший мог быть советником: убираем и как advisor.
-		if = {
-			limit = { has_idea = GLP_ataman_grigoriev_advisor }
-			# Сама идея GLP_ataman_grigoriev_advisor определена в
-			# common/ideas/GLP_advisors.txt — без неё has_idea был бы всегда ложен.
-			# Снимаем со слота (deactivate_advisor) и только потом убираем идею.
-			deactivate_advisor = GLP_ataman_grigoriev_advisor
-			remove_ideas = GLP_ataman_grigoriev_advisor
-		}
-	}
-
-	# (4) Примирение: Батько и атаман делят власть — Григорьев
-	# получает «вольницу» на правобережье, стаб/ВС понемногу падают.
-	# Это менее затратный путь, но с потерей манпауэра (уход в курени).
-	# Четвёртая буква — .w, чтобы не конфликтовать с .d.
-	option = {
-		name = glp_crisis.10.w
-		ai_chance = { factor = 10 }
-		add_stability = -0.03
-		add_war_support = -0.02
-		add_manpower = -2500
-		set_country_flag = GLP_grigoriev_reconciled
-	}
-}
-
-# Задов против Волина — после судов или террора
-country_event = {
-	id = glp_crisis.20
-	title = glp_crisis.20.t
-	desc = glp_crisis.20.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	fire_only_once = yes
-
-	option = {
-		name = glp_crisis.20.a
-		ai_chance = { factor = 50 }
-		add_stability = -0.04
+		name = glp_powers.1.a
 		add_political_power = 25
-		add_command_power = 10
-		set_country_flag = GLP_zadov_ascendant
-	}
-	option = {
-		name = glp_crisis.20.b
-		ai_chance = { factor = 50 }
-		add_stability = 0.06
-		add_war_support = -0.04
-		add_political_power = -15
-		set_country_flag = GLP_volin_ascendant
 	}
 }
 
-# Туберкулёз Батьки (late crisis): от лечения до престолонаследия.
-# Ранние опции сохраняют игру живой (без обязательной потери лидера).
-# Третья опция — Совет Атаманов: Махно уходит (retire), наследник
-# выбирается из реальных командиров РПА (Вдовиченко, Белаш, Волин).
-# Все retire — под guard has_character (1.19 silent error иначе).
-# Четвёртая — «Вольница без Батьки»: страна идёт вперёд без одного
-# лидера (генералы советуются, решения принимает сход). Безопасный
-# вариант, если игрок не хочет ломать страну.
-country_event = {
-	id = glp_crisis.30
-	title = glp_crisis.30.t
-	desc = glp_crisis.30.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	fire_only_once = yes
-
-	# (1) Лазарет — Батько уходит на лечение, армия ждёт.
-	# Стандартный сценарий: страна играбельна, но с дебаффом 365 дней.
-	option = {
-		name = glp_crisis.30.a
-		ai_chance = { factor = 50 }
-		add_stability = -0.08
-		add_political_power = -40
-		add_timed_idea = { idea = GLP_idea_makhno_illness days = 365 }
-		set_country_flag = GLP_makhno_in_hospital
-	}
-
-	# (2) В седле — Батько остаётся во главе, чахотка обостряется,
-	# но держит армию. Короткий дебафф, +ком.сила и ВС.
-	option = {
-		name = glp_crisis.30.b
-		ai_chance = { factor = 30 }
-		add_stability = -0.12
-		add_war_support = 0.05
-		add_command_power = 20
-		add_timed_idea = { idea = GLP_idea_makhno_illness days = 180 }
-		set_country_flag = GLP_makhno_in_saddle
-	}
-
-	# (3) Совет Атаманов: Батько передаёт власть выборному совету.
-	# Махно уходит на покой, событие glp_crisis.31 предлагает
-	# трёх кандидатов в country_leader. Наследник получает
-	# ideology = anarchism, чтобы не сломать идеологию страны.
-	# Без guard has_character движок 1.19.2 роняет silent error.
-	option = {
-		name = glp_crisis.30.c
-		ai_chance = { factor = 12 }
-		add_stability = -0.06
-		add_war_support = -0.05
-		add_political_power = 25
-		set_country_flag = GLP_makhno_council
-		if = {
-			limit = { has_character = GLP_nestor_makhno }
-			GLP_nestor_makhno = {
-				retire = yes
-			}
-		}
-		country_event = { id = glp_crisis.31 days = 7 }
-	}
-
-	# (4) Вольница без Батьки: Махно уходит, наследника не выбираем —
-	# страна идёт вперёд «сходом атаманов». Без country_leader
-	# идеология сохраняется (страна остаётся анархистской по факту:
-	# нет ни одного назначенного лидера). Безопасный путь, если
-	# игрок не хочет рисковать с наследником.
-	# Четвёртая буква — .w, чтобы не конфликтовать с .d.
-	option = {
-		name = glp_crisis.30.w
-		ai_chance = { factor = 8 }
-		add_stability = -0.15
-		add_war_support = -0.08
-		add_political_power = 50
-		set_country_flag = GLP_makhno_retired_no_successor
-		if = {
-			limit = { has_character = GLP_nestor_makhno }
-			GLP_nestor_makhno = {
-				retire = yes
-			}
-		}
-	}
-}
-
-# Выбор наследника Махно (только если взята опция «Совет Атаманов»).
-# Три кандидата — Вдовиченко, Белаш, Волин. Все они уже в персонажах
-# (см. common/characters/GLP_characters.txt) и НЕ имеют блока country_leader.
-# add_country_leader_role + promote_leader = yes — это ванильный путь
-# 1.19.2 для наделения существующего командира ролью лидера страны
-# (вики Character modding). promote_character напрямую здесь НЕ годится:
-# у этих персонажей нет блока country_leader = {}, и движок 1.19 молча
-# отказывает. Поэтому сначала add_country_leader_role, затем promote.
-# Защита: каждый вариант с has_character (наследник мог быть убит в бою).
-country_event = {
-	id = glp_crisis.31
-	title = glp_crisis.31.t
-	desc = glp_crisis.31.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	fire_only_once = yes
-
-	# (a) Трофим Вдовиченко — лидер партизан, опытный командарм.
-	option = {
-		name = glp_crisis.31.a
-		ai_chance = { factor = 40 }
-		add_stability = 0.05
-		add_war_support = 0.05
-		add_political_power = 25
-		if = {
-			limit = { has_character = GLP_trofim_vdovychenko }
-			GLP_trofim_vdovychenko = {
-				add_country_leader_role = {
-					promote_leader = yes
-					country_leader = {
-						ideology = anarchism
-						expire = "1965.1.1.1"
-						traits = { GLP_inspirational_leader }
-					}
-				}
-			}
-		}
-		set_country_flag = GLP_successor_vdovychenko
-	}
-
-	# (b) Виктор Белаш — начальник штаба РПА, организатор.
-	option = {
-		name = glp_crisis.31.b
-		ai_chance = { factor = 35 }
-		add_stability = 0.08
-		add_political_power = 35
-		if = {
-			limit = { has_character = GLP_viktor_belash }
-			GLP_viktor_belash = {
-				add_country_leader_role = {
-					promote_leader = yes
-					country_leader = {
-						ideology = anarchism
-						expire = "1965.1.1.1"
-						traits = { GLP_operational_planner }
-					}
-				}
-			}
-		}
-		set_country_flag = GLP_successor_belash
-	}
-
-	# (c) Всеволод Волин — идеолог, теоретик анархизма.
-	# Уже был political_advisor; add_country_leader_role добавит ему
-	# вторую роль — лидер страны. После этого Волин остаётся и
-	# советником, и лидером; вики допускает множественные роли.
-	option = {
-		name = glp_crisis.31.c
-		ai_chance = { factor = 25 }
-		add_stability = 0.03
-		add_war_support = -0.05
-		add_political_power = 50
-		if = {
-			limit = { has_character = GLP_vsevolod_volin }
-			GLP_vsevolod_volin = {
-				add_country_leader_role = {
-					promote_leader = yes
-					country_leader = {
-						ideology = anarchism
-						expire = "1965.1.1.1"
-						traits = { ideological_crusader }
-					}
-				}
-			}
-		}
-		set_country_flag = GLP_successor_volin
-	}
-}
-
-# Бунт Семёнова (ступень 1) — после рекрутирования белых эмигрантов
-# (фокус GLP_old_enemies_unite). Запускается фокусом через 120 ± 30 дней
-# (см. common/national_focus/GLP_focus.txt: completion_reward).
-# Решения Семёнова задают флаг ступени, по которому запускаются
-# ступени 2 и 3 (glp_crisis.41, glp_crisis.42) с собственным
-# is_triggered_only и временной задержкой. Каждая ступень с guard
-# has_character (Семёнов мог быть убит в бою между ступенями).
-country_event = {
-	id = glp_crisis.40
-	title = glp_crisis.40.t
-	desc = glp_crisis.40.d
-	picture = GFX_news_event_GLP_black_guard_march
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
-	}
-	fire_only_once = yes
-
-	# (1a) Разоружить семёновцев. Стаб−, манпауэр−3000, ПП−20.
-	# Семёнов получает черту «отстранён», но остаётся командиром.
-	# Флаг GLP_white_step_2_sidelined — событие-сигнал для ступени 2.
-	option = {
-		name = glp_crisis.40.a
-		ai_chance = { factor = 55 }
-		add_stability = -0.06
-		add_manpower = -3000
-		add_political_power = -20
-		if = {
-			limit = { has_character = GLP_grigory_semyonov }
-			GLP_grigory_semyonov = { add_unit_leader_trait = GLP_white_emigre_sidelined }
-		}
-		set_country_flag = GLP_white_step_2_sidelined
-		country_event = { id = glp_crisis.41 days = 90 random_days = 30 }
-	}
-
-	# (1b) Дать корпус — лишь бы дрались. Стаб−, ВС−, ПП+.
-	# Семёнов получает черту «привилегирован», растёт недовольство.
-	# Флаг GLP_white_step_2_favored — событие-сигнал для ступени 2.
-	option = {
-		name = glp_crisis.40.b
-		ai_chance = { factor = 45 }
-		add_stability = -0.03
-		add_war_support = -0.05
-		add_political_power = 15
-		if = {
-			limit = { has_character = GLP_grigory_semyonov }
-			GLP_grigory_semyonov = { add_unit_leader_trait = GLP_white_emigre_favored }
-		}
-		set_country_flag = GLP_white_step_2_favored
-		country_event = { id = glp_crisis.41 days = 90 random_days = 30 }
-	}
-}
-
-# Ступень 2: эмиграция или «параллельный штаб».
-# Запускается из glp_crisis.40 через 90+0..30 дней. Если страна
-# подавила мятеж (флаг GLP_white_step_2_sidelined) — белые разъезжаются,
-# Скоблин/Туркул/Семёнов получают черту «изгнаны». Если дали корпус
-# (флаг GLP_white_step_2_favored) — формируется «параллельный штаб»,
-# стаб-кризис и ВС−.
-country_event = {
-	id = glp_crisis.41
-	title = glp_crisis.41.t
-	desc = glp_crisis.41.d
-	picture = GFX_news_event_GLP_black_guard_march
-	is_triggered_only = yes
-
-	# (2a) После подавления: эмиграция белых.
-	option = {
-		name = glp_crisis.41.a
-		ai_chance = { factor = 70 }
-		trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		 has_country_flag = GLP_white_step_2_sidelined }
-		add_stability = 0.04
-		add_manpower = -1500
-		add_political_power = 25
-		if = {
-			limit = { has_character = GLP_nikolai_skoblin }
-			GLP_nikolai_skoblin = { add_unit_leader_trait = GLP_white_emigre_sidelined }
-		}
-		if = {
-			limit = { has_character = GLP_anton_turkul }
-			GLP_anton_turkul = { add_unit_leader_trait = GLP_white_emigre_sidelined }
-		}
-		set_country_flag = GLP_white_step_3_dispersed
-		country_event = { id = glp_crisis.42 days = 120 random_days = 30 }
-	}
-
-	# (2b) После «привилегий»: параллельный штаб.
-	option = {
-		name = glp_crisis.41.b
-		ai_chance = { factor = 30 }
-		trigger = { has_country_flag = GLP_white_step_2_favored }
-		add_stability = -0.05
-		add_war_support = -0.03
-		add_political_power = -25
-		if = {
-			limit = { has_character = GLP_anton_turkul }
-			GLP_anton_turkul = { add_unit_leader_trait = GLP_white_emigre_favored }
-		}
-		set_country_flag = GLP_white_step_3_parallel
-		country_event = { id = glp_crisis.42 days = 120 random_days = 30 }
-	}
-}
-
-# Ступень 3: развязка. Если белые подавлены (шаг 3 «dispersed»)
-# — эмиграция завершается, ПП+ и стаб+, флаг снимается. Если
-# сформировался «параллельный штаб» (шаг 3 «parallel») — Скоблин
-# требует автономии, либо командир, либо ссылка.
-country_event = {
-	id = glp_crisis.42
-	title = glp_crisis.42.t
-	desc = glp_crisis.42.d
-	picture = GFX_news_event_GLP_black_guard_march
-	is_triggered_only = yes
-
-	# (3a) После эмиграции: страна выдыхает, офицеры уходят.
-	# ПП+/стаб+, манпауэр−, значок «белые ушли».
-	option = {
-		name = glp_crisis.42.a
-		ai_chance = { factor = 80 }
-		trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		 has_country_flag = GLP_white_step_3_dispersed }
-		add_stability = 0.05
-		add_political_power = 50
-		add_manpower = -2000
-		clr_country_flag = GLP_white_step_2_sidelined
-		clr_country_flag = GLP_white_step_3_dispersed
-	}
-
-	# (3b) После «параллельного штаба»: Скоблин требует автономии.
-	# Решение: уступить (стаб−, ПП−, но Скоблин остаётся лояльным
-	# и приносит кавалерийский бонус) или разоружить (ПП+, стаб−,
-	# Скоблин уходит с частью сил).
-	option = {
-		name = glp_crisis.42.b
-		ai_chance = { factor = 40 }
-		trigger = { has_country_flag = GLP_white_step_3_parallel }
-		add_stability = -0.04
-		add_political_power = -30
-		add_manpower = 3000
-		add_command_power = 20
-		if = {
-			limit = { has_character = GLP_nikolai_skoblin }
-			GLP_nikolai_skoblin = { add_unit_leader_trait = GLP_white_emigre_favored }
-		}
-		clr_country_flag = GLP_white_step_2_favored
-		clr_country_flag = GLP_white_step_3_parallel
-	}
-
-	# (3c) Скоблин уходит. Снимает все «белые» флаги, страна едина.
-	option = {
-		name = glp_crisis.42.c
-		ai_chance = { factor = 60 }
-		trigger = { has_country_flag = GLP_white_step_3_parallel }
-		add_political_power = 50
-		add_stability = 0.03
-		add_manpower = -4000
-		if = {
-			limit = { has_character = GLP_nikolai_skoblin }
-			GLP_nikolai_skoblin = { add_unit_leader_trait = GLP_white_emigre_sidelined }
-		}
-		clr_country_flag = GLP_white_step_2_favored
-		clr_country_flag = GLP_white_step_3_parallel
-	}
-}
-
-# Реакции соседей на пакты
-country_event = {
-	id = glp_diplo.21
-	title = glp_diplo.21.t
-	desc = glp_diplo.21.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
-		# поэтому проверяем существование ГЛП, а не собственный тег.
-		NOT = { tag = GLP }
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-	option = {
-		name = glp_diplo.21.a
-		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
-		add_opinion_modifier = { target = SOV modifier = GLP_pact_alarm }
-		add_ai_strategy = { type = contain id = "GLP" value = 60 }
-		add_ai_strategy = { type = antagonize id = "GLP" value = 40 }
-	}
-}
-
-country_event = {
-	id = glp_diplo.22
-	title = glp_diplo.22.t
-	desc = glp_diplo.22.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
-		# поэтому проверяем существование ГЛП, а не собственный тег.
-		NOT = { tag = GLP }
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-	option = {
-		name = glp_diplo.22.a
-		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
-		add_ai_strategy = { type = contain id = "GLP" value = 50 }
-	}
-}
-
-country_event = {
-	id = glp_diplo.23
-	title = glp_diplo.23.t
-	desc = glp_diplo.23.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
-		# поэтому проверяем существование ГЛП, а не собственный тег.
-		NOT = { tag = GLP }
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-	option = {
-		name = glp_diplo.23.a
-		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }
-		add_political_power = -10
-	}
-}
-
-country_event = {
-	id = glp_diplo.24
-	title = glp_diplo.24.t
-	desc = glp_diplo.24.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
-		# поэтому проверяем существование ГЛП, а не собственный тег.
-		NOT = { tag = GLP }
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-	option = {
-		name = glp_diplo.24.a
-		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
-		add_ai_strategy = { type = antagonize id = "GLP" value = 80 }
-		add_ai_strategy = { type = conquer id = "GLP" value = 50 }
-		add_war_support = 0.03
-	}
-}
-
-country_event = {
-	id = glp_diplo.25
-	title = glp_diplo.25.t
-	desc = glp_diplo.25.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
-		# поэтому проверяем существование ГЛП, а не собственный тег.
-		NOT = { tag = GLP }
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-	option = {
-		name = glp_diplo.25.a
-		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
-		add_opinion_modifier = { target = GER modifier = GLP_pact_alarm }
-		add_ai_strategy = { type = contain id = "GLP" value = 40 }
-	}
-}
-
-country_event = {
-	id = glp_diplo.26
-	title = glp_diplo.26.t
-	desc = glp_diplo.26.d
-	picture = GFX_news_event_GLP_rebirth
-	is_triggered_only = yes
-
-	trigger = {
-		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
-		# поэтому проверяем существование ГЛП, а не собственный тег.
-		NOT = { tag = GLP }
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
-	option = {
-		name = glp_diplo.26.a
-		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
-		add_ai_strategy = { type = contain id = "GLP" value = 50 }
-		add_ai_strategy = { type = antagonize id = "ENG" value = 20 }
-	}
-}
-
+# glp_diplo.30 - General alliance confirmation
 country_event = {
 	id = glp_diplo.30
-	title = glp_diplo.30.t
-	desc = glp_diplo.30.d
-	picture = GFX_news_event_GLP_rebirth
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
-	trigger = {
-		# Событие-реакция иностранной державы: получатель НЕ Гуляйполе,
-		# поэтому проверяем существование ГЛП, а не собственный тег.
-		NOT = { tag = GLP }
-		GLP = {
-			exists = yes
-			has_capitulated = no
-		}
-		
-		
-	}
 	option = {
-		name = glp_diplo.30.a
-		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }
-		add_ai_strategy = { type = contain id = "GLP" value = 30 }
+		name = glp_powers.1.a
+		add_political_power = 20
 	}
 }
 
-# =============================================================================
-#  «ЧЁРНАЯ РАДА» (v1.5.0) — заговор против Батьки. Цепочка glp_crisis.50-52.
-#
-#  Три претендента на чёрное знамя, каждый со своим фотопортретом эпохи
-#  1930-х и своим политическим профилем:
-#    * Мария Никифорова — чёрная атаманша, требует войны до конца;
-#    * Дмитрий Попов — левый эсер, хочет «твёрдой руки» и дисциплины;
-#    * Вольдемар Антони — старый учитель Махно, патриарх анархизма.
-#
-#  Запуск: on_startup (см. common/on_actions/GLP_on_actions.txt) через
-#  1000+0..200 дней — только если Батько ещё жив и у власти. Ступень 1
-#  (glp_crisis.50) даёт выбор: раздавить заговор или созвать раду.
-#  Ступень 2 (glp_crisis.51) — голосование рады: Махно может удержать
-#  знамя или уступить его одному из трёх претендентов (свержение).
-#  Ступень 3 (glp_crisis.52) — новость миру об исходе рады.
-#
-#  Скриптовая дисциплина (официальная документация Paradox):
-#    * каждый retire — только под has_character guard (1.19 иначе
-#      роняет silent error, если персонаж погиб раньше);
-#    * наделение ролью лидера — add_country_leader_role +
-#      promote_leader = yes (ванильный путь для персонажа без
-#      стартового блока country_leader);
-#    * флаги ступеней GLP_black_rada_* очищаются в финале.
-# =============================================================================
+# glp_crisis.1 - Crisis starter 1
+country_event = {
+	id = glp_crisis.1
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
 
+	option = {
+		name = glp_powers.1.a
+		add_political_power = 10
+	}
+}
+
+# glp_crisis.10 - Crisis event 10
+country_event = {
+	id = glp_crisis.10
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_powers.1.a
+		add_political_power = 10
+	}
+}
+
+# glp_crisis.20 - Crisis event 20
+country_event = {
+	id = glp_crisis.20
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_powers.1.a
+		add_political_power = 10
+	}
+}
+
+# glp_crisis.30 - Crisis event 30
+country_event = {
+	id = glp_crisis.30
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_powers.1.a
+		add_political_power = 10
+	}
+}
+
+# glp_crisis.40 - Crisis event 40
+country_event = {
+	id = glp_crisis.40
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_powers.1.a
+		add_political_power = 10
+	}
+}
+
+# glp_crisis.50 - Crisis event 50
 country_event = {
 	id = glp_crisis.50
-	title = glp_crisis.50.t
-	desc = glp_crisis.50.d
-	picture = GFX_news_event_GLP_black_rada
+	title = glp_powers.1.t
+	desc = glp_powers.1.d
+	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		has_country_leader = { character = GLP_nestor_makhno ruling_only = yes }
-		NOT = { has_country_flag = GLP_makhno_retired_no_successor }
-		NOT = { has_country_flag = GLP_makhno_council }
-	}
-	fire_only_once = yes
-
-	# (a) Раздавить заговор силой РЗР. Батько остаётся, но Вольная
-	# Территория помнит: стабильность падает, Задов получает работу.
 	option = {
-		name = glp_crisis.50.a
-		ai_chance = { factor = 60 }
-		add_stability = -0.08
-		add_political_power = -50
-		add_popularity = { ideology = neutrality popularity = -0.05 }
-		set_country_flag = GLP_black_rada_crushed
-		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
-	}
-
-	# (b) Созвать раду: пусть вольный сход решит, кто понесёт знамя.
-	# Риск свержения Батьки, но анархия верна себе — решает сход.
-	option = {
-		name = glp_crisis.50.b
-		ai_chance = { factor = 40 }
-		add_stability = 0.03
-		add_political_power = 25
-		set_country_flag = GLP_black_rada_convened
-		country_event = { id = glp_crisis.51 days = 14 random_days = 7 }
-	}
-}
-
-# Голосование Чёрной рады: Махно против трёх претендентов.
-country_event = {
-	id = glp_crisis.51
-	title = glp_crisis.51.t
-	desc = glp_crisis.51.d
-	picture = GFX_news_event_GLP_black_rada
-	is_triggered_only = yes
-
-	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		has_country_flag = GLP_black_rada_convened
-	}
-	fire_only_once = yes
-
-	# (a) Сход верен Батьке: Махно удерживает знамя, авторитет растёт.
-	option = {
-		name = glp_crisis.51.a
-		ai_chance = { factor = 55 }
-		add_stability = 0.05
-		add_war_support = 0.05
-		add_political_power = 50
-		clr_country_flag = GLP_black_rada_convened
-		set_country_flag = GLP_black_rada_makhno_won
-		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
-	}
-
-	# (b) Маруся Никифорова: чёрная атаманша берёт знамя — война до конца.
-	option = {
-		name = glp_crisis.51.b
-		ai_chance = { factor = 20 }
-		add_war_support = 0.10
-		add_stability = -0.10
-		if = {
-			limit = { has_character = GLP_nestor_makhno }
-			GLP_nestor_makhno = {
-				retire = yes
-			}
-		}
-		if = {
-			limit = { has_character = GLP_maria_nikiforova }
-			GLP_maria_nikiforova = {
-				add_country_leader_role = {
-					promote_leader = yes
-					country_leader = {
-						ideology = anarchism
-						expire = "1965.1.1.1"
-						traits = { GLP_black_atamansha GLP_panic }
-					}
-				}
-			}
-		}
-		clr_country_flag = GLP_black_rada_convened
-		set_country_flag = GLP_black_rada_nikiforova
-		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
-	}
-
-	# (c) Дмитрий Попов: левый эсер строит «дисциплинированную вольницу».
-	option = {
-		name = glp_crisis.51.c
-		ai_chance = { factor = 15 }
-		add_political_power = 75
-		add_stability = -0.05
-		if = {
-			limit = { has_character = GLP_nestor_makhno }
-			GLP_nestor_makhno = {
-				retire = yes
-			}
-		}
-		if = {
-			limit = { has_character = GLP_dmitry_popov }
-			GLP_dmitry_popov = {
-				add_country_leader_role = {
-					promote_leader = yes
-					country_leader = {
-						ideology = anarchism
-						expire = "1965.1.1.1"
-						traits = { GLP_left_sr_conspirator }
-					}
-				}
-			}
-		}
-		clr_country_flag = GLP_black_rada_convened
-		set_country_flag = GLP_black_rada_popov
-		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
-	}
-
-	# (d) Вольдемар Антони: старый учитель принимает знамя из рук ученика.
-	option = {
-		name = glp_crisis.51.w
-		ai_chance = { factor = 10 }
-		add_stability = 0.08
-		add_war_support = -0.08
-		if = {
-			limit = { has_character = GLP_nestor_makhno }
-			GLP_nestor_makhno = {
-				retire = yes
-			}
-		}
-		if = {
-			limit = { has_character = GLP_voldemar_antoni }
-			GLP_voldemar_antoni = {
-				add_country_leader_role = {
-					promote_leader = yes
-					country_leader = {
-						ideology = anarchism
-						expire = "1965.1.1.1"
-						traits = { GLP_patriarch_of_anarchism }
-					}
-				}
-			}
-		}
-		clr_country_flag = GLP_black_rada_convened
-		set_country_flag = GLP_black_rada_antoni
-		hidden_effect = { news_event = { id = glp_crisis.52 days = 3 } }
-	}
-}
-
-# Новость миру: исход Чёрной рады (единая газета, текст по scripted loc не
-# требуется — каждая ветка ставит свой флаг, а газета говорит об итоге схода).
-news_event = {
-	id = glp_crisis.52
-	title = glp_crisis.52.t
-	desc = glp_crisis.52.d
-	picture = GFX_news_event_GLP_black_rada
-	major = yes
-	is_triggered_only = yes
-	fire_only_once = yes
-
-	option = {
-		name = glp_crisis.52.a
-		trigger = { tag = GLP }
-	}
-	option = {
-		name = glp_crisis.52.b
-		trigger = { NOT = { tag = GLP } }
+		name = glp_powers.1.a
+		add_political_power = 10
 	}
 }

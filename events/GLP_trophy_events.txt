@@ -6,6 +6,7 @@ add_namespace = glp_trophy
 #  on_army_leader_won_combat). Механика активна только когда
 #  изучена ремонтная рота и в армии есть шаблоны с ней.
 # ================================================================
+
 country_event = {
 	id = glp_trophy.1
 	title = glp_trophy.1.t

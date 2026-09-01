@@ -1,35 +1,101 @@
+# =============================================================================
+#  AI STRATEGY PLANS FOR GULYAYPOLE (GLP) — HOI4 1.19.*
+# =============================================================================
+
 GLP_historical_plan = {
-	name = "GLP: survive the encirclement"
-	desc = "Prioritise RIA, grain and the Moscow crisis over late miracles."
+	name = "GLP: Makhnovist Defense & Black International"
+	desc = "Prioritize mobile defense, tachankas, insurgent logistics, and mutual aid with Iberian revolutionaries."
 
 	allowed = {
 		original_tag = GLP
 	}
 	enable = {
-		always = yes
+		is_historical_focus_on = yes
+	}
+	abort = {
+		has_war_with = GER
+		surrender_progress > 0.40
 	}
 
 	ai_national_focuses = {
 		GLP_insurgent_army_reorganization
+		GLP_legendary_tachankas
 		GLP_peasant_grain_supplies
+		GLP_underground_armories
 		GLP_kontrrazvedka_reorganization
 		GLP_partisan_warfare_doctrine
-		GLP_legendary_tachankas
-		GLP_underground_armories
 		GLP_syndicate_industrial_planning
 		GLP_fourth_congress_of_peasants
 		GLP_international_diplomacy_crossroads
 		GLP_free_will
+		GLP_black_international_declaration
+		GLP_support_spanish_anarchists
 	}
 
 	focus_factors = {
-		GLP_black_military_dictatorship = 0.3
-		GLP_alliance_with_germany = 0.4
-		GLP_computing_machines = 0.4
-		GLP_jet_engines = 0.3
+		GLP_legendary_tachankas = 3.0
+		GLP_underground_armories = 2.5
+		GLP_insurgent_army_reorganization = 3.0
+		GLP_black_military_dictatorship = 0.05
+		GLP_alliance_with_germany = 0.0
+		GLP_computing_machines = 0.8
+		GLP_jet_engines = 0.5
+	}
+
+	research = {
+		infantry_weapons = 5.0
+		doctrine_mass_assault = 4.0
+		industry = 4.0
+		electronics = 2.0
+	}
+
+	ideas = {
+		GLP_lev_zadov = 2.5
+		war_economy = 3.0
+	}
+
+	traits = {
+		cavalry_officer = 2.0
+		commando = 2.0
 	}
 
 	weight = {
-		factor = 1
+		factor = 5
+	}
+}
+
+GLP_aggressive_expansion_plan = {
+	name = "GLP: Revolutionary Offensive"
+	desc = "Aggressive non-historical anarchist crusade across Eastern Europe and the Balkans."
+
+	allowed = {
+		original_tag = GLP
+	}
+	enable = {
+		is_historical_focus_on = no
+	}
+
+	ai_national_focuses = {
+		GLP_insurgent_army_reorganization
+		GLP_legendary_tachankas
+		GLP_syndicate_industrial_planning
+		GLP_fourth_congress_of_peasants
+		GLP_international_diplomacy_crossroads
+		GLP_black_international_declaration
+	}
+
+	focus_factors = {
+		GLP_legendary_tachankas = 2.5
+		GLP_underground_armories = 2.0
+	}
+
+	research = {
+		infantry_weapons = 4.0
+		armor = 3.0
+		industry = 3.5
+	}
+
+	weight = {
+		factor = 2
 	}
 }

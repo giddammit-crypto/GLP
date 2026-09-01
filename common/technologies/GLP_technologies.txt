@@ -1,0 +1,155 @@
+technologies = {
+
+	# 1. Тачанка РПА обр. 1936 г.
+	GLP_tachanka_tech_1 = {
+		enable_sub_units = {
+			tachanka
+		}
+		enable_equipments = {
+			tachanka_equipment_1
+		}
+		
+		path = {
+			leads_to_tech = GLP_tachanka_tech_2
+			research_cost_coeff = 1
+		}
+		
+		research_cost = 1.0
+		start_year = 1936
+		folder = {
+			name = infantry_folder
+			position = { x = 0 y = 8 }
+		}
+		
+		categories = {
+			infantry_weapons
+			cavalry
+			motorized_equipment
+		}
+		
+		cavalry = {
+			soft_attack = 0.15
+			breakthrough = 0.10
+			maximum_speed = 0.05
+		}
+		
+		ai_will_do = {
+			factor = 5
+		}
+	}
+
+	# 2. Бронированная тачанка прорыва (1938)
+	GLP_tachanka_tech_2 = {
+		enable_sub_units = {
+			armored_tachanka
+		}
+		enable_equipments = {
+			tachanka_equipment_2
+		}
+		
+		prerequisites = {
+			GLP_tachanka_tech_1 = 0
+		}
+		
+		path = {
+			leads_to_tech = GLP_tachanka_tech_3
+			research_cost_coeff = 1
+		}
+		
+		research_cost = 1.5
+		start_year = 1938
+		folder = {
+			name = infantry_folder
+			position = { x = 2 y = 8 }
+		}
+		
+		categories = {
+			infantry_weapons
+			cavalry
+			armor
+			motorized_equipment
+		}
+		
+		cavalry = {
+			soft_attack = 0.20
+			armor_value = 2.0
+			breakthrough = 0.15
+		}
+		
+		ai_will_do = {
+			factor = 4
+		}
+	}
+
+	# 3. Броневик «Воля» (1939)
+	GLP_tachanka_tech_3 = {
+		enable_equipments = {
+			tachanka_equipment_3
+		}
+		
+		prerequisites = {
+			GLP_tachanka_tech_2 = 0
+		}
+		
+		path = {
+			leads_to_tech = GLP_tachanka_tech_4
+			research_cost_coeff = 1
+		}
+		
+		research_cost = 1.8
+		start_year = 1939
+		folder = {
+			name = infantry_folder
+			position = { x = 4 y = 8 }
+		}
+		
+		categories = {
+			motorized_equipment
+			armor
+		}
+		
+		motorized = {
+			soft_attack = 0.15
+			hard_attack = 0.20
+			armor_value = 4.0
+		}
+		
+		ai_will_do = {
+			factor = 4
+		}
+	}
+
+	# 4. Тяжёлый броневик «Батько» (1941)
+	GLP_tachanka_tech_4 = {
+		enable_equipments = {
+			tachanka_equipment_4
+		}
+		
+		prerequisites = {
+			GLP_tachanka_tech_3 = 0
+		}
+		
+		research_cost = 2.0
+		start_year = 1941
+		folder = {
+			name = infantry_folder
+			position = { x = 6 y = 8 }
+		}
+		
+		categories = {
+			motorized_equipment
+			armor
+			artillery
+		}
+		
+		motorized = {
+			hard_attack = 0.35
+			ap_attack = 0.40
+			breakthrough = 0.20
+		}
+		
+		ai_will_do = {
+			factor = 3
+		}
+	}
+}

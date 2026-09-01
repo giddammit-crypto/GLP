@@ -1,6 +1,7 @@
 add_namespace = glp_kro
 
 # Приказ Батьки: Всеобщее восстание в тылу врага
+
 country_event = {
 	id = glp_kro.100
 	title = glp_kro.100.t

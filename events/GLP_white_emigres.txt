@@ -1,6 +1,7 @@
 add_namespace = glp_white
 
 # Разборки в штабе после призыва белых эмигрантов
+
 news_event = {
 	id = glp_white.1
 	title = glp_white.1.t

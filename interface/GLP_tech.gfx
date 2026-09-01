@@ -1,0 +1,18 @@
+spriteTypes = {
+	spriteType = {
+		name = "GFX_GLP_tachanka_tech_1_medium"
+		texturefile = "gfx/interface/technologies/GLP_tachanka_tech_1.dds"
+	}
+	spriteType = {
+		name = "GFX_GLP_tachanka_tech_2_medium"
+		texturefile = "gfx/interface/technologies/GLP_tachanka_tech_2.dds"
+	}
+	spriteType = {
+		name = "GFX_GLP_tachanka_tech_3_medium"
+		texturefile = "gfx/interface/technologies/GLP_tachanka_tech_3.dds"
+	}
+	spriteType = {
+		name = "GFX_GLP_tachanka_tech_4_medium"
+		texturefile = "gfx/interface/technologies/GLP_tachanka_tech_4.dds"
+	}
+}

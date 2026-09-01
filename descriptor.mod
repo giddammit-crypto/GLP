@@ -1,15 +1,13 @@
-version="1.5.4"
+version="1.5.5"
 tags={
 	"Alternative History"
 	"National Focuses"
 	"Gameplay"
 	"Events"
 	"Ideologies"
-	"Sound"
 }
 name="Гуляйполе: Вольная Территория - Анархия есть мать порядка"
 picture="thumbnail.png"
 replace_path="gfx/loadingscreens"
-replace_path="music"
 supported_version="1.19.2.*"
 remote_file_id="3792313906"

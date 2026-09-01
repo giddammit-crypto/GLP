@@ -1,6 +1,25 @@
 add_namespace = glp_spain2
 
 # ACT 1 - The Durruti Column
+
+
+
+
+# ACT 2 - The Weapons Routes
+
+
+
+
+# ACT 3 - Andres Nin and POUM
+
+
+
+# ACT 4 - After the May Days
+
+
+
+# ACT 5 - Endgame
+
 country_event = {
     id = glp_spain2.1
     title = glp_spain2.1.t
@@ -154,7 +173,6 @@ country_event = {
     }
 }
 
-# ACT 2 - The Weapons Routes
 country_event = {
     id = glp_spain2.5
     title = glp_spain2.5.t
@@ -265,7 +283,6 @@ country_event = {
     }
 }
 
-# ACT 3 - Andres Nin and POUM
 country_event = {
     id = glp_spain2.9
     title = glp_spain2.9.t
@@ -351,7 +368,6 @@ country_event = {
     }
 }
 
-# ACT 4 - After the May Days
 country_event = {
     id = glp_spain2.12
     title = glp_spain2.12.t
@@ -455,7 +471,6 @@ country_event = {
     }
 }
 
-# ACT 5 - Endgame
 country_event = {
     id = glp_spain2.15
     title = glp_spain2.15.t

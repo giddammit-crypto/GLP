@@ -47,6 +47,7 @@ spriteTypes = {
 		noOfFrames = 2
 	}
 
+	
 	### Малые знамёна (контр-фишки на карте, 30x12) ###
 
 	spriteType = {

@@ -6,6 +6,7 @@ add_namespace = glp_bi
 #  GLP_spain_black_international_pact (создание фракции, взаимные
 #  экономические нацдухи).
 # =============================================================================
+
 news_event = {
 	id = glp_bi.1
 	title = glp_bi.1.t
