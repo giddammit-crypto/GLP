@@ -1264,7 +1264,7 @@ CUSTOM_TILE_DEPICTS = {'flag', 'tachanka', 'armored_tachanka'}
 # группе имён).
 NAME_FAMILIES = (
     (('конн', 'кавалер', 'тачан', 'казач', 'улан', 'драгун'),          'horse'),
-    (('танк', 'бронетанк', 'бронеполк', 'автоброн'),                   'tank'),
+    (('танк', 'бронетанк', 'бронеполк', 'автоброн', 'бронирован'),      'tank'),
     (('моториз', 'мото', 'автомоб', 'механизац'),                      'truck'),
     (('морск', 'матрос', 'черномор', 'флот'),                           'marine'),
     (('горн', 'альп'),                                                  'mountain'),
@@ -2503,8 +2503,9 @@ def check_tachanka_technology_contract():
             err('tachanka: armored_tachanka duplicates equipment combat stats in the sub-unit')
         if not re.search(r'(?m)^\s*sprite\s*=\s*cavalry\s*$', body):
             err(f'tachanka: {unit_id} does not use the vanilla cavalry designer icon')
-        if not re.search(r'(?m)^\s*map_icon_category\s*=\s*other\s*$', body):
-            err(f'tachanka: {unit_id} does not use the vanilla cavalry map icon category')
+        expected_map_icon = 'armored' if unit_id == 'armored_tachanka' else 'other'
+        if not re.search(rf'(?m)^\s*map_icon_category\s*=\s*(?:{expected_map_icon}|other)\s*$', body):
+            err(f'tachanka: {unit_id} does not use valid map icon category ({expected_map_icon})')
 
     history_path = os.path.join(ROOT, 'history/units/GLP_1936.txt')
     if os.path.isfile(history_path):
