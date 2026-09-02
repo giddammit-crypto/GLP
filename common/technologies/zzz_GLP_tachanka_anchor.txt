@@ -21,15 +21,14 @@
 # the tachanka branch must be visible for GLP without any DLC.
 #
 # Layout: the vanilla armored cars sit in the row y = 900 (armored_car1/2/3
-# at pixel x = 210/700/980) and the marines row starts at y = 965.  The GLP
-# tachanka branch is drawn on the same row as the armored cars (folder row
-# x = 4, pixel row y = 900), continuing the armored-car line to the right:
-# folder positions y = 14/16/18/20 (pixel columns x = 1120/1260/1400/1540),
-# one 140 px (2-slot) step after armored_car3 (x = 980).  The branch uses the
-# vanilla 140 px spacing, stays clear of the marines row (y = 965) and the
-# special-forces chains below, and no longer overlaps itself or drifts far
-# away from the armored cars.  It is a visual continuation only: there is no
-# path between the tachanka and armored-car chains.
+# at pixel x ~ 210/700/980 in 1.11, but in 1.19 they shifted right to ~ y=12-16).
+# The marines row starts at y = 965. The GLP tachanka branch is drawn on the same
+# row as the armored cars (folder row x = 4, pixel row y = 900), continuing FAR
+# to the right to avoid overlap: folder positions y = 24/27/30/33 (pixel columns
+# ~ 1820/2030/2240/2450), well clear of armored_car3 (which ends around y=16).
+# The branch uses 3-slot spacing (210 px) to guarantee no self-overlap and stays
+# clear of the marines row. It is a visual continuation only: there is no path
+# between the tachanka and armored-car chains.
 #
 # The custom root has allow_branch = { tag = GLP }, so the anchor path and
 # the tachanka line are visible only in the GLP research tree.
