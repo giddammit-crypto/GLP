@@ -7,24 +7,30 @@ technologies = {
 	# zzz_GLP_tachanka_anchor.txt.  A folder/position block alone does not
 	# create a renderable technology branch in the country tech-tree GUI.
 	#
-	# The infantry folder uses the "LEFT" gridbox format (x = down, y = right)
-	# and has one gridbox per branch chain.  The tachanka line inherits the
-	# tech_trucks_tree gridbox (the motorized row) from its anchor.
+	# The infantry folder uses the "LEFT" gridbox format (x = down, y = right,
+	# slot 70 px) and has one gridbox per branch chain.  The tachanka line
+	# inherits the tech_trucks_tree gridbox (origin 140x620) from its anchor,
+	# so: pixel row = 620 + x * 70, pixel column = 140 + y * 70.
 	#
-	# Prior layout bug: positions {x=5,y=3/4/5/7} put the four tachanka
-	# technologies only one slot (70 px) apart, so they overlapped each other,
-	# and the row (y = 970) sat five pixels above the marines chain and
-	# directly below the armored-car chain, causing visual overlap with both
-	# vanilla branches.
+	# Layout rules (see tools/tech_tree_layout.py for the live map):
+	#   * the vanilla armored cars occupy folder row x = 4 (pixel row 900).
+	#     The tachanka branch must NOT share that row, otherwise the branch
+	#     reads as a continuation of the armored-car chain.
+	#   * the whole "Специальные войска" block starts with the section header
+	#     (INFANTRY_TITLE_SPECIAL, pixel rows 950..1012) and the marines
+	#     chain (1035) and ends with the special-forces chain (1490..1630);
+	#     the last vanilla row is 1630, i.e. the tree is occupied down to
+	#     pixel row 1700.
+	#   * the tachanka branch therefore uses folder row x = 16 (pixel row
+	#     1740): below the armored cars AND below the whole special-forces
+	#     block, so nothing can overlap it.
+	#   * columns y = 2/5/8/11 (pixel columns 280/490/700/910) keep the branch
+	#     inside the visible part of the tree (the folder background is 1400 px
+	#     wide) where no vanilla technology is drawn; the 3-slot (210 px) step
+	#     keeps the four nodes from overlapping each other.
 	#
-	# Corrected layout: the branch sits on the same pixel row as the vanilla
-	# armored cars (row y = 900, folder row x = 4) and visually continues the
-	# armored-car line to the right: y = 14/16/18/20 (pixel columns
-	# x = 1120/1260/1400/1540), one 140 px (2-slot) step after armored_car3
-	# (x = 980).  The nodes use the vanilla 140 px spacing, are clear of the
-	# marines row (y = 965) and the special-forces chains below, and no longer
-	# overlap each other.  There is deliberately no path to the armored-car
-	# chain: the branch only *looks* like its continuation.
+	# There is deliberately no path to the armored-car chain: the branch is
+	# reachable only from tech_trucks, which supplies the grid box.
 	# -------------------------------------------------------------------------
 
 	GLP_tachanka_tech_1 = {
@@ -54,11 +60,13 @@ technologies = {
 		start_year = 1936
 		folder = {
 			name = infantry_folder
-			# FIX: Сдвинуто сильно вправо от броневиков, чтобы не накладываться.
-			# Ванильные броневики в 1.19 занимают y ~ 10-16, поэтому ставим
-			# тачанки на y = 24/27/30/33 (3 слота шаг = 210px) —
-			# далеко справа от Улучшенной бронемашины, без наложений друг на друга.
-			position = { x = 4 y = 24 }
+			# Строка x = 16 (пиксельная строка 1740): ниже броневиков
+			# (строка 4 / 900 px) и ниже всего блока «Специальные войска»
+			# (заголовок 950..1012, цепочки до 1700 px) — ветка не читается
+			# как продолжение броневиков и не задевает спецвойска.
+			# Столбцы y = 2/5/8/11 (шаг 3 слота = 210 px) — видимая часть
+			# древа, ванильных технологий на этой строке нет.
+			position = { x = 16 y = 2 }
 		}
 
 		categories = {
@@ -114,8 +122,8 @@ technologies = {
 		start_year = 1938
 		folder = {
 			name = infantry_folder
-			# y = 27 -> шаг 3 от предыдущей, без наложения
-			position = { x = 4 y = 27 }
+			# та же строка x = 6, шаг 3 слота вправо
+			position = { x = 16 y = 5 }
 		}
 
 		categories = {
@@ -154,8 +162,8 @@ technologies = {
 		start_year = 1939
 		folder = {
 			name = infantry_folder
-			# y = 30 -> шаг 3
-			position = { x = 4 y = 30 }
+			# та же строка x = 6, шаг 3 слота вправо
+			position = { x = 16 y = 8 }
 		}
 
 		categories = {
@@ -192,8 +200,8 @@ technologies = {
 		start_year = 1941
 		folder = {
 			name = infantry_folder
-			# y = 33 -> последняя в ветке, без наложений
-			position = { x = 4 y = 33 }
+			# последняя в ветке: та же строка, шаг 3 слота вправо
+			position = { x = 16 y = 11 }
 		}
 
 		categories = {

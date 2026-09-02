@@ -20,15 +20,23 @@
 # armored cars are gated behind the "La Resistance" DLC via allow_branch and
 # the tachanka branch must be visible for GLP without any DLC.
 #
-# Layout: the vanilla armored cars sit in the row y = 900 (armored_car1/2/3
-# at pixel x ~ 210/700/980 in 1.11, but in 1.19 they shifted right to ~ y=12-16).
-# The marines row starts at y = 965. The GLP tachanka branch is drawn on the same
-# row as the armored cars (folder row x = 4, pixel row y = 900), continuing FAR
-# to the right to avoid overlap: folder positions y = 24/27/30/33 (pixel columns
-# ~ 1820/2030/2240/2450), well clear of armored_car3 (which ends around y=16).
-# The branch uses 3-slot spacing (210 px) to guarantee no self-overlap and stays
-# clear of the marines row. It is a visual continuation only: there is no path
-# between the tachanka and armored-car chains.
+# Layout (infantry_folder: slot 70 px, format LEFT -> x = row down,
+# y = column right; gridbox tech_trucks_tree origin = 140 x 620):
+#   * vanilla armored cars: folder row x = 4 -> pixel row 900, columns 1/8/12
+#     (pixel 210/700/980);
+#   * the "Специальные войска" block: section header at pixel rows 950..1012,
+#     marines 1035, paratroopers 1165, mountaineers 1275, rangers 1405,
+#     special-forces chain 1490/1560/1630 — the last occupied row is 1700;
+#   * the GLP tachanka branch therefore uses folder row x = 16 (pixel row
+#     1740) -- below the armored cars and below the whole special-forces
+#     block, so it is not mistaken for a continuation of the armored cars and
+#     cannot overlap the special forces.  Columns y = 2/5/8/11 (pixel
+#     280/490/700/910) keep the branch inside the visible part of the tree,
+#     where no vanilla technology is drawn on that row; the 3-slot (210 px)
+#     step prevents the four nodes from overlapping each other.
+# There is no path between the tachanka and armored-car chains: the only
+# incoming path is this anchor from tech_trucks.  Live map of the whole
+# infantry folder: python3 tools/tech_tree_layout.py
 #
 # The custom root has allow_branch = { tag = GLP }, so the anchor path and
 # the tachanka line are visible only in the GLP research tree.
