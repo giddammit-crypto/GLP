@@ -1,9 +1,13 @@
 # Standard template created when GLP_tachanka_tech_2 is researched.
 # The file is loaded only by that GLP technology's on_research_complete effect.
+# FIX 1.19: Теперь корректно считается бронетехникой (лёгкая броня).
+# - armored_tachanka subunit: type armor, group mobile, category_armor, map_icon armored
+# - equipment: type armor, interface_category_armor
+# - division_names_group: ARM для корректного отображения как бронетанкового.
 
 division_template = {
 	name = "Бронированный тачаночный курень"
-	division_names_group = GLP_CAV_HISTORICAL
+	division_names_group = GLP_ARM_HISTORICAL
 	template_counter = 94
 
 	regiments = {

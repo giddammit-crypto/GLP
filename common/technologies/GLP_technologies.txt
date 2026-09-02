@@ -54,10 +54,11 @@ technologies = {
 		start_year = 1936
 		folder = {
 			name = infantry_folder
-			# Same pixel row as the vanilla armored cars (y = 900); first
-			# column of the tachanka branch at pixel (x = 1120, y = 900),
-			# one 140 px (2-slot) step right of armored_car3 (x = 980).
-			position = { x = 4 y = 14 }
+			# FIX: Сдвинуто сильно вправо от броневиков, чтобы не накладываться.
+			# Ванильные броневики в 1.19 занимают y ~ 10-16, поэтому ставим
+			# тачанки на y = 24/27/30/33 (3 слота шаг = 210px) —
+			# далеко справа от Улучшенной бронемашины, без наложений друг на друга.
+			position = { x = 4 y = 24 }
 		}
 
 		categories = {
@@ -113,8 +114,8 @@ technologies = {
 		start_year = 1938
 		folder = {
 			name = infantry_folder
-			# y = 16 -> pixel x = 1260 (row y = 900, same line as armored cars).
-			position = { x = 4 y = 16 }
+			# y = 27 -> шаг 3 от предыдущей, без наложения
+			position = { x = 4 y = 27 }
 		}
 
 		categories = {
@@ -153,8 +154,8 @@ technologies = {
 		start_year = 1939
 		folder = {
 			name = infantry_folder
-			# y = 18 -> pixel x = 1400 (row y = 900, same line as armored cars).
-			position = { x = 4 y = 18 }
+			# y = 30 -> шаг 3
+			position = { x = 4 y = 30 }
 		}
 
 		categories = {
@@ -191,9 +192,8 @@ technologies = {
 		start_year = 1941
 		folder = {
 			name = infantry_folder
-			# y = 20 -> pixel x = 1540 (row y = 900, same line as armored cars);
-			# off the original y = 15 that collided with GLP_tachanka_tech_1.
-			position = { x = 4 y = 20 }
+			# y = 33 -> последняя в ветке, без наложений
+			position = { x = 4 y = 33 }
 		}
 
 		categories = {

@@ -65,7 +65,7 @@ country_event = {
 				owner = GLP
 			}
 			create_unit = {
-				division = "name = \"2-й Степной рейдовый курень КРО\" division_template = \"Ударный тачаночный курень им. Батьки Махно\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+				division = "name = \"2-й Степной рейдовый курень КРО\" division_template = \"Ударный кавалерийский курень им. Батьки Махно\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
 				owner = GLP
 			}
 			create_unit = {
