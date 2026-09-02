@@ -16,16 +16,18 @@ technologies = {
 	#   * the vanilla armored cars occupy folder row x = 4 (pixel row 900).
 	#     The tachanka branch must NOT share that row, otherwise the branch
 	#     reads as a continuation of the armored-car chain.
-	#   * the "Специальные войска" section header (INFANTRY_TITLE_SPECIAL) is
-	#     drawn at pixel rows 950..1012 on the left edge of the folder, and the
-	#     marines chain starts at pixel row 1035.
-	#   * the tachanka branch therefore uses folder row x = 6 (pixel row 1040):
-	#     two rows below the armored cars, below the special-forces header and
-	#     clear of every vanilla chain (the vanilla tree ends at pixel row
-	#     1700, the bottom of the special-forces block).
-	#   * columns stay on the empty right side (y = 24/27/30/33, pixel columns
-	#     1820/2030/2240/2450) where no vanilla technology is drawn, and the
-	#     3-slot (210 px) step keeps the four nodes from overlapping each other.
+	#   * the whole "Специальные войска" block starts with the section header
+	#     (INFANTRY_TITLE_SPECIAL, pixel rows 950..1012) and the marines
+	#     chain (1035) and ends with the special-forces chain (1490..1630);
+	#     the last vanilla row is 1630, i.e. the tree is occupied down to
+	#     pixel row 1700.
+	#   * the tachanka branch therefore uses folder row x = 16 (pixel row
+	#     1740): below the armored cars AND below the whole special-forces
+	#     block, so nothing can overlap it.
+	#   * columns y = 2/5/8/11 (pixel columns 280/490/700/910) keep the branch
+	#     inside the visible part of the tree (the folder background is 1400 px
+	#     wide) where no vanilla technology is drawn; the 3-slot (210 px) step
+	#     keeps the four nodes from overlapping each other.
 	#
 	# There is deliberately no path to the armored-car chain: the branch is
 	# reachable only from tech_trucks, which supplies the grid box.
@@ -58,13 +60,13 @@ technologies = {
 		start_year = 1936
 		folder = {
 			name = infantry_folder
-			# Строка x = 6 (пиксельная строка 1040): на две строки ниже
-			# броневиков (строка 4 / 900 px) и ниже заголовка секции
-			# «Специальные войска» (950..1012 px) — ветка не читается как
-			# продолжение броневиков и не задевает спецвойска.
-			# Столбцы y = 24/27/30/33 (шаг 3 слота = 210 px) — пустая правая
-			# часть древа, где ванильных технологий нет.
-			position = { x = 6 y = 24 }
+			# Строка x = 16 (пиксельная строка 1740): ниже броневиков
+			# (строка 4 / 900 px) и ниже всего блока «Специальные войска»
+			# (заголовок 950..1012, цепочки до 1700 px) — ветка не читается
+			# как продолжение броневиков и не задевает спецвойска.
+			# Столбцы y = 2/5/8/11 (шаг 3 слота = 210 px) — видимая часть
+			# древа, ванильных технологий на этой строке нет.
+			position = { x = 16 y = 2 }
 		}
 
 		categories = {
@@ -121,7 +123,7 @@ technologies = {
 		folder = {
 			name = infantry_folder
 			# та же строка x = 6, шаг 3 слота вправо
-			position = { x = 6 y = 27 }
+			position = { x = 16 y = 5 }
 		}
 
 		categories = {
@@ -161,7 +163,7 @@ technologies = {
 		folder = {
 			name = infantry_folder
 			# та же строка x = 6, шаг 3 слота вправо
-			position = { x = 6 y = 30 }
+			position = { x = 16 y = 8 }
 		}
 
 		categories = {
@@ -199,7 +201,7 @@ technologies = {
 		folder = {
 			name = infantry_folder
 			# последняя в ветке: та же строка, шаг 3 слота вправо
-			position = { x = 6 y = 33 }
+			position = { x = 16 y = 11 }
 		}
 
 		categories = {
