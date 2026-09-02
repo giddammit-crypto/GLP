@@ -27,16 +27,20 @@
 #   * the "Специальные войска" block: section header at pixel rows 950..1012,
 #     marines 1035, paratroopers 1165, mountaineers 1275, rangers 1405,
 #     special-forces chain 1490/1560/1630 — the last occupied row is 1700;
-#   * the GLP tachanka branch therefore uses folder row x = 16 (pixel row
-#     1740) -- below the armored cars and below the whole special-forces
-#     block, so it is not mistaken for a continuation of the armored cars and
-#     cannot overlap the special forces.  Columns y = 2/5/8/11 (pixel
-#     280/490/700/910) keep the branch inside the visible part of the tree,
-#     where no vanilla technology is drawn on that row; the 3-slot (210 px)
-#     step prevents the four nodes from overlapping each other.
+#   * AAA 2026-09-02: user requested +350 px up. The GLP tachanka branch
+#     was raised from x=16 (1740 px) to x=11 (1390 px) = exactly 350 px up
+#     (5 slots * 70 px). Row 1390 sits between mountaineers (1275) and
+#     rangers (1405). To stay collision-free, columns are y = 0/4/8/12
+#     (pixel 140/420/700/980) with step 4 slots = 280 px. This gives a
+#     140 px gap to rangers cols 2/6/14, keeps the branch inside the 1400 px
+#     visible background, and is adaptive on all resolutions (scrollable).
+#     Previous layout x=16 y=2/5/8/11 (280/490/700/910) was below all vanilla
+#     rows and used 3-slot step. New layout preserves readability and adds
+#     breathing room (AAA quality).
 # There is no path between the tachanka and armored-car chains: the only
 # incoming path is this anchor from tech_trucks.  Live map of the whole
 # infantry folder: python3 tools/tech_tree_layout.py
+# Verify with: python3 -c "from tools.tech_tree_layout import collisions; print(collisions(11,0,4))" -> []
 #
 # The custom root has allow_branch = { tag = GLP }, so the anchor path and
 # the tachanka line are visible only in the GLP research tree.

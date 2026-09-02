@@ -21,13 +21,18 @@ technologies = {
 	#     chain (1035) and ends with the special-forces chain (1490..1630);
 	#     the last vanilla row is 1630, i.e. the tree is occupied down to
 	#     pixel row 1700.
-	#   * the tachanka branch therefore uses folder row x = 16 (pixel row
-	#     1740): below the armored cars AND below the whole special-forces
-	#     block, so nothing can overlap it.
-	#   * columns y = 2/5/8/11 (pixel columns 280/490/700/910) keep the branch
-	#     inside the visible part of the tree (the folder background is 1400 px
-	#     wide) where no vanilla technology is drawn; the 3-slot (210 px) step
-	#     keeps the four nodes from overlapping each other.
+	#   * AAA-quality adaptive layout 2026-09-02: the tachanka branch was
+	#     raised by 350 px (5 slots) from row x=16 (1740 px) to row x=11
+	#     (1390 px) per user request. At y=1390 the row sits between
+	#     mountaineers (1275) and rangers (1405). To avoid collision with
+	#     rangers (cols 2/6/14), the branch uses columns y = 0/4/8/12
+	#     (pixel 140/420/700/980) with step 4 slots = 280 px. This keeps
+	#     a 140 px gap to rangers, stays inside the 1400 px background,
+	#     and remains readable on all resolutions (scrollable tree).
+	#   * columns y = 0/4/8/12 keep the branch inside the visible part of
+	#     the tree (folder background 1400 px wide) where no vanilla tech
+	#     overlaps when using step 4; the 4-slot step prevents nodes from
+	#     overlapping each other and provides breathing room (AAA).
 	#
 	# There is deliberately no path to the armored-car chain: the branch is
 	# reachable only from tech_trucks, which supplies the grid box.
@@ -60,13 +65,12 @@ technologies = {
 		start_year = 1936
 		folder = {
 			name = infantry_folder
-			# Строка x = 16 (пиксельная строка 1740): ниже броневиков
-			# (строка 4 / 900 px) и ниже всего блока «Специальные войска»
-			# (заголовок 950..1012, цепочки до 1700 px) — ветка не читается
-			# как продолжение броневиков и не задевает спецвойска.
-			# Столбцы y = 2/5/8/11 (шаг 3 слота = 210 px) — видимая часть
-			# древа, ванильных технологий на этой строке нет.
-			position = { x = 16 y = 2 }
+			# AAA 2026-09-02: поднято на 350 px (5 слотов) с x=16 (1740 px)
+			# на x=11 (1390 px) — на 350 px выше. Столбцы y = 0/4/8/12
+			# (шаг 4 слота = 280 px) дают зазор 140 px до рейнджеров
+			# (колонки 2/6/14) и держат ветку внутри 1400 px фона.
+			# Адаптивно: ветка читается на всех разрешениях, без наложений.
+			position = { x = 11 y = 0 }
 		}
 
 		categories = {
@@ -122,8 +126,8 @@ technologies = {
 		start_year = 1938
 		folder = {
 			name = infantry_folder
-			# та же строка x = 6, шаг 3 слота вправо
-			position = { x = 16 y = 5 }
+			# AAA: та же строка x=11 (1390 px), +4 слота вправо = 280 px шаг
+			position = { x = 11 y = 4 }
 		}
 
 		categories = {
@@ -162,8 +166,8 @@ technologies = {
 		start_year = 1939
 		folder = {
 			name = infantry_folder
-			# та же строка x = 6, шаг 3 слота вправо
-			position = { x = 16 y = 8 }
+			# AAA: строка x=11, шаг 4 слота — адаптивно, без наложений
+			position = { x = 11 y = 8 }
 		}
 
 		categories = {
@@ -200,8 +204,9 @@ technologies = {
 		start_year = 1941
 		folder = {
 			name = infantry_folder
-			# последняя в ветке: та же строка, шаг 3 слота вправо
-			position = { x = 16 y = 11 }
+			# AAA: последняя в ветке, строка x=11 (1390 px), 350 px выше
+			# исходной 1740 px, шаг 4 слота — внутри видимой зоны 1400 px
+			position = { x = 11 y = 12 }
 		}
 
 		categories = {
