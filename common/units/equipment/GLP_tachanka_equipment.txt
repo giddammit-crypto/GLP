@@ -1,12 +1,18 @@
 equipments = {
 
 	# -------------------------------------------------------------------------
-	# Tachanka equipment family.
+	# Tachanka equipment families.
 	#
-	# `tachanka_equipment` is the archetype used by the sub-unit `need` blocks.
-	# The numbered entries are buildable variants unlocked by the technologies.
-	# Keeping the archetype separate is required for equipment upgrades to work
-	# in the division designer and for old variants to be replaced by new ones.
+	# Plain tachanka family:       tachanka_equipment (archetype, 1936, armor 0)
+	# Armored tachanka family:     armored_tachanka_equipment (archetype, 1938,
+	#                              armor_value 6 / hardness 0.20)
+	#
+	# The armored family MUST be a separate archetype: the division designer
+	# reads armor_value/hardness from the equipment family used by the
+	# subunit's transport/need blocks, and the armored_tachanka battalion uses
+	# armored_tachanka_equipment while the plain tachanka keeps the unarmored
+	# archetype.  Variants 2/3/4 belong to the armored family; variant 1 stays
+	# in the plain family.
 	# -------------------------------------------------------------------------
 
 	tachanka_equipment = {
@@ -49,11 +55,44 @@ equipments = {
 		picture = GLP_tachanka_tech_1
 	}
 
+	# -------------------------------------------------------------------------
+	# Armored family archetype: carries the canonical armored-car stats so the
+	# division designer shows Armour 6 / Hardness 20% for armored_tachanka.
+	# -------------------------------------------------------------------------
+	armored_tachanka_equipment = {
+		year = 1938
+
+		is_archetype = yes
+		is_buildable = no
+		picture = GLP_tachanka_tech_2
+		type = motorized
+		group_by = archetype
+
+		interface_category = interface_category_land
+
+		build_cost_ic = 1.8
+		resources = {
+			steel = 2
+		}
+
+		maximum_speed = 8.0
+		reliability = 0.88
+		hardness = 0.20
+		soft_attack = 26.0
+		hard_attack = 6.0
+		defense = 20.0
+		breakthrough = 16.0
+		ap_attack = 10.0
+		air_attack = 0.0
+		armor_value = 6.0
+
+		fuel_consumption = 0.0
+	}
+
 	# 2. Бронированная тачанка прорыва (1938)
 	tachanka_equipment_2 = {
 		year = 1938
-		archetype = tachanka_equipment
-		parent = tachanka_equipment_1
+		archetype = armored_tachanka_equipment
 		is_buildable = yes
 		priority = 20
 		picture = GLP_tachanka_tech_2
@@ -78,7 +117,7 @@ equipments = {
 	# 3. Бронеавтомобиль «Воля» (1939)
 	tachanka_equipment_3 = {
 		year = 1939
-		archetype = tachanka_equipment
+		archetype = armored_tachanka_equipment
 		parent = tachanka_equipment_2
 		is_buildable = yes
 		priority = 30
@@ -105,7 +144,7 @@ equipments = {
 	# 4. Тяжёлый броневик «Батько» (1941)
 	tachanka_equipment_4 = {
 		year = 1941
-		archetype = tachanka_equipment
+		archetype = armored_tachanka_equipment
 		parent = tachanka_equipment_3
 		is_buildable = yes
 		priority = 40

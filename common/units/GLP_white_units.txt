@@ -24,7 +24,9 @@ sub_units = {
 		active = no
 		cavalry = yes
 
-		type = { cavalry infantry }
+		# Vanilla cavalry uses type = { infantry } plus the cavalry = yes flag
+		# ("cavalry" is not a valid internal unit type).
+		type = { infantry }
 		group = cavalry
 
 		categories = {
@@ -68,7 +70,11 @@ sub_units = {
 		active = no
 		cavalry = yes
 
-		type = { cavalry armor }
+		# "cavalry" is not a valid internal unit type; the vanilla armored
+		# car uses type = { armor } only.  This makes the division designer
+		# treat the battalion as armored and read armor_value/hardness from
+		# the armored_tachanka_equipment family.
+		type = { armor }
 		group = cavalry
 
 		categories = {
@@ -87,14 +93,17 @@ sub_units = {
 		default_morale = 0.35
 		manpower = 500
 
-		transport = tachanka_equipment
+		# The armored family has its own archetype with armor_value/hardness,
+		# so the designer no longer reads armor 0 from the plain tachanka
+		# archetype (the cause of the "no armor in division" warning).
+		transport = armored_tachanka_equipment
 		training_time = 100
 		weight = 0.5
 		supply_consumption = 0.05
 		suppression = 3.0
 
 		need = {
-			tachanka_equipment = 20
+			armored_tachanka_equipment = 20
 			infantry_equipment = 40
 			support_equipment = 10
 		}
