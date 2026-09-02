@@ -17,13 +17,14 @@ technologies = {
 	# directly below the armored-car chain, causing visual overlap with both
 	# vanilla branches.
 	#
-	# Corrected layout: vanilla infantry research items are spaced two slots
-	# (140 px) apart on a row.  We therefore place the branch on row x = 6
-	# (pixel row y = 1040, safely below the armored-car row at y = 900 and
-	# below the marines row at y = 965), and use y = 15/17/19/21
-	# (pixel columns x = 1190/1330/1470/1610) so the four nodes use the
-	# vanilla 140 px spacing and stay far to the right of the marines,
-	# mountaineers, paratroopers and armor-car columns.
+	# Corrected layout: the branch sits on the same pixel row as the vanilla
+	# armored cars (row y = 900, folder row x = 4) and visually continues the
+	# armored-car line to the right: y = 14/16/18/20 (pixel columns
+	# x = 1120/1260/1400/1540), one 140 px (2-slot) step after armored_car3
+	# (x = 980).  The nodes use the vanilla 140 px spacing, are clear of the
+	# marines row (y = 965) and the special-forces chains below, and no longer
+	# overlap each other.  There is deliberately no path to the armored-car
+	# chain: the branch only *looks* like its continuation.
 	# -------------------------------------------------------------------------
 
 	GLP_tachanka_tech_1 = {
@@ -53,10 +54,10 @@ technologies = {
 		start_year = 1936
 		folder = {
 			name = infantry_folder
-			# Row below the vanilla armored cars (y = 900) and marines
-			# (y = 965); first column of the tachanka branch at
-			# pixel (x = 1190, y = 1040).
-			position = { x = 6 y = 15 }
+			# Same pixel row as the vanilla armored cars (y = 900); first
+			# column of the tachanka branch at pixel (x = 1120, y = 900),
+			# one 140 px (2-slot) step right of armored_car3 (x = 980).
+			position = { x = 4 y = 14 }
 		}
 
 		categories = {
@@ -112,7 +113,8 @@ technologies = {
 		start_year = 1938
 		folder = {
 			name = infantry_folder
-			position = { x = 6 y = 17 }
+			# y = 16 -> pixel x = 1260 (row y = 900, same line as armored cars).
+			position = { x = 4 y = 16 }
 		}
 
 		categories = {
@@ -151,7 +153,8 @@ technologies = {
 		start_year = 1939
 		folder = {
 			name = infantry_folder
-			position = { x = 6 y = 19 }
+			# y = 18 -> pixel x = 1400 (row y = 900, same line as armored cars).
+			position = { x = 4 y = 18 }
 		}
 
 		categories = {
@@ -188,7 +191,9 @@ technologies = {
 		start_year = 1941
 		folder = {
 			name = infantry_folder
-			position = { x = 6 y = 15 }
+			# y = 20 -> pixel x = 1540 (row y = 900, same line as armored cars);
+			# off the original y = 15 that collided with GLP_tachanka_tech_1.
+			position = { x = 4 y = 20 }
 		}
 
 		categories = {

@@ -48,6 +48,8 @@
  armored_tachanka_desc:0 "Armored assault tachankas for infantry and cavalry breakthrough."
 
  tachanka_equipment:0 "Tachankas and Armored Cars"
+ armored_tachanka_equipment:0 "Armored Tachankas and Armored Cars"
+ armored_tachanka_equipment_desc:0 "Armored assault tachankas, Volya armored cars and Batko heavy armored cars."
  tachanka_equipment_1:0 "RIA Tachanka Model 1936"
  tachanka_equipment_1_desc:0 "Sprung cart with Maxim heavy machine gun."
  tachanka_equipment_2:0 "Armored Breakthrough Tachanka Model 1938"
@@ -56,3 +58,8 @@
  tachanka_equipment_3_desc:0 "Halftrack armored car with dual machine gun turrets."
  tachanka_equipment_4:0 "Heavy Armored Car Batko Model 1941"
  tachanka_equipment_4_desc:0 "Heavy combat armored car with 45mm cannon."
+
+ # Division designer: group header for tachanka battalions
+ # (common/units/GLP_white_units.txt sets group = cavalry).
+ group_cavalry_title:0 "Tachankas"
+ group_cavalry_desc:0 "Machine-gun and armored tachankas of the RPA."
