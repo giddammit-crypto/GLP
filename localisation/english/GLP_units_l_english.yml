@@ -41,9 +41,10 @@
  GLP_tachanka_tech_3_desc:0 "Improvised armored car chassis with heavy machine gun turrets."
  GLP_tachanka_tech_4:0 "Heavy Armored Car Batko"
  GLP_tachanka_tech_4_desc:0 "Heavy wheeled combat vehicle equipped with 45mm anti-tank cannon."
- tachanka:0 "Tachanka Battalion"
+ category_tachanka:0 "Tachanka"
+ tachanka:0 "Tachankas (Tachanka)"
  tachanka_desc:0 "Mobile machine gun cart detachments."
- armored_tachanka:0 "Armored Tachanka Battalion"
+ armored_tachanka:0 "Armored Tachankas (Tachanka)"
  armored_tachanka_desc:0 "Armored assault tachankas for infantry and cavalry breakthrough."
 
  tachanka_equipment:0 "Tachankas and Armored Cars"

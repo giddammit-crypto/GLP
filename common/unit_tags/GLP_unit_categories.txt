@@ -1,0 +1,10 @@
+# =============================================================================
+# GLP custom sub-unit categories.
+#
+# category_tachanka groups both GLP tachanka battalions (tachanka and
+# armored_tachanka) so their technology bonuses show as "Tachanka" in the
+# research tooltip instead of the generic "Cavalry" label.
+# =============================================================================
+sub_unit_categories = {
+	category_tachanka
+}

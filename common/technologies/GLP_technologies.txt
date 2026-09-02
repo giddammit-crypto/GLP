@@ -9,15 +9,21 @@ technologies = {
 	#
 	# The infantry folder uses the "LEFT" gridbox format (x = down, y = right)
 	# and has one gridbox per branch chain.  The tachanka line inherits the
-	# tech_trucks_tree gridbox (the motorized row) from its anchor and is
-	# placed in the empty band directly BELOW the vanilla armored cars:
-	# the armored cars sit at pixel row y = 900, the tachanka branch at
-	# pixel row y = 970, columns x = 350/420/490/630 (folder positions
-	# x = 5, y = 3/4/5/7).  Column 560 is skipped because the vanilla
-	# marines2 icon occupies pixel (560, 1035) directly below it.  The
-	# special forces rows (marines y = 1035, mountaineers y = 1135,
-	# paratroopers y = 1235, rangers y = 1335) stay below the tachanka row,
-	# untouched.
+	# tech_trucks_tree gridbox (the motorized row) from its anchor.
+	#
+	# Prior layout bug: positions {x=5,y=3/4/5/7} put the four tachanka
+	# technologies only one slot (70 px) apart, so they overlapped each other,
+	# and the row (y = 970) sat five pixels above the marines chain and
+	# directly below the armored-car chain, causing visual overlap with both
+	# vanilla branches.
+	#
+	# Corrected layout: vanilla infantry research items are spaced two slots
+	# (140 px) apart on a row.  We therefore place the branch on row x = 6
+	# (pixel row y = 1040, safely below the armored-car row at y = 900 and
+	# below the marines row at y = 965), and use y = 15/17/19/21
+	# (pixel columns x = 1190/1330/1470/1610) so the four nodes use the
+	# vanilla 140 px spacing and stay far to the right of the marines,
+	# mountaineers, paratroopers and armor-car columns.
 	# -------------------------------------------------------------------------
 
 	GLP_tachanka_tech_1 = {
@@ -47,9 +53,10 @@ technologies = {
 		start_year = 1936
 		folder = {
 			name = infantry_folder
-			# Row directly below the vanilla armored cars (y = 900);
-			# first column of the tachanka branch (pixel x = 350, y = 970).
-			position = { x = 5 y = 3 }
+			# Row below the vanilla armored cars (y = 900) and marines
+			# (y = 965); first column of the tachanka branch at
+			# pixel (x = 1190, y = 1040).
+			position = { x = 6 y = 15 }
 		}
 
 		categories = {
@@ -58,7 +65,7 @@ technologies = {
 			motorized_equipment
 		}
 
-		cavalry = {
+		category_tachanka = {
 			soft_attack = 0.15
 			breakthrough = 0.10
 			maximum_speed = 0.05
@@ -105,7 +112,7 @@ technologies = {
 		start_year = 1938
 		folder = {
 			name = infantry_folder
-			position = { x = 5 y = 4 }
+			position = { x = 6 y = 17 }
 		}
 
 		categories = {
@@ -115,7 +122,7 @@ technologies = {
 			motorized_equipment
 		}
 
-		cavalry = {
+		category_tachanka = {
 			soft_attack = 0.20
 			armor_value = 0.05
 			breakthrough = 0.15
@@ -144,7 +151,7 @@ technologies = {
 		start_year = 1939
 		folder = {
 			name = infantry_folder
-			position = { x = 5 y = 5 }
+			position = { x = 6 y = 19 }
 		}
 
 		categories = {
@@ -154,10 +161,10 @@ technologies = {
 			motorized_equipment
 		}
 
-		# These are cavalry battalions, not vanilla motorized infantry.  The
-		# equipment's own stats provide the armored-car upgrade; this small
-		# modifier therefore applies to the actual custom battalion as well.
-		cavalry = {
+		# These are tachanka battalions, not vanilla cavalry.  The equipment's
+		# own stats provide the armored-car upgrade; this modifier therefore
+		# applies only to the custom tachanka subunit-category.
+		category_tachanka = {
 			soft_attack = 0.15
 			hard_attack = 0.20
 			armor_value = 0.08
@@ -181,9 +188,7 @@ technologies = {
 		start_year = 1941
 		folder = {
 			name = infantry_folder
-			# Column 560 is skipped (vanilla marines2 sits below it at
-			# pixel (560, 1035)); the fourth tachanka continues at 630.
-			position = { x = 5 y = 7 }
+			position = { x = 6 y = 21 }
 		}
 
 		categories = {
@@ -193,7 +198,7 @@ technologies = {
 			artillery
 		}
 
-		cavalry = {
+		category_tachanka = {
 			hard_attack = 0.35
 			ap_attack = 0.40
 			breakthrough = 0.20

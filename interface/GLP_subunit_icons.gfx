@@ -1,0 +1,87 @@
+# =============================================================================
+#  GLP -- иконки юнитов тачанок (дизайнер дивизий / карта / панель юнитов).
+#
+#  Без этих спрайтов HOI4 берёт для кастомного батальона случайную иконку
+#  (обычно силуэт кавалерии или ПВО), потому что у «tachanka» нет собственной
+#  записи GFX_unit_<unit>_icon_*.  Объявление полностью повторяет ванильное
+#  interface/subuniticons.gfx:
+#    * GFX_unit_<unit>_icon_medium       -- большая иконка в дизайнере
+#      (gfx/interface/counters/divisions_large/unit_<unit>_icon.dds, 76x42,
+#      атлас из 2 кадров -> файл 152x42);
+#    * GFX_unit_<unit>_icon_medium_white -- белая мини-иконка на карте и в
+#      контр-панели (divisions_small/onmap_unit_<unit>_icon.dds, 30x12,
+#      атлас 60x12);
+#    * GFX_unit_<unit>_icon_small       -- мелкая иконка (texticons, 30x12,
+#      атлас 60x12, как у ванильных unit_*_icon_small.dds).
+#
+#  Силуэты нарисованы по стилю базовой игры (плоский зелёный силуэт с тёмной
+#  обводкой и световой растяжкой сверху) из прозрачных технологических
+#  артов GLP_tachanka_tech_1 / GLP_tachanka_tech_4.  Зелёные плитки собраны
+#  в gfx/interface/counters/division_templates_{large,small}/GLP_*_*.dds так
+#  же, как знамёна добровольцев 90/91.
+# =============================================================================
+
+spriteTypes = {
+
+	### ### ПУЛЕМЁТНАЯ ТАЧАНКА ###
+
+	spriteType = {
+		name = "GFX_unit_tachanka_icon_medium"
+		texturefile = "gfx/interface/counters/divisions_large/unit_tachanka_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_tachanka_icon_medium_white"
+		texturefile = "gfx/interface/counters/divisions_small/onmap_unit_tachanka_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_tachanka_icon_small"
+		texturefile = "gfx/texticons/unit_tachanka_icon_small.dds"
+		legacy_lazy_load = no
+		noOfFrames = 2
+	}
+
+	### ### БРОНИРОВАННАЯ ТАЧАНКА ###
+
+	spriteType = {
+		name = "GFX_unit_armored_tachanka_icon_medium"
+		texturefile = "gfx/interface/counters/divisions_large/unit_armored_tachanka_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_armored_tachanka_icon_medium_white"
+		texturefile = "gfx/interface/counters/divisions_small/onmap_unit_armored_tachanka_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_armored_tachanka_icon_small"
+		texturefile = "gfx/texticons/unit_armored_tachanka_icon_small.dds"
+		legacy_lazy_load = no
+		noOfFrames = 2
+	}
+
+	### ### ПЛИТКИ ШАБЛОНОВ ДИВИЗИЙ (template_counter 93/94) ###
+
+	spriteType = {
+		name = "GFX_div_templ_93_large"
+		texturefile = "gfx/interface/counters/division_templates_large/GLP_tachanka_large.dds"
+	}
+	spriteType = {
+		name = "GFX_div_templ_93_small"
+		texturefile = "gfx/interface/counters/division_templates_small/GLP_tachanka_small.dds"
+	}
+
+	spriteType = {
+		name = "GFX_div_templ_94_large"
+		texturefile = "gfx/interface/counters/division_templates_large/GLP_armored_tachanka_large.dds"
+	}
+	spriteType = {
+		name = "GFX_div_templ_94_small"
+		texturefile = "gfx/interface/counters/division_templates_small/GLP_armored_tachanka_small.dds"
+	}
+}

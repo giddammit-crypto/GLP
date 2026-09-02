@@ -31,6 +31,7 @@ sub_units = {
 			category_front_line
 			category_army
 			category_cavalry
+			category_tachanka
 		}
 
 		combat_width = 2
@@ -75,6 +76,7 @@ sub_units = {
 			category_army
 			category_cavalry
 			category_all_armor
+			category_tachanka
 		}
 
 		combat_width = 2

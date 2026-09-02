@@ -1251,7 +1251,14 @@ BRANCH_TO_FAMILY = {
     'cavalry': 'horse', 'infantry': 'foot', 'garrison': 'foot', 'militia': 'foot',
     'motorized': 'truck', 'mechanized': 'truck', 'armor': 'tank', 'marine': 'marine',
     'mountaineers': 'mountain', 'paratrooper': 'para',
+    # GLP-тачанки: собственные силуэты (ванильного силуэта тачанки нет), но по
+    # названию и по группе имён это та же «конная» семья, что у конницы.
+    'tachanka': 'horse', 'armored_tachanka': 'horse',
 }
+# Собственные силуэты родов войск разрешены только для этих колонок depicts:
+#  * flag            -- знамёна добровольцев (90/91);
+#  * tachanka/armored_tachanka -- тачанки GLP (93/94), ванильного силуэта нет.
+CUSTOM_TILE_DEPICTS = {'flag', 'tachanka', 'armored_tachanka'}
 # Род войск по названию дивизии (ищет ВСЕ совпадения: «моторизованная
 # тачаночная» = truck + horse, и этого достаточно, чтобы имя не противоречило
 # группе имён).
@@ -1427,9 +1434,10 @@ def check_division_icons():
                     err(f'counter {n}: {tex}: onmap_-силуэт принадлежит мелким '
                         'фишкам на карте (divisions_small); большую плитку '
                         'дизайнера им рисовать нельзя')
-                if row['depicts'] == 'flag':
-                    err(f'counter {n}: знамя добровольцев не может быть ванильным '
-                        f'силуэтом — {tex} утверждает род войск «{mv.group(3)}»')
+                if row['depicts'] in CUSTOM_TILE_DEPICTS:
+                    err(f'counter {n}: {row["depicts"]} обязан использовать '
+                        f'собственную плитку мода, а не ванильный силуэт '
+                        f'«{mv.group(3)}» — {tex}')
                     continue
                 if (BRANCH_TO_FAMILY.get(mv.group(3))
                         != BRANCH_TO_FAMILY.get(row['depicts'])):
@@ -1444,7 +1452,7 @@ def check_division_icons():
                         '2 кадра, нужно noOfFrames = 2 (иначе движок сожмёт обе '
                         'иконки в одну плитку)')
                 continue
-            if row['depicts'] != 'flag':
+            if row['depicts'] not in CUSTOM_TILE_DEPICTS:
                 err(f'counter {n}: {tex} — собственный силуэт рода войск в моде '
                     'запрещён: для depicts != flag берётся графика базовой игры '
                     '(см. tools/division_icons.tsv)')
@@ -1517,8 +1525,8 @@ def check_division_icons():
                         continue
                     registry[counter]['used'] += 1
                     dep = registry[counter]['depicts']
-                    if dep == 'flag':
-                        continue      # знамя добровольцев род войск не утверждает
+                    if dep in CUSTOM_TILE_DEPICTS:
+                        continue      # знамя/тачанка род войск не утверждает
                     got = BRANCH_TO_FAMILY.get(dep)
                     if got not in want:
                         err(f'{rel(p)}: шаблон «{title}» — иконка counter {counter} '
@@ -2374,8 +2382,8 @@ def check_tachanka_technology_contract():
         armored_oob = strip_comments(read(armored_oob_path))
         if 'armored_tachanka' not in armored_oob:
             err('tachanka: armored template does not contain armored_tachanka regiments')
-        if not re.search(r'template_counter\s*=\s*92', armored_oob):
-            err('tachanka: armored template has no cavalry template_counter = 92')
+        if not re.search(r'template_counter\s*=\s*94', armored_oob):
+            err('tachanka: armored template has no tachanka template_counter = 94')
 
     equipment_ids = set(re.findall(r'(?m)^\s*(tachanka_equipment(?:_\d+)?)\s*=\s*\{', equipment))
     if 'tachanka_equipment' not in equipment_ids:
@@ -2470,22 +2478,40 @@ def check_tachanka_technology_contract():
         # The first template is the starting GLP tachanka formation.
         if 'tachanka = {' not in tachanka_template:
             err('tachanka: GLP starting tachanka template does not use the custom battalion')
-        if not re.search(r'template_counter\s*=\s*92', tachanka_template):
-            err('tachanka: GLP starting tachanka template has no cavalry template_counter = 92')
+        if not re.search(r'template_counter\s*=\s*93', tachanka_template):
+            err('tachanka: GLP starting tachanka template has no tachanka template_counter = 93')
 
-    gfx_path = os.path.join(ROOT, 'interface/GLP_division_templates.gfx')
-    if not os.path.isfile(gfx_path):
-        err('tachanka: missing division-template icon declarations')
+    # GFX-объявления иконок тачанок (под-юнит + плитки 93/94).
+    gfx = strip_comments(read(os.path.join(ROOT, 'interface/GLP_subunit_icons.gfx')))
+    if not gfx:
+        err('tachanka: missing subunit-icon declarations (interface/GLP_subunit_icons.gfx)')
     else:
-        gfx = strip_comments(read(gfx_path))
-        for size, texture in (
-                ('large', 'divisions_large/unit_cavalry_icon.dds'),
-                ('small', 'divisions_small/onmap_unit_cavalry_icon.dds')):
-            pattern = (rf'name\s*=\s*"GFX_div_templ_92_{size}"'
-                       rf'.{{0,600}}?texturefile\s*=\s*"gfx/interface/counters/{texture}"'
+        # Атласы под-юнитов идут в 2 кадрах (как ванильный subuniticons.gfx).
+        two_frame = {
+            'GFX_unit_tachanka_icon_medium': 'gfx/interface/counters/divisions_large/unit_tachanka_icon.dds',
+            'GFX_unit_tachanka_icon_medium_white': 'gfx/interface/counters/divisions_small/onmap_unit_tachanka_icon.dds',
+            'GFX_unit_tachanka_icon_small': 'gfx/texticons/unit_tachanka_icon_small.dds',
+            'GFX_unit_armored_tachanka_icon_medium': 'gfx/interface/counters/divisions_large/unit_armored_tachanka_icon.dds',
+            'GFX_unit_armored_tachanka_icon_medium_white': 'gfx/interface/counters/divisions_small/onmap_unit_armored_tachanka_icon.dds',
+            'GFX_unit_armored_tachanka_icon_small': 'gfx/texticons/unit_armored_tachanka_icon_small.dds',
+        }
+        for sprite, texture in two_frame.items():
+            pattern = (rf'name\s*=\s*"{re.escape(sprite)}"'
+                       rf'.{{0,600}}?texturefile\s*=\s*"{re.escape(texture)}"'
                        rf'.{{0,200}}?noOfFrames\s*=\s*2')
             if not re.search(pattern, gfx, re.S | re.I):
-                err(f'tachanka: counter 92 {size} icon is not the vanilla cavalry two-frame atlas')
+                err(f'tachanka: {sprite} is not declared with two-frame atlas -> {texture}')
+        # Плитки шаблонов 93/94 -- одиночные (как знамёна 90/91), noOfFrames нет.
+        single = {
+            'GFX_div_templ_93_large': 'gfx/interface/counters/division_templates_large/GLP_tachanka_large.dds',
+            'GFX_div_templ_93_small': 'gfx/interface/counters/division_templates_small/GLP_tachanka_small.dds',
+            'GFX_div_templ_94_large': 'gfx/interface/counters/division_templates_large/GLP_armored_tachanka_large.dds',
+            'GFX_div_templ_94_small': 'gfx/interface/counters/division_templates_small/GLP_armored_tachanka_small.dds',
+        }
+        for sprite, texture in single.items():
+            pattern = rf'name\s*=\s*"{re.escape(sprite)}".{{0,600}}?texturefile\s*=\s*"{re.escape(texture)}"'
+            if not re.search(pattern, gfx, re.S | re.I):
+                err(f'tachanka: {sprite} is not declared -> {texture}')
 
 
 def main():

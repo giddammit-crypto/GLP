@@ -16,7 +16,7 @@
 division_template = {
 	name = "Ударный тачаночный курень им. Батьки Махно"
 	division_names_group = GLP_CAV_HISTORICAL
-	template_counter = 92
+	template_counter = 93
 
 	regiments = {
 		tachanka = { x = 0 y = 0 }
