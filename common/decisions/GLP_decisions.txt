@@ -74,15 +74,15 @@ GLP_revolutionary_military_ops = {
 				random_owned_controlled_state = {
 					prioritize = { 165 795 166 167 }
 					create_unit = {
-						division = "name = "1-я Интернациональная бригада им. Буэнавентуры Дуррути" division_template = "Интернациональная бригада CNT-FAI" start_experience_factor = 0.7 start_equipment_factor = 1.0"
+						division = "name = \"1-я Интернациональная бригада им. Буэнавентуры Дуррути\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.7 start_equipment_factor = 1.0"
 						owner = SPR
 					}
 					create_unit = {
-						division = "name = "2-я Добровольческая колонна им. Батьки Махно" division_template = "Интернациональная бригада CNT-FAI" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+						division = "name = \"2-я Добровольческая колонна им. Батьки Махно\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
 						owner = SPR
 					}
 					create_unit = {
-						division = "name = "3-я Анархо-повстанческая ударная сотня РПА" division_template = "Интернациональная бригада CNT-FAI" start_experience_factor = 0.6 start_equipment_factor = 1.0"
+						division = "name = \"3-я Анархо-повстанческая ударная сотня РПА\" division_template = \"Интернациональная бригада CNT-FAI\" start_experience_factor = 0.6 start_equipment_factor = 1.0"
 						owner = SPR
 					}
 				}
@@ -286,7 +286,7 @@ GLP_occupation_soviets = {
 		available = { 192 = { is_controlled_by = ROOT } }
 		complete_effect = {
 			192 = { add_compliance = 10 add_resistance = -8 }
-			add_equipment_to_stockpile = { type = early_destroyer amount = 5 producer = GLP }
+			add_equipment_to_stockpile = { type = convoy amount = 50 producer = GLP }
 			navy_experience = 10
 		}
 		ai_will_do = { factor = 1 }
@@ -338,12 +338,13 @@ GLP_occupation_soviets = {
 			random_enemy_country = {
 				add_timed_idea = { idea = GLP_idea_partisan_camps_timed days = 60 }
 			}
-			if = {
-				limit = { random = 35 }
-				add_equipment_to_stockpile = { type = infantry_equipment amount = 200 producer = GLP }
-			}
-			else = {
-				add_stability = -0.02
+			random_list = {
+				35 = {
+					add_equipment_to_stockpile = { type = infantry_equipment amount = 200 producer = GLP }
+				}
+				65 = {
+					add_stability = -0.02
+				}
 			}
 		}
 		ai_will_do = { factor = 1 }

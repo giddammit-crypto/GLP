@@ -310,3 +310,17 @@
  glp_kro.101.a:0 "Слава Вольной Степи!"
  glp_kro.101.b:0 "Опасные бунтовщики разрушают порядок!"
 
+ glp_sea.1.t:0 "The Black Sea Straits: Montreux Convention"
+ glp_sea.1.d:0 "In Montreux, world powers negotiate the regime of the Bosporus and Dardanelles straits. Turkish authorities seek full remilitarization. For the Free Territory, unrestricted maritime passage and connections with Spanish syndicates across the Mediterranean are essential for survival."
+ glp_sea.1.a:0 "Demand absolute freedom of navigation for syndicalist shipping"
+ glp_sea.1.b:0 "Accept Ankara's compromise to ensure tranquility on the southern border"
+
+ glp_sea.2.t:0 "Echoes of Kronstadt: Baltic Sailors Arrive"
+ glp_sea.2.d:0 "Vessels flying black banners dock in Sevastopol carrying veteran sailors of the 1921 Kronstadt rebellion. Having endured exile, these hardened seamen answer Batko Makhno's call to forge an invincible Revolutionary Navy in the Black Sea."
+ glp_sea.2.a:0 "Entrust the Baltic veterans with the Free Revolutionary Fleet!"
+ glp_sea.2.b:0 "Deploy the sailors to fortify Perekop's coastal artillery"
+
+ GLP_idea_black_sea_free_trade:0 "Black Sea Free Trade"
+ GLP_idea_black_sea_free_trade_desc:0 "Unfettered maritime passage for agrarian grain and coal exports from the communes into the Mediterranean."
+ GLP_idea_kronstadt_sailors:0 "Kronstadt Brotherhood"
+ GLP_idea_kronstadt_sailors_desc:0 "The revolutionary steadfastness and naval combat prowess of the Kronstadt veterans serving in the Black Sea fleet."

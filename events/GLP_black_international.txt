@@ -26,3 +26,161 @@ news_event = {
 		name = glp_bi.1.a
 	}
 }
+
+# Событие для Франции: Подполье синдикалистов и влияние Чёрного Интернационала
+country_event = {
+	id = glp_bi.2
+	title = glp_bi.2.t
+	desc = glp_bi.2.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_bi.2.a
+		add_stability = -0.05
+		add_popularity = { ideology = communism popularity = 0.05 }
+	}
+	option = {
+		name = glp_bi.2.b
+		add_political_power = -50
+	}
+}
+
+# Событие для Гуляйполя: Балканский комитет вольных общин
+country_event = {
+	id = glp_bi.3
+	title = glp_bi.3.t
+	desc = glp_bi.3.d
+	picture = GFX_news_event_GLP_peasant_communes
+	is_triggered_only = yes
+
+	option = {
+		name = glp_bi.3.a
+		add_political_power = 25
+		add_stability = 0.02
+		add_manpower = 5000
+	}
+}
+
+# Событие: Беглецы из РККА и архивы Задова (Эхо московских чисток 1937–1938)
+country_event = {
+	id = glp_bi.4
+	title = glp_bi.4.t
+	desc = glp_bi.4.d
+	picture = GFX_news_event_GLP_counter_intel
+	is_triggered_only = yes
+
+	trigger = {
+		tag = GLP
+		SOV = { exists = yes }
+	}
+
+	# 1. Принять беглецов: получить опытных командиров и конструкторов, но вызвать ярость Москвы
+	option = {
+		name = glp_bi.4.a
+		add_manpower = 8000
+		army_experience = 25
+		add_research_slot = 0
+		add_timed_idea = { idea = GLP_idea_cryptanalysis days = 365 }
+		SOV = {
+			add_opinion_modifier = { target = GLP modifier = GLP_soviet_anarchy_resentment }
+			country_event = { id = glp_bi.5 days = 5 }
+		}
+	}
+
+	# 2. Отказать: сохранить хрупкий мир с СССР ценой разочарования левых радикалов
+	option = {
+		name = glp_bi.4.b
+		add_stability = -0.04
+		add_popularity = { ideology = neutrality popularity = -0.05 }
+		SOV = {
+			add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed }
+		}
+		add_political_power = 30
+	}
+
+	# 3. Использовать КРО Задова: перехватить архивы ГПУ и организовать агентурную сеть
+	option = {
+		name = glp_bi.4.c
+		add_political_power = 50
+		add_stability = 0.03
+		add_timed_idea = { idea = GLP_idea_agent_networks days = 365 }
+		add_command_power = 20
+	}
+}
+
+# Событие для СССР / Гуляйполя: Ультиматум Москвы по беглецам
+country_event = {
+	id = glp_bi.5
+	title = glp_bi.5.t
+	desc = glp_bi.5.d
+	picture = GFX_news_event_GLP_war_council
+	is_triggered_only = yes
+
+	# Отвергнуть ультиматум Кремля: степь не выдает революционеров!
+	option = {
+		name = glp_bi.5.a
+		add_war_support = 0.08
+		add_stability = 0.02
+		SOV = {
+			add_opinion_modifier = { target = GLP modifier = GLP_soviet_anarchy_resentment }
+		}
+	}
+
+	# Тайный транзит через КРО Задова в Испанию (замести следы)
+	option = {
+		name = glp_bi.5.b
+		add_political_power = -30
+		add_stability = 0.03
+	}
+}
+
+# Событие: Латиноамериканское эхо (FORA в Аргентине и анархо-синдикалисты Мексики)
+country_event = {
+	id = glp_bi.6
+	title = glp_bi.6.t
+	desc = glp_bi.6.d
+	picture = GFX_news_event_GLP_alliance_treaty
+	is_triggered_only = yes
+
+	option = {
+		name = glp_bi.6.a
+		add_political_power = 40
+		add_stability = 0.03
+		if = {
+			limit = { ARG = { exists = yes } }
+			ARG = { add_opinion_modifier = { target = GLP modifier = GLP_french_syndicalist_warmth } }
+		}
+		if = {
+			limit = { MEX = { exists = yes } }
+			MEX = { add_opinion_modifier = { target = GLP modifier = GLP_french_syndicalist_warmth } }
+		}
+	}
+}
+
+# Событие: Балканская Федерация вольных общин
+country_event = {
+	id = glp_bi.7
+	title = glp_bi.7.t
+	desc = glp_bi.7.d
+	picture = GFX_news_event_GLP_peasant_communes
+	is_triggered_only = yes
+
+	option = {
+		name = glp_bi.7.a
+		add_manpower = 6000
+		add_war_support = 0.04
+		if = {
+			limit = { ROM = { exists = yes } }
+			ROM = { add_popularity = { ideology = neutrality popularity = 0.05 } }
+		}
+		if = {
+			limit = { BUL = { exists = yes } }
+			BUL = { add_popularity = { ideology = neutrality popularity = 0.05 } }
+		}
+		if = {
+			limit = { YUG = { exists = yes } }
+			YUG = { add_popularity = { ideology = neutrality popularity = 0.05 } }
+		}
+	}
+}

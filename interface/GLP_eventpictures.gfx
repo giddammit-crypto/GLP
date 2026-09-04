@@ -47,7 +47,7 @@ spriteTypes = {
 		name = "GFX_news_event_GLP_madrid_international"
 		texturefile = "gfx/event_pictures/news_event_glp_madrid_international.dds"
 	}
-	# ── Испанский сценарий ────────────────────────────────────────────────────
+	# -------------------------------------------------------------------------
 	spriteType = {
 		name = "GFX_news_event_GLP_durruti_column"
 		texturefile = "gfx/event_pictures/news_event_glp_durruti_column.dds"
@@ -97,7 +97,7 @@ spriteTypes = {
 		texturefile = "gfx/event_pictures/news_event_glp_white_collapse.dds"
 	}
 
-	# ── Дополнительные тематические иллюстрации ────────────────────────────────
+	# -------------------------------------------------------------------------
 	spriteType = {
 		name = "GFX_news_event_GLP_air_squadron"
 		texturefile = "gfx/event_pictures/news_event_glp_air_squadron.dds"

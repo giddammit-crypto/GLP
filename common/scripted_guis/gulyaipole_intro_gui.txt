@@ -21,27 +21,13 @@ scripted_gui = {
 				clr_country_flag = glp_show_cinematic_intro
 				clr_country_flag = glp_intro_crawl_mode
 				clr_country_flag = glp_intro_manual_mode
-				random_list = {
-					17 = { scoped_play_song = GLP_ms_lyubo }
-					17 = { scoped_play_song = GLP_ms_bei }
-					17 = { scoped_play_song = GLP_ms_sedmoi_patron }
-					17 = { scoped_play_song = GLP_ms_konflikt }
-					16 = { scoped_play_song = GLP_ms_finsky_nozh }
-					16 = { scoped_play_song = GLP_ms_ne_moya_zabota }
-				}
+				scoped_play_song = maintheme
 			}
 			close_intro_button_click = {
 				clr_country_flag = glp_show_cinematic_intro
 				clr_country_flag = glp_intro_crawl_mode
 				clr_country_flag = glp_intro_manual_mode
-				random_list = {
-					17 = { scoped_play_song = GLP_ms_lyubo }
-					17 = { scoped_play_song = GLP_ms_bei }
-					17 = { scoped_play_song = GLP_ms_sedmoi_patron }
-					17 = { scoped_play_song = GLP_ms_konflikt }
-					16 = { scoped_play_song = GLP_ms_finsky_nozh }
-					16 = { scoped_play_song = GLP_ms_ne_moya_zabota }
-				}
+				scoped_play_song = maintheme
 			}
 		}
 

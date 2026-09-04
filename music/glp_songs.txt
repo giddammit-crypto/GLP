@@ -1,0 +1,9 @@
+# Intro voice song definition
+music_station = "base_music"
+
+music = {
+	song = "gulyaipole_intro_voice_music"
+	chance = {
+		factor = 0
+	}
+}

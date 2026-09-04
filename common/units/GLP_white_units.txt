@@ -16,7 +16,7 @@ sub_units = {
 	# -- Пулемётная тачанка РПА (линейный / вспомогательный батальон) --------
 	tachanka = {
 		abbreviation = "ТЧ"
-		sprite = cavalry
+		sprite = tachanka
 		map_icon_category = other
 		priority = 610
 		ai_priority = 250
@@ -68,7 +68,7 @@ sub_units = {
 	# Теперь "Бронированный тачаночный курень" корректно отображается как бронетанковый.
 	armored_tachanka = {
 		abbreviation = "БТЧ"
-		sprite = cavalry
+		sprite = armored_tachanka
 		map_icon_category = armored
 		priority = 615
 		ai_priority = 260
@@ -83,7 +83,6 @@ sub_units = {
 		categories = {
 			category_front_line
 			category_army
-			category_armor
 			category_all_armor
 			category_tachanka
 		}

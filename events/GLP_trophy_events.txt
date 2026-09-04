@@ -13,13 +13,10 @@ country_event = {
 	desc = glp_trophy.1.d
 	picture = GFX_news_event_GLP_cavalry_raid
 	is_triggered_only = yes
+	hidden = yes
 
 	trigger = {
-		tag = GLP
-		exists = yes
-		has_capitulated = no
-		
-		
+		always = no
 	}
 
 	option = {

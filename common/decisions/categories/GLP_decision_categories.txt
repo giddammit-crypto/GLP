@@ -64,3 +64,15 @@ GLP_kro_network_category = {
 		has_completed_focus = GLP_kontrrazvedka_reorganization
 	}
 }
+
+GLP_black_international_actions = {
+	icon = GFX_decision_category_anarchist_rebellion
+	picture = GFX_decision_cat_generic_anarchism
+	allowed = { original_tag = GLP }
+	visible = {
+		OR = {
+			has_country_flag = glp_black_international_founded
+			has_completed_focus = GLP_black_international
+		}
+	}
+}

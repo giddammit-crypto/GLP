@@ -12,11 +12,12 @@
 #  9. «Партизанский заслон народной самообороны» (CW 9, Гарнизоны и охрана тыла)
 # =========================================================================
 
-# 1. УДАРНЫЙ КАВАЛЕРИЙСКИЙ КУРЕНЬ ИМ. БАТЬКИ МАХНО (Рейдовая конница, модель Донского казака)
+# 1. БРОНЕТАНКОВАЯ ТАЧАНОЧНАЯ ДИВИЗИЯ (Тачанки РПА, иконка тачанки 93)
 division_template = {
-	name = "Ударный кавалерийский курень им. Батьки Махно"
-	division_names_group = GLP_CAV_HISTORICAL
+	name = "Бронетанковая тачаночная дивизия"
+	division_names_group = GLP_TACHANKA_HISTORICAL
 	template_counter = 93
+	override_model = GLP_tachanka_entity
 
 	regiments = {
 		tachanka = { x = 0 y = 0 }
@@ -32,7 +33,26 @@ division_template = {
 	}
 }
 
-# 2. КОННО-ПОВСТАНЧЕСКАЯ ДИВИЗИЯ РПА (Тяжёлая кавалерия, модель Донского казака)
+# 2. УДАРНЫЙ КАВАЛЕРИЙСКИЙ КУРЕНЬ ИМ. БАТЬКИ МАХНО (Чистая конница, ванильная иконка лошади)
+division_template = {
+	name = "Ударный кавалерийский курень им. Батьки Махно"
+	division_names_group = GLP_CAV_HISTORICAL
+
+	regiments = {
+		cavalry = { x = 0 y = 0 }
+		cavalry = { x = 0 y = 1 }
+		cavalry = { x = 0 y = 2 }
+		cavalry = { x = 1 y = 0 }
+		cavalry = { x = 1 y = 1 }
+		cavalry = { x = 1 y = 2 }
+	}
+	support = {
+		recon = { x = 0 y = 0 }
+		engineer = { x = 0 y = 1 }
+	}
+}
+
+# 2b. КОННО-ПОВСТАНЧЕСКАЯ ДИВИЗИЯ РПА (Тяжёлая кавалерия, модель Донского казака)
 division_template = {
 	name = "Конно-повстанческая дивизия РПА"
 	division_names_group = GLP_CAV_HISTORICAL
@@ -59,6 +79,7 @@ division_template = {
 division_template = {
 	name = "Штурмовая дивизия Чёрного Знамени"
 	division_names_group = GLP_INF_HISTORICAL
+	override_model = GLP_infantry_entity
 
 	regiments = {
 		infantry = { x = 0 y = 0 }
@@ -128,6 +149,7 @@ division_template = {
 division_template = {
 	name = "Черноморская вольная морская бригада"
 	division_names_group = GLP_MAR_HISTORICAL
+	override_model = GLP_infantry_entity
 
 	regiments = {
 		marine = { x = 0 y = 0 }
@@ -149,6 +171,7 @@ division_template = {
 division_template = {
 	name = "Горно-повстанческая бригада «Орлиное Гнездо»"
 	division_names_group = GLP_MNT_HISTORICAL
+	override_model = GLP_infantry_entity
 
 	regiments = {
 		mountaineers = { x = 0 y = 0 }
@@ -169,6 +192,7 @@ division_template = {
 division_template = {
 	name = "Стрелковая бригада вольных коммун"
 	division_names_group = GLP_INF_HISTORICAL
+	override_model = GLP_infantry_entity
 
 	regiments = {
 		infantry = { x = 0 y = 0 }
@@ -192,6 +216,7 @@ division_template = {
 division_template = {
 	name = "Партизанский заслон народной самообороны"
 	division_names_group = GLP_GAR_HISTORICAL
+	override_model = GLP_infantry_entity
 
 	regiments = {
 		infantry = { x = 0 y = 0 }
@@ -211,6 +236,7 @@ division_template = {
 	name = "Интернациональная бригада CNT-FAI"
 	division_names_group = GLP_INF_HISTORICAL
 	template_counter = 91
+	override_model = GLP_infantry_entity
 	is_locked = yes
 
 	regiments = {
@@ -238,6 +264,7 @@ division_template = {
 	name = "Офицерская добровольческая дивизия"
 	division_names_group = GLP_INF_HISTORICAL
 	template_counter = 90
+	override_model = GLP_infantry_entity
 	is_locked = yes
 
 	regiments = {
@@ -299,17 +326,17 @@ units = {
 		start_equipment_factor = 1.0
 	}
 	division = {
-		name = "3-я Степная кавалерийская дивизия им. Семена Каретника"
+		name = "1-я Тачаночная дивизия им. Семена Каретника"
 		location = 9419 # Никополь
-		division_template = "Ударный кавалерийский курень им. Батьки Махно"
-		start_experience_factor = 0.4
+		division_template = "Бронетанковая тачаночная дивизия"
+		start_experience_factor = 0.5
 		start_equipment_factor = 1.0
 	}
 	division = {
-		name = "4-я Таврическая кавалерийская дивизия"
+		name = "2-я Тачаночная дивизия"
 		location = 11700 # Мелитополь
-		division_template = "Ударный кавалерийский курень им. Батьки Махно"
-		start_experience_factor = 0.4
+		division_template = "Бронетанковая тачаночная дивизия"
+		start_experience_factor = 0.5
 		start_equipment_factor = 1.0
 	}
 

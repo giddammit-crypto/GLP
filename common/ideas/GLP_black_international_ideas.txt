@@ -78,16 +78,41 @@ ideas = {
 			}
 		}
 
-		# Член Чёрного Интернационала — конгресс (glp_spain2.15)
+		# Лидер Чёрного Интернационала — штаб всемирной антиавторитарной солидарности
+		GLP_black_international_leader = {
+			allowed = { always = yes }
+			removal_cost = -1
+			picture = generic_volunteer_expedition_bonus
+			rule = {
+				can_send_volunteers = yes
+			}
+			modifier = {
+				political_power_gain = 0.15
+				trade_opinion_factor = 0.30
+				license_purchase_cost = -0.50
+				send_volunteers_tension = -1.00
+				send_volunteer_divisions_required = -2.0
+				send_volunteer_size = 6.0
+			}
+		}
+
+		# Член Чёрного Интернационала — участник международного альянса (Mutual Aid)
 		GLP_black_international_member = {
 			allowed = { always = yes }
 			removal_cost = -1
 			picture = generic_volunteer_expedition_bonus
+			rule = {
+				can_send_volunteers = yes
+			}
 			modifier = {
-				political_power_gain = 0.15
-				send_volunteer_size = 5.0
-				send_volunteer_divisions_required = -2.0
-				justify_war_goal_time = -0.10
+				political_power_gain = 0.10
+				trade_opinion_factor = 0.25
+				license_purchase_cost = -0.50
+				consumer_goods_factor = -0.03
+				stability_factor = 0.05
+				send_volunteers_tension = -0.80
+				send_volunteer_size = 4.0
+				send_volunteer_divisions_required = -1.0
 			}
 		}
 

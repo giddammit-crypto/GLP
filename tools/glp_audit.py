@@ -739,15 +739,15 @@ def check_loading_tips():
 def check_music():
     """Ванильный саундтрек активирован по запросу (без принудительного перекрытия)."""
     return
-    if os.path.exists(os.path.join(ROOT, 'music/music.asset')):
-        body = read(os.path.join(ROOT, 'music/music.asset'))
+    if os.path.exists(os.path.join(ROOT, 'music/glp_music.asset')):
+        body = read(os.path.join(ROOT, 'music/glp_music.asset'))
         if 'name = "maintheme"' not in body:
-            warn('music/music.asset: нет песни "maintheme" — '
+            warn('music/glp_music.asset: нет песни "maintheme" — '
                  'в главном меню зазвучит ванильная тема')
         # плейлист должен содержать не один трек
         tracks = re.findall(r'name\s*=\s*"([^"]+)"', body)
         if len(tracks) < 10:
-            warn(f'music/music.asset: в плейлисте только {len(tracks)} '
+            warn(f'music/glp_music.asset: в плейлисте только {len(tracks)} '
                  f'треков (ожидается 10–11 композиций Монгол Шуудан)')
         # Предупреждаем о заглушке: если все .ogg байт-в-байт одинаковые,
         # в игре все "дорожки" звучат как один трек (сейчас это так и есть).
@@ -1738,6 +1738,8 @@ VANILLA_ENTITIES = set("""
     infantry_cavalry_horse_entity
     generic_cavalry_rifle_combined_entity generic_cavalry_mg_combined_entity
     camelry_entity
+    motorized_entity SOV_motorized_entity armored_car_entity
+    SOV_light_armor_entity SOV_medium_armor_entity light_armor_entity medium_armor_entity
     GER_infantry_weapon_rifle_right_entity GER_infantry_weapon_rifle_left_entity
     GER_infantry_weapon_rifle_long_idle_entity
     GER_infantry_weapon_mg_right_entity GER_infantry_weapon_mg_left_entity
@@ -1752,6 +1754,10 @@ VANILLA_MESH_ANIMS = {
     'infantry_cavalry_horse_frame_mesh': {'idle', 'move', 'attack'},
     'infantry_cavalry_camel_mesh': {'cavalry_idle', 'cavalry_move',
                                     'cavalry_attack', 'cavalry_attack_2'},
+    'SOV_tank_light_mesh': {'idle', 'move', 'attack'},
+    'SOV_tank_medium_mesh': {'idle', 'move', 'attack'},
+    'generic_tank_light_mesh': {'idle', 'move', 'attack'},
+    'generic_tank_medium_mesh': {'idle', 'move', 'attack'},
 }
 VANILLA_MESH_NODES = {
     'infantry_cavalry_horse_mesh': {'Saddle_Node'},
@@ -2292,7 +2298,7 @@ def check_cinematic_intro_voice():
 
     # Радио-версия не должна иметь имя soundeffect: одинаковое имя делает
     # диагностику и поведение движка неоднозначными.
-    music_asset_path = os.path.join(ROOT, 'music/music.asset')
+    music_asset_path = os.path.join(ROOT, 'music/glp_music.asset')
     if os.path.exists(music_asset_path):
         music_asset = read(music_asset_path)
         if 'name = "gulyaipole_intro_voice"' in music_asset:
@@ -2501,7 +2507,7 @@ def check_tachanka_technology_contract():
         if unit_id == 'armored_tachanka' and re.search(
                 r'(?m)^\s*(?:maximum_speed|armor_value|ap_attack)\s*=', body):
             err('tachanka: armored_tachanka duplicates equipment combat stats in the sub-unit')
-        if not re.search(r'(?m)^\s*sprite\s*=\s*cavalry\s*$', body):
+        if not re.search(r'(?m)^\s*sprite\s*=\s*(?:cavalry|tachanka|armored_tachanka)\s*$', body):
             err(f'tachanka: {unit_id} does not use the vanilla cavalry designer icon')
         expected_map_icon = 'armored' if unit_id == 'armored_tachanka' else 'other'
         if not re.search(rf'(?m)^\s*map_icon_category\s*=\s*(?:{expected_map_icon}|other)\s*$', body):

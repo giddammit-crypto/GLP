@@ -6,9 +6,10 @@
 # - division_names_group: ARM для корректного отображения как бронетанкового.
 
 division_template = {
-	name = "Бронированный тачаночный курень"
-	division_names_group = GLP_ARM_HISTORICAL
+	name = "Бронированная тачаночная дивизия"
+	division_names_group = GLP_TACHANKA_HISTORICAL
 	template_counter = 94
+	override_model = GLP_armored_tachanka_entity
 
 	regiments = {
 		armored_tachanka = { x = 0 y = 0 }

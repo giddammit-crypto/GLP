@@ -1,0 +1,6 @@
+# Intro voice music track
+music = {
+	name = "gulyaipole_intro_voice_music"
+	file = "voice.ogg"
+	volume = 1.0
+}

@@ -1,0 +1,91 @@
+add_namespace = glp_sea
+
+# 1. Конвенция Монтрё и статус Черноморских проливов
+country_event = {
+	id = glp_sea.1
+	title = glp_sea.1.t
+	desc = glp_sea.1.d
+	picture = GFX_news_event_GLP_radio_tower
+	is_triggered_only = yes
+
+	trigger = {
+		tag = GLP
+		TUR = { exists = yes }
+	}
+
+	# Требовать полную свободу прохода торговых и синдикальных судов
+	option = {
+		name = glp_sea.1.a
+		TUR = { add_opinion_modifier = { target = GLP modifier = GLP_black_sea_provocateurs } }
+		add_political_power = 30
+		add_ideas = GLP_idea_black_sea_free_trade
+	}
+
+	# Согласиться на нейтральный компромисс
+	option = {
+		name = glp_sea.1.b
+		add_stability = 0.03
+	}
+}
+
+# 2. Эхо Кронштадта: Возвращение моряков-балтийцев в Севастополь
+country_event = {
+	id = glp_sea.2
+	title = glp_sea.2.t
+	desc = glp_sea.2.d
+	picture = GFX_news_event_GLP_volunteers_arrival
+	is_triggered_only = yes
+
+	trigger = {
+		tag = GLP
+		owns_state = 226 # Крым/Севастополь
+	}
+
+	# Интегрировать балтийцев в Вольный Революционный Флот
+	option = {
+		name = glp_sea.2.a
+		navy_experience = 25
+		add_manpower = 6000
+		add_war_support = 0.04
+		add_ideas = GLP_idea_kronstadt_sailors
+	}
+
+	# Направить их опыт на береговую оборону Перекопа
+	option = {
+		name = glp_sea.2.b
+		army_experience = 20
+		add_manpower = 6000
+		add_stability = 0.02
+	}
+}
+
+# 3. Защита крымских рыбаков и свободной торговли зерном
+country_event = {
+	id = glp_sea.3
+	title = glp_sea.3.t
+	desc = glp_sea.3.d
+	picture = GFX_news_event_GLP_peasant_communes
+	is_triggered_only = yes
+
+	trigger = {
+		tag = GLP
+		owns_state = 226
+	}
+
+	# Направить вооружённые катера РПА для конвоирования рыболовецких и зерновых артелей
+	option = {
+		name = glp_sea.3.a
+		navy_experience = 15
+		add_war_support = 0.03
+		add_stability = 0.02
+		add_political_power = 20
+	}
+
+	# Урегулировать разногласия через мирные синдикальные переговоры
+	option = {
+		name = glp_sea.3.b
+		add_political_power = 35
+		add_stability = 0.03
+	}
+}
+

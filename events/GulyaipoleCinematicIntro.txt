@@ -15,5 +15,6 @@ country_event = {
 	immediate = {
 		set_country_flag = glp_show_cinematic_intro
 		sound_effect = gulyaipole_intro_voice
+		scoped_play_song = gulyaipole_intro_voice_music
 	}
 }
