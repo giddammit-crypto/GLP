@@ -1,3 +1,9 @@
+music = {
+	name = "maintheme"
+	file = "mongol_shuudan_lyubo.ogg"
+	volume = 0.75
+}
+
 # Intro voice music track
 music = {
 	name = "gulyaipole_intro_voice_music"

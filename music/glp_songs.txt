@@ -1,6 +1,17 @@
-# Intro voice song definition
 music_station = "base_music"
 
+music = {
+	song = "maintheme"
+	chance = {
+		factor = 1.5
+		modifier = {
+			factor = 2.0
+			tag = GLP
+		}
+	}
+}
+
+# Intro voice song definition
 music = {
 	song = "gulyaipole_intro_voice_music"
 	chance = {
