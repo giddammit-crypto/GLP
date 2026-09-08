@@ -5,6 +5,9 @@ set_technology = {
 	infantry_weapons = 1
 	infantry_weapons1 = 1
 	GLP_tachanka_tech_1 = 1
+	GLP_tachanka_tech_2 = 1
+	GLP_tachanka_tech_3 = 1
+	GLP_tachanka_tech_4 = 1
 	tech_support = 1
 	tech_recon = 1
 	tech_engineers = 1
@@ -16,10 +19,11 @@ set_technology = {
 	gwtank = 1
 	interwar_antitank = 1
 	marines = 1
-	gw_artillery = 1
 	early_fighter = 1
 	early_bomber = 1
 	mass_assault = 1
+	basic_train = 1
+	armored_train = 1
 }
 
 # Starting Politics
@@ -83,6 +87,8 @@ add_ideas = {
 	GLP_free_syndicates_and_soviets
 	GLP_hostile_encirclement
 	GLP_idea_free_steppe
+	GLP_idea_veterans_of_1921
+	GLP_idea_donbass_coalition_friction
 	volunteer_only
 	low_economic_mobilisation
 	export_focus

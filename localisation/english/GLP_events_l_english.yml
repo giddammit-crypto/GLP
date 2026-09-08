@@ -28,12 +28,19 @@
  # Decisions (16 Unique Decisions)
  GLP_revolutionary_military_ops:0 "RIA Military Operations & Militia"
  GLP_syndicate_industrial_initiatives:0 "Free Syndicate Industrial Initiatives"
+ GLP_donbass_integration_category:0 "Struggle for Donbass: Mines & Communes"
  GLP_peasant_agrarian_communes:0 "Peasant Communes & Food Supply"
  GLP_kontrrazvedka_and_order:0 "Kontrrazvedka & Internal Security"
+
+ GLP_donbass_bread_train:0 "Grain Train to Yuzovka and Lugansk"
+ GLP_donbass_miners_congress:0 "Congress of Mining Committees and Trade Unions"
+ GLP_donbass_engineers_compromise:0 "Compromise with the Donbass Engineering Corps"
 
  GLP_mobilize_black_guard_reserves:0 "Mobilize Black Guard Reserves"
  GLP_conduct_cavalry_partisan_raid:0 "Conduct Cavalry Partisan Raid"
  GLP_commission_armored_train:0 "Commission Armored Train 'Liberty or Death'"
+ GLP_commission_train_batko_makhno:0 "Construct Flagship Armored Train 'Batko Makhno'"
+ GLP_commission_train_groza_stepey:0 "Construct High-Speed Armored Train 'Steppe Thunder'"
  GLP_send_brigade_to_cnt_fai:0 "Send Volunteer Corps to CNT-FAI"
  GLP_establish_dnieper_partisan_camps:0 "Establish Dnieper Partisan Bases"
  GLP_form_flying_tachanka_detachments:0 "Form Flying Tachanka Detachments"
@@ -324,3 +331,19 @@
  GLP_idea_black_sea_free_trade_desc:0 "Unfettered maritime passage for agrarian grain and coal exports from the communes into the Mediterranean."
  GLP_idea_kronstadt_sailors:0 "Kronstadt Brotherhood"
  GLP_idea_kronstadt_sailors_desc:0 "The revolutionary steadfastness and naval combat prowess of the Kronstadt veterans serving in the Black Sea fleet."
+
+ glp_news.20.t:0 "ARMORED TRAIN 'LIBERTY OR DEATH' TAKES TO THE RAILS"
+ glp_news.20.d:0 "GULYAYPOLE. At the Aleksandrovsk and Ekaterinoslav railway junctions, assembly of the heavy armored train 'Liberty or Death' is complete. Armed with heavy gun turrets and Maxim casemates, the armored dreadnought has commenced patrols across the steppe's strategic junctions."
+ glp_news.20.a:0 "Not one step back against tyranny!"
+ glp_news.20.b:0 "A formidable force upon the rails"
+
+ glp_news.21.t:0 "FLAGSHIP OF THE STEPPE: 'BATKO MAKHNO' ARMORED TRAIN"
+ glp_news.21.d:0 "GULYAYPOLE. Rolling from the workshop depots, the flagship super-heavy armored train 'Batko Makhno' enters active service. Featuring long-range heavy artillery, armored assault infantry cars, and powerful searchlights, it stands ready to obliterate enemy fortified lines."
+ glp_news.21.a:0 "The iron fist of the Free Territory!"
+ glp_news.21.b:0 "An unprecedented armored behemoth"
+
+ glp_news.22.t:0 "FAST RAIDING ARMORED TRAIN 'STEPPE THUNDER'"
+ glp_news.22.d:0 "GULYAYPOLE. Mechanical workshops have delivered the high-speed armored train 'Steppe Thunder'. Optimized for rapid transit, anti-aircraft defense, and deep strikes into enemy communication lines, it secures critical rail logistics."
+ glp_news.22.a:0 "Faster than the wind, stronger than steel!"
+ glp_news.22.b:0 "Rail corridors secured by insurgent steel"
+

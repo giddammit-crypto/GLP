@@ -217,3 +217,62 @@ country_event = {
 		add_war_support = 0.03
 	}
 }
+
+# ---------------------------------------------------------------------------
+#  Бронепоезда Вольной Республики (v1.6.1)
+# ---------------------------------------------------------------------------
+
+news_event = {
+	id = glp_news.20
+	title = glp_news.20.t
+	desc = glp_news.20.d
+	picture = GFX_news_event_GLP_train_svoboda
+	major = yes
+	is_triggered_only = yes
+
+	option = {
+		name = glp_news.20.a
+		trigger = { tag = GLP }
+	}
+	option = {
+		name = glp_news.20.b
+		trigger = { NOT = { tag = GLP } }
+	}
+}
+
+news_event = {
+	id = glp_news.21
+	title = glp_news.21.t
+	desc = glp_news.21.d
+	picture = GFX_news_event_GLP_train_batko
+	major = yes
+	is_triggered_only = yes
+
+	option = {
+		name = glp_news.21.a
+		trigger = { tag = GLP }
+	}
+	option = {
+		name = glp_news.21.b
+		trigger = { NOT = { tag = GLP } }
+	}
+}
+
+news_event = {
+	id = glp_news.22
+	title = glp_news.22.t
+	desc = glp_news.22.d
+	picture = GFX_news_event_GLP_train_groza
+	major = yes
+	is_triggered_only = yes
+
+	option = {
+		name = glp_news.22.a
+		trigger = { tag = GLP }
+	}
+	option = {
+		name = glp_news.22.b
+		trigger = { NOT = { tag = GLP } }
+	}
+}
+

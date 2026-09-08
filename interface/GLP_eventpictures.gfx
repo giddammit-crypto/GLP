@@ -12,6 +12,18 @@ spriteTypes = {
 		texturefile = "gfx/event_pictures/news_event_glp_armored_train.dds"
 	}
 	spriteType = {
+		name = "GFX_news_event_GLP_train_svoboda"
+		texturefile = "gfx/event_pictures/news_event_glp_train_svoboda.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_train_batko"
+		texturefile = "gfx/event_pictures/news_event_glp_train_batko.dds"
+	}
+	spriteType = {
+		name = "GFX_news_event_GLP_train_groza"
+		texturefile = "gfx/event_pictures/news_event_glp_train_groza.dds"
+	}
+	spriteType = {
 		name = "GFX_news_event_GLP_dnieper_electric"
 		texturefile = "gfx/event_pictures/news_event_glp_dnieper_electric.dds"
 	}

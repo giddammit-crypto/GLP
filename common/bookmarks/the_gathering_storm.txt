@@ -173,6 +173,8 @@ bookmarks = {
 				GLP_black_guard_legacy
 				GLP_free_syndicates_and_soviets
 				GLP_hostile_encirclement
+				GLP_idea_veterans_of_1921
+				GLP_idea_donbass_coalition_friction
 			}
 			focuses = {
 				GLP_fourth_congress_of_peasants

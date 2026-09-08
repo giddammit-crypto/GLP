@@ -5,3 +5,8 @@ tools/_preview_*.png
 tools/_legacy_voice/
 gfx/interface/frontendmainviewbg.previous.dds
 tools/_voice/
+
+# Promo video build artifacts (keep final trailer)
+promo_video/clips*/
+promo_video/slides*/
+promo_video/raw_video*.mp4

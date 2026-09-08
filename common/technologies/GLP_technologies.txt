@@ -153,6 +153,9 @@ technologies = {
 			tag = GLP
 		}
 
+		enable_subunits = {
+			glp_armored_car_volya
+		}
 		enable_equipments = {
 			tachanka_equipment_3
 		}
@@ -196,6 +199,9 @@ technologies = {
 			tag = GLP
 		}
 
+		enable_subunits = {
+			glp_heavy_armored_car_batko
+		}
 		enable_equipments = {
 			tachanka_equipment_4
 		}

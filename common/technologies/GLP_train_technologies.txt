@@ -1,0 +1,75 @@
+# =============================================================================
+# GLP Unique Armored Trains Technology Line
+# =============================================================================
+
+technologies = {
+
+	GLP_train_tech_2 = {
+		allow_branch = {
+			has_dlc = "No Step Back"
+		}
+		allow = {
+			tag = GLP
+		}
+
+		enable_equipments = {
+			GLP_train_equipment_2
+		}
+
+		path = {
+			leads_to_tech = GLP_train_tech_3
+			research_cost_coeff = 1
+		}
+
+		research_cost = 1.5
+		start_year = 1940
+		folder = {
+			name = support_folder
+			position = { x = 2 y = 6 }
+		}
+
+		categories = {
+			train_tech
+		}
+
+		ai_will_do = {
+			factor = 5
+			modifier = {
+				has_war = yes
+				factor = 2
+			}
+		}
+	}
+
+	GLP_train_tech_3 = {
+		allow_branch = {
+			has_dlc = "No Step Back"
+		}
+		allow = {
+			tag = GLP
+		}
+
+		enable_equipments = {
+			GLP_train_equipment_3
+		}
+
+		research_cost = 1.5
+		start_year = 1943
+		folder = {
+			name = support_folder
+			position = { x = 2 y = 9 }
+		}
+
+		categories = {
+			train_tech
+		}
+
+		ai_will_do = {
+			factor = 5
+			modifier = {
+				has_war = yes
+				factor = 2
+			}
+		}
+	}
+}

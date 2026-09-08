@@ -2216,7 +2216,7 @@ KNOWN_IDEA_MODIFIERS = {
     'production_lack_of_resource_penalty_factor',
     'production_speed_arms_factory_factor',
     'production_speed_industrial_complex_factor',
-    'production_speed_rail_way_factor', 'production_speed_supply_node_factor',
+    'production_speed_railway_factor', 'production_speed_supply_node_factor',
     'railway_gun_bombardment_factor', 'recon_factor', 'research_speed_factor',
     'resistance_damage_to_garrison', 'resistance_growth',
     'resistance_growth_on_our_occupied_states', 'resistance_target',
@@ -2492,24 +2492,24 @@ def check_tachanka_technology_contract():
             elif values != sorted(values):
                 err(f'tachanka: {key} does not progress monotonically across equipment variants')
 
-    for unit_id in ('tachanka', 'armored_tachanka'):
+    for unit_id in ('tachanka', 'armored_tachanka', 'glp_armored_car_volya', 'glp_heavy_armored_car_batko'):
         body = extract_block(units, unit_id)
         if body is None:
             err(f'tachanka: missing sub-unit definition {unit_id}')
             continue
         if not re.search(r'(?m)^\s*active\s*=\s*no\s*$', body):
             err(f'tachanka: {unit_id} is globally active; it must be enabled by GLP technology')
-        family = 'armored_tachanka_equipment' if unit_id == 'armored_tachanka' else 'tachanka_equipment'
+        family = 'armored_tachanka_equipment' if unit_id != 'tachanka' else 'tachanka_equipment'
         if not re.search(rf'(?m)^\s*transport\s*=\s*{re.escape(family)}\s*$', body):
             err(f'tachanka: {unit_id} does not inherit speed from {family}')
         if not re.search(rf'(?m)^\s*{re.escape(family)}\s*=\s*20\s*$', body):
             err(f'tachanka: {unit_id} does not consume the {family} archetype')
-        if unit_id == 'armored_tachanka' and re.search(
+        if unit_id in ('armored_tachanka', 'glp_armored_car_volya', 'glp_heavy_armored_car_batko') and re.search(
                 r'(?m)^\s*(?:maximum_speed|armor_value|ap_attack)\s*=', body):
-            err('tachanka: armored_tachanka duplicates equipment combat stats in the sub-unit')
+            err(f'tachanka: {unit_id} duplicates equipment combat stats in the sub-unit')
         if not re.search(r'(?m)^\s*sprite\s*=\s*(?:cavalry|tachanka|armored_tachanka)\s*$', body):
             err(f'tachanka: {unit_id} does not use the vanilla cavalry designer icon')
-        expected_map_icon = 'armored' if unit_id == 'armored_tachanka' else 'other'
+        expected_map_icon = 'armored' if unit_id != 'tachanka' else 'other'
         if not re.search(rf'(?m)^\s*map_icon_category\s*=\s*(?:{expected_map_icon}|other)\s*$', body):
             err(f'tachanka: {unit_id} does not use valid map icon category ({expected_map_icon})')
 
@@ -2536,6 +2536,12 @@ def check_tachanka_technology_contract():
             'GFX_unit_armored_tachanka_icon_medium': 'gfx/interface/counters/divisions_large/unit_armored_tachanka_icon.dds',
             'GFX_unit_armored_tachanka_icon_medium_white': 'gfx/interface/counters/divisions_small/onmap_unit_armored_tachanka_icon.dds',
             'GFX_unit_armored_tachanka_icon_small': 'gfx/texticons/unit_armored_tachanka_icon_small.dds',
+            'GFX_unit_glp_armored_car_volya_icon_medium': 'gfx/interface/counters/divisions_large/unit_armored_tachanka_icon.dds',
+            'GFX_unit_glp_armored_car_volya_icon_medium_white': 'gfx/interface/counters/divisions_small/onmap_unit_armored_tachanka_icon.dds',
+            'GFX_unit_glp_armored_car_volya_icon_small': 'gfx/texticons/unit_armored_tachanka_icon_small.dds',
+            'GFX_unit_glp_heavy_armored_car_batko_icon_medium': 'gfx/interface/counters/divisions_large/unit_armored_tachanka_icon.dds',
+            'GFX_unit_glp_heavy_armored_car_batko_icon_medium_white': 'gfx/interface/counters/divisions_small/onmap_unit_armored_tachanka_icon.dds',
+            'GFX_unit_glp_heavy_armored_car_batko_icon_small': 'gfx/texticons/unit_armored_tachanka_icon_small.dds',
         }
         for sprite, texture in two_frame.items():
             pattern = (rf'name\s*=\s*"{re.escape(sprite)}"'
@@ -2556,9 +2562,79 @@ def check_tachanka_technology_contract():
                 err(f'tachanka: {sprite} is not declared -> {texture}')
 
 
+def check_train_technology_contract():
+    """Validate the train branch: basic_train root, armored_train link, custom continuation, and sprites."""
+    anchor_path = os.path.join(ROOT, 'common/technologies/zzz_GLP_train_anchor.txt')
+    tech_path = os.path.join(ROOT, 'common/technologies/GLP_train_technologies.txt')
+    equipment_path = os.path.join(ROOT, 'common/units/equipment/GLP_train_equipment.txt')
+    history_path = os.path.join(ROOT, 'history/countries/GLP - Gulyaypole.txt')
+    gfx_path = os.path.join(ROOT, 'interface/GLP_tech.gfx')
+
+    if not all(os.path.isfile(p) for p in (anchor_path, tech_path, equipment_path, history_path, gfx_path)):
+        err('train_branch: missing one of the train anchor, technology, equipment, history, or gfx files')
+        return
+
+    anchor = strip_comments(read(anchor_path))
+    tech = strip_comments(read(tech_path))
+    equipment = strip_comments(read(equipment_path))
+    history = strip_comments(read(history_path))
+    gfx = strip_comments(read(gfx_path))
+
+    # 1. basic_train root validation
+    if 'basic_train = {' not in anchor:
+        err('train_branch: basic_train is not defined in zzz_GLP_train_anchor.txt')
+    if not re.search(r'leads_to_tech\s*=\s*wartime_train\b', anchor):
+        err('train_branch: basic_train does not lead to wartime_train')
+    if not re.search(r'leads_to_tech\s*=\s*armored_train\b', anchor):
+        err('train_branch: basic_train does not lead to armored_train')
+
+    # 2. armored_train anchor validation
+    if 'armored_train = {' not in anchor:
+        err('train_branch: armored_train is not defined in zzz_GLP_train_anchor.txt')
+    if not re.search(r'leads_to_tech\s*=\s*railway_gun\b', anchor):
+        err('train_branch: armored_train does not lead to railway_gun')
+    if not re.search(r'leads_to_tech\s*=\s*GLP_train_tech_2\b', anchor):
+        err('train_branch: armored_train does not lead to GLP_train_tech_2')
+
+    # 3. GLP train technologies chain
+    if 'GLP_train_tech_2 = {' not in tech:
+        err('train_branch: missing technology definition GLP_train_tech_2')
+    if not re.search(r'leads_to_tech\s*=\s*GLP_train_tech_3\b', tech):
+        err('train_branch: GLP_train_tech_2 does not lead to GLP_train_tech_3')
+    if 'GLP_train_tech_3 = {' not in tech:
+        err('train_branch: missing technology definition GLP_train_tech_3')
+
+    # 4. Equipments
+    if 'GLP_train_equipment_2' not in tech or 'GLP_train_equipment_2' not in equipment:
+        err('train_branch: GLP_train_equipment_2 missing in tech or equipment')
+    if 'GLP_train_equipment_3' not in tech or 'GLP_train_equipment_3' not in equipment:
+        err('train_branch: GLP_train_equipment_3 missing in tech or equipment')
+
+    # 5. History unlocks
+    if not re.search(r'\bbasic_train\s*=\s*1\b', history):
+        err('train_branch: basic_train = 1 missing in GLP starting technologies')
+    if not re.search(r'\barmored_train\s*=\s*1\b', history):
+        err('train_branch: armored_train = 1 missing in GLP starting technologies')
+
+    # 6. GFX bindings for our custom sprites
+    required_gfx = [
+        'GFX_armored_train_medium',
+        'GFX_GLP_armored_train_medium',
+        'GFX_GLP_train_equipment_1_medium',
+        'GFX_GLP_train_equipment_3_medium',
+        'GFX_GLP_train_tech_2_medium',
+        'GFX_GLP_train_equipment_2_medium',
+        'GFX_GLP_train_tech_3_medium',
+    ]
+    for g in required_gfx:
+        if f'name = "{g}"' not in gfx:
+            err(f'train_branch: missing custom sprite binding {g} in interface/GLP_tech.gfx')
+
+
 def main():
     check_syntax()
     check_tachanka_technology_contract()
+    check_train_technology_contract()
     loc = load_loc()
     defs = collect_definitions()
     check_duplicates(defs)

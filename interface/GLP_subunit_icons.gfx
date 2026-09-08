@@ -65,6 +65,48 @@ spriteTypes = {
 		noOfFrames = 2
 	}
 
+	### ### БРОНЕАВТОМОБИЛЬ «ВОЛЯ» ###
+
+	spriteType = {
+		name = "GFX_unit_glp_armored_car_volya_icon_medium"
+		texturefile = "gfx/interface/counters/divisions_large/unit_armored_tachanka_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_glp_armored_car_volya_icon_medium_white"
+		texturefile = "gfx/interface/counters/divisions_small/onmap_unit_armored_tachanka_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_glp_armored_car_volya_icon_small"
+		texturefile = "gfx/texticons/unit_armored_tachanka_icon_small.dds"
+		legacy_lazy_load = no
+		noOfFrames = 2
+	}
+
+	### ### ТЯЖЁЛЫЙ БРОНЕВИК «БАТЬКО» ###
+
+	spriteType = {
+		name = "GFX_unit_glp_heavy_armored_car_batko_icon_medium"
+		texturefile = "gfx/interface/counters/divisions_large/unit_armored_tachanka_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_glp_heavy_armored_car_batko_icon_medium_white"
+		texturefile = "gfx/interface/counters/divisions_small/onmap_unit_armored_tachanka_icon.dds"
+		noOfFrames = 2
+	}
+
+	spriteType = {
+		name = "GFX_unit_glp_heavy_armored_car_batko_icon_small"
+		texturefile = "gfx/texticons/unit_armored_tachanka_icon_small.dds"
+		legacy_lazy_load = no
+		noOfFrames = 2
+	}
+
 	### ### ПЛИТКИ ШАБЛОНОВ ДИВИЗИЙ (template_counter 93/94) ###
 
 	spriteType = {

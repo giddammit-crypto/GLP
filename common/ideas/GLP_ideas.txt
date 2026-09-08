@@ -70,6 +70,60 @@ ideas = {
 			}
 		}
 
+		# v1.6.1: «Выбитое поколение 1921 года» — память о Перекопе и Дибровском лесе,
+		# последствия тифа и красного/белого террора.
+		GLP_idea_veterans_of_1921 = {
+			allowed = { always = yes }
+			allowed_civil_war = { always = yes }
+			removal_cost = -1
+			picture = generic_victors_of_ww1
+			modifier = {
+				conscription_factor = -0.15
+				experience_gain_army_factor = 0.10
+				army_org_factor = 0.04
+			}
+		}
+
+		# v1.6.1: «Молодые повстанческие кадры» — преодоление кризиса ветеранов 1921 года.
+		GLP_idea_new_generation_recruits = {
+			allowed = { always = yes }
+			allowed_civil_war = { always = yes }
+			removal_cost = -1
+			picture = SPR_anarchist_society
+			modifier = {
+				mobilization_speed = 0.15
+				army_org_factor = 0.05
+				experience_gain_army_factor = 0.05
+			}
+		}
+
+		# v1.6.1: «Угольный кризис Донбасса» — конфликт сельских сходов и шахтёров Юзовки/Луганска.
+		GLP_idea_donbass_coalition_friction = {
+			allowed = { always = yes }
+			allowed_civil_war = { always = yes }
+			removal_cost = -1
+			picture = generic_disjointed_gov
+			modifier = {
+				consumer_goods_factor = 0.05
+				industrial_capacity_factory = -0.08
+				stability_factor = -0.05
+				production_lack_of_resource_penalty_factor = 0.10
+			}
+		}
+
+		# v1.6.1: «Индустриальное согласие Донбасса» — урегулирование кризиса шахтёров и фабзавкомов.
+		GLP_idea_donbass_reconciled = {
+			allowed = { always = yes }
+			allowed_civil_war = { always = yes }
+			removal_cost = -1
+			picture = generic_production_bonus
+			modifier = {
+				industrial_capacity_factory = 0.05
+				production_factory_max_efficiency_factor = 0.05
+				stability_factor = 0.03
+			}
+		}
+
 		# Цена отвергнутого пакта (Спринт 2, фаза B): изоляция имеет
 		# оборонительный смысл, но бьёт по товарам и политической силе.
 		# Временный (365 дней) — ситуация пересматривается.
@@ -492,7 +546,7 @@ ideas = {
 			removal_cost = -1
 			picture = generic_acquire_tanks
 			modifier = {
-				production_speed_rail_way_factor = 0.50
+				production_speed_railway_factor = 0.50
 				production_speed_supply_node_factor = 0.50
 				consumer_goods_factor = 0.02
 			}

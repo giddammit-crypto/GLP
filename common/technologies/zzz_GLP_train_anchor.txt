@@ -1,0 +1,132 @@
+# =============================================================================
+# GLP armored train branch anchor & Civilian Train Root
+# =============================================================================
+#
+# In HOI4 Clausewitz engine:
+# 1. The gridbox in countrytechtreeview.gui is `basic_train_tree`.
+# 2. `basic_train` (Civilian Train / Гражданский поезд) is the mandatory root
+#    of this gridbox at position { x = 0, y = 0 }. It is the FIRST node in the branch.
+# 3. From basic_train, two paths emerge:
+#    - wartime_train (Civilian cheap wartime train) at { x = 0, y = 6 }
+#    - armored_train (Armored train branch) at { x = 2, y = 3 }
+# 4. From armored_train, two paths emerge:
+#    - railway_gun (Super-heavy railway artillery) at { x = 4, y = 3 }
+#    - GLP_train_tech_2 (Tier 2: «Батько Махно») at { x = 2, y = 6 }
+# 5. From GLP_train_tech_2:
+#    - GLP_train_tech_3 (Tier 3: «Гроза Степей») at { x = 2, y = 9 }
+#
+# For GLP (Gulyaypole):
+# - armored_train (Tier 1) displays our custom sprite GFX_GLP_armored_train_medium
+#   («Свобода или Смерть») and produces train_equipment_3 with GFX_GLP_train_equipment_3_medium.
+# - GLP_train_tech_2 displays GFX_GLP_train_tech_2_medium («Батько Махно»).
+# - GLP_train_tech_3 displays GFX_GLP_train_tech_3_medium («Гроза Степей»).
+# =============================================================================
+
+technologies = {
+
+	basic_train = {
+		enable_equipments = {
+			train_equipment_1
+		}
+
+		research_cost = 1.5
+		start_year = 1910
+		folder = {
+			name = support_folder
+			position = { x = 0 y = 0 }
+		}
+
+		path = {
+			leads_to_tech = wartime_train
+			research_cost_coeff = 1
+		}
+
+		path = {
+			leads_to_tech = armored_train
+			research_cost_coeff = 1
+		}
+
+		categories = {
+			train_tech
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				num_of_factories > 25
+				factor = 100
+			}
+			modifier = {
+				factor = 1.2
+				date > "1936.1.1"
+			}
+			modifier = {
+				factor = 1.2
+				date > "1937.1.1"
+			}
+			modifier = {
+				factor = 1.2
+				date > "1938.1.1"
+			}
+		}
+	}
+
+	armored_train = {
+		enable_equipments = {
+			GLP_train_equipment_1
+			train_equipment_3
+		}
+
+		allow_branch = {
+			has_dlc = "No Step Back"
+		}
+
+		path = {
+			leads_to_tech = railway_gun
+			research_cost_coeff = 1
+		}
+
+		path = {
+			leads_to_tech = GLP_train_tech_2
+			research_cost_coeff = 1
+		}
+
+		research_cost = 1.5
+		start_year = 1936
+		folder = {
+			name = support_folder
+			position = { x = 2 y = 3 }
+		}
+
+		categories = {
+			train_tech
+		}
+
+		ai_will_do = {
+			base = 1
+
+			modifier = {
+				has_war = yes
+				factor = 20
+			}
+			modifier = {
+				tag = GER
+				factor = 5
+			}
+			modifier = {
+				factor = 1.2
+				date > "1938.1.1"
+			}
+
+			modifier = {
+				factor = 1.2
+				date > "1939.1.1"
+			}
+
+			modifier = {
+				factor = 1.2
+				date > "1940.1.1"
+			}
+		}
+	}
+}
