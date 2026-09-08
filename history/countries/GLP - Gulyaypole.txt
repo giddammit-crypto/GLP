@@ -23,7 +23,6 @@ set_technology = {
 	early_bomber = 1
 	mass_assault = 1
 	basic_train = 1
-	armored_train = 1
 }
 
 # Starting Politics
@@ -105,5 +104,11 @@ set_war_support = 0.80
 add_equipment_to_stockpile = {
 	type = tachanka_equipment_1
 	amount = 250
+	producer = GLP
+}
+
+add_equipment_to_stockpile = {
+	type = train_equipment_1
+	amount = 25
 	producer = GLP
 }

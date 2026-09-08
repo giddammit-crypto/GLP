@@ -180,7 +180,7 @@ focus_tree = {
 				uses = 2
 				category = train_tech
 			}
-			add_equipment_to_stockpile = { type = train_equipment amount = 5 producer = GLP }
+			add_equipment_to_stockpile = { type = GLP_train_equipment_1 amount = 2 producer = GLP }
 		}
 	}
 
@@ -440,7 +440,8 @@ focus_tree = {
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
-			add_equipment_to_stockpile = { type = train_equipment amount = 10 producer = GLP }
+			add_equipment_to_stockpile = { type = train_equipment_1 amount = 10 producer = GLP }
+			add_equipment_to_stockpile = { type = GLP_train_equipment_1 amount = 2 producer = GLP }
 			add_tech_bonus = { name = glp_armor_bonus bonus = 1.0 uses = 2 category = armor }
 			add_political_power = -30
 		}
@@ -2941,7 +2942,7 @@ focus_tree = {
 			else = {
 				add_ideas = GLP_idea_hospital_trains
 			}
-			add_equipment_to_stockpile = { type = train_equipment amount = 5 producer = GLP }
+			add_equipment_to_stockpile = { type = train_equipment_1 amount = 5 producer = GLP }
 		}
 	}
 

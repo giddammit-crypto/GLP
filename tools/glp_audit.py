@@ -2610,11 +2610,9 @@ def check_train_technology_contract():
     if 'GLP_train_equipment_3' not in tech or 'GLP_train_equipment_3' not in equipment:
         err('train_branch: GLP_train_equipment_3 missing in tech or equipment')
 
-    # 5. History unlocks
+    # 5. History unlocks: branch starts from civilian train (basic_train), armored train researched afterwards
     if not re.search(r'\bbasic_train\s*=\s*1\b', history):
         err('train_branch: basic_train = 1 missing in GLP starting technologies')
-    if not re.search(r'\barmored_train\s*=\s*1\b', history):
-        err('train_branch: armored_train = 1 missing in GLP starting technologies')
 
     # 6. GFX bindings for our custom sprites
     required_gfx = [

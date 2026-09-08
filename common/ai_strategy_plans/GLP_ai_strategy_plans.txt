@@ -28,8 +28,8 @@ GLP_historical_plan = {
 		GLP_fourth_congress_of_peasants
 		GLP_international_diplomacy_crossroads
 		GLP_free_will
-		GLP_black_international_declaration
-		GLP_support_spanish_anarchists
+		GLP_black_international
+		GLP_aid_to_spanish_anarchists
 	}
 
 	focus_factors = {
@@ -81,7 +81,7 @@ GLP_aggressive_expansion_plan = {
 		GLP_syndicate_industrial_planning
 		GLP_fourth_congress_of_peasants
 		GLP_international_diplomacy_crossroads
-		GLP_black_international_declaration
+		GLP_black_international
 	}
 
 	focus_factors = {

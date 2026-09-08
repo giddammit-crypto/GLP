@@ -48,7 +48,7 @@ GLP_revolutionary_military_ops = {
 		visible = { has_completed_focus = GLP_armored_train_production }
 		fire_only_once = yes
 		complete_effect = {
-			add_equipment_to_stockpile = { type = train_equipment amount = 4 producer = GLP }
+			add_equipment_to_stockpile = { type = GLP_train_equipment_1 amount = 4 producer = GLP }
 			army_experience = 15
 			add_war_support = 0.03
 			news_event = { id = glp_news.20 hours = 6 }
@@ -67,7 +67,7 @@ GLP_revolutionary_military_ops = {
 		}
 		fire_only_once = yes
 		complete_effect = {
-			add_equipment_to_stockpile = { type = train_equipment amount = 5 producer = GLP }
+			add_equipment_to_stockpile = { type = GLP_train_equipment_2 amount = 5 producer = GLP }
 			army_experience = 20
 			add_stability = 0.04
 			add_war_support = 0.05
@@ -86,7 +86,7 @@ GLP_revolutionary_military_ops = {
 		}
 		fire_only_once = yes
 		complete_effect = {
-			add_equipment_to_stockpile = { type = train_equipment amount = 3 producer = GLP }
+			add_equipment_to_stockpile = { type = GLP_train_equipment_3 amount = 3 producer = GLP }
 			army_experience = 10
 			add_war_support = 0.03
 			news_event = { id = glp_news.22 hours = 6 }
@@ -540,7 +540,7 @@ GLP_anarchist_freedom_measures = {
 		icon = generic_production
 		cost = 50
 		days_remove = 90
-		visible = { has_completed_focus = GLP_workers_syndicates }
+		visible = { has_completed_focus = GLP_factory_committees }
 		complete_effect = {
 			add_stability = 0.02
 			add_war_support = 0.03
@@ -581,7 +581,7 @@ GLP_anarchist_freedom_measures = {
 		icon = generic_research
 		cost = 45
 		days_re_enable = 180
-		visible = { has_completed_focus = GLP_rural_schools_initiative }
+		visible = { has_completed_focus = GLP_free_libertarian_schools }
 		complete_effect = {
 			add_stability = 0.04
 			add_research_slot = 0
@@ -620,7 +620,7 @@ GLP_anarchist_freedom_measures = {
 		icon = generic_anti_corruption
 		cost = 30
 		days_re_enable = 90
-		visible = { has_completed_focus = GLP_free_councils_democracy }
+		visible = { has_completed_focus = GLP_federation_of_free_soviets }
 		complete_effect = {
 			add_political_power = 40
 			add_stability = -0.02
@@ -633,7 +633,7 @@ GLP_anarchist_freedom_measures = {
 		icon = generic_civil_support
 		cost = 40
 		days_re_enable = 120
-		visible = { has_completed_focus = GLP_rural_healthcare }
+		visible = { has_completed_focus = GLP_rural_healthcare_network }
 		complete_effect = {
 			add_stability = 0.03
 			add_manpower = 1500
@@ -659,7 +659,7 @@ GLP_anarchist_freedom_measures = {
 		icon = generic_morale
 		cost = 30
 		days_re_enable = 90
-		visible = { has_completed_focus = GLP_propaganda_campaign }
+		visible = { has_completed_focus = GLP_cinema_propaganda }
 		complete_effect = {
 			add_war_support = 0.05
 			add_stability = 0.02

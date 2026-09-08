@@ -57,6 +57,11 @@ characters = {
 				small = "GFX_portrait_GLP_viktor_belash_small"
 			}
 		}
+		country_leader = {
+			ideology = anarchism
+			traits = { GLP_operational_planner }
+			expire = "1965.1.1"
+		}
 		corps_commander = {
 			traits = { organizer trickster cavalry_expert GLP_guerilla_master }
 			skill = 4
@@ -206,6 +211,11 @@ characters = {
 				large = "GFX_portrait_GLP_vsevolod_volin"
 				small = "GFX_portrait_GLP_vsevolod_volin_small"
 			}
+		}
+		country_leader = {
+			ideology = anarchism
+			traits = { free_soviets_minister }
+			expire = "1965.1.1"
 		}
 		advisor = {
 			slot = political_advisor
@@ -407,6 +417,11 @@ characters = {
 				small = "GFX_portrait_GLP_trofim_vdovychenko_small"
 			}
 		}
+		country_leader = {
+			ideology = anarchism
+			traits = { anarchist_organizer }
+			expire = "1965.1.1"
+		}
 		corps_commander = {
 			traits = { organizer skilled_staffer GLP_guerilla_master }
 			skill = 4
@@ -594,6 +609,11 @@ characters = {
 				small = "GFX_portrait_GLP_oleg_potemkin_small"
 			}
 		}
+		country_leader = {
+			ideology = anarchism
+			traits = { GLP_inspirational_leader }
+			expire = "1965.1.1"
+		}
 		corps_commander = {
 			traits = { infantry_expert aggressive_assaulter GLP_potemkin_infantry_master GLP_potemkin_black_fidele }
 			skill = 3
@@ -675,6 +695,11 @@ characters = {
 				small = "GFX_portrait_GLP_maria_nikiforova_small"
 			}
 		}
+		country_leader = {
+			ideology = anarchism
+			traits = { GLP_black_atamansha }
+			expire = "1965.1.1"
+		}
 		advisor = {
 			slot = political_advisor
 			idea_token = GLP_maria_nikiforova_advisor
@@ -748,6 +773,11 @@ characters = {
 				small = "GFX_portrait_GLP_dmitry_popov_small"
 			}
 		}
+		country_leader = {
+			ideology = anarchism
+			traits = { GLP_left_sr_conspirator }
+			expire = "1965.1.1"
+		}
 		advisor = {
 			slot = army_chief
 			idea_token = GLP_dmitry_popov_advisor
@@ -775,6 +805,11 @@ characters = {
 				large = "GFX_portrait_GLP_voldemar_antoni"
 				small = "GFX_portrait_GLP_voldemar_antoni_small"
 			}
+		}
+		country_leader = {
+			ideology = anarchism
+			traits = { GLP_patriarch_of_anarchism }
+			expire = "1965.1.1"
 		}
 	}
 
