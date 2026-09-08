@@ -1,142 +1,660 @@
 add_namespace = glp_diplo
 add_namespace = glp_crisis
 
-# glp_diplo.1 - Soviet diplomatic answer
+# =============================================================================
+#  ВНЕШНЕПОЛИТИЧЕСКИЕ ПАКТЫ И СОБЫТИЯ ДИПЛОМАТИИ
+# =============================================================================
+
+# glp_diplo.1 - Ответ СССР на предложение Харьковского пакта
 country_event = {
 	id = glp_diplo.1
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
+	title = glp_diplo.1.t
+	desc = glp_diplo.1.d
 	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
+	# Опция A: Гарантировать Вольную территорию
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 25
+		name = glp_diplo.1.a
+		ai_chance = { factor = 80 }
+		give_guarantee = GLP
+		give_military_access = GLP
+		add_opinion_modifier = { target = GLP modifier = GLP_kharkov_pact_signed }
+		GLP = {
+			add_opinion_modifier = { target = SOV modifier = GLP_kharkov_pact_signed }
+			country_event = { id = glp_diplo.11 days = 1 }
+		}
+		if = { limit = { country_exists = GER } GER = { country_event = { id = glp_diplo.21 days = 2 } } }
+		if = { limit = { country_exists = ROM } ROM = { country_event = { id = glp_diplo.22 days = 2 } } }
+		if = { limit = { country_exists = ENG } ENG = { country_event = { id = glp_diplo.23 days = 2 } } }
+	}
+
+	# Опция B: Не связываться с анархистами
+	option = {
+		name = glp_diplo.1.b
+		ai_chance = { factor = 20 }
+		GLP = {
+			country_event = { id = glp_diplo.12 days = 1 }
+		}
 	}
 }
 
-# glp_diplo.2 - German diplomatic answer
+# glp_diplo.2 - Ответ Германии на предложение Берлинского пакта
 country_event = {
 	id = glp_diplo.2
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
+	title = glp_diplo.2.t
+	desc = glp_diplo.2.d
 	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
+	# Опция A: Подписать гарантии
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 25
+		name = glp_diplo.2.a
+		ai_chance = { factor = 75 }
+		give_guarantee = GLP
+		give_military_access = GLP
+		add_opinion_modifier = { target = GLP modifier = GLP_german_military_pact }
+		GLP = {
+			add_opinion_modifier = { target = GER modifier = GLP_german_military_pact }
+			country_event = { id = glp_diplo.11 days = 1 }
+		}
+		if = { limit = { country_exists = SOV } SOV = { country_event = { id = glp_diplo.24 days = 2 } } }
+		if = { limit = { country_exists = ENG } ENG = { country_event = { id = glp_diplo.25 days = 2 } } }
+	}
+
+	# Опция B: Отказать
+	option = {
+		name = glp_diplo.2.b
+		ai_chance = { factor = 25 }
+		GLP = {
+			country_event = { id = glp_diplo.12 days = 1 }
+		}
 	}
 }
 
-# glp_diplo.3 - British diplomatic answer
+# glp_diplo.3 - Ответ Великобритании на черноморские предложения
 country_event = {
 	id = glp_diplo.3
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
+	title = glp_diplo.3.t
+	desc = glp_diplo.3.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	# Опция A: Дать гарантии
+	option = {
+		name = glp_diplo.3.a
+		ai_chance = { factor = 70 }
+		give_guarantee = GLP
+		give_military_access = GLP
+		add_opinion_modifier = { target = GLP modifier = GLP_british_military_pact }
+		GLP = {
+			add_opinion_modifier = { target = ENG modifier = GLP_british_military_pact }
+			country_event = { id = glp_diplo.11 days = 1 }
+		}
+		if = { limit = { country_exists = GER } GER = { country_event = { id = glp_diplo.26 days = 2 } } }
+	}
+
+	# Опция B: Не впутываться
+	option = {
+		name = glp_diplo.3.b
+		ai_chance = { factor = 30 }
+		GLP = {
+			country_event = { id = glp_diplo.12 days = 1 }
+		}
+	}
+}
+
+# glp_diplo.11 - Пакт подписан (уведомление для Гуляйполя)
+country_event = {
+	id = glp_diplo.11
+	title = glp_diplo.11.t
+	desc = glp_diplo.11.d
+	picture = GFX_news_event_GLP_alliance_treaty
+	is_triggered_only = yes
+
+	option = {
+		name = glp_diplo.11.a
+		add_stability = 0.05
+		add_war_support = 0.03
+	}
+}
+
+# glp_diplo.12 - Отказ иностранной столицы (уведомление для Гуляйполя)
+country_event = {
+	id = glp_diplo.12
+	title = glp_diplo.12.t
+	desc = glp_diplo.12.d
 	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 25
+		name = glp_diplo.12.a
+		add_stability = -0.03
+		add_war_support = 0.05
 	}
 }
 
-# glp_diplo.30 - General alliance confirmation
+# glp_diplo.21 - Красные и чёрные (уведомление для Германии)
+country_event = {
+	id = glp_diplo.21
+	title = glp_diplo.21.t
+	desc = glp_diplo.21.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_diplo.21.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }
+	}
+}
+
+# glp_diplo.22 - Сосед за Днестром (уведомление для Румынии)
+country_event = {
+	id = glp_diplo.22
+	title = glp_diplo.22.t
+	desc = glp_diplo.22.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_diplo.22.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
+	}
+}
+
+# glp_diplo.23 - Степной эксперимент (уведомление для Великобритании)
+country_event = {
+	id = glp_diplo.23
+	title = glp_diplo.23.t
+	desc = glp_diplo.23.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_diplo.23.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }
+	}
+}
+
+# glp_diplo.24 - Чужой флаг над степью (уведомление для СССР)
+country_event = {
+	id = glp_diplo.24
+	title = glp_diplo.24.t
+	desc = glp_diplo.24.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_diplo.24.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
+	}
+}
+
+# glp_diplo.25 - Ось в Причерноморье (уведомление для Великобритании)
+country_event = {
+	id = glp_diplo.25
+	title = glp_diplo.25.t
+	desc = glp_diplo.25.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_diplo.25.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_watch }
+	}
+}
+
+# glp_diplo.26 - Антанта у Перекопа (уведомление для Германии)
+country_event = {
+	id = glp_diplo.26
+	title = glp_diplo.26.t
+	desc = glp_diplo.26.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	option = {
+		name = glp_diplo.26.a
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
+	}
+}
+
+# glp_diplo.30 - Вольному воля (уведомление соседям при выборе нейтралитета)
 country_event = {
 	id = glp_diplo.30
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
+	title = glp_diplo.30.t
+	desc = glp_diplo.30.d
 	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 20
+		name = glp_diplo.30.a
+		add_political_power = 10
 	}
 }
 
-# glp_crisis.1 - Crisis starter 1
+# =============================================================================
+#  СЮЖЕТНЫЕ КРИЗИСЫ ВОЛЬНОЙ ТЕРРИТОРИИ (glp_crisis)
+# =============================================================================
+
+# glp_crisis.1 - Ультиматум Москвы
 country_event = {
 	id = glp_crisis.1
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
+	title = glp_crisis.1.t
+	desc = glp_crisis.1.d
 	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
+	# Отгрузить зерно — купить год
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 10
+		name = glp_crisis.1.a
+		ai_chance = { factor = 30 }
+		add_political_power = -30
+		add_stability = -0.05
+		set_country_flag = glp_moscow_tribute_paid
+	}
+
+	# Чёрное знамя не гнётся
+	option = {
+		name = glp_crisis.1.b
+		ai_chance = { factor = 70 }
+		add_war_support = 0.10
+		add_stability = 0.05
+		set_country_flag = glp_moscow_tribute_refused
+		if = {
+			limit = { country_exists = SOV NOT = { has_war_with = SOV } }
+			SOV = { country_event = { id = glp_crisis.2 days = 14 } }
+		}
 	}
 }
 
-# glp_crisis.10 - Crisis event 10
+# glp_crisis.2 - Южный нарыв (СССР реагирует на отказ)
+country_event = {
+	id = glp_crisis.2
+	title = glp_crisis.2.t
+	desc = glp_crisis.2.d
+	picture = GFX_news_event_GLP_cavalry_raid
+	is_triggered_only = yes
+
+	# Готовить поход
+	option = {
+		name = glp_crisis.2.a
+		ai_chance = { factor = 85 }
+		create_wargoal = {
+			type = annex_everything
+			target = GLP
+		}
+		if = {
+			limit = { country_exists = GLP }
+			GLP = { country_event = { id = glp_crisis.3 days = 7 } }
+		}
+	}
+
+	# Подождать
+	option = {
+		name = glp_crisis.2.b
+		ai_chance = { factor = 15 }
+		add_opinion_modifier = { target = GLP modifier = GLP_pact_alarm }
+	}
+}
+
+# glp_crisis.3 - Москва точит косу (Гуляйполе предупреждено)
+country_event = {
+	id = glp_crisis.3
+	title = glp_crisis.3.t
+	desc = glp_crisis.3.d
+	picture = GFX_news_event_GLP_cavalry_raid
+	is_triggered_only = yes
+
+	option = {
+		name = glp_crisis.3.a
+		add_war_support = 0.05
+		army_experience = 10
+	}
+}
+
+# glp_crisis.10 - Григорьев ломает строй (Кризис атаманщины)
 country_event = {
 	id = glp_crisis.10
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
-	picture = GFX_news_event_GLP_anarchist_congress
+	title = glp_crisis.10.t
+	desc = glp_crisis.10.d
+	picture = GFX_news_event_GLP_cavalry_raid
 	is_triggered_only = yes
 
+	# Дать Григорьеву волю
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 10
+		name = glp_crisis.10.a
+		ai_chance = { factor = 25 }
+		add_war_support = 0.05
+		add_stability = -0.05
+		set_country_flag = glp_grigoriev_autonomous
+	}
+
+	# Обрезать крылья атаману
+	option = {
+		name = glp_crisis.10.b
+		ai_chance = { factor = 35 }
+		add_stability = 0.04
+		add_political_power = -20
+		set_country_flag = glp_grigoriev_subordinated
+	}
+
+	# Расстрелять атамана
+	option = {
+		name = glp_crisis.10.c
+		ai_chance = { factor = 25 }
+		if = {
+			limit = { has_character = GLP_ataman_grigoriev }
+			retire_character = GLP_ataman_grigoriev
+		}
+		add_stability = -0.05
+		add_war_support = 0.05
+	}
+
+	# Поделить власть с Григорьевым
+	option = {
+		name = glp_crisis.10.w
+		ai_chance = { factor = 15 }
+		add_political_power = 30
+		add_stability = -0.08
 	}
 }
 
-# glp_crisis.20 - Crisis event 20
+# glp_crisis.20 - Задов против Волина (Контрразведка vs Сходы)
 country_event = {
 	id = glp_crisis.20
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
-	picture = GFX_news_event_GLP_anarchist_congress
+	title = glp_crisis.20.t
+	desc = glp_crisis.20.d
+	picture = GFX_news_event_GLP_radio_tower
 	is_triggered_only = yes
 
+	# Полномочия Задову
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 10
+		name = glp_crisis.20.a
+		ai_chance = { factor = 50 }
+		set_country_flag = GLP_zadov_ascendant
+		add_ideas = GLP_idea_kontrrazvedka_surveillance
+		add_war_support = 0.04
+		add_stability = -0.03
+	}
+
+	# Слово Волину и сходам
+	option = {
+		name = glp_crisis.20.b
+		ai_chance = { factor = 50 }
+		set_country_flag = GLP_volin_ascendant
+		add_ideas = GLP_free_syndicates_and_soviets
+		add_stability = 0.05
+		add_war_support = -0.02
 	}
 }
 
-# glp_crisis.30 - Crisis event 30
+# glp_crisis.30 - Кровь на платке Батьки (Болезнь Махно)
 country_event = {
 	id = glp_crisis.30
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
+	title = glp_crisis.30.t
+	desc = glp_crisis.30.d
 	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
+	# Уложить Батьку в лазарет
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 10
+		name = glp_crisis.30.a
+		ai_chance = { factor = 40 }
+		add_ideas = GLP_idea_makhno_illness
+		add_stability = 0.04
+		set_country_flag = GLP_makhno_treated
+	}
+
+	# Он останется в седле
+	option = {
+		name = glp_crisis.30.b
+		ai_chance = { factor = 40 }
+		add_war_support = 0.05
+		add_stability = -0.04
+		set_country_flag = GLP_makhno_in_saddle
+	}
+
+	# Созвать Совет Атаманов
+	option = {
+		name = glp_crisis.30.c
+		ai_chance = { factor = 10 }
+		country_event = { id = glp_crisis.31 days = 14 }
+	}
+
+	# Вольница без Батьки
+	option = {
+		name = glp_crisis.30.w
+		ai_chance = { factor = 10 }
+		if = {
+			limit = { has_character = GLP_nestor_makhno }
+			retire_character = GLP_nestor_makhno
+		}
+		country_event = { id = glp_crisis.31 days = 7 }
 	}
 }
 
-# glp_crisis.40 - Crisis event 40
+# glp_crisis.31 - Кто говорит от имени РПА (Выбор преемника)
+country_event = {
+	id = glp_crisis.31
+	title = glp_crisis.31.t
+	desc = glp_crisis.31.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	# Вдовиченко — партизанский вождь
+	option = {
+		name = glp_crisis.31.a
+		ai_chance = { factor = 40 }
+		promote_character = GLP_trofim_vdovychenko
+		add_stability = 0.05
+	}
+
+	# Белаш — начальник штаба
+	option = {
+		name = glp_crisis.31.b
+		ai_chance = { factor = 35 }
+		promote_character = GLP_viktor_belash
+		add_stability = 0.05
+	}
+
+	# Волин — голос анархии
+	option = {
+		name = glp_crisis.31.c
+		ai_chance = { factor = 25 }
+		promote_character = GLP_vsevolod_volin
+		add_stability = 0.05
+	}
+}
+
+# glp_crisis.40 - Семёнов ломает присягу (Ступень 1)
 country_event = {
 	id = glp_crisis.40
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
-	picture = GFX_news_event_GLP_anarchist_congress
+	title = glp_crisis.40.t
+	desc = glp_crisis.40.d
+	picture = GFX_news_event_GLP_cavalry_raid
 	is_triggered_only = yes
 
+	# Разоружить семёновцев
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 10
+		name = glp_crisis.40.a
+		ai_chance = { factor = 60 }
+		if = {
+			limit = { has_character = GLP_grigory_semyonov }
+			retire_character = GLP_grigory_semyonov
+		}
+		set_country_flag = GLP_white_step_2_sidelined
+		country_event = { id = glp_crisis.41 days = 180 }
+	}
+
+	# Дать корпус — лишь бы дрались
+	option = {
+		name = glp_crisis.40.b
+		ai_chance = { factor = 40 }
+		set_country_flag = GLP_white_step_2_favored
+		country_event = { id = glp_crisis.41 days = 180 }
 	}
 }
 
-# glp_crisis.50 - Crisis event 50
+# glp_crisis.41 - Эмиграция или «параллельный штаб» (Ступень 2)
 country_event = {
-	id = glp_crisis.50
-	title = glp_powers.1.t
-	desc = glp_powers.1.d
+	id = glp_crisis.41
+	title = glp_crisis.41.t
+	desc = glp_crisis.41.d
 	picture = GFX_news_event_GLP_anarchist_congress
 	is_triggered_only = yes
 
+	# Пусть уезжают — степь очищается
 	option = {
-		name = glp_powers.1.a
-		add_political_power = 10
+		name = glp_crisis.41.a
+		ai_chance = { factor = 50 }
+		set_country_flag = GLP_white_step_3_dispersed
+		country_event = { id = glp_crisis.42 days = 90 }
+	}
+
+	# Создать «параллельный штаб» из Скоблина
+	option = {
+		name = glp_crisis.41.b
+		ai_chance = { factor = 50 }
+		set_country_flag = GLP_white_step_3_parallel
+		country_event = { id = glp_crisis.42 days = 90 }
+	}
+}
+
+# glp_crisis.42 - Развязка в степи (Ступень 3 - финал)
+country_event = {
+	id = glp_crisis.42
+	title = glp_crisis.42.t
+	desc = glp_crisis.42.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	# Степь очищена
+	option = {
+		name = glp_crisis.42.a
+		trigger = { has_country_flag = GLP_white_step_3_dispersed }
+		clr_country_flag = GLP_white_step_3_dispersed
+		clr_country_flag = GLP_white_step_2_sidelined
+		add_stability = 0.05
+	}
+
+	# Уступить Скоблину
+	option = {
+		name = glp_crisis.42.b
+		trigger = { has_country_flag = GLP_white_step_3_parallel }
+		clr_country_flag = GLP_white_step_3_parallel
+		clr_country_flag = GLP_white_step_2_favored
+		add_war_support = 0.05
+	}
+
+	# Скоблин уходит
+	option = {
+		name = glp_crisis.42.c
+		trigger = { has_country_flag = GLP_white_step_3_parallel }
+		if = {
+			limit = { has_character = GLP_nikolai_skoblin }
+			retire_character = GLP_nikolai_skoblin
+		}
+		clr_country_flag = GLP_white_step_3_parallel
+		clr_country_flag = GLP_white_step_2_favored
+		add_stability = 0.03
+	}
+}
+
+# glp_crisis.50 - Чёрная рада (Заговор за власть)
+country_event = {
+	id = glp_crisis.50
+	title = glp_crisis.50.t
+	desc = glp_crisis.50.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	# Задов знает своё дело
+	option = {
+		name = glp_crisis.50.a
+		ai_chance = { factor = 40 }
+		set_country_flag = GLP_rada_prevented
+		add_stability = 0.05
+		add_war_support = -0.02
+	}
+
+	# Пусть решает вольный сход!
+	option = {
+		name = glp_crisis.50.b
+		ai_chance = { factor = 60 }
+		country_event = { id = glp_crisis.51 days = 7 }
+	}
+}
+
+# glp_crisis.51 - Сход решает судьбу знамени
+country_event = {
+	id = glp_crisis.51
+	title = glp_crisis.51.t
+	desc = glp_crisis.51.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	is_triggered_only = yes
+
+	# Батько! Батько! Батько!
+	option = {
+		name = glp_crisis.51.a
+		ai_chance = { factor = 40 }
+		set_country_flag = GLP_makhno_reconfirmed
+		news_event = { id = glp_crisis.52 hours = 6 }
+	}
+
+	# Маруся поведёт войну до конца
+	option = {
+		name = glp_crisis.51.b
+		ai_chance = { factor = 20 }
+		if = {
+			limit = { has_character = GLP_nestor_makhno }
+			retire_character = GLP_nestor_makhno
+		}
+		promote_character = GLP_maria_nikiforova
+		news_event = { id = glp_crisis.52 hours = 6 }
+	}
+
+	# Попов наведёт порядок в вольнице
+	option = {
+		name = glp_crisis.51.c
+		ai_chance = { factor = 20 }
+		if = {
+			limit = { has_character = GLP_nestor_makhno }
+			retire_character = GLP_nestor_makhno
+		}
+		promote_character = GLP_dmitry_popov
+		news_event = { id = glp_crisis.52 hours = 6 }
+	}
+
+	# Антони — совесть движения
+	option = {
+		name = glp_crisis.51.w
+		ai_chance = { factor = 20 }
+		if = {
+			limit = { has_character = GLP_nestor_makhno }
+			retire_character = GLP_nestor_makhno
+		}
+		promote_character = GLP_voldemar_antoni
+		news_event = { id = glp_crisis.52 hours = 6 }
+	}
+}
+
+# glp_crisis.52 - ЧЁРНАЯ РАДА СКАЗАЛА СВОЁ СЛОВО (Газета)
+news_event = {
+	id = glp_crisis.52
+	title = glp_crisis.52.t
+	desc = glp_crisis.52.d
+	picture = GFX_news_event_GLP_anarchist_congress
+	major = yes
+	is_triggered_only = yes
+
+	option = {
+		name = glp_crisis.52.a
+		trigger = { tag = GLP }
+		add_stability = 0.05
+	}
+
+	option = {
+		name = glp_crisis.52.b
+		trigger = { NOT = { tag = GLP } }
 	}
 }
