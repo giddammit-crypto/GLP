@@ -2587,16 +2587,14 @@ def check_train_technology_contract():
         err('train_branch: basic_train does not lead to wartime_train')
     if not re.search(r'leads_to_tech\s*=\s*armored_train\b', anchor):
         err('train_branch: basic_train does not lead to armored_train')
+    if not re.search(r'leads_to_tech\s*=\s*GLP_train_tech_1\b', anchor):
+        err('train_branch: basic_train does not lead to GLP_train_tech_1')
 
-    # 2. armored_train anchor validation
-    if 'armored_train = {' not in anchor:
-        err('train_branch: armored_train is not defined in zzz_GLP_train_anchor.txt')
-    if not re.search(r'leads_to_tech\s*=\s*railway_gun\b', anchor):
-        err('train_branch: armored_train does not lead to railway_gun')
-    if not re.search(r'leads_to_tech\s*=\s*GLP_train_tech_2\b', anchor):
-        err('train_branch: armored_train does not lead to GLP_train_tech_2')
-
-    # 3. GLP train technologies chain
+    # 2. GLP train technologies chain
+    if 'GLP_train_tech_1 = {' not in tech:
+        err('train_branch: missing technology definition GLP_train_tech_1')
+    if not re.search(r'leads_to_tech\s*=\s*GLP_train_tech_2\b', tech):
+        err('train_branch: GLP_train_tech_1 does not lead to GLP_train_tech_2')
     if 'GLP_train_tech_2 = {' not in tech:
         err('train_branch: missing technology definition GLP_train_tech_2')
     if not re.search(r'leads_to_tech\s*=\s*GLP_train_tech_3\b', tech):
@@ -2604,25 +2602,27 @@ def check_train_technology_contract():
     if 'GLP_train_tech_3 = {' not in tech:
         err('train_branch: missing technology definition GLP_train_tech_3')
 
-    # 4. Equipments
+    # 3. Equipments
+    if 'GLP_train_equipment_1' not in tech or 'GLP_train_equipment_1' not in equipment:
+        err('train_branch: GLP_train_equipment_1 missing in tech or equipment')
     if 'GLP_train_equipment_2' not in tech or 'GLP_train_equipment_2' not in equipment:
         err('train_branch: GLP_train_equipment_2 missing in tech or equipment')
     if 'GLP_train_equipment_3' not in tech or 'GLP_train_equipment_3' not in equipment:
         err('train_branch: GLP_train_equipment_3 missing in tech or equipment')
 
-    # 5. History unlocks: branch starts from civilian train (basic_train), armored train researched afterwards
+    # 4. History unlocks: branch starts from civilian train (basic_train)
     if not re.search(r'\bbasic_train\s*=\s*1\b', history):
         err('train_branch: basic_train = 1 missing in GLP starting technologies')
 
-    # 6. GFX bindings for our custom sprites
+    # 5. GFX bindings for our custom sprites
     required_gfx = [
-        'GFX_armored_train_medium',
-        'GFX_GLP_armored_train_medium',
+        'GFX_GLP_train_tech_1_medium',
         'GFX_GLP_train_equipment_1_medium',
-        'GFX_GLP_train_equipment_3_medium',
+        'GFX_GLP_armored_train_equipment_medium',
         'GFX_GLP_train_tech_2_medium',
         'GFX_GLP_train_equipment_2_medium',
         'GFX_GLP_train_tech_3_medium',
+        'GFX_GLP_train_equipment_3_medium',
     ]
     for g in required_gfx:
         if f'name = "{g}"' not in gfx:
