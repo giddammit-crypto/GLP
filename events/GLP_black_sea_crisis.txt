@@ -38,7 +38,8 @@ country_event = {
 
 	trigger = {
 		tag = GLP
-		owns_state = 226 # Крым/Севастополь
+		owns_state = 137
+		controls_state = 137 # Крым/Севастополь
 	}
 
 	# Интегрировать балтийцев в Вольный Революционный Флот
@@ -69,7 +70,8 @@ country_event = {
 
 	trigger = {
 		tag = GLP
-		owns_state = 226
+		owns_state = 137
+		controls_state = 137
 	}
 
 	# Направить вооружённые катера РПА для конвоирования рыболовецких и зерновых артелей

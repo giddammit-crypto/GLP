@@ -24,7 +24,7 @@ GLP_revolutionary_military_ops = {
 		icon = generic_assassination
 		cost = 40
 		days_remove = 45
-		available = { has_war = yes }
+		available = { has_war = yes has_manpower > 999 }
 		visible = { has_completed_focus = GLP_partisan_warfare_doctrine }
 		complete_effect = {
 			add_manpower = -1000
@@ -46,8 +46,10 @@ GLP_revolutionary_military_ops = {
 		cost = 50
 		days_remove = 90
 		visible = { has_completed_focus = GLP_armored_train_production }
+		available = { has_tech = GLP_train_tech_1 }
 		fire_only_once = yes
 		complete_effect = {
+			set_country_flag = glp_train_1_commissioned
 			add_equipment_to_stockpile = { type = GLP_train_equipment_1 amount = 4 producer = GLP }
 			army_experience = 15
 			add_war_support = 0.03
@@ -63,10 +65,12 @@ GLP_revolutionary_military_ops = {
 		days_remove = 100
 		visible = {
 			has_completed_focus = GLP_steel_ram_tactics
-			has_decision = GLP_commission_armored_train
+			has_country_flag = glp_train_1_commissioned
 		}
+		available = { has_tech = GLP_train_tech_2 }
 		fire_only_once = yes
 		complete_effect = {
+			set_country_flag = glp_train_2_commissioned
 			add_equipment_to_stockpile = { type = GLP_train_equipment_2 amount = 5 producer = GLP }
 			army_experience = 20
 			add_stability = 0.04
@@ -83,9 +87,12 @@ GLP_revolutionary_military_ops = {
 		days_remove = 80
 		visible = {
 			has_completed_focus = GLP_rapid_rail_deployment
+			has_country_flag = glp_train_2_commissioned
 		}
+		available = { has_tech = GLP_train_tech_3 }
 		fire_only_once = yes
 		complete_effect = {
+			set_country_flag = glp_train_3_commissioned
 			add_equipment_to_stockpile = { type = GLP_train_equipment_3 amount = 3 producer = GLP }
 			army_experience = 10
 			add_war_support = 0.03
@@ -194,6 +201,7 @@ GLP_donbass_integration_category = {
 		}
 		fire_only_once = yes
 		complete_effect = {
+			set_country_flag = glp_donbass_congress_completed
 			add_stability = 0.06
 			add_political_power = 25
 			227 = {
@@ -210,7 +218,7 @@ GLP_donbass_integration_category = {
 		visible = {
 			controls_state = 227
 			has_idea = GLP_idea_donbass_coalition_friction
-			has_decision = GLP_donbass_miners_congress
+			has_country_flag = glp_donbass_congress_completed
 		}
 		fire_only_once = yes
 		complete_effect = {
@@ -340,6 +348,7 @@ GLP_kontrrazvedka_and_order = {
 		cost = 40
 		days_remove = 60
 		visible = { has_completed_focus = GLP_vigilance_against_cheka_infiltrators }
+		available = { has_manpower > 1999 }
 		complete_effect = {
 			add_stability = 0.06
 			add_manpower = -2000

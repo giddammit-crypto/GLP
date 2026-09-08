@@ -1,7 +1,9 @@
 equipments = {
 
-	# Архетип бронепоездов РПА (отдельный от гражданских составов train_equipment,
-	# чтобы гражданский поезд всегда оставался видимым и доступным в производстве)
+	# Legacy ID retained for references in old saves; new models use the
+	# vanilla train_equipment archetype required by railway logistics.
+	# Civilian trains remain unlocked by basic_train (show outdated equipment
+	# in production if newer models hide them).
 	GLP_armored_train_equipment = {
 		year = 1936
 
@@ -31,7 +33,8 @@ equipments = {
 	GLP_train_equipment_1 = {
 		year = 1936
 
-		archetype = GLP_armored_train_equipment
+		archetype = train_equipment
+		lend_lease_cost = 25
 		priority = 35
 		picture = GLP_train_tech_1
 
@@ -50,7 +53,8 @@ equipments = {
 	GLP_train_equipment_2 = {
 		year = 1940
 
-		archetype = GLP_armored_train_equipment
+		archetype = train_equipment
+		lend_lease_cost = 25
 		parent = GLP_train_equipment_1
 		priority = 40
 		picture = GLP_train_tech_2
@@ -70,7 +74,8 @@ equipments = {
 	GLP_train_equipment_3 = {
 		year = 1943
 
-		archetype = GLP_armored_train_equipment
+		archetype = train_equipment
+		lend_lease_cost = 25
 		parent = GLP_train_equipment_2
 		priority = 45
 		picture = GLP_train_tech_3

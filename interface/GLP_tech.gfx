@@ -16,15 +16,7 @@ spriteTypes = {
 		texturefile = "gfx/interface/technologies/GLP_tachanka_tech_4.dds"
 	}
 	# --- Бронепоезда РПА: ветка технологий и производство ---
-	# Tier 1: «Свобода или Смерть» (armored_train / GLP_train_equipment_1)
-	spriteType = {
-		name = "GFX_armored_train_medium"
-		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
-	}
-	spriteType = {
-		name = "GFX_GLP_armored_train_medium"
-		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
-	}
+	# Tier 1: «Свобода или Смерть» (GLP_train_tech_1 / GLP_train_equipment_1)
 	spriteType = {
 		name = "GFX_GLP_armored_train_equipment_medium"
 		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
@@ -35,10 +27,6 @@ spriteTypes = {
 	}
 	spriteType = {
 		name = "GFX_GLP_train_equipment_1_medium"
-		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
-	}
-	spriteType = {
-		name = "GFX_train_equipment_3_medium"
 		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
 	}
 

@@ -15,6 +15,8 @@ GLP_black_international_actions = {
 		}
 		available = {
 			has_political_power > 49
+			is_in_faction = no
+			is_subject = no
 		}
 		complete_effect = {
 			create_faction = "GLP_black_international_faction"
@@ -38,10 +40,10 @@ GLP_black_international_actions = {
 			num_of_military_factories > 5
 		}
 		complete_effect = {
-			add_ideas = GLP_idea_bi_mutual_aid
+			add_timed_idea = { idea = GLP_idea_bi_mutual_aid days = 120 }
 			every_other_country = {
 				limit = { is_in_faction_with = ROOT }
-				add_ideas = GLP_idea_bi_mutual_aid_partner
+				add_timed_idea = { idea = GLP_idea_bi_mutual_aid_partner days = 120 }
 			}
 		}
 		remove_effect = {

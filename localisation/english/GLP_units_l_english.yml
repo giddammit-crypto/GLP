@@ -67,10 +67,6 @@
  # (common/units/GLP_white_units.txt sets group = cavalry).
  group_cavalry_title:0 "Tachankas"
  group_cavalry_desc:0 "Machine-gun and armored tachankas of the RPA."
- armored_train_GLP:0 "Armored Train 'Freedom or Death'"
- armored_train_GLP_desc:0 "Heavy insurgent armored train from the battles for Aleksandrovsk and Ekaterinoslav. Reinforced locomotive armor, machine-gun casemates, and the revolutionary Free Territory banner protect railway lines."
- train_equipment_3_GLP:0 "Armored Train 'Freedom or Death'"
- train_equipment_3_GLP_desc:0 "Heavy insurgent assault armored train with reinforced armor plates, AA mounts, and dedicated machine-gun crews."
  GLP_train_tech_1:0 "Armored Train 'Freedom or Death'"
  GLP_train_tech_1_desc:0 "Heavy armored train from the battles for Aleksandrovsk and Ekaterinoslav. Reinforced locomotive armor, machine-gun casemates, and AA mounts protect railway lines."
  GLP_train_tech_2:0 "Armored Train 'Batko Makhno'"

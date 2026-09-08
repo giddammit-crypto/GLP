@@ -74,14 +74,9 @@ focus_tree = {
 		}
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
+			remove_ideas = GLP_idea_insurgent_army
 			if = {
-				limit = { has_idea = GLP_idea_insurgent_army }
-				swap_ideas = {
-					remove_idea = GLP_idea_insurgent_army
-					add_idea = GLP_idea_partisan_doctrine
-				}
-			}
-			else = {
+				limit = { NOT = { has_idea = GLP_idea_invincible_insurgency } }
 				add_ideas = GLP_idea_partisan_doctrine
 			}
 			add_command_power = 20
@@ -173,7 +168,13 @@ focus_tree = {
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
-			add_ideas = GLP_idea_armored_train_production
+			if = {
+				limit = {
+					NOT = { has_idea = GLP_idea_rapid_rail_deployment }
+					NOT = { has_idea = GLP_idea_steel_ram }
+				}
+				add_ideas = GLP_idea_armored_train_production
+			}
 			add_tech_bonus = {
 				name = GLP_train_bonus
 				bonus = 1.0
@@ -194,14 +195,9 @@ focus_tree = {
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
+			remove_ideas = GLP_idea_armored_train_production
 			if = {
-				limit = { has_idea = GLP_idea_armored_train_production }
-				swap_ideas = {
-					remove_idea = GLP_idea_armored_train_production
-					add_idea = GLP_idea_rapid_rail_deployment
-				}
-			}
-			else = {
+				limit = { NOT = { has_idea = GLP_idea_steel_ram } }
 				add_ideas = GLP_idea_rapid_rail_deployment
 			}
 			add_political_power = -25
@@ -243,16 +239,9 @@ focus_tree = {
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
 		completion_reward = {
-			if = {
-				limit = { has_idea = GLP_idea_rapid_rail_deployment }
-				swap_ideas = {
-					remove_idea = GLP_idea_rapid_rail_deployment
-					add_idea = GLP_idea_steel_ram
-				}
-			}
-			else = {
-				add_ideas = GLP_idea_steel_ram
-			}
+			remove_ideas = GLP_idea_armored_train_production
+			remove_ideas = GLP_idea_rapid_rail_deployment
+			add_ideas = GLP_idea_steel_ram
 			add_war_support = 0.10
 			add_political_power = -30
 		}
@@ -272,16 +261,9 @@ focus_tree = {
 		}
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
-			if = {
-				limit = { has_idea = GLP_idea_partisan_doctrine }
-				swap_ideas = {
-					remove_idea = GLP_idea_partisan_doctrine
-					add_idea = GLP_idea_invincible_insurgency
-				}
-			}
-			else = {
-				add_ideas = GLP_idea_invincible_insurgency
-			}
+			remove_ideas = GLP_idea_insurgent_army
+			remove_ideas = GLP_idea_partisan_doctrine
+			add_ideas = GLP_idea_invincible_insurgency
 			add_political_power = -40
 		}
 	}
@@ -507,7 +489,7 @@ focus_tree = {
 	}
 
 	# =========================================================================
-	# 3. ВНУТРЕННЯЯ БЕЗОПАСНОСТЬ И КОНТРРАЗВЕДКА (9 фокусов, x = 18..22, y = 0..4)
+	# 3. ВНУТРЕННЯЯ БЕЗОПАСНОСТЬ И КОНТРРАЗВЕД��А (9 фокусов, x = 18..22, y = 0..4)
 	# =========================================================================
 	focus = {
 		id = GLP_kontrrazvedka_reorganization
@@ -634,7 +616,7 @@ focus_tree = {
 			else = {
 				add_ideas = GLP_idea_zadov_network
 			}
-			# Сеть Задова разворачивается — раскол в штабе обостряется.
+			# Сеть Задова развора��ивается — раскол в штабе обостряется.
 			# Событие glp_crisis.20 (Задов vs Волин) уже запускается из
 			# GLP_libertarian_civil_courts / GLP_decree_on_black_terror;
 			# здесь — третий триггер (через 30 дней), чтобы событие
@@ -2515,7 +2497,7 @@ focus_tree = {
 	}
 
 	# =========================================================================
-	# 12. ЭКОНОМИЧЕСКАЯ АВТАРКИЯ (9 фокусов, x = 42..46, y = 6..11)
+	# 12. ЭКОНОМИЧЕСКАЯ ��ВТАРКИЯ (9 фокусов, x = 42..46, y = 6..11)
 	# =========================================================================
 	focus = {
 		id = GLP_self_sufficient_economy
