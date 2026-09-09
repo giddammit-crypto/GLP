@@ -15,12 +15,12 @@ news_event = {
 			exists = yes
 			has_capitulated = no
 		}
-		
 	}
 	fire_only_once = yes
 
 	option = {
 		name = glp_white.1.a
+		ai_chance = { factor = 50 }
 		add_stability = -0.05
 		add_war_support = 0.03
 		GLP_nikolai_skoblin = { add_unit_leader_trait = GLP_white_emigre_favored }
@@ -30,6 +30,7 @@ news_event = {
 	}
 	option = {
 		name = glp_white.1.b
+		ai_chance = { factor = 50 }
 		add_stability = 0.05
 		add_war_support = -0.02
 		GLP_nikolai_skoblin = { add_unit_leader_trait = GLP_white_emigre_sidelined }

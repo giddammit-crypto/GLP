@@ -532,6 +532,7 @@ country_event = {
 	option = {
 		name = glp_crisis.42.a
 		trigger = { has_country_flag = GLP_white_step_3_dispersed }
+		ai_chance = { factor = 100 }
 		clr_country_flag = GLP_white_step_3_dispersed
 		clr_country_flag = GLP_white_step_2_sidelined
 		add_stability = 0.05
@@ -541,6 +542,7 @@ country_event = {
 	option = {
 		name = glp_crisis.42.b
 		trigger = { has_country_flag = GLP_white_step_3_parallel }
+		ai_chance = { factor = 40 }
 		clr_country_flag = GLP_white_step_3_parallel
 		clr_country_flag = GLP_white_step_2_favored
 		add_war_support = 0.05
@@ -550,6 +552,7 @@ country_event = {
 	option = {
 		name = glp_crisis.42.c
 		trigger = { has_country_flag = GLP_white_step_3_parallel }
+		ai_chance = { factor = 60 }
 		if = {
 			limit = { has_character = GLP_nikolai_skoblin }
 			retire_character = GLP_nikolai_skoblin

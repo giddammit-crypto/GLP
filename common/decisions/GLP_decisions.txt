@@ -24,6 +24,7 @@ GLP_revolutionary_military_ops = {
 		icon = generic_assassination
 		cost = 40
 		days_remove = 45
+		days_re_enable = 90
 		available = { has_war = yes has_manpower > 999 }
 		visible = { has_completed_focus = GLP_partisan_warfare_doctrine }
 		complete_effect = {
@@ -252,6 +253,7 @@ GLP_syndicate_industrial_initiatives = {
 		icon = generic_research_bonus
 		cost = 50
 		days_remove = 90
+		fire_only_once = yes
 		visible = { has_completed_focus = GLP_dnieper_hydroelectric_freedom }
 		complete_effect = {
 			200 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
@@ -265,6 +267,7 @@ GLP_syndicate_industrial_initiatives = {
 		icon = generic_construct_mil_factory
 		cost = 60
 		days_remove = 90
+		fire_only_once = yes
 		visible = { has_completed_focus = GLP_revvoensovet_industry_coordination }
 		complete_effect = {
 			226 = { add_building_construction = { type = arms_factory level = 1 instant_build = yes } }
@@ -277,6 +280,7 @@ GLP_syndicate_industrial_initiatives = {
 		icon = generic_tanks
 		cost = 45
 		days_remove = 60
+		fire_only_once = yes
 		visible = { has_completed_focus = GLP_revvoensovet_armored_command }
 		complete_effect = {
 			add_tech_bonus = { name = glp_armor_bonus bonus = 1.0 uses = 1 category = armor }
@@ -290,11 +294,12 @@ GLP_peasant_agrarian_communes = {
 	GLP_emergency_grain_relief = {
 		icon = generic_agrarian_reform
 		cost = 30
-		days_remove = 120
+		days_remove = 90
+		days_re_enable = 180
 		available = { has_completed_focus = GLP_bread_for_cities_and_front }
 		visible = { has_completed_focus = GLP_peasant_grain_supplies }
 		complete_effect = {
-			add_stability = 0.08
+			add_stability = 0.04
 			add_political_power = -25
 		}
 		ai_will_do = { factor = 1 }
@@ -305,6 +310,7 @@ GLP_peasant_agrarian_communes = {
 		icon = generic_production
 		cost = 40
 		days_remove = 90
+		fire_only_once = yes
 		visible = { has_completed_focus = GLP_tractor_stations_for_communes }
 		complete_effect = {
 			add_stability = 0.05
@@ -334,6 +340,7 @@ GLP_kontrrazvedka_and_order = {
 		icon = generic_secret_police
 		cost = 35
 		days_remove = 60
+		fire_only_once = yes
 		visible = { has_completed_focus = GLP_purging_white_remnants }
 		complete_effect = {
 			137 = { add_compliance = 15 }
@@ -347,6 +354,7 @@ GLP_kontrrazvedka_and_order = {
 		icon = generic_intelligence_exchange
 		cost = 40
 		days_remove = 60
+		fire_only_once = yes
 		visible = { has_completed_focus = GLP_vigilance_against_cheka_infiltrators }
 		available = { has_manpower > 1999 }
 		complete_effect = {
@@ -361,6 +369,7 @@ GLP_kontrrazvedka_and_order = {
 		icon = generic_national_unity
 		cost = 30
 		days_remove = 45
+		fire_only_once = yes
 		visible = { has_completed_focus = GLP_libertarian_civil_courts }
 		complete_effect = {
 			add_political_power = 40
@@ -463,16 +472,30 @@ GLP_reconciliation_with_past = {
 	GLP_equip_volunteer_shock_brigades = {
 		icon = generic_prepare_civil_war
 		cost = 40
-		# Перевооружение бригады занимает сезон, а не 45 дней.
 		days_remove = 90
+		days_re_enable = 180
 		visible = { has_country_flag = GLP_allied_white_emigres }
-		available = { has_equipment = { infantry_equipment > 400 } }
+		available = {
+			has_equipment = { infantry_equipment > 399 }
+			OR = {
+				NOT = { has_variable = glp_shock_brigade_waves }
+				check_variable = { variable = glp_shock_brigade_waves value < 3 }
+			}
+		}
 		fire_only_once = no
 		complete_effect = {
-			add_equipment_to_stockpile = { type = infantry_equipment amount = 800 producer = GLP }
-			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 80 producer = GLP }
+			add_equipment_to_stockpile = { type = infantry_equipment amount = -400 }
+			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 40 producer = GLP }
 			add_stability = -0.02
 			add_political_power = -25
+			army_experience = 15
+			if = {
+				limit = { NOT = { has_variable = glp_shock_brigade_waves } }
+				set_variable = { variable = glp_shock_brigade_waves value = 1 }
+			}
+			else = {
+				add_to_variable = { variable = glp_shock_brigade_waves value = 1 }
+			}
 		}
 		ai_will_do = { factor = 1 }
 	}
@@ -549,6 +572,7 @@ GLP_anarchist_freedom_measures = {
 		icon = generic_production
 		cost = 50
 		days_remove = 90
+		fire_only_once = yes
 		visible = { has_completed_focus = GLP_factory_committees }
 		complete_effect = {
 			add_stability = 0.02

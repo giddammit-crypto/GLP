@@ -1,6 +1,6 @@
 -- Custom Defines for Gulyaipole (GLP) Mod
-NDefines.NDiplomacy.WARGOAL_JUSTIFY_TENSION_LIMIT = 0.03
-NDefines.NDiplomacy.SEND_VOLUNTEERS_TENSION_LIMIT = 0.00
-NDefines.NDiplomacy.SEND_VOLUNTEERS_RULES_TENSION = 0.00
-NDefines.NDiplomacy.VOLUNTEERS_DIVISIONS_REQUIRED = 1
-NDefines.NDiplomacy.VOLUNTEERS_PER_TARGET_PROVINCE = 0.5
+-- Tension and volunteer permissions are granted directly to GLP via country rules
+-- and national spirit GLP_black_guard_legacy (send_volunteers_tension = -1.0, generate_wargoal_tension = -0.97).
+-- Defines here only provide slight fine-tuning of volunteer reception without breaking global AI diplomacy.
+NDefines.NDiplomacy.VOLUNTEERS_TRANSFER_SPEED = 10
+NDefines.NDiplomacy.VOLUNTEERS_RETURN_EQUIPMENT = 0.95

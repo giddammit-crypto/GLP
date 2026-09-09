@@ -32,6 +32,7 @@ GLP_black_international_actions = {
 		icon = generic_civil_support
 		cost = 50
 		days_remove = 120
+		days_re_enable = 90
 		visible = {
 			has_country_flag = glp_black_international_founded
 			is_in_faction = yes
@@ -61,6 +62,7 @@ GLP_black_international_actions = {
 		icon = generic_volunteer_expedition
 		cost = 60
 		days_remove = 180
+		days_re_enable = 180
 		visible = {
 			has_country_flag = glp_black_international_founded
 		}
@@ -80,6 +82,7 @@ GLP_black_international_actions = {
 		icon = generic_cavalry
 		cost = 40
 		days_remove = 90
+		days_re_enable = 90
 		visible = {
 			has_country_flag = glp_black_international_founded
 		}

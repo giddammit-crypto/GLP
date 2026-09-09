@@ -37,11 +37,13 @@ country_event = {
 
 	option = {
 		name = glp_bi.2.a
+		ai_chance = { factor = 70 }
 		add_stability = -0.05
 		add_popularity = { ideology = communism popularity = 0.05 }
 	}
 	option = {
 		name = glp_bi.2.b
+		ai_chance = { factor = 30 }
 		add_political_power = -50
 	}
 }
@@ -78,6 +80,13 @@ country_event = {
 	# 1. Принять беглецов: получить опытных командиров и конструкторов, но вызвать ярость Москвы
 	option = {
 		name = glp_bi.4.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 1.5
+				has_war_with = SOV
+			}
+		}
 		add_manpower = 8000
 		army_experience = 25
 		add_research_slot = 0
@@ -91,6 +100,13 @@ country_event = {
 	# 2. Отказать: сохранить хрупкий мир с СССР ценой разочарования левых радикалов
 	option = {
 		name = glp_bi.4.b
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 2.0
+				NOT = { has_war = yes }
+			}
+		}
 		add_stability = -0.04
 		add_popularity = { ideology = neutrality popularity = -0.05 }
 		SOV = {
@@ -102,6 +118,7 @@ country_event = {
 	# 3. Использовать КРО Задова: перехватить архивы ГПУ и организовать агентурную сеть
 	option = {
 		name = glp_bi.4.c
+		ai_chance = { factor = 30 }
 		add_political_power = 50
 		add_stability = 0.03
 		add_timed_idea = { idea = GLP_idea_agent_networks days = 365 }
@@ -120,6 +137,7 @@ country_event = {
 	# Отвергнуть ультиматум Кремля: степь не выдает революционеров!
 	option = {
 		name = glp_bi.5.a
+		ai_chance = { factor = 70 }
 		add_war_support = 0.08
 		add_stability = 0.02
 		SOV = {
@@ -130,6 +148,7 @@ country_event = {
 	# Тайный транзит через КРО Задова в Испанию (замести следы)
 	option = {
 		name = glp_bi.5.b
+		ai_chance = { factor = 30 }
 		add_political_power = -30
 		add_stability = 0.03
 	}

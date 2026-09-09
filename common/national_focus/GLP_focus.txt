@@ -51,7 +51,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_insurgent_army_reorganization }
 		x = 2
 		y = 1
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -292,7 +292,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_syndicate_industrial_planning }
 		x = 10
 		y = 1
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -311,10 +311,13 @@ focus_tree = {
 		available = {
 			controls_state = 227
 		}
+		bypass = {
+			NOT = { owns_state = 227 }
+		}
 		prerequisite = { focus = GLP_syndicate_industrial_planning }
 		x = 14
 		y = 1
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -338,6 +341,9 @@ focus_tree = {
 		icon = GFX_focus_generic_hydroelectric_energy
 		available = {
 			controls_state = 200
+		}
+		bypass = {
+			NOT = { owns_state = 200 }
 		}
 		prerequisite = { focus = GLP_empower_the_communes }
 		x = 10
@@ -434,6 +440,10 @@ focus_tree = {
 		icon = GFX_focus_generic_refit_civilian_ships
 		available = {
 			OR = { controls_state = 137 controls_state = 196 }
+		}
+		bypass = {
+			NOT = { owns_state = 137 }
+			NOT = { owns_state = 196 }
 		}
 		prerequisite = { focus = GLP_decentralized_workshop_network }
 		x = 14
@@ -1227,7 +1237,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_peasant_grain_supplies }
 		x = 38
 		y = 1
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -1241,7 +1251,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_peasant_grain_supplies }
 		x = 42
 		y = 1
-		cost = 5
+		cost = 10
 		ai_will_do = { factor = 8 }
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -1261,7 +1271,7 @@ focus_tree = {
 		prerequisite = { focus = GLP_bread_for_cities_and_front }
 		x = 38
 		y = 2
-		cost = 7
+		cost = 10
 		ai_will_do = { factor = 7 }
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER }
 		completion_reward = {
@@ -1636,6 +1646,9 @@ focus_tree = {
 		available = {
 			controls_state = 137
 		}
+		bypass = {
+			NOT = { owns_state = 137 }
+		}
 		prerequisite = { focus = GLP_invincible_insurgency }
 		x = 2
 		y = 6
@@ -1672,6 +1685,9 @@ focus_tree = {
 		id = GLP_submarine_flotilla
 		available = {
 			controls_state = 137
+		}
+		bypass = {
+			NOT = { owns_state = 137 }
 		}
 		icon = GFX_goal_generic_navy_submarine
 		prerequisite = { focus = GLP_sevastopol_naval_base }
@@ -1711,6 +1727,10 @@ focus_tree = {
 			OR = {
 			controls_state = 137
 			controls_state = 196
+		}
+		bypass = {
+			NOT = { owns_state = 137 }
+			NOT = { owns_state = 196 }
 		}
 		}
 		icon = GFX_focus_generic_coastal_fort
@@ -1753,6 +1773,9 @@ focus_tree = {
 		available = {
 			controls_state = 137
 		}
+		bypass = {
+			NOT = { owns_state = 137 }
+		}
 		icon = GFX_focus_generic_merchant_fleet
 		prerequisite = { focus = GLP_black_sea_dominance }
 		x = 2
@@ -1782,6 +1805,9 @@ focus_tree = {
 		id = GLP_naval_aviation
 		available = {
 			controls_state = 137
+		}
+		bypass = {
+			NOT = { owns_state = 137 }
 		}
 		icon = GFX_goal_generic_air_naval_bomber
 		prerequisite = { focus = GLP_black_sea_dominance }
@@ -1846,6 +1872,9 @@ focus_tree = {
 				add_building_construction = { type = air_base level = 2 instant_build = yes }
 			}
 		}
+		bypass = {
+			NOT = { owns_state = 227 }
+		}
 	}
 
 	focus = {
@@ -1901,6 +1930,10 @@ focus_tree = {
 			OR = {
 			controls_state = 227
 			controls_state = 200
+		}
+		bypass = {
+			NOT = { owns_state = 227 }
+			NOT = { owns_state = 200 }
 		}
 		}
 		icon = GFX_focus_generic_air_defense
@@ -2066,6 +2099,9 @@ focus_tree = {
 		id = GLP_advanced_metallurgy
 		available = {
 			controls_state = 227
+		}
+		bypass = {
+			NOT = { owns_state = 227 }
 		}
 		icon = GFX_focus_generic_steel
 		prerequisite = { focus = GLP_improved_weapons }
@@ -2522,6 +2558,9 @@ focus_tree = {
 		available = {
 			controls_state = 226
 		}
+		bypass = {
+			NOT = { owns_state = 226 }
+		}
 		icon = GFX_focus_generic_mining_industry
 		prerequisite = { focus = GLP_self_sufficient_economy }
 		x = 42
@@ -2574,6 +2613,9 @@ focus_tree = {
 		available = {
 			controls_state = 227
 		}
+		bypass = {
+			NOT = { owns_state = 227 }
+		}
 		icon = GFX_focus_generic_rubber
 		prerequisite = { focus = GLP_textile_syndicates }
 		x = 46
@@ -2594,6 +2636,9 @@ focus_tree = {
 		id = GLP_steel_production
 		available = {
 			controls_state = 227
+		}
+		bypass = {
+			NOT = { owns_state = 227 }
 		}
 		icon = GFX_focus_generic_steel
 		prerequisite = { focus = GLP_food_processing }
@@ -2617,6 +2662,9 @@ focus_tree = {
 		id = GLP_fuel_synthesis
 		available = {
 			controls_state = 227
+		}
+		bypass = {
+			NOT = { owns_state = 227 }
 		}
 		icon = GFX_focus_generic_stockpile_fuel
 		prerequisite = { focus = GLP_steel_production }
@@ -3131,6 +3179,9 @@ focus_tree = {
 		available = {
 			controls_state = 137
 		}
+		bypass = {
+			NOT = { owns_state = 137 }
+		}
 		icon = GFX_focus_generic_public_works
 		prerequisite = { focus = GLP_new_soviet_culture }
 		x = 28
@@ -3169,6 +3220,9 @@ focus_tree = {
 		id = GLP_shipbuilding_yards
 		available = {
 			controls_state = 137
+		}
+		bypass = {
+			NOT = { owns_state = 137 }
 		}
 		icon = GFX_goal_generic_construct_naval_dockyard
 		prerequisite = { focus = GLP_crimean_development }

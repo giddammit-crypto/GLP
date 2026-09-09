@@ -2,4 +2,7 @@ GLP_spain_smuggling_routes = {
 	icon = generic_civil_support
 	picture = GFX_decision_cat_generic_makhnovshchina
 	priority = 100
+	allowed = {
+		original_tag = GLP
+	}
 }
