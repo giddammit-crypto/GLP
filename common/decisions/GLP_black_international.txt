@@ -188,7 +188,8 @@ GLP_black_international_actions = {
 		}
 		complete_effect = {
 			random_neighbor_country = {
-				add_popularity = { ideology = neutrality popularity = 0.05 }
+				add_stability = -0.05
+				add_opinion_modifier = { target = GLP modifier = GLP_french_syndicalist_warmth }
 			}
 			add_stability = 0.02
 		}

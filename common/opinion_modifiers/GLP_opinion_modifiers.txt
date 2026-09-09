@@ -17,4 +17,8 @@ opinion_modifiers = {
 	GLP_pact_watch = {
 		value = -15
 	}
+	# Взаимное охлаждение между Вольной Территорией и буржуазно-монархическими диктатурами
+	GLP_bourgeois_regime_distrust = {
+		value = -20
+	}
 }

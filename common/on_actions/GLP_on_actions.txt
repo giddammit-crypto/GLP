@@ -56,6 +56,19 @@ on_actions = {
 				if = { limit = { has_character = GLP_generic_military_theorist }			retire_character = GLP_generic_military_theorist }
 				if = { limit = { has_character = GLP_generic_naval_theorist }			retire_character = GLP_generic_naval_theorist }
 				if = { limit = { has_character = GLP_generic_air_warfare_theorist }		retire_character = GLP_generic_air_warfare_theorist }
+
+				# ----------------------------------------------------------
+				#  Устранение неисторичного бонуса отношений между анархистами
+				#  Гуляйполя и авторитарными нейтральными диктатурами
+				# ----------------------------------------------------------
+				every_other_country = {
+					limit = {
+						has_government = neutrality
+						NOT = { has_country_leader_ideology = anarchism }
+					}
+					add_opinion_modifier = { target = GLP modifier = GLP_bourgeois_regime_distrust }
+					reverse_add_opinion_modifier = { target = GLP modifier = GLP_bourgeois_regime_distrust }
+				}
 				# ----------------------------------------------------------
 				#  «Трофейный отряд РПА» — шаблон с РЕМОНТНОЙ РОТОЙ, из
 				#  которого позже формируются новые дивизии из трофеев.

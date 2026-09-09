@@ -113,7 +113,7 @@ ideologies = {
 
 		rules = {
 			can_force_government = yes
-			can_send_volunteers = yes
+			can_send_volunteers = no
 			can_puppet = yes
 		}
 
@@ -177,7 +177,7 @@ ideologies = {
 
 		rules = {
 			can_force_government = yes
-			can_send_volunteers = yes
+			can_send_volunteers = no
 			can_puppet = yes
 		}
 
@@ -243,15 +243,15 @@ ideologies = {
 		rules = {
 			can_force_government = yes
 			can_puppet = yes
-			can_send_volunteers = yes
+			can_send_volunteers = no
 		}
 
 		modifiers = {
 			#increased_influence_factor = 0.3 #30% easier to influence
 			generate_wargoal_tension = 0.5
-			join_faction_tension = 0.05
+			join_faction_tension = 0.4
 			lend_lease_tension = 0.6
-			send_volunteers_tension = 0.00
+			send_volunteers_tension = 0.4
 			guarantee_tension = 0.4
 			drift_defence_factor = -0.3
 			civilian_intel_to_others = 20.0
