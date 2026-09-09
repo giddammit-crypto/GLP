@@ -21,29 +21,6 @@ set_technology = {
 	mass_assault = 1
 }
 
-# Starting Politics
-set_politics = {
-	ruling_party = neutrality
-	last_election = "1936.1.1"
-	election_frequency = 48
-	elections_allowed = no
-}
-
-set_popularities = {
-	neutrality = 60
-	communism = 25
-	fascism = 10
-	democratic = 5
-}
-
-# Special Country Rules (Анархизм: добровольцы без лимитов, война без повода, отказ от марионеточных режимов)
-set_rule = {
-	can_send_volunteers = yes
-	can_declare_war_without_wargoal_when_in_war = yes
-	can_generate_female_aces = yes
-	can_puppet = no
-}
-
 # Recruit Modern Characters
 recruit_character = GLP_nestor_makhno
 recruit_character = GLP_ataman_grigoriev
@@ -76,6 +53,32 @@ recruit_character = GLP_fedir_ostapenko
 recruit_character = GLP_stepan_goncharenko
 recruit_character = GLP_andriy_verba
 recruit_character = GLP_klym_orlyk
+
+# Starting Politics
+set_politics = {
+	ruling_party = neutrality
+	last_election = "1936.1.1"
+	election_frequency = 48
+	elections_allowed = no
+}
+
+# Promote Batko Makhno to Country Leader (sub-ideology: anarchism)
+promote_character = GLP_nestor_makhno
+
+set_popularities = {
+	neutrality = 60
+	communism = 25
+	fascism = 10
+	democratic = 5
+}
+
+# Special Country Rules (Анархизм: добровольцы без лимитов, война без повода, отказ от марионеточных режимов)
+set_rule = {
+	can_send_volunteers = yes
+	can_declare_war_without_wargoal_when_in_war = yes
+	can_generate_female_aces = yes
+	can_puppet = no
+}
 
 # National Spirits / Ideas
 add_ideas = {

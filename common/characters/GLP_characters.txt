@@ -609,11 +609,6 @@ characters = {
 				small = "GFX_portrait_GLP_oleg_potemkin_small"
 			}
 		}
-		country_leader = {
-			ideology = anarchism
-			traits = { GLP_inspirational_leader }
-			expire = "1965.1.1"
-		}
 		corps_commander = {
 			traits = { infantry_expert aggressive_assaulter GLP_potemkin_infantry_master GLP_potemkin_black_fidele }
 			skill = 3
