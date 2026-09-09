@@ -9,5 +9,6 @@ tags={
 name="Гуляйполе: Вольная Территория - Анархия есть мать порядка"
 picture="thumbnail.png"
 replace_path="gfx/loadingscreens"
-supported_version="1.19.2"
+supported_version="1.19.2.*"
 remote_file_id="3792313906"
+
