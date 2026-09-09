@@ -16,15 +16,7 @@ spriteTypes = {
 		texturefile = "gfx/interface/technologies/GLP_tachanka_tech_4.dds"
 	}
 	# --- Бронепоезда РПА: ветка технологий и производство ---
-	# Tier 1: «Свобода или Смерть» (GLP_train_tech_1 / GLP_train_equipment_1)
-		spriteType = {
-		name = "GFX_armored_train_medium"
-		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
-	}
-	spriteType = {
-		name = "GFX_train_equipment_3_medium"
-		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
-	}
+	# Tier 1: «Свобода или Смерть» (GLP_train_tech_1 / GLP_armored_train_1)
 	spriteType = {
 		name = "GFX_GLP_armored_train_equipment_medium"
 		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
@@ -34,13 +26,21 @@ spriteTypes = {
 		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
 	}
 	spriteType = {
+		name = "GFX_GLP_armored_train_1_medium"
+		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
+	}
+	spriteType = {
 		name = "GFX_GLP_train_equipment_1_medium"
 		texturefile = "gfx/interface/technologies/GLP_train_tech_1.dds"
 	}
 
-	# Tier 2: «Батько Махно» (GLP_train_tech_2 / GLP_train_equipment_2)
+	# Tier 2: «Батько Махно» (GLP_train_tech_2 / GLP_armored_train_2)
 	spriteType = {
 		name = "GFX_GLP_train_tech_2_medium"
+		texturefile = "gfx/interface/technologies/GLP_train_tech_2.dds"
+	}
+	spriteType = {
+		name = "GFX_GLP_armored_train_2_medium"
 		texturefile = "gfx/interface/technologies/GLP_train_tech_2.dds"
 	}
 	spriteType = {
@@ -48,9 +48,13 @@ spriteTypes = {
 		texturefile = "gfx/interface/technologies/GLP_train_tech_2.dds"
 	}
 
-	# Tier 3: «Гроза Степей» (GLP_train_tech_3 / GLP_train_equipment_3)
+	# Tier 3: «Гроза Степей» (GLP_train_tech_3 / GLP_armored_train_3)
 	spriteType = {
 		name = "GFX_GLP_train_tech_3_medium"
+		texturefile = "gfx/interface/technologies/GLP_train_tech_3.dds"
+	}
+	spriteType = {
+		name = "GFX_GLP_armored_train_3_medium"
 		texturefile = "gfx/interface/technologies/GLP_train_tech_3.dds"
 	}
 	spriteType = {

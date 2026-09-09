@@ -2589,44 +2589,73 @@ def check_train_technology_contract():
         err('train_branch: basic_train does not lead to armored_train')
     if not re.search(r'leads_to_tech\s*=\s*GLP_train_tech_1\b', anchor):
         err('train_branch: basic_train does not lead to GLP_train_tech_1')
+    if not re.search(r'wartime_train\s*=\s*\{.*?prerequisites\s*=\s*\{\s*basic_train\s*=\s*0\s*\}', anchor, re.DOTALL):
+        err('train_branch: wartime_train missing prerequisites = { basic_train = 0 } in zzz_GLP_train_anchor.txt')
+    if not re.search(r'armored_train\s*=\s*\{.*?prerequisites\s*=\s*\{\s*basic_train\s*=\s*0\s*\}', anchor, re.DOTALL):
+        err('train_branch: armored_train missing prerequisites = { basic_train = 0 } in zzz_GLP_train_anchor.txt')
 
-    # 2. GLP train technologies chain
+    # 2. GLP train technologies chain & prerequisite gating
     if 'GLP_train_tech_1 = {' not in tech:
         err('train_branch: missing technology definition GLP_train_tech_1')
+    if not re.search(r'GLP_train_tech_1\s*=\s*\{.*?prerequisites\s*=\s*\{\s*basic_train\s*=\s*0\s*\}', tech, re.DOTALL):
+        err('train_branch: GLP_train_tech_1 missing prerequisites = { basic_train = 0 }')
     if not re.search(r'leads_to_tech\s*=\s*GLP_train_tech_2\b', tech):
         err('train_branch: GLP_train_tech_1 does not lead to GLP_train_tech_2')
+
     if 'GLP_train_tech_2 = {' not in tech:
         err('train_branch: missing technology definition GLP_train_tech_2')
+    if not re.search(r'GLP_train_tech_2\s*=\s*\{.*?prerequisites\s*=\s*\{\s*GLP_train_tech_1\s*=\s*0\s*\}', tech, re.DOTALL):
+        err('train_branch: GLP_train_tech_2 missing prerequisites = { GLP_train_tech_1 = 0 }')
     if not re.search(r'leads_to_tech\s*=\s*GLP_train_tech_3\b', tech):
         err('train_branch: GLP_train_tech_2 does not lead to GLP_train_tech_3')
+
     if 'GLP_train_tech_3 = {' not in tech:
         err('train_branch: missing technology definition GLP_train_tech_3')
+    if not re.search(r'GLP_train_tech_3\s*=\s*\{.*?prerequisites\s*=\s*\{\s*GLP_train_tech_2\s*=\s*0\s*\}', tech, re.DOTALL):
+        err('train_branch: GLP_train_tech_3 missing prerequisites = { GLP_train_tech_2 = 0 }')
 
-    # 3. Equipments
-    if 'GLP_train_equipment_1' not in tech or 'GLP_train_equipment_1' not in equipment:
-        err('train_branch: GLP_train_equipment_1 missing in tech or equipment')
-    if 'GLP_train_equipment_2' not in tech or 'GLP_train_equipment_2' not in equipment:
-        err('train_branch: GLP_train_equipment_2 missing in tech or equipment')
-    if 'GLP_train_equipment_3' not in tech or 'GLP_train_equipment_3' not in equipment:
-        err('train_branch: GLP_train_equipment_3 missing in tech or equipment')
+    # 3. Equipments (decoupled from vanilla train_equipment IDs)
+    if 'GLP_armored_train_1' not in tech or 'GLP_armored_train_1' not in equipment:
+        err('train_branch: GLP_armored_train_1 missing in tech or equipment')
+    if 'GLP_armored_train_2' not in tech or 'GLP_armored_train_2' not in equipment:
+        err('train_branch: GLP_armored_train_2 missing in tech or equipment')
+    if 'GLP_armored_train_3' not in tech or 'GLP_armored_train_3' not in equipment:
+        err('train_branch: GLP_armored_train_3 missing in tech or equipment')
 
-    # 4. History unlocks: branch starts from civilian train (basic_train)
-    if not re.search(r'\bbasic_train\s*=\s*1\b', history):
-        err('train_branch: basic_train = 1 missing in GLP starting technologies')
+    # 4. History unlocks: trains start locked until player researches civilian train (basic_train)
+    if re.search(r'\bbasic_train\s*=\s*1\b', history):
+        err('train_branch: basic_train = 1 should not be in starting history (all trains must start locked until researched)')
 
     # 5. GFX bindings for our custom sprites
     required_gfx = [
         'GFX_GLP_train_tech_1_medium',
-        'GFX_GLP_train_equipment_1_medium',
+        'GFX_GLP_armored_train_1_medium',
         'GFX_GLP_armored_train_equipment_medium',
         'GFX_GLP_train_tech_2_medium',
-        'GFX_GLP_train_equipment_2_medium',
+        'GFX_GLP_armored_train_2_medium',
         'GFX_GLP_train_tech_3_medium',
-        'GFX_GLP_train_equipment_3_medium',
+        'GFX_GLP_armored_train_3_medium',
     ]
     for g in required_gfx:
         if f'name = "{g}"' not in gfx:
             err(f'train_branch: missing custom sprite binding {g} in interface/GLP_tech.gfx')
+
+    # Ensure vanilla armored train sprites are not hijacked
+    if 'name = "GFX_armored_train_medium"' in gfx or 'name = "GFX_train_equipment_3_medium"' in gfx:
+        err('train_branch: vanilla armored train sprite GFX must not be overridden in GLP_tech.gfx')
+
+    # 6. Localisation verification for classic train names & custom Makhnovist trains
+    ru_loc_path = os.path.join(ROOT, 'localisation/russian/GLP_units_l_russian.yml')
+    if os.path.isfile(ru_loc_path):
+        ru_loc = read(ru_loc_path)
+        required_ru = [
+            'basic_train', 'wartime_train', 'armored_train',
+            'train_equipment_1', 'train_equipment_2', 'train_equipment_3',
+            'GLP_armored_train_1', 'GLP_armored_train_2', 'GLP_armored_train_3'
+        ]
+        for key in required_ru:
+            if not re.search(rf'^\s*{key}:', ru_loc, re.MULTILINE):
+                err(f'train_branch: missing localization key {key} in {ru_loc_path}')
 
 
 def main():

@@ -50,7 +50,7 @@ GLP_revolutionary_military_ops = {
 		fire_only_once = yes
 		complete_effect = {
 			set_country_flag = glp_train_1_commissioned
-			add_equipment_to_stockpile = { type = GLP_train_equipment_1 amount = 4 producer = GLP }
+			add_equipment_to_stockpile = { type = GLP_armored_train_1 amount = 4 producer = GLP }
 			army_experience = 15
 			add_war_support = 0.03
 			news_event = { id = glp_news.20 hours = 6 }
@@ -71,7 +71,7 @@ GLP_revolutionary_military_ops = {
 		fire_only_once = yes
 		complete_effect = {
 			set_country_flag = glp_train_2_commissioned
-			add_equipment_to_stockpile = { type = GLP_train_equipment_2 amount = 5 producer = GLP }
+			add_equipment_to_stockpile = { type = GLP_armored_train_2 amount = 5 producer = GLP }
 			army_experience = 20
 			add_stability = 0.04
 			add_war_support = 0.05
@@ -93,7 +93,7 @@ GLP_revolutionary_military_ops = {
 		fire_only_once = yes
 		complete_effect = {
 			set_country_flag = glp_train_3_commissioned
-			add_equipment_to_stockpile = { type = GLP_train_equipment_3 amount = 3 producer = GLP }
+			add_equipment_to_stockpile = { type = GLP_armored_train_3 amount = 3 producer = GLP }
 			army_experience = 10
 			add_war_support = 0.03
 			news_event = { id = glp_news.22 hours = 6 }

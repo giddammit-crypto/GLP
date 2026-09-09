@@ -29,14 +29,13 @@ equipments = {
 		}
 	}
 
-	# Vanilla Armored Train override (1936): гарантия брони и атаки
+	# Vanilla Armored Train override (1936): гарантия брони и атаки для базового бронепоезда
 	train_equipment_3 = {
 		year = 1936
 
 		archetype = train_equipment
 		parent = train_equipment_1
 		priority = 30
-		picture = GLP_train_tech_1
 
 		armor_value = 350
 		air_attack = 28
@@ -50,7 +49,7 @@ equipments = {
 	}
 
 	# Tier 1 (1936): Бронепоезд «Свобода или Смерть» — мощная броня и атака
-	GLP_train_equipment_1 = {
+	GLP_armored_train_1 = {
 		year = 1936
 
 		archetype = train_equipment
@@ -70,12 +69,12 @@ equipments = {
 	}
 
 	# Tier 2 (1940): Бронепоезд «Батько Махно» — флагман с усиленной бронёй и орудиями
-	GLP_train_equipment_2 = {
+	GLP_armored_train_2 = {
 		year = 1940
 
 		archetype = train_equipment
 		lend_lease_cost = 25
-		parent = GLP_train_equipment_1
+		parent = GLP_armored_train_1
 		priority = 40
 		picture = GLP_train_tech_2
 
@@ -91,12 +90,12 @@ equipments = {
 	}
 
 	# Tier 3 (1943): Бронепоезд «Гроза Степей» — сверхтяжёлый бронесостав
-	GLP_train_equipment_3 = {
+	GLP_armored_train_3 = {
 		year = 1943
 
 		archetype = train_equipment
 		lend_lease_cost = 25
-		parent = GLP_train_equipment_2
+		parent = GLP_armored_train_2
 		priority = 45
 		picture = GLP_train_tech_3
 

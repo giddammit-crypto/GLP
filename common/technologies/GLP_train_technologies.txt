@@ -10,7 +10,8 @@ technologies = {
 			tag = GLP
 			has_tech = basic_train
 		}
-		enable_equipments = { GLP_train_equipment_1 }
+		prerequisites = { basic_train = 0 }
+		enable_equipments = { GLP_armored_train_1 }
 		path = {
 			leads_to_tech = GLP_train_tech_2
 			research_cost_coeff = 1
@@ -36,9 +37,10 @@ technologies = {
 			tag = GLP
 			has_tech = GLP_train_tech_1
 		}
+		prerequisites = { GLP_train_tech_1 = 0 }
 
 		enable_equipments = {
-			GLP_train_equipment_2
+			GLP_armored_train_2
 		}
 
 		path = {
@@ -74,9 +76,10 @@ technologies = {
 			tag = GLP
 			has_tech = GLP_train_tech_2
 		}
+		prerequisites = { GLP_train_tech_2 = 0 }
 
 		enable_equipments = {
-			GLP_train_equipment_3
+			GLP_armored_train_3
 		}
 
 		research_cost = 1.5
