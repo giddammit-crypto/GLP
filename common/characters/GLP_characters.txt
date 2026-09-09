@@ -29,7 +29,7 @@ characters = {
 		}
 		country_leader = {
 			ideology = anarchism
-			traits = { batko_makhno GLP_inspirational_leader GLP_panic }
+			traits = { batko_makhno GLP_inspirational_leader GLP_panic our_right_to_survive anarchist_zeal }
 			expire = "1965.1.1"
 		}
 		field_marshal = {

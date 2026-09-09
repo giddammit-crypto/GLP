@@ -86,3 +86,11 @@ GLP_black_international_actions = {
 		}
 	}
 }
+
+# v1.6.3: Механика La Résistance — интеграция вольных общин (coring любых территорий)
+GLP_anarchist_communes_integration = {
+	icon = GFX_decision_category_anarchist_rebellion
+	picture = GFX_decision_cat_generic_anarchism
+	allowed = { original_tag = GLP }
+}
+

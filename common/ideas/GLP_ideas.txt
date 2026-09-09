@@ -23,6 +23,9 @@ ideas = {
 				send_volunteers_tension = -1.00
 				generate_wargoal_tension = -0.97
 				send_volunteer_divisions_required = 0
+				justify_war_goal_time = -0.75
+				compliance_growth = 0.15
+				resistance_growth_on_our_occupied_states = -0.10
 			}
 		}
 

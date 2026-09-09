@@ -347,3 +347,17 @@
  glp_news.22.a:0 "Faster than the wind, stronger than steel!"
  glp_news.22.b:0 "Rail corridors secured by insurgent steel"
 
+ GLP_anarchist_communes_integration:0 "Integration of Free Communes"
+ GLP_anarchist_communes_integration_desc:0 "Anarchism recognizes no artificial state borders. Any region where workers and peasants have cast off the chains of oppression and established high trust in local councils (compliance > 40%) can be proclaimed an integral part of the Free Territory."
+ GLP_integrate_commune_neighbor:0 "Integrate Free Commune into Free Territory"
+ GLP_integrate_commune_neighbor_desc:0 "Organize a free general assembly of workers and peasants in an adjacent territory, transferring land and tools into the hands of direct producers and welcoming the region into the Free Territory."
+ GLP_integrate_commune_distant:0 "Integrate Distant Free Commune"
+ GLP_integrate_commune_distant_desc:0 "Solidify ties with a distant liberated enclave, dispatching syndical organizers and establishing direct stateless self-governance."
+ GLP_establish_free_communal_soviets:0 "Establish Free Soviets and Communes"
+ GLP_establish_free_communal_soviets_desc:0 "Assist local working people in establishing non-party free councils and factory committees, reducing reactionary resistance and accelerating the transition to self-management."
+ GLP_ignite_anarchist_uprising:0 "Ignite Agrarian Laborer Uprising"
+ GLP_ignite_anarchist_uprising_desc:0 "Clandestinely supply rifles and machine guns to oppressed laborers behind enemy lines, igniting an armed insurrection and paralyzing enemy logistics."
+ GLP_federation_of_free_soviets_tt:0 "Unlocks §YIntegration of Free Communes§! decisions, allowing the coring of any liberated foreign territory with high compliance."
+ GLP_black_international_communes_tt:0 "Empowers the global anarchist movement, accelerating the propagation of free communes worldwide."
+ GLP_world_anarchy_communes_tt:0 "Anarchism marches triumphantly across the globe: borders are dismantled, uniting humanity into the Global Federation of Free Communes."
+

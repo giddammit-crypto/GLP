@@ -1403,6 +1403,7 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = GLP_idea_federation_of_free_soviets
 			add_popularity = { ideology = fascism popularity = -0.10 }
+			custom_effect_tooltip = GLP_federation_of_free_soviets_tt
 		}
 	}
 
@@ -1596,6 +1597,7 @@ focus_tree = {
 			}
 			add_war_support = 0.20
 			add_stability = -0.08
+			custom_effect_tooltip = GLP_world_anarchy_communes_tt
 		}
 	}
 
@@ -1621,6 +1623,7 @@ focus_tree = {
 			else = {
 				add_ideas = GLP_idea_triumph_of_liberty
 			}
+			set_cosmetic_tag = GLP_global_free_territory
 		}
 	}
 

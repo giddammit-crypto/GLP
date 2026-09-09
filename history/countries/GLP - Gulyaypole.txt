@@ -37,11 +37,12 @@ set_popularities = {
 	democratic = 5
 }
 
-# Special Country Rules (Война при мировой напряженности 3%, отправка добровольцев без лимитов 50%)
+# Special Country Rules (Анархизм: добровольцы без лимитов, война без повода, отказ от марионеточных режимов)
 set_rule = {
 	can_send_volunteers = yes
 	can_declare_war_without_wargoal_when_in_war = yes
 	can_generate_female_aces = yes
+	can_puppet = no
 }
 
 # Recruit Modern Characters
